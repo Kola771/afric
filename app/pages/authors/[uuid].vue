@@ -1,0 +1,134 @@
+<template>
+    <div class="bg-[#fffcfccc] dark:bg-dark dark:border-slate-200 dark:border-b pt-12 pb-12">
+        <section class="max-w-7xl mx-auto px-6 pt-12 border-t border-slate-100 lg:gap-10 lg:grid lg:grid-cols-3 2xl:grid-cols-4">
+            <div class="flex flex-col lg:justify-start justify-center items-center gap-2">
+                <div class="lg:bg-white dark:lg:bg-slate-800 flex flex-col justify-center items-center gap-2 w-full lg:rounded-xl lg:shadow-md lg:border-slate-200 lg:border lg:p-4">
+                    <img src="/assets/img.jpg" class="w-24 h-24 object-cover rounded-full" alt="Image de l'auteur">
+                    <div>
+                        <h2 class="text-center text-lg font-bold text-slate-900 dark:text-white">Alain Mabanckou</h2>
+                        <p class="text-center text-slate-600 text-sm dark:text-slate-300">Originaire : Congo</p>
+                    </div>
+                    <div class="lg:grid-cols-1 gap-2 text-slate-200 dark:text-slate-200 hidden lg:grid w-full">
+                    <div class="bg-primary dark:bg-transparent dark:border-slate-300 dark:border p-1 rounded-lg text-center">
+                        <div class="text-xl font-bold text-white">5</div>
+                        <div class="text-[10px] uppercase tracking-wide font-medium">Histoires</div>
+                    </div>
+                    <div class="bg-primary dark:bg-transparent dark:border-slate-300 dark:border p-1 rounded-lg text-center">
+                        <div class="text-xl font-bold text-white">98</div>
+                        <div class="text-[10px] uppercase tracking-wide font-medium">Chapitres</div>
+                    </div>
+                    <div class="bg-primary dark:bg-transparent dark:border-slate-300 dark:border p-1 rounded-lg text-center">
+                        <div class="text-xl font-bold text-white">30k</div>
+                        <div class="text-[10px] uppercase tracking-wide font-medium">Vues</div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="mt-2 lg:mt-0 lg:col-span-2 2xl:col-span-3 2xl:pr-0">
+                <div class="grid grid-cols-3 gap-4 text-slate-500 dark:text-slate-200 lg:hidden">
+                    <div class="bg-slate-100 dark:bg-slate-700 p-3 rounded-xl text-center">
+                        <div class="text-xl font-bold text-slate-900 dark:text-white">5</div>
+                        <div class="text-[10px] uppercase tracking-wide font-medium">Histoires</div>
+                    </div>
+                    <div class="bg-slate-100 dark:bg-slate-700 p-3 rounded-xl text-center">
+                        <div class="text-xl font-bold text-slate-900 dark:text-white">98</div>
+                        <div class="text-[10px] uppercase tracking-wide font-medium">Chapitres</div>
+                    </div>
+                    <div class="bg-slate-100 dark:bg-slate-700 p-3 rounded-xl text-center">
+                        <div class="text-xl font-bold text-slate-900 dark:text-white">30k</div>
+                        <div class="text-[10px] uppercase tracking-wide font-medium">Vues</div>
+                    </div>
+                </div>
+                <div class="mt-4 lg:mt-0 text-sm max-w-none text-slate-600 dark:text-slate-200">
+                    <h3 class="font-display text-xl font-bold text-slate-900 dark:text-white mb-1">Bibliographie</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit repellendus, cupiditate velit molestias dolores atque! Minima quia iste ipsum ipsa aliquid. Deserunt reiciendis laboriosam itaque culpa. Ratione, unde. Ut, quibusdam!</p>
+                </div>
+                    <!-- stories List -->
+                    <div class="border-t border-slate-200 mt-6 pt-6">
+                        <h3 class="font-display font-medium text-slate-900 dark:text-white mb-4">Histoires</h3>
+                        <div class="space-y-2 md:max-h-96 md:overflow-y-auto lg:pr-6">
+                            <nuxt-link
+                                v-for="chapter in stories"
+                                :key="chapter.id"
+                                :to="`/books/book-uuid-${chapter.id}/chapter/chapter-uuid-${chapter.id}`"
+                                class="group flex items-center justify-between p-4 lg:mx-auto rounded-xl bg-white dark:bg-slate-800 border border-slate-100 hover:border-slate-300 transition-all hover:shadow-sm"
+                                >
+                                <span class="flex items-center gap-4">
+                                    <span class="text-slate-500 dark:text-slate-200 font-display font-bold text-xl w-8">
+                                        {{ chapter.number }}
+                                    </span>
+                                    <img :src="chapter.image" alt="" class="w-12 h-12 object-cover rounded-lg">
+
+                                    <span>
+                                    <p class="font-medium text-slate-900 dark:text-white group-hover:text-brand-600 transition-colors">
+                                        {{ chapter.title }}
+                                    </p>
+                                    <p class="text-xs text-slate-500 dark:text-slate-200">
+                                        Publié le {{ chapter.publishedAt }}
+                                    </p>
+                                    <p class="text-xs text-slate-500 dark:text-slate-200">
+                                        {{ chapter.chapters }} chapitre(s), {{ chapter.views }} vue(s)
+                                    </p>
+                                    </span>
+                                </span>
+
+                                <span class="text-slate-500 dark:text-slate-200 group-hover:translate-x-1 transition-transform">
+                                    <Icon name="mdi:arrow-right" class="w-5 h-5" />
+                                </span>
+                            </nuxt-link>
+                        </div>
+                    </div>
+            </div>
+        </section>
+    </div>
+</template>
+
+<script setup lang="ts">
+const stories = ref<any[]>([
+  {
+    id: 1,
+    image: "/assets/img1.jpg",
+    number: "01",
+    title: "Titre de l'histoire",
+    views: "4,5k",
+    chapters: 12,
+    publishedAt: "12 Oct 2023"
+  },
+  {
+    id: 2,
+    image: "/assets/img2.jpg",
+    number: "02",
+    title: "Titre de l'histoire",
+    views: "3,2k",
+    chapters: 15,
+    publishedAt: "19 Oct 2023"
+  },
+  {
+    id: 3,
+    image: "/assets/img3.jpg",
+    number: "03",
+    title: "Titre de l'histoire",
+    views: "2,5k",
+    chapters: 10,
+    publishedAt: "26 Oct 2023"
+  },
+  {
+    id: 4,
+    image: "/assets/img4.jpg",
+    number: "04",
+    title: "Titre de l'histoire",
+    views: "2k",
+    chapters: 8,
+    publishedAt: "26 Oct 2023"
+  },
+  {
+    id: 5,
+    image: "/assets/img5.jpg",
+    number: "05",
+    title: "Titre de l'histoire",
+    views: "1,5k",
+    chapters: 6,
+    publishedAt: "26 Oct 2023"
+  }
+])
+</script>

@@ -29,7 +29,7 @@ const isOpen = ref(false)
             <nuxt-link to="/categories" :class="`${route.path === '/categories' ? 'text-primary dark:text-orange-400' : 'dark:text-white'} text-sm font-medium hover:text-slate-900 dark:hover:text-gray-400 transition-colors`">Categories</nuxt-link>
             <nuxt-link to="/stories" :class="`${route.path === '/stories' ? 'text-primary dark:text-orange-400' : 'dark:text-white'} text-sm font-medium hover:text-slate-900 dark:hover:text-gray-400 transition-colors`">Histoires</nuxt-link>
             <nuxt-link to="/authors" :class="`${route.path === '/authors' ? 'text-primary dark:text-orange-400' : 'dark:text-white'} text-sm font-medium hover:text-slate-900 dark:hover:text-gray-400 transition-colors`">Auteurs</nuxt-link>
-            <nuxt-link to="/" :class="`${route.path === '/about' ? 'text-primary dark:text-orange-400' : 'dark:text-white'} text-sm font-medium hover:text-slate-900 dark:hover:text-gray-400 transition-colors`">A propos</nuxt-link>
+            <nuxt-link to="/about" :class="`${route.path === '/about' ? 'text-primary dark:text-orange-400' : 'dark:text-white'} text-sm font-medium hover:text-slate-900 dark:hover:text-gray-400 transition-colors`">A propos</nuxt-link>
           </div>
 
           <!-- Right Actions -->
@@ -85,7 +85,7 @@ const isOpen = ref(false)
           <nuxt-link to="/categories" @click="isOpen = !isOpen" :class="`${route.path === '/categories' ? 'text-primary dark:text-orange-400' : 'text-slate-500 dark:text-white'} block text-sm dark:hover:text-gray-400 font-medium hover:text-primary transition-colors`">Categories</nuxt-link>
           <nuxt-link to="/stories" @click="isOpen = !isOpen" :class="`${route.path === '/stories' ? 'text-primary dark:text-orange-400' : 'text-slate-500 dark:text-white'} block text-sm dark:hover:text-gray-400 font-medium hover:text-primary transition-colors`">Histoires</nuxt-link>
           <nuxt-link to="/authors" @click="isOpen = !isOpen" :class="`${route.path === '/authors' ? 'text-primary dark:text-orange-400' : 'text-slate-500 dark:text-white'} block text-sm dark:hover:text-gray-400 font-medium hover:text-primary transition-colors`">Auteurs</nuxt-link>
-          <nuxt-link to="/" @click="isOpen = !isOpen" :class="`${route.path === '/about' ? 'text-primary dark:text-orange-400' : 'text-slate-500 dark:text-white'} block text-sm dark:hover:text-gray-400 font-medium hover:text-primary transition-colors`">A propos</nuxt-link>
+          <nuxt-link to="/about" @click="isOpen = !isOpen" :class="`${route.path === '/about' ? 'text-primary dark:text-orange-400' : 'text-slate-500 dark:text-white'} block text-sm dark:hover:text-gray-400 font-medium hover:text-primary transition-colors`">A propos</nuxt-link>
 
           <div class="pt-4 border-t border-slate-200 dark:border-gray-700 flex md:flex-row flex-col gap-2">
             <nuxt-link to="/" @click="isOpen = !isOpen" class="text-center font-medium text-primary bg-white rounded-lg px-4 py-3 md:py-2 md:px-6 border-primary border-[1px] dark:border-none">Connexion</nuxt-link>
