@@ -28,10 +28,10 @@
                         </div>
                         <h1 class="text-3xl md:text-5xl font-display font-semibold text-slate-900 dark:text-white tracking-tight mb-4">Le Masque d'Or</h1>
                         <div class="flex items-center gap-6 text-sm text-slate-500 dark:text-slate-200">
-                            <div class="flex items-center gap-2">
-                                <img src="https://i.pravatar.cc/100?img=12" class="w-6 h-6 rounded-full" alt="Author">
-                                <span class="text-slate-900 font-medium dark:text-white truncate">Kofi Mensah</span>
-                            </div>
+                            <nuxt-link to="/authors/alain_mabanckou" class="flex items-center gap-2 hover:underline hover:ease-in-out hover:duration-300">
+                                <img src="/assets/alain_mabanckou.jpg" class="w-6 h-6 rounded-full" alt="Author">
+                                <span class="text-slate-900 font-medium dark:text-white truncate">Alain Mabanckou </span>
+                            </nuxt-link>
                             <div class="flex items-center gap-1 truncate">
                                 <Icon name="mdi:book-multiple" class="w-5 h-5" />
                                 <span>45 Chapitres</span>

@@ -55,13 +55,13 @@ const isOpen = ref(false)
 
             <div class="h-5 w-px bg-slate-200 hidden lg:block"></div>
 
-            <a href="#" class="hidden lg:block text-sm font-medium text-slate-600 hover:text-slate-900 dark:text-white dark:hover:text-gray-400 transition-colors px-2">
+            <nuxt-link to="/login" class="hidden lg:block text-sm font-medium text-slate-600 hover:text-slate-900 dark:text-white dark:hover:text-gray-400 transition-colors px-2">
               Connexion
-            </a>
+            </nuxt-link>
 
-            <a href="#" class="hidden lg:flex items-center gap-2 bg-primary hover:bg-slate-800 dark:bg-white dark:hover:bg-orange-50 dark:hover:border-orange-100/50 dark:hover:text-orange-800 dark:text-stone-700 text-white px-4 py-2 rounded-full text-sm font-medium transition-all shadow-sm hover:shadow-md transform active:scale-95">
+            <nuxt-link to="/register" class="hidden lg:flex items-center gap-2 bg-primary hover:bg-slate-800 dark:bg-white dark:hover:bg-orange-50 dark:hover:border-orange-100/50 dark:hover:text-orange-800 dark:text-stone-700 text-white px-4 py-2 rounded-full text-sm font-medium transition-all shadow-sm hover:shadow-md transform active:scale-95">
               <span>Commencer</span>
-            </a>
+            </nuxt-link>
 
             <ThemeToggle class="hidden lg:flex" />
           </div>
@@ -88,8 +88,8 @@ const isOpen = ref(false)
           <nuxt-link to="/about" @click="isOpen = !isOpen" :class="`${route.path === '/about' ? 'text-primary dark:text-orange-400' : 'text-slate-500 dark:text-white'} block text-sm dark:hover:text-gray-400 font-medium hover:text-primary transition-colors`">A propos</nuxt-link>
 
           <div class="pt-4 border-t border-slate-200 dark:border-gray-700 flex md:flex-row flex-col gap-2">
-            <nuxt-link to="/" @click="isOpen = !isOpen" class="text-center font-medium text-primary bg-white rounded-lg px-4 py-3 md:py-2 md:px-6 border-primary border-[1px] dark:border-none">Connexion</nuxt-link>
-            <nuxt-link to="/" @click="isOpen = !isOpen" class="text-center bg-primary text-white py-3 md:py-2 md:px-6 px-4 rounded-lg font-medium dark:border-gray-600 dark:border-[1px]">
+            <nuxt-link to="/login" @click="isOpen = !isOpen" class="text-center font-medium text-primary bg-white rounded-lg px-4 py-3 md:py-2 md:px-6 border-primary border-[1px] dark:border-none">Connexion</nuxt-link>
+            <nuxt-link to="/register" @click="isOpen = !isOpen" class="text-center bg-primary text-white py-3 md:py-2 md:px-6 px-4 rounded-lg font-medium dark:border-gray-600 dark:border-[1px]">
               Commencer
             </nuxt-link>
           </div>

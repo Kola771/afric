@@ -45,35 +45,31 @@
                 </div>
                     <!-- stories List -->
                     <div class="border-t border-slate-200 mt-6 pt-6">
-                        <h3 class="font-display font-medium text-slate-900 dark:text-white mb-4">Histoires</h3>
-                        <div class="space-y-2 md:max-h-96 md:overflow-y-auto lg:pr-6">
+                        <h3 class="font-display text-xl font-medium text-slate-900 dark:text-white mb-4">Histoires</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-10">
                             <nuxt-link
-                                v-for="chapter in stories"
-                                :key="chapter.id"
-                                :to="`/books/book-uuid-${chapter.id}/chapter/chapter-uuid-${chapter.id}`"
-                                class="group flex items-center justify-between p-4 lg:mx-auto rounded-xl bg-white dark:bg-slate-800 border border-slate-100 hover:border-slate-300 transition-all hover:shadow-sm"
+                                v-for="story in stories"
+                                :key="story.id"
+                                :to="`/books/book-uuid-${story.id}`"
+                                class="group flex flex-col lg:mx-auto rounded-lg bg-white dark:bg-slate-800 border border-slate-100 hover:border-slate-300 transition-all group-hover:scale-105 hover:shadow-sm pb-2"
                                 >
-                                <span class="flex items-center gap-4">
-                                    <span class="text-slate-500 dark:text-slate-200 font-display font-bold text-xl w-8">
-                                        {{ chapter.number }}
-                                    </span>
-                                    <img :src="chapter.image" alt="" class="w-12 h-12 object-cover rounded-lg">
-
-                                    <span>
+                                <img :src="story.image" class="w-full h-full rounded-t-lg object-cover transition-transform duration-500" :alt="story.title">
+                                <div class="px-2.5 pb-2 pt-2 flex flex-col gap-1">
                                     <p class="font-medium text-slate-900 dark:text-white group-hover:text-brand-600 transition-colors">
-                                        {{ chapter.title }}
+                                        {{ story.title }}
+                                    </p>
+                                    <p class="flex items-center gap-3 text-[10px] font-medium text-orange-600">
+                                        <span class="bg-orange-50 border border-orange-100/50 text-orange-600 font-medium animate-fade-in-up px-2 py-1 rounded">Romance</span>
+                                        <span class="bg-slate-100 text-slate-500 px-2 py-1 rounded">En cours</span>
                                     </p>
                                     <p class="text-xs text-slate-500 dark:text-slate-200">
-                                        Publié le {{ chapter.publishedAt }}
+                                        {{ story.chapters }} chapitre(s), <span class="flex items-center gap-1"><Icon name="mdi:eye" class="w-3 h-3" /> <span>{{ story.views }} vue(s)</span></span>
                                     </p>
-                                    <p class="text-xs text-slate-500 dark:text-slate-200">
-                                        {{ chapter.chapters }} chapitre(s), {{ chapter.views }} vue(s)
-                                    </p>
-                                    </span>
-                                </span>
+                                </div>
 
-                                <span class="text-slate-500 dark:text-slate-200 group-hover:translate-x-1 transition-transform">
-                                    <Icon name="mdi:arrow-right" class="w-5 h-5" />
+                                <span class="text-slate-500 flex items-center gap-1 justify-end text-xs text-right dark:text-slate-200 px-1 group-hover:translate-x-1 transition-transform">
+                                    Lire
+                                    <Icon name="mdi:arrow-right" class="w-3 h-3" />
                                 </span>
                             </nuxt-link>
                         </div>

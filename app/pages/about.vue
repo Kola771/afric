@@ -36,7 +36,7 @@
                     </div>
                 </article>
             </div>
-            <div class="flex flex-col gap-4">
+            <div class="flex flex-col gap-4 mb-8">
                 <p class="text-slate-500 text-sm mt-1 dark:text-slate-200">Nous croyons au pouvoir des histoires pour connecter les gens, transmettre la culture et inspirer les générations futures.</p>
                 <article class="flex flex-col gap-2">
                     <h4 class="lg:text-lg text-xl font-display font-medium dark:text-white text-slate-900">Pourquoi Afric Storyline ?</h4>
@@ -47,6 +47,31 @@
                         <li class="flex items-center gap-2"><Icon name="mdi:check" class="w-5 h-5 text-orange-600 dark:text-orange-400" /> Du contenu régulièrement mis à jour</li>
                     </ul>
                 </article>
+            </div>
+            <div class="relative overflow-hidden bg-lightOrange dark:bg-slate-800 px-4 sm:px-6 lg:px-8 pt-16 pb-12 rounded-xl">
+                <div class="flex flex-col gap-8 items-center">
+                    <div class="flex flex-col items-center">
+                        <h2 class="text-2xl font-display font-medium dark:text-white text-slate-900 tracking-tight">Rejoignez notre communauté</h2>
+                        <p class="text-slate-500 text-sm mt-1 dark:text-slate-200"> Plus on est de fous, plus on rit.</p>
+                    </div>
+
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4 w-full md:w-auto">
+                        <nuxt-link to="#" class="flex justify-center items-center gap-1 text-sm text-slate-900 hover:bg-green-600 transition-colors dark:text-slate-200 bg-green-500 rounded-lg p-2 md:px-4 lg:px-6 text-white">
+                            <Icon name="mdi:whatsapp" class="w-7 h-7 lg:w-6 lg:h-6" />
+                            <span class="">WhatsApp</span>
+                        </nuxt-link>
+                        <nuxt-link to="#" class="flex justify-center items-center gap-1 text-sm text-slate-900 hover:bg-blue-600 transition-colors dark:text-slate-200 bg-blue-500 rounded-lg p-2 md:px-4 lg:px-6 text-white">
+                            <Icon name="mdi:facebook" class="w-7 h-7 lg:w-6 lg:h-6" />
+                            <span class="">Facebook</span>
+                        </nuxt-link>
+                        <nuxt-link to="#" class="col-span-2 md:col-span-1 flex justify-center items-center gap-1 text-sm text-slate-900 hover:bg-orange-600 transition-colors dark:text-slate-200 bg-orange-500 rounded-lg p-2 md:px-4 lg:px-6 text-white">
+                            <Icon name="mdi:register" class="w-7 h-7 lg:w-6 lg:h-6" />
+                            <span class="">S'inscrire</span>
+                        </nuxt-link>
+                    </div>
+                </div>
+                <div class="absolute -bottom-6 -right-6 bg-orange-300 dark:bg-slate-700 w-16 h-16 md:w-24 md:h-24 rounded-full"></div>
+                <div class="absolute -top-6 lg:-top-7 -left-8 bg-orange-300 dark:bg-slate-700 w-16 h-16 md:w-24 md:h-24 rounded-full"></div>
             </div>
         </section>
     </div>

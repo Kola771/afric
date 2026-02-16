@@ -133,6 +133,4 @@ const textSizeClass = computed(() => {
       return "text-base"
   }
 })
-
-
 </script>

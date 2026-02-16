@@ -38,20 +38,17 @@ const isOpen = ref(false)
                 <div>
                     <h4 class="font-semibold text-slate-900 dark:text-white text-sm mb-4">Créateurs</h4>
                     <ul class="space-y-3 text-sm text-slate-500">
-                        <li><nuxt-link to="#" class="hover:text-slate-900 dark:hover:text-slate-400 dark:text-slate-200 transition-colors">Publier</nuxt-link></li>
-                        <li><nuxt-link to="#" class="hover:text-slate-900 dark:hover:text-slate-400 dark:text-slate-200 transition-colors">Ressources</nuxt-link></li>
-                        <li><nuxt-link to="#" class="hover:text-slate-900 dark:hover:text-slate-400 dark:text-slate-200 transition-colors">Communauté</nuxt-link></li>
-                        <li><nuxt-link to="#" class="hover:text-slate-900 dark:hover:text-slate-400 dark:text-slate-200 transition-colors">Concours</nuxt-link></li>
+                        <li><nuxt-link to="/authors" class="hover:text-slate-900 dark:hover:text-slate-400 dark:text-slate-200 transition-colors">Auteurs</nuxt-link></li>
                     </ul>
                 </div>
 
                 <div>
                     <h4 class="font-semibold text-slate-900 dark:text-white text-sm mb-4">Entreprise</h4>
                     <ul class="space-y-3 text-sm text-slate-500">
-                        <li><nuxt-link to="#" class="hover:text-slate-900 dark:hover:text-slate-400 dark:text-slate-200 transition-colors">À propos</nuxt-link></li>
-                        <li><nuxt-link to="#" class="hover:text-slate-900 dark:hover:text-slate-400 dark:text-slate-200 transition-colors">Carrières</nuxt-link></li>
-                        <li><nuxt-link to="#" class="hover:text-slate-900 dark:hover:text-slate-400 dark:text-slate-200 transition-colors">Légal</nuxt-link></li>
-                        <li><nuxt-link to="#" class="hover:text-slate-900 dark:hover:text-slate-400 dark:text-slate-200 transition-colors">Contact</nuxt-link></li>
+                        <li><nuxt-link to="/about" class="hover:text-slate-900 dark:hover:text-slate-400 dark:text-slate-200 transition-colors">À propos</nuxt-link></li>
+                        <li><nuxt-link to="#" class="hover:text-slate-900 dark:hover:text-slate-400 dark:text-slate-200 transition-colors">Mentions légales</nuxt-link></li>
+                        <li><nuxt-link to="#" class="hover:text-slate-900 dark:hover:text-slate-400 dark:text-slate-200 transition-colors">Politique de confidentialité</nuxt-link></li>
+                        <li><nuxt-link to="#" class="hover:text-slate-900 dark:hover:text-slate-400 dark:text-slate-200 transition-colors">Contactez-nous</nuxt-link></li>
                     </ul>
                 </div>
             </div>
