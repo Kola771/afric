@@ -24,7 +24,7 @@
                   </div>
                 </div>
                 <form class="w-full dark:bg-dark pt-2 lg:pt-0">
-                  <div class="mb-2 px-4 flex flex-col gap-2.5 max-h-screen overflow-y-auto">
+                  <div class="mb-2 px-4 flex flex-col gap-2.5 lg:max-h-[450px] overflow-y-auto">
                     <input type="text" name="title" id="title" autocomplete="true" placeholder="Titre" class="w-full text-sm placeholder:text-slate-500 text-slate-800 outline-none border border-slate-300 dark:border-slate-200 dark:bg-slate-50 rounded-md p-2">
 
                     <input type="file" name="image" id="image" class="w-full text-sm placeholder:text-slate-500 text-slate-800 outline-none border border-slate-300 dark:border-slate-200 dark:bg-slate-50 rounded-md p-2" @change="onFileChange">
@@ -34,7 +34,7 @@
                       <div class="bg-slate-100 dark:bg-slate-800 flex flex-col rounded-lg"><img :src="preview" alt="Preview" class="max-h-[200px] dark:border object-cover lg:object-contain lg:max-h-[220px] rounded-lg" /></div>
                     </div>
 
-                    <textarea name="description" id="description" placeholder="Description" class="w-full h-24 lg:h-28 xl:h-32 resize-none text-sm placeholder:text-slate-500 text-slate-800 outline-none border border-slate-300 dark:border-slate-200 dark:bg-slate-50 rounded-md p-2"></textarea>   
+                    <textarea name="description" id="description" placeholder="Description" class="w-full flex-shrink-0 h-24 lg:h-28 xl:h-32 resize-none text-sm placeholder:text-slate-500 text-slate-800 outline-none border border-slate-300 dark:border-slate-200 dark:bg-slate-50 rounded-md p-2"></textarea>   
 
                     <div class="pb-1">
                         <label class="block text-xs font-medium leading-6 text-slate-900 dark:text-white mb-1">Catégorie(s) :</label>

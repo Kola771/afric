@@ -20,8 +20,8 @@
                     </div>
                   </div>
                 </div>
-                <form class="w-full dark:bg-dark pt-2 lg:pt-0 max-h-96 md:max-h-[600px] lg:max-h-[calc(100vh-200px)] overflow-y-auto">
-                  <div class="mb-2 px-4 grid grid-cols-1 lg:grid-cols-2 gap-2.5">
+                <form class="w-full dark:bg-dark pt-2 lg:pt-0">
+                  <div class="mb-2 px-4 grid grid-cols-1 lg:grid-cols-2 gap-2.5 max-h-96 md:max-h-[600px] lg:max-h-[calc(100vh-200px)] overflow-y-auto">
                     <div class="flex flex-col gap-2.5 lg:mb-1">
                       <div class="flex flex-col gap-1">
                         <p class="text-sm text-slate-500 dark:text-slate-200">Image actuelle :</p>
