@@ -43,37 +43,37 @@
                     <h3 class="font-display text-xl font-bold text-slate-900 dark:text-white mb-1">Bibliographie</h3>
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit repellendus, cupiditate velit molestias dolores atque! Minima quia iste ipsum ipsa aliquid. Deserunt reiciendis laboriosam itaque culpa. Ratione, unde. Ut, quibusdam!</p>
                 </div>
-                    <!-- stories List -->
-                    <div class="border-t border-slate-200 mt-6 pt-6">
-                        <h3 class="font-display text-xl font-medium text-slate-900 dark:text-white mb-4">Histoires</h3>
-                        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-10">
-                            <nuxt-link
-                                v-for="story in stories"
-                                :key="story.id"
-                                :to="`/books/book-uuid-${story.id}`"
-                                class="group flex flex-col lg:mx-auto rounded-lg bg-white dark:bg-slate-800 border border-slate-100 hover:border-slate-300 transition-all group-hover:scale-105 hover:shadow-sm pb-2"
-                                >
-                                <img :src="story.image" class="w-full h-full rounded-t-lg object-cover transition-transform duration-500" :alt="story.title">
-                                <div class="px-2.5 pb-2 pt-2 flex flex-col gap-1">
-                                    <p class="font-medium text-slate-900 dark:text-white group-hover:text-brand-600 transition-colors">
-                                        {{ story.title }}
-                                    </p>
-                                    <p class="flex items-center gap-3 text-[10px] font-medium text-orange-600">
-                                        <span class="bg-orange-50 border border-orange-100/50 text-orange-600 font-medium animate-fade-in-up px-2 py-1 rounded">Romance</span>
-                                        <span class="bg-slate-100 text-slate-500 px-2 py-1 rounded">En cours</span>
-                                    </p>
-                                    <p class="text-xs text-slate-500 dark:text-slate-200">
-                                        {{ story.chapters }} chapitre(s), <span class="flex items-center gap-1"><Icon name="mdi:eye" class="w-3 h-3" /> <span>{{ story.views }} vue(s)</span></span>
-                                    </p>
-                                </div>
+                <!-- stories List -->
+                <div class="border-t border-slate-200 mt-6 pt-6">
+                    <h3 class="font-display text-xl font-medium text-slate-900 dark:text-white mb-4">Histoires</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-10">
+                        <nuxt-link
+                            v-for="story in stories"
+                            :key="story.id"
+                            :to="`/books/book-uuid-${story.id}`"
+                            class="group flex flex-col rounded-lg bg-white dark:bg-slate-800 border border-slate-100 hover:border-slate-300 transition-all group-hover:scale-105 hover:shadow-sm pb-2"
+                            >
+                            <img :src="story.image" class="w-full h-full lg:h-40 rounded-t-lg object-cover transition-transform duration-500" :alt="story.title">
+                            <div class="px-2.5 pb-2 pt-2 flex flex-col gap-1">
+                                <p class="font-medium text-slate-900 dark:text-white group-hover:text-brand-600 transition-colors">
+                                    {{ story.title }}
+                                </p>
+                                <p class="flex items-center gap-3 text-[10px] font-medium text-orange-600">
+                                    <span class="bg-orange-50 border border-orange-100/50 text-orange-600 font-medium animate-fade-in-up px-2 py-1 rounded">Romance</span>
+                                    <span class="bg-slate-100 text-slate-500 px-2 py-1 rounded">En cours</span>
+                                </p>
+                                <p class="text-xs text-slate-500 dark:text-slate-200 flex flex-wrap gap-2">
+                                        <span>{{ story.chapters }} chap,</span> <span class="flex items-center gap-1"><Icon name="mdi:eye" class="w-3 h-3" /> <span>{{ story.views }} vue(s)</span></span>
+                                </p>
+                            </div>
 
-                                <span class="text-slate-500 flex items-center gap-1 justify-end text-xs text-right dark:text-slate-200 px-1 group-hover:translate-x-1 transition-transform">
-                                    Lire
-                                    <Icon name="mdi:arrow-right" class="w-3 h-3" />
-                                </span>
-                            </nuxt-link>
-                        </div>
+                            <span class="text-slate-500 flex items-center gap-1 justify-end text-xs text-right dark:text-slate-200 px-1 group-hover:translate-x-1 transition-transform">
+                                Lire
+                                <Icon name="mdi:arrow-right" class="w-3 h-3" />
+                            </span>
+                        </nuxt-link>
                     </div>
+                </div>
             </div>
         </section>
     </div>

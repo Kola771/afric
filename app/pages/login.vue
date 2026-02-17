@@ -28,7 +28,7 @@
                         <!-- Social Login -->
                         <div class="grid grid-cols-2 gap-3">
                             <button class="flex w-full items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-200 transition-all">
-                                <Icon name="mdi:google" class="w-6 h-6 lg:w-5 lg:h-5" />
+                                <img src="/assets/google.svg" alt="Google" class="w-6 h-6 lg:w-5 lg:h-5" />
                                 <span class="hidden sm:inline">Google</span>
                             </button>
                             <button class="flex w-full items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-200 transition-all">
@@ -74,7 +74,7 @@
                                     <label for="remember-me" class="ml-2 block text-xs text-slate-600 dark:text-white">Se souvenir de moi</label>
                                 </div>
                                 <div class="text-xs">
-                                    <nuxt-link to="#" class="font-medium text-orange-600 hover:text-orange-500 hover:underline dark:text-orange-500">Mot de passe oublié ?</nuxt-link>
+                                    <nuxt-link to="/forget-password" class="font-medium text-orange-600 hover:text-orange-500 hover:underline dark:text-orange-500">Mot de passe oublié ?</nuxt-link>
                                 </div>
                             </div>
                             <!-- Submit Button -->

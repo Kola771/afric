@@ -142,28 +142,24 @@
                                         <input type="checkbox" class="peer sr-only" checked>
                                         <div class="rounded-md px-3 py-1.5 text-xs font-medium bg-white border border-slate-200 text-slate-600 shadow-sm transition-all peer-checked:border-orange-500 peer-checked:text-orange-600 peer-checked:bg-orange-50 hover:bg-slate-50 flex items-center gap-1.5">
                                             <span>Roman</span>
-                                            <iconify-icon icon="solar:check-circle-linear" class="hidden peer-checked:block text-orange-600" width="14"></iconify-icon>
                                         </div>
                                     </label>
                                     <label class="cursor-pointer group">
                                         <input type="checkbox" class="peer sr-only">
                                         <div class="rounded-md px-3 py-1.5 text-xs font-medium bg-white border border-slate-200 text-slate-600 shadow-sm transition-all peer-checked:border-orange-500 peer-checked:text-orange-600 peer-checked:bg-orange-50 hover:bg-slate-50 flex items-center gap-1.5">
                                             <span>Poésie</span>
-                                            <iconify-icon icon="solar:check-circle-linear" class="hidden peer-checked:block text-orange-600" width="14"></iconify-icon>
                                         </div>
                                     </label>
                                     <label class="cursor-pointer group">
                                         <input type="checkbox" class="peer sr-only" checked>
                                         <div class="rounded-md px-3 py-1.5 text-xs font-medium bg-white border border-slate-200 text-slate-600 shadow-sm transition-all peer-checked:border-orange-500 peer-checked:text-orange-600 peer-checked:bg-orange-50 hover:bg-slate-50 flex items-center gap-1.5">
                                             <span>Sci-Fi</span>
-                                            <iconify-icon icon="solar:check-circle-linear" class="hidden peer-checked:block text-orange-600" width="14"></iconify-icon>
                                         </div>
                                     </label>
                                     <label class="cursor-pointer group">
                                         <input type="checkbox" class="peer sr-only">
                                         <div class="rounded-md px-3 py-1.5 text-xs font-medium bg-white border border-slate-200 text-slate-600 shadow-sm transition-all peer-checked:border-orange-500 peer-checked:text-orange-600 peer-checked:bg-orange-50 hover:bg-slate-50 flex items-center gap-1.5">
                                             <span>Essai</span>
-                                            <iconify-icon icon="solar:check-circle-linear" class="hidden peer-checked:block text-orange-600" width="14"></iconify-icon>
                                         </div>
                                     </label>
                                 </div>
@@ -202,7 +198,7 @@
                         <!-- Social Login -->
                         <div class="mt-6 grid grid-cols-2 gap-3">
                             <button class="flex w-full items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-200 transition-all">
-                                <Icon name="mdi:google" class="w-6 h-6 lg:w-5 lg:h-5" />
+                                <img src="/assets/google.svg" alt="Google" class="w-6 h-6 lg:w-5 lg:h-5" />
                                 <span class="hidden sm:inline">Google</span>
                             </button>
                             <button class="flex w-full items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-200 transition-all">
