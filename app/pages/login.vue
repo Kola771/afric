@@ -89,8 +89,8 @@
                     <!-- Footer Links -->
                     <div class="mt-10 border-t border-slate-100 pt-6">
                         <div class="flex justify-center gap-6 text-xs text-slate-400">
-                            <nuxt-link to="#" class="hover:text-slate-600 transition-colors hover:underline">Conditions</nuxt-link>
-                            <nuxt-link to="#" class="hover:text-slate-600 transition-colors hover:underline">Confidentialité</nuxt-link>
+                            <nuxt-link to="/conditions" class="hover:text-slate-600 transition-colors hover:underline">Conditions</nuxt-link>
+                            <nuxt-link to="/privacy-policy" class="hover:text-slate-600 transition-colors hover:underline">Confidentialité</nuxt-link>
                         </div>
                     </div>
                 </div>

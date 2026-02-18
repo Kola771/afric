@@ -46,9 +46,8 @@ const isOpen = ref(false)
                     <h4 class="font-semibold text-slate-900 dark:text-white text-sm mb-4">Entreprise</h4>
                     <ul class="space-y-3 text-sm text-slate-500">
                         <li><nuxt-link to="/about" class="hover:text-slate-900 dark:hover:text-slate-400 dark:text-slate-200 transition-colors">À propos</nuxt-link></li>
-                        <li><nuxt-link to="#" class="hover:text-slate-900 dark:hover:text-slate-400 dark:text-slate-200 transition-colors">Mentions légales</nuxt-link></li>
-                        <li><nuxt-link to="#" class="hover:text-slate-900 dark:hover:text-slate-400 dark:text-slate-200 transition-colors">Politique de confidentialité</nuxt-link></li>
-                        <li><nuxt-link to="#" class="hover:text-slate-900 dark:hover:text-slate-400 dark:text-slate-200 transition-colors">Contactez-nous</nuxt-link></li>
+                        <li><nuxt-link to="/conditions" class="hover:text-slate-900 dark:hover:text-slate-400 dark:text-slate-200 transition-colors">Conditions d'utilisation</nuxt-link></li>
+                        <li><nuxt-link to="/privacy-policy" class="hover:text-slate-900 dark:hover:text-slate-400 dark:text-slate-200 transition-colors">Politique de confidentialité</nuxt-link></li>
                     </ul>
                 </div>
             </div>
@@ -56,11 +55,6 @@ const isOpen = ref(false)
             <div class="pt-8 border-t border-slate-200 flex flex-col md:flex-row justify-between items-center gap-4">
                 <div class="text-xs text-slate-400 dark:text-slate-200">
                     © 2026 Afric Storyline Inc. Tous droits réservés.
-                </div>
-                <div class="flex gap-6 text-xs text-slate-500 dark:text-slate-200">
-                    <nuxt-link to="#" class="hover:text-slate-900 dark:hover:text-slate-400 transition-colors">Confidentialité</nuxt-link>
-                    <nuxt-link to="#" class="hover:text-slate-900 dark:hover:text-slate-400 transition-colors">Conditions</nuxt-link>
-                    <nuxt-link to="#" class="hover:text-slate-900 dark:hover:text-slate-400 transition-colors">Cookies</nuxt-link>
                 </div>
             </div>
         </div>

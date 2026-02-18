@@ -11,32 +11,32 @@
             <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" enter-to=" translate-y-0 sm:scale-100" leave="ease-in duration-200" leave-from=" translate-y-0 sm:scale-100" leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
               <DialogPanel class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 w-full sm:max-w-lg">
                 <div class="dark:bg-dark bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                  <div class="sm:flex sm:items-start">
-                    <div class="mx-auto flex bg-slate-100 w-12 h-12 flex-shrink-0 items-center justify-center rounded-full sm:mx-0">
-                      <Icon name="mdi:book-multiple-outline" class="w-6 h-6" />
+                  <div class="sm:flex sm:items-center sm:justify-center">
+                    <div class="mx-auto flex bg-slate-100 w-10 h-10 md:w-8 md:h-8 flex-shrink-0 items-center justify-center rounded-full sm:mx-0">
+                      <Icon name="solar:magnifer-linear" class="w-5 h-5 md:w-4 md:h-4" />
                     </div>
                     <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                      <DialogTitle as="h3" class="text-base font-semibold text-gray-900 dark:text-white">Ajouter un livre</DialogTitle>
-                      <div class="mt-2">
-                        <p class="text-sm text-gray-500 dark:text-slate-200">Veuillez bien remplir les champs suivants</p>
-                      </div>
+                      <DialogTitle as="h3" class="text-base font-semibold text-gray-900 dark:text-white">Faire une recherche</DialogTitle>
                     </div>
                   </div>
                 </div>
                 <form class="w-full dark:bg-dark pt-2 lg:pt-0">
                   <div class="mb-2 px-4 flex flex-col gap-2.5 lg:max-h-[450px] overflow-y-auto">
-                    <input type="text" name="title" id="title" autocomplete="true" placeholder="Titre" class="w-full text-sm placeholder:text-slate-500 text-slate-800 outline-none border border-slate-300 dark:border-slate-200 dark:bg-slate-50 rounded-md p-2">
-
-                    <input type="file" name="image" id="image" class="w-full text-sm placeholder:text-slate-500 text-slate-800 outline-none border border-slate-300 dark:border-slate-200 dark:bg-slate-50 rounded-md p-2" @change="onFileChange">
-
-                    <div class="flex flex-col gap-1" v-if="preview">
-                      <p class="text-sm text-slate-500 dark:text-slate-200">Aperçu de l'image :</p>
-                      <div class="bg-slate-100 dark:bg-slate-800 flex flex-col rounded-lg"><img :src="preview" alt="Preview" class="max-h-[200px] dark:border object-cover lg:object-contain lg:max-h-[220px] rounded-lg" /></div>
+                    <div class="lg:mt-2">
+                      <select
+                        v-model="searchType"
+                        required
+                        class="w-full text-sm placeholder:text-slate-500 text-slate-800 outline-none border border-slate-300 dark:border-slate-200 dark:bg-slate-50 rounded-md p-2"
+                      >
+                        <option value="" disabled>Vous recherchez quoi ?</option>
+                        <option value="histoires">Histoires</option>
+                        <option value="auteurs">Auteurs</option>
+                        <option value="categories">Catégories</option>
+                      </select>
                     </div>
+                    <input type="text" name="search" id="search" autocomplete="true" placeholder="Rechercher" class="w-full text-sm placeholder:text-slate-500 text-slate-800 outline-none border border-slate-300 dark:border-slate-200 dark:bg-slate-50 rounded-md p-2">
 
-                    <textarea name="description" id="description" placeholder="Description" class="w-full flex-shrink-0 h-24 lg:h-28 xl:h-32 resize-none text-sm placeholder:text-slate-500 text-slate-800 outline-none border border-slate-300 dark:border-slate-200 dark:bg-slate-50 rounded-md p-2"></textarea>   
-
-                    <div class="pb-1">
+                    <div v-if="showCategories" class="pb-1">
                         <label class="block text-xs font-medium leading-6 text-slate-900 dark:text-white mb-1">Catégorie(s) :</label>
                         <div class="flex overflow-x-auto gap-2">
                             <label class="cursor-pointer group flex-shrink-0">
@@ -67,8 +67,8 @@
                       </div>
                   </div>
                   <div class="dark:bg-slate-800 bg-gray-50 px-4 md:px-3.5 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                    <button type="button" class="inline-flex w-full justify-center rounded-md bg-orange-600 dark:bg-orange-500 px-3 lg:px-6 py-2 text-sm font-semibold text-white shadow-xs hover:bg-orange-500 sm:ml-3 sm:w-auto" @click="closeModal">Ajouter</button>
-                    <button type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 lg:px-6 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto" @click="closeModal" ref="cancelButtonRef">Annuler</button>
+                    <button type="button" class="inline-flex w-full justify-center rounded-md bg-orange-600 dark:bg-orange-500 px-3 md:px-6 py-2 text-sm font-semibold text-white shadow-xs hover:bg-orange-500 sm:ml-3 sm:w-auto" @click="closeModal">Rechercher</button>
+                    <button type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 md:px-6 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto" @click="closeModal" ref="cancelButtonRef">Annuler</button>
                   </div>
                 </form>
               </DialogPanel>
@@ -81,28 +81,20 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 
 const open = ref(true)
-const emit = defineEmits(['close-create-modal']);
-const preview = ref(null)
- 
-const onFileChange = (event) => {
-  const file = event.target.files[0]
-  if (!file) return
- 
-  preview.value = URL.createObjectURL(file)
-}
+const emit = defineEmits(['close-modal'])
+
+// Valeur sélectionnée
+const searchType = ref('')
+
+// Affichage conditionnel
+const showCategories = computed(() => searchType.value === 'categories')
 
 const closeModal = () => {
-    emit('close-create-modal');
-    open.value = false;
-} 
-
-onUnmounted(() => {
-  if (preview.value) {
-    URL.revokeObjectURL(preview.value)
-  }
-})
+  emit('close-modal')
+  open.value = false
+}
 </script>
