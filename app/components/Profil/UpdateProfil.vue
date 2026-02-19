@@ -24,11 +24,23 @@
                   </div>
                 </div>
                 <form class="w-full dark:bg-dark pt-2 lg:pt-0">
-                  <div class="mb-2 px-4 flex flex-col gap-2.5">
+                  <div class="mb-2 px-4 flex flex-col gap-2.5 max-h-72 sm:max-h-96 overflow-y-auto">
+                    <div>
+                      <select required id="pays" name="pays" class="mt-1 block w-full rounded-lg border-0 py-2.5 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-orange-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all p-3">
+                      <option value="" disabled selected>Pays d'origine</option>
+                      <option value="benin">Bénin</option>
+                      <option value="burkina_faso">Burkina Faso</option>
+                      <option value="cote_d_ivoire">Côte d'Ivoire</option>
+                      <option value="mali">Mali</option>
+                      <option value="niger">Niger</option>
+                      <option value="senegal">Sénégal</option>
+                      <option value="togo">Togo</option>
+                      </select>
+                    </div>
                     <input type="text" name="fullname" id="fullname" placeholder="Nom au complet" class="w-full text-sm placeholder:text-slate-500 text-slate-800 outline-none border border-slate-300 dark:border-slate-200 dark:bg-slate-50 rounded-md p-2">
                     <input type="text" name="pseudonyme" id="pseudonyme" placeholder="Pseudonyme" class="w-full text-sm placeholder:text-slate-500 text-slate-800 outline-none border border-slate-300 dark:border-slate-200 dark:bg-slate-50 rounded-md p-2">
                     <input type="email" name="email" id="email" placeholder="Email" class="w-full text-sm placeholder:text-slate-500 text-slate-800 outline-none border border-slate-300 dark:border-slate-200 dark:bg-slate-50 rounded-md p-2">
-                    <textarea name="biography" id="biography" placeholder="Biographie" class="w-full resize-none text-sm placeholder:text-slate-500 text-slate-800 outline-none border border-slate-300 dark:border-slate-200 dark:bg-slate-50 rounded-md p-2"></textarea>   
+                    <textarea name="biography" id="biography" placeholder="Biographie" class="flex-shrink-0 w-full resize-none text-sm placeholder:text-slate-500 text-slate-800 outline-none border border-slate-300 dark:border-slate-200 dark:bg-slate-50 rounded-md p-2"></textarea>   
                     <div class="pb-1">
                         <label class="block text-xs font-medium leading-6 text-slate-900 dark:text-white mb-1">Préférences</label>
                         <div class="flex overflow-x-auto gap-2">

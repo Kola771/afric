@@ -17,7 +17,7 @@
                             >
                             <img :src="story.image" class="w-full h-28 lg:h-40 rounded-t-lg object-cover transition-transform duration-500" :alt="story.title">
                             <div class="px-2.5 pb-2 pt-2 flex flex-col gap-1">
-                                <p class="font-medium text-slate-900 dark:text-white group-hover:text-brand-600 transition-colors">
+                                <p class="font-medium text-slate-900 dark:text-white group-hover:text-orange-600 transition-colors">
                                     Histoire {{ index + 1 }}
                                 </p>
                                 <p class="flex items-center gap-3 text-[10px] font-medium text-orange-600">

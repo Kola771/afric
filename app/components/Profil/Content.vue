@@ -27,10 +27,10 @@
                             <div class="flex flex-col justify-between py-1 flex-grow">
                                 <div>
                                     <div class="flex items-center justify-between mb-1">
-                                        <span class="text-[10px] font-bold tracking-wider text-brand-600 bg-brand-50 px-2 py-0.5 rounded-full uppercase">Fantastique</span>
+                                        <span class="text-[10px] font-bold tracking-wider text-orange-600 bg-orange-50 px-2 py-0.5 rounded-full uppercase">Fantastique</span>
                                         <span class="text-xs text-slate-400">Il y a 2h</span>
                                     </div>
-                                    <h3 class="font-display font-medium text-lg text-slate-900 group-hover:text-brand-600 transition-colors">Le Masque d'Or</h3>
+                                    <h3 class="font-display font-medium text-lg text-slate-900 group-hover:text-orange-600 transition-colors">Le Masque d'Or</h3>
                                     <p class="text-sm text-slate-500">Chapitre 4: Les secrets du musée</p>
                                 </div>
                                 
@@ -56,7 +56,7 @@
                                         <span class="text-[10px] font-bold tracking-wider text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full uppercase">Drame</span>
                                         <span class="text-xs text-slate-400">Hier</span>
                                     </div>
-                                    <h3 class="font-display font-medium text-lg text-slate-900 group-hover:text-brand-600 transition-colors">Les Larmes du Fleuve</h3>
+                                    <h3 class="font-display font-medium text-lg text-slate-900 group-hover:text-orange-600 transition-colors">Les Larmes du Fleuve</h3>
                                     <p class="text-sm text-slate-500">Chapitre 12: La séparation</p>
                                 </div>
                                 
@@ -86,7 +86,7 @@
                             <div class="relative aspect-[2/3] bg-slate-100 rounded-xl overflow-hidden mb-3 shadow-sm border border-slate-100">
                                 <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
                             </div>
-                            <h4 class="font-display font-medium text-sm text-slate-900 dark:text-white truncate group-hover:text-brand-600">Sous le ciel...</h4>
+                            <h4 class="font-display font-medium text-sm text-slate-900 dark:text-white truncate group-hover:text-orange-600">Sous le ciel...</h4>
                             <p class="text-xs text-slate-500 dark:text-slate-200 truncate">Yasmine K.</p>
                         </nuxt-link>
                             <!-- Book Item 2 -->
@@ -94,7 +94,7 @@
                             <div class="relative aspect-[2/3] bg-slate-100 rounded-xl overflow-hidden mb-3 shadow-sm border border-slate-100">
                                 <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=400" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
                             </div>
-                            <h4 class="font-display font-medium text-sm text-slate-900 dark:text-white truncate group-hover:text-brand-600">Neo-Lagos 2099</h4>
+                            <h4 class="font-display font-medium text-sm text-slate-900 dark:text-white truncate group-hover:text-orange-600">Neo-Lagos 2099</h4>
                             <p class="text-xs text-slate-500 dark:text-slate-200 truncate">Malik Z.</p>
                         </nuxt-link>
                         <!-- Book Item 3 -->
@@ -102,7 +102,7 @@
                             <div class="relative aspect-[2/3] bg-slate-100 rounded-xl overflow-hidden mb-3 shadow-sm border border-slate-100">
                                 <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/4734259a-bad7-422f-981e-ce01e79184f2_1600w.jpg" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
                             </div>
-                            <h4 class="font-display font-medium text-sm text-slate-900 dark:text-white truncate group-hover:text-brand-600">Terre Rouge</h4>
+                            <h4 class="font-display font-medium text-sm text-slate-900 dark:text-white truncate group-hover:text-orange-600">Terre Rouge</h4>
                             <p class="text-xs text-slate-500 dark:text-slate-200 truncate">Samba D.</p>
                         </nuxt-link>
                         <!-- Add New -->

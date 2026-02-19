@@ -1,7 +1,7 @@
 <template>
     <div class="bg-[#fffcfccc] dark:bg-dark dark:border-slate-200 dark:border-b">
         <section class="max-w-7xl mx-auto pt-12 border-t border-slate-100">
-            <div class="p-6 md:p-10 lg:p-12">
+            <div class="p-4 md:p-10 lg:p-12">
                 <div class="grid md:grid-cols-12 gap-10">
                 <!-- Left: Cover -->
                 <div class="md:col-span-4 lg:col-span-3">
@@ -26,7 +26,7 @@
                             <span class="bg-orange-50 border border-orange-100/50 text-orange-600 text-xs font-medium animate-fade-in-up px-2 py-1 rounded">FANTASTIQUE</span>
                             <span class="bg-slate-100 text-slate-500 px-2 py-1 rounded">EN COURS</span>
                         </div>
-                        <h1 class="text-3xl md:text-5xl font-display font-semibold text-slate-900 dark:text-white tracking-tight mb-4">Le Masque d'Or</h1>
+                        <h2 class="text-3xl md:text-5xl font-display font-semibold text-slate-900 dark:text-white tracking-tight mb-4">Le Masque d'Or</h2>
                         <div class="flex items-center gap-6 text-sm text-slate-500 dark:text-slate-200">
                             <nuxt-link to="/authors/alain_mabanckou" class="flex items-center gap-2 hover:underline hover:ease-in-out hover:duration-300">
                                 <img src="/assets/alain_mabanckou.jpg" class="w-6 h-6 rounded-full" alt="Author">
@@ -61,7 +61,7 @@
                                     </span>
 
                                     <span>
-                                    <p class="font-medium text-slate-900 dark:text-white group-hover:text-brand-600 transition-colors">
+                                    <p class="font-medium text-slate-900 dark:text-white group-hover:text-orange-600 transition-colors">
                                         {{ chapter.title }}
                                     </p>
                                     <p class="text-xs text-slate-400 dark:text-slate-200">
@@ -74,6 +74,27 @@
                                     <Icon name="mdi:arrow-right" class="w-5 h-5" />
                                 </span>
                             </nuxt-link>
+                        </div>
+                    </div>
+                    <div class="mt-12">
+                        <h4 class="font-display font-medium text-slate-900 dark:text-white mb-6">Commentaires</h4>
+                        <div class="space-y-6">
+                            <!-- Comment Item -->
+                            <div class="flex gap-4">
+                                <div class="w-8 h-8 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center text-xs font-bold flex-shrink-0 dark:bg-orange-600 dark:text-white">A</div>
+                                <div>
+                                    <div class="flex items-baseline gap-2">
+                                        <span class="text-sm font-semibold text-slate-900 dark:text-white">Arnaud</span>
+                                        <span class="text-xs text-slate-400 dark:text-slate-200">il y a 5h</span>
+                                    </div>
+                                    <p class="text-sm text-slate-600 dark:text-slate-200 mt-1">Très intéressant !</p>
+                                </div>
+                            </div>
+                            <!-- Comment Input -->
+                            <div class="relative mt-6">
+                                <textarea class="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm focus:outline-none focus:border-slate-400 focus:ring-0 resize-none h-24 dark:bg-dark dark:border-slate-200" placeholder="Écrire un commentaire..."></textarea>
+                                <button class="absolute bottom-4 right-3 bg-white border border-slate-200 text-xs font-medium px-3 py-1.5 rounded-lg hover:bg-slate-100">Publier</button>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -59,7 +59,21 @@
                 <span :class="['text-xs font-medium truncate', chap.id === currentChapterId ? 'text-slate-900' : 'text-slate-700 dark:text-white group-hover:text-slate-900']">{{ chap.title }}</span>
                 <span :class="['text-[10px] font-semibold px-1.5 py-0.5 rounded border', chap.status === 'Publié' ? 'bg-green-50 text-green-600 border-green-100' : 'bg-slate-100 text-slate-500 border-slate-200']">{{ chap.status }}</span>
               </div>
-              <p :class="['text-xs truncate font-serif', chap.id === currentChapterId ? 'text-slate-500' : 'text-slate-400']">{{ chap.subtitle }}</p>
+              <div class="flex justify-between items-center gap-2">
+                <p :class="['text-xs truncate font-serif', chap.id === currentChapterId ? 'text-slate-500' : 'text-slate-400']">{{ chap.subtitle }}</p>
+                <div class="flex items-center gap-1">
+                    <div class="text-xs">
+                        <span class="font-semibold text-slate-900 dark:text-slate-800">{{ chap.like || 0 }}</span> <span class="text-slate-400 dark:text-slate-700"><Icon name="mdi:heart" class="w-4 h-4" /></span>
+                    </div>
+                    <div class="text-xs">
+                        <span class="font-semibold text-slate-900 dark:text-slate-800">{{ chap.view || 0 }}</span> <span class="text-slate-400 dark:text-slate-700"><Icon name="mdi:eye" class="w-4 h-4" /></span>
+                    </div>
+                    <div class="w-px h-3 bg-slate-200"></div>
+                    <div class="text-xs">
+                        <span class="font-semibold text-slate-900 dark:text-slate-800">{{ chap.comment || 0 }}</span> <span class="text-slate-400 dark:text-slate-700"><Icon name="mdi:comments" class="w-4 h-4" /></span>
+                    </div>
+                </div>
+              </div>
             </div>
           </button>
         </div>
@@ -152,7 +166,21 @@
                             <span :class="['text-xs font-medium truncate', chap.id === currentChapterId ? 'text-slate-900' : 'dark:text-white text-slate-700 group-hover:text-slate-900']">{{ chap.title }}</span>
                             <span :class="['text-[10px] font-semibold px-1.5 py-0.5 rounded border', chap.status === 'Publié' ? 'bg-green-50 text-green-600 border-green-100' : 'bg-slate-100 text-slate-500 border-slate-200']">{{ chap.status }}</span>
                         </div>
-                        <p :class="['text-xs truncate font-serif', chap.id === currentChapterId ? 'text-slate-500' : 'text-slate-400']">{{ chap.subtitle }}</p>
+                        <div class="flex justify-between items-center gap-2">
+                          <p :class="['text-xs truncate font-serif', chap.id === currentChapterId ? 'text-slate-500' : 'text-slate-400']">{{ chap.subtitle }}</p>
+                          <div class="flex items-center gap-1">
+                              <div class="text-xs">
+                                  <span class="font-semibold text-slate-900 dark:text-slate-800">{{ chap.like || 0 }}</span> <span class="text-slate-400 dark:text-slate-700"><Icon name="mdi:heart" class="w-4 h-4" /></span>
+                              </div>
+                              <div class="text-xs">
+                                  <span class="font-semibold text-slate-900 dark:text-slate-800">{{ chap.view || 0 }}</span> <span class="text-slate-400 dark:text-slate-700"><Icon name="mdi:eye" class="w-4 h-4" /></span>
+                              </div>
+                              <div class="w-px h-3 bg-slate-200"></div>
+                              <div class="text-xs">
+                                  <span class="font-semibold text-slate-900 dark:text-slate-800">{{ chap.comment || 0 }}</span> <span class="text-slate-400 dark:text-slate-700"><Icon name="mdi:comments" class="w-4 h-4" /></span>
+                              </div>
+                          </div>
+                        </div>
                     </div>
                 </button>
             </div>
@@ -210,9 +238,9 @@ const story = ref({
 })
 
 const chapters = ref([
-  { id: 1, title: 'Chapitre 1', subtitle: 'Le retour au village natal...', status: 'Publié' },
-  { id: 2, title: 'Chapitre 2', subtitle: 'La rencontre avec le sage...', status: 'Brouillon' },
-  { id: 3, title: 'Chapitre 3', subtitle: 'Sans titre', status: 'Brouillon' },
+  { id: 1, title: 'Chapitre 1', like: "500", view: "1k", comment: "200", subtitle: 'Le retour au village natal...', status: 'Publié' },
+  { id: 2, title: 'Chapitre 2', like: "500", view: "1k", comment: "200", subtitle: 'La rencontre avec le sage...', status: 'Brouillon' },
+  { id: 3, title: 'Chapitre 3', like: "500", view: "1k", comment: "200", subtitle: 'Sans titre', status: 'Brouillon' },
 ])
 
 const currentChapterId = ref(1)
