@@ -72,7 +72,7 @@
 
         <!-- User Profile (Bottom) -->
         <div class="p-4 border-t border-slate-100">
-            <nuxt-link to="/dashboard/account" class="flex items-center gap-3 w-full p-2 rounded-lg hover:bg-slate-50 transition-colors text-left">
+            <nuxt-link to="/dashboard/account" class="flex items-center gap-3 w-full p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors text-left">
                 <img src="https://ui-avatars.com/api/?name=Jean+Kouassi&background=0f172a&color=fff" alt="Admin" class="w-8 h-8 rounded-full">
                 <div class="flex-1 min-w-0">
                     <p class="text-xs font-semibold text-slate-900 dark:text-white truncate">Jean Kouassi</p>

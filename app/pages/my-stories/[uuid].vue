@@ -63,14 +63,14 @@
                 <p :class="['text-xs truncate font-serif', chap.id === currentChapterId ? 'text-slate-500' : 'text-slate-400']">{{ chap.subtitle }}</p>
                 <div class="flex items-center gap-1">
                     <div class="text-xs">
-                        <span class="font-semibold text-slate-900 dark:text-slate-800">{{ chap.like || 0 }}</span> <span class="text-slate-400 dark:text-slate-700"><Icon name="mdi:heart" class="w-4 h-4" /></span>
+                        <span class="font-semibold text-slate-900 dark:text-slate-400">{{ chap.like || 0 }}</span> <span class="text-slate-400 dark:text-slate-600"><Icon name="mdi:heart" class="w-4 h-4" /></span>
                     </div>
                     <div class="text-xs">
-                        <span class="font-semibold text-slate-900 dark:text-slate-800">{{ chap.view || 0 }}</span> <span class="text-slate-400 dark:text-slate-700"><Icon name="mdi:eye" class="w-4 h-4" /></span>
+                        <span class="font-semibold text-slate-900 dark:text-slate-400">{{ chap.view || 0 }}</span> <span class="text-slate-400 dark:text-slate-600"><Icon name="mdi:eye" class="w-4 h-4" /></span>
                     </div>
                     <div class="w-px h-3 bg-slate-200"></div>
                     <div class="text-xs">
-                        <span class="font-semibold text-slate-900 dark:text-slate-800">{{ chap.comment || 0 }}</span> <span class="text-slate-400 dark:text-slate-700"><Icon name="mdi:comments" class="w-4 h-4" /></span>
+                        <span class="font-semibold text-slate-900 dark:text-slate-400">{{ chap.comment || 0 }}</span> <span class="text-slate-400 dark:text-slate-600"><Icon name="mdi:comments" class="w-4 h-4" /></span>
                     </div>
                 </div>
               </div>
@@ -170,14 +170,14 @@
                           <p :class="['text-xs truncate font-serif', chap.id === currentChapterId ? 'text-slate-500' : 'text-slate-400']">{{ chap.subtitle }}</p>
                           <div class="flex items-center gap-1">
                               <div class="text-xs">
-                                  <span class="font-semibold text-slate-900 dark:text-slate-800">{{ chap.like || 0 }}</span> <span class="text-slate-400 dark:text-slate-700"><Icon name="mdi:heart" class="w-4 h-4" /></span>
+                                  <span class="font-semibold text-slate-900 dark:text-slate-200">{{ chap.like || 0 }}</span> <span class="text-slate-400 dark:text-slate-600"><Icon name="mdi:heart" class="w-4 h-4" /></span>
                               </div>
                               <div class="text-xs">
-                                  <span class="font-semibold text-slate-900 dark:text-slate-800">{{ chap.view || 0 }}</span> <span class="text-slate-400 dark:text-slate-700"><Icon name="mdi:eye" class="w-4 h-4" /></span>
+                                  <span class="font-semibold text-slate-900 dark:text-slate-200">{{ chap.view || 0 }}</span> <span class="text-slate-400 dark:text-slate-600"><Icon name="mdi:eye" class="w-4 h-4" /></span>
                               </div>
                               <div class="w-px h-3 bg-slate-200"></div>
                               <div class="text-xs">
-                                  <span class="font-semibold text-slate-900 dark:text-slate-800">{{ chap.comment || 0 }}</span> <span class="text-slate-400 dark:text-slate-700"><Icon name="mdi:comments" class="w-4 h-4" /></span>
+                                  <span class="font-semibold text-slate-900 dark:text-slate-200">{{ chap.comment || 0 }}</span> <span class="text-slate-400 dark:text-slate-600"><Icon name="mdi:comments" class="w-4 h-4" /></span>
                               </div>
                           </div>
                         </div>
