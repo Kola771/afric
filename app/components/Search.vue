@@ -12,7 +12,7 @@
               <DialogPanel class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 w-full sm:max-w-lg">
                 <div class="dark:bg-dark bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                   <div class="sm:flex sm:items-center sm:justify-center">
-                    <div class="mx-auto flex bg-slate-100 w-10 h-10 md:w-8 md:h-8 flex-shrink-0 items-center justify-center rounded-full sm:mx-0">
+                    <div class="mx-auto flex bg-slate-100 lg:bg-transparent lg:w-auto w-10 h-10 md:w-8 md:h-8 flex-shrink-0 items-center justify-center rounded-full sm:mx-0">
                       <Icon name="solar:magnifer-linear" class="w-5 h-5 md:w-4 md:h-4" />
                     </div>
                     <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">

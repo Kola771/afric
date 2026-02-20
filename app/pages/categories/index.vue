@@ -14,6 +14,22 @@
     </div>
 </template>
 <script lang="ts" setup>
+  useSeoMeta({
+    title: 'Catégories',
+    description: 'Explorez nos différentes catégories d\'histoires africaines originales.',
+    
+    ogTitle: 'Catégories',
+    ogDescription: 'Découvrez nos différentes catégories d\'histoires africaines originales.',
+    ogImage: 'https://africstoryline.com/afric.png',
+    ogUrl: 'https://africstoryline.com/',
+    ogType: 'website',
+
+    twitterCard: 'summary_large_image',
+    twitterTitle: 'Catégories',
+    twitterDescription: 'Découvrez nos différentes catégories d\'histoires africaines originales.',
+    twitterImage: 'https://africstoryline.com/afric.png'
+  });
+
 const categories = ref<Category[]>([
   {
     id: 1,

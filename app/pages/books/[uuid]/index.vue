@@ -15,7 +15,7 @@
                         </button>
                         <button class="w-full bg-white border border-slate-200 text-slate-700 py-3 rounded-xl text-sm font-medium hover:bg-slate-50 dark:hover:bg-orange-50 dark:hover:border-orange-100/50 dark:hover:text-orange-800 transition-colors flex items-center justify-center gap-2">
                             <Icon name="mdi:heart" class="w-5 h-5" />
-                            J'aime cette histoire
+                           140 J'aime cette histoire
                         </button>
                     </div>
                 </div>
@@ -78,16 +78,16 @@
                     </div>
                     <div class="mt-12">
                         <h4 class="font-display font-medium text-slate-900 dark:text-white mb-6">Commentaires</h4>
-                        <div class="space-y-6">
+                        <div class="flex flex-col gap-4">
                             <!-- Comment Item -->
-                            <div class="flex gap-4">
+                            <div :class="`flex gap-4 ${index % 2 == 0 ? 'border-y py-3 border-slate-200' : ''}`" v-for="index in 3" :key="index">
                                 <div class="w-8 h-8 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center text-xs font-bold flex-shrink-0 dark:bg-orange-600 dark:text-white">A</div>
                                 <div>
                                     <div class="flex items-baseline gap-2">
-                                        <span class="text-sm font-semibold text-slate-900 dark:text-white">Arnaud</span>
+                                        <span class="text-[13px] font-semibold text-slate-900 dark:text-white">Arnaud</span>
                                         <span class="text-xs text-slate-400 dark:text-slate-200">il y a 5h</span>
                                     </div>
-                                    <p class="text-sm text-slate-600 dark:text-slate-200 mt-1">Très intéressant !</p>
+                                    <p class="text-[13px] text-slate-600 dark:text-slate-200 mt-1">Très intéressant !</p>
                                 </div>
                             </div>
                             <!-- Comment Input -->

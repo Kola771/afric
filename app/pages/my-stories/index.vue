@@ -1,33 +1,44 @@
 <template>
     <div class="bg-[#fffcfccc] dark:bg-dark dark:border-slate-200 dark:border-b pt-12 pb-12">
         <section class="max-w-7xl mx-auto px-6 pt-12 border-t border-slate-100 lg:gap-10">
-            <div class="flex flex-col md:flex-row md:justify-end">
-                <button @click="toggleCreateModal" class="flex items-center gap-2 bg-primary text-white dark:bg-slate-800 dark:border hover:bg-slate-700 hover:ease-in-out hover:duration-300 rounded-full py-3 text-sm justify-center border-slate-200 border md:px-6 md:py-2.5">
+            <div class="flex flex-col gap-4 md:items-center md:flex-row md:justify-between bg-white dark:bg-transparent border px-3 py-4 lg:p-3 rounded-lg">
+                <div class="flex flex-col gap-1 items-start">
+                    <button @click="back" class="p-1 border rounded-lg flex items-center justify-center hover:bg-slate-100 text-slate-500 dark:text-slate-200 dark:hover:text-slate-300 dark:hover:bg-slate-700 transition-colors">
+                        <Icon name="mdi:arrow-left" class="w-5 h-5" />
+                    </button>
+                    <p class="text-[14px] text-slate-500 dark:text-slate-200 max-w-xs">
+                       Par défaut, toute histoire créée a pour statut
+                       <span class="font-medium text-orange-600 dark:text-orange-500">Brouillon</span>
+                       et n'est pas accessible aux lecteurs en ligne.
+                                   </p>
+                </div>
+                <button @click="toggleCreateModal" class="flex items-center gap-2 bg-primary text-white dark:bg-slate-800 dark:border hover:bg-slate-700 hover:ease-in-out hover:duration-300 rounded-full py-3 text-[13px] justify-center border-slate-200 border md:px-6 md:py-2.5">
                     <Icon name="mdi:plus" class="w-5 h-5" />
-                    Ajouter une histoire</button>
+                    Ajouter une histoire
+                </button>
             </div>
             <div class="border-t border-slate-200 mt-6 pt-6">
                 <h3 class="font-display text-xl font-medium text-slate-900 dark:text-white flex items-center gap-1 mb-4"><Icon name="mdi:book-multiple-outline" class="w-5 h-5" /> Mes histoires</h3>
-                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-6 gap-y-10">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-x-6 gap-y-10">
                     <div class="flex flex-col gap-1 rounded-lg bg-white dark:bg-slate-800 border border-slate-100 hover:border-slate-300 transition-all group-hover:scale-105 hover:shadow-sm pb-2" v-for="(story, index) in stories">
                         <nuxt-link
                             :key="story.id"
                             :to="`/books/book-uuid-${story.id}`"
                             class="group flex flex-col"
                             >
-                            <img :src="story.image" class="w-full h-28 lg:h-40 rounded-t-lg object-cover transition-transform duration-500" :alt="story.title">
-                            <div class="px-2.5 pb-2 pt-2 flex flex-col gap-1">
-                                <p class="font-medium text-slate-900 dark:text-white group-hover:text-orange-600 transition-colors">
-                                    Histoire {{ index + 1 }}
+                            <img :src="story.image" class="w-full h-40 md:h-36 lg:h-40 rounded-t-lg object-cover transition-transform duration-500" :alt="story.title">
+                            <div class="px-2.5 pt-2 flex flex-col gap-1">
+                                <p class="font-medium text-slate-900 dark:text-white group-hover:text-orange-600 flex transition-colors">
+                                    <span class="truncate">Histoire {{ index + 1 }}</span>
                                 </p>
                                 <p class="flex items-center gap-3 text-[10px] font-medium text-orange-600">
                                     <span class="bg-orange-50 border border-orange-100/50 text-orange-600 font-medium animate-fade-in-up px-2 py-1 rounded">Romance</span>
                                     <span class="bg-slate-100 text-slate-500 px-2 py-1 rounded">En cours</span>
                                 </p>
-                                <p class="text-xs text-slate-500 dark:text-slate-200 flex flex-wrap gap-2">
-                                    <span>{{ story.chapters }} chap,</span> <span class="flex items-center gap-1"><Icon name="mdi:eye" class="w-3 h-3" /> <span>{{ story.views }} vue(s)</span></span>
-                                </p>
                             </div>
+                        </nuxt-link>
+                        <nuxt-link :to="`/my-stories/${story.id}/likes-and-comments`" class="hover:text-orange-600 transition-colors hover:underline px-2.5 py-2 text-xs text-slate-500 dark:text-slate-200 flex flex-wrap gap-2">
+                            <span>{{ story.chapters }} chap,</span> <span class="flex items-center gap-1"><Icon name="mdi:eye" class="w-3 h-3" /> <span>{{ story.views }} vue(s)</span></span>
                         </nuxt-link>
                         <div class="grid grid-cols-1 gap-1 px-2.5">
                             <button @click="toggleUpdateModal" class="text-blue-500 font-medium text-end gap-1 text-xs text-right dark:text-blue-400 px-1 group-hover:translate-x-1 transition-transform hover:underline">
@@ -53,6 +64,10 @@
     </div>
 </template>
 <script lang="ts" setup>
+const back = () => {
+  window.history.back();
+}
+
 const stories = ref<any[]>([
   {
     id: 1,

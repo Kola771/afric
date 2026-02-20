@@ -10,7 +10,7 @@
                     <div class="mb-10">
                         <nuxt-link to="/" class="flex items-center gap-2 group w-fit">
                             <div class="w-8 h-8 dark:border dark:border-slate-300 dark:bg-slate-800 bg-slate-900 rounded-lg flex items-center justify-center text-white transition-transform group-hover:scale-95">
-                                <span class="font-display font-semibold text-lg tracking-tighter dark:text-white">A</span>
+                                <Icon name="solar:book-2-bold" class="w-5 h-5" />
                             </div>
                             <span class="font-display font-medium text-slate-900 tracking-tight text-sm dark:text-white">Afric Storyline</span>
                         </nuxt-link>
@@ -26,7 +26,7 @@
                     <!-- Form Section -->
                     <div class="mt-8">
                         <!-- Social Login -->
-                        <div class="grid grid-cols-2 gap-3">
+                        <!-- <div class="grid grid-cols-2 gap-3">
                             <button class="flex w-full items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-200 transition-all">
                                 <img src="/assets/google.svg" alt="Google" class="w-6 h-6 lg:w-5 lg:h-5" />
                                 <span class="hidden sm:inline">Google</span>
@@ -43,14 +43,14 @@
                             <div class="relative flex justify-center text-xs font-medium leading-6">
                                 <span class="bg-white dark:bg-dark px-4 text-slate-400">Ou continuer avec l'email</span>
                             </div>
-                        </div>
+                        </div> -->
                         <!-- Main Form -->
-                        <form action="#" method="POST" class="mt-6 space-y-5">
+                        <form @submit.prevent="handleLogin" class="mt-6 space-y-5">
                             <!-- Email Input -->
                             <div>
                                 <label for="email" class="block text-xs font-medium leading-6 text-slate-900 dark:text-white">Adresse email</label>
                                 <div class="mt-1.5 relative">
-                                    <input id="email" name="email" type="email" autocomplete="email" required
+                                    <input id="email" name="email" type="email" autocomplete="email" v-model="email" required
                                         class="block w-full rounded-lg border-0 py-2.5 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-orange-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all pl-3"
                                         placeholder="exemple@email.com">
                                 </div>
@@ -59,17 +59,17 @@
                             <div>
                                 <label for="password" class="block text-xs font-medium leading-6 text-slate-900 dark:text-white">Mot de passe</label>
                                 <div class="mt-1.5 relative">
-                                    <input id="password" name="password" type="password" autocomplete="current-password" placeholder="**********" required
+                                    <input id="password" name="password" :type="showPassword ? 'text' : 'password'" v-model="password" placeholder="**********" required
                                         class="block w-full rounded-lg border-0 py-2.5 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-orange-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all pl-3 pr-10">
-                                    <button type="button" class="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-slate-600 transition-colors">
-                                        <Icon name="mdi:eye" class="w-5 h-5" />
+                                    <button @click="showPassword = !showPassword" type="button" class="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-slate-600 transition-colors">
+                                        <Icon :name="showPassword ? 'mdi:eye-off' : 'mdi:eye'" class="w-5 h-5" />
                                     </button>
                                 </div>
                             </div>
                             <!-- Remember & Forgot -->
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center">
-                                    <input id="remember-me" name="remember-me" type="checkbox"
+                                    <input id="remember-me" name="remember-me" type="checkbox" v-model="accept"
                                         class="h-4 w-4 rounded border-slate-300 text-orange-600 focus:ring-orange-600 accent-orange-600 dark:border-slate-800 dark:text-orange-600">
                                     <label for="remember-me" class="ml-2 block text-xs text-slate-600 dark:text-white">Se souvenir de moi</label>
                                 </div>
@@ -77,6 +77,7 @@
                                     <nuxt-link to="/forget-password" class="font-medium text-orange-600 hover:text-orange-500 hover:underline dark:text-orange-500">Mot de passe oublié ?</nuxt-link>
                                 </div>
                             </div>
+                            <p v-if="errorMsg" class="text-xs text-center font-medium text-red-600 mt-2">{{ errorMsg }}</p>
                             <!-- Submit Button -->
                             <div>
                                 <button type="submit" class="dark:border flex w-full justify-center rounded-lg bg-slate-900 px-3 py-2.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-slate-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-900 transition-all items-center gap-2 group">
@@ -112,7 +113,6 @@
                     </div>
          
                     <div class="max-w-md">
-                        <iconify-icon icon="solar:quote-up-bold" width="40" class="text-orange-500 mb-6 opacity-80"></iconify-icon>
                         <blockquote class="text-2xl font-serif leading-snug text-slate-100 mb-6">
                             "La littérature est la preuve la plus éclatante que la vie ne suffit pas."
                         </blockquote>
@@ -131,7 +131,69 @@
      </div>
 </template>
 <script lang="ts" setup>
+import { ref } from 'vue'
+
+const { email, password, login } = authenticateForm();
+
 definePageMeta({
   layout: "not-layout",
 });
+
+useSeoMeta({
+  title: 'Connexion',
+  description: 'Connectez-vous sur Afric Storyline pour accéder à vos histoires préférées et bien plus.',
+  ogTitle: 'Connexion',
+  ogDescription: 'Connectez-vous sur Afric Storyline pour accéder à vos histoires préférées et bien plus.',
+  ogImage: 'https://africstoryline.com/afric.png',
+  ogUrl: 'https://africstoryline.com/',
+  ogType: 'website',
+  twitterCard: 'summary_large_image',
+  twitterTitle: 'Connexion',
+  twitterDescription: 'Connectez-vous sur Afric Storyline pour accéder à vos histoires préférées et bien plus.',
+  twitterImage: 'https://africstoryline.com/afric.png'
+});
+
+const accept = ref<boolean>(false);
+const errorMsg = ref<string>(''); // Message d'erreur pour affichage
+const loading = ref(false);       // Indicateur de chargement
+const showPassword = ref(false);  // Indicateur pour afficher/masquer le mot de passe
+
+// Fonction de validation email simple
+const isValidEmail = (email: string) => {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+const handleLogin = async () => {
+  errorMsg.value = '';
+
+  // 1️⃣ Vérifier email
+  if (!email.value || !isValidEmail(email.value)) {
+    errorMsg.value = 'Veuillez entrer une adresse email valide.';
+    return;
+  }
+
+  // 2️⃣ Vérifier mot de passe
+  if (!password.value || password.value.length < 8) {
+    errorMsg.value = 'Le mot de passe doit contenir au moins 8 caractères.';
+    return;
+  }
+
+  // 3️⃣ Vérifier "Se souvenir de moi" si nécessaire
+  if (!accept.value) {
+    errorMsg.value = 'Veuillez accepter de vous souvenir de vous.';
+    return;
+  }
+
+  // ✅ Tout est valide, on envoie la requête
+  loading.value = true;
+  try {
+    const res = await login();
+    console.log('Connexion réussie:', res);
+  } catch (err) {
+    console.error(err);
+    errorMsg.value = 'Échec de la connexion, vérifiez vos identifiants.';
+  } finally {
+    loading.value = false;
+  }
+}
 </script>

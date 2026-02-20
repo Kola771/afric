@@ -10,14 +10,14 @@
                 </p>
         
                 <!-- Email Input -->
-                <form class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto relative">
+                <form class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto relative" @submit.prevent="registerEmail">
                     <div class="relative flex-grow">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
                             <Icon name="mdi:email-outline" class="w-5 h-5 dark:text-slate-600" />
                         </div>
-                        <input type="email" class="block w-full pl-10 pr-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-900 dark:placeholder-slate-600 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent text-sm transition-all shadow-sm" placeholder="Votre adresse email">
+                        <input v-model="email" type="email" class="block w-full pl-10 pr-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-900 dark:placeholder-slate-600 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent text-sm transition-all shadow-sm" placeholder="Votre adresse email">
                     </div>
-                    <button type="button" class="px-6 py-3 bg-slate-900 text-white font-medium rounded-xl text-sm hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900 shadow-lg shadow-slate-200/50 dark:hover:bg-dark dark:border-slate-400 dark:border-[1px] dark:shadow-slate-700 whitespace-nowrap transition-all">
+                    <button type="submit" class="px-6 py-3 bg-slate-900 text-white font-medium rounded-xl text-sm hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900 shadow-lg shadow-slate-200/50 dark:hover:bg-dark dark:border-slate-400 dark:border-[1px] dark:shadow-slate-700 whitespace-nowrap transition-all">
                         Créer mon compte
                     </button>
                 </form>
@@ -26,3 +26,12 @@
         </div><div class="wave-divider bg-lightOrange dark:bg-slate-800"><svg class="fill-[#fafafa] dark:fill-dark" viewBox="0 0 1440 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,120 L0,120 Z"></path></svg></div>
     </div>
 </template>
+<script lang="ts" setup>
+const router = useRouter();
+const email = ref<string>("");
+const registerEmail = async (event: Event) => {
+    event.preventDefault();
+    localStorage.setItem("register_email", email.value);
+    router.push("/register")
+};
+</script>

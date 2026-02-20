@@ -52,10 +52,10 @@
                     <Icon name="solar:sort-vertical-linear" class="w-5 h-5" />
                     <span class="text-xs font-medium hidden sm:inline">Trier</span>
                 </button>
-                <button class="h-8 px-3 rounded-lg border border-slate-200 bg-orange-600 dark:bg-orange-500 dark:hover:bg-orange-600 text-white hover:bg-orange-700 flex items-center gap-2 transition-colors">
+                <nuxt-link to="/dashboard/categories/create" class="h-8 px-3 rounded-lg border border-slate-200 bg-orange-600 dark:bg-orange-500 dark:hover:bg-orange-600 text-white hover:bg-orange-700 flex items-center gap-2 transition-colors">
                     <Icon name="mdi:plus" class="w-5 h-5" />
                     <span class="text-xs font-medium hidden sm:inline">Ajouter</span>
-                </button>
+                </nuxt-link>
             </div>
         </div>
 
@@ -82,8 +82,8 @@
                             <td class="py-3 px-6 text-slate-600 text-xs"><nuxt-link class="flex items-center gap-2 hover:underline hover:text-orange-600 dark:hover:text-orange-500 hover:duration-300 hover:ease-linear" to="/dashboard/categories/category-uuid-1/stories"><Icon name="mdi:book-open-page-variant" class="w-4 h-4" /> 154</nuxt-link></td>
                             <td class="py-3 px-6 text-right">
                                 <nuxt-link to="/dashboard/categories/category-uuid-1" class="text-slate-400 hover:text-slate-900 transition-colors"><Icon name="mdi:eye" class="w-4 h-4" /></nuxt-link>
-                                <button class="ml-2 text-orange-600 hover:text-orange-700 transition-colors"><Icon name="mdi:edit" class="w-4 h-4" /></button>
-                                <button class="ml-2 text-red-600 hover:text-red-700 transition-colors"><Icon name="mdi:trash" class="w-4 h-4" /></button>
+                                <nuxt-link to="/dashboard/categories/edit/category-uuid-1" class="ml-2 text-orange-600 hover:text-orange-700 transition-colors"><Icon name="mdi:edit" class="w-4 h-4" /></nuxt-link>
+                                <button @click="toggleDeleteModal" class="ml-2 text-red-600 hover:text-red-700 transition-colors"><Icon name="mdi:trash" class="w-4 h-4" /></button>
                             </td>
                         </tr>
                         <tr class="group hover:bg-slate-50 transition-colors border-b border-slate-50">
@@ -97,9 +97,9 @@
                             </td>
                             <td class="py-3 px-6 text-slate-600 text-xs"><nuxt-link class="flex items-center gap-2 hover:underline hover:text-orange-600 dark:hover:text-orange-500 hover:duration-300 hover:ease-linear" to="/dashboard/categories/category-uuid-2/stories"><Icon name="mdi:book-open-page-variant" class="w-4 h-4" /> 235</nuxt-link></td>
                             <td class="py-3 px-6 text-right">
-                                <nuxt-link to="/dashboard/categories/category-uuid-1" class="text-slate-400 hover:text-slate-900 transition-colors"><Icon name="mdi:eye" class="w-4 h-4" /></nuxt-link>
-                                <button class="ml-2 text-orange-600 hover:text-orange-700 transition-colors"><Icon name="mdi:edit" class="w-4 h-4" /></button>
-                                <button class="ml-2 text-red-600 hover:text-red-700 transition-colors"><Icon name="mdi:trash" class="w-4 h-4" /></button>
+                                <nuxt-link to="/dashboard/categories/category-uuid-2" class="text-slate-400 hover:text-slate-900 transition-colors"><Icon name="mdi:eye" class="w-4 h-4" /></nuxt-link>
+                                <nuxt-link to="/dashboard/categories/edit/category-uuid-2" class="ml-2 text-orange-600 hover:text-orange-700 transition-colors"><Icon name="mdi:edit" class="w-4 h-4" /></nuxt-link>
+                                <button @click="toggleDeleteModal" class="ml-2 text-red-600 hover:text-red-700 transition-colors"><Icon name="mdi:trash" class="w-4 h-4" /></button>
                             </td>
                         </tr>
                     </tbody>
@@ -114,6 +114,12 @@
                 </div>
             </div>
         </div>
-
+        <DashboardCategoryDelete @close-delete-modal="toggleDeleteModal" :showDeleteModal="showDeleteModal" v-if="showDeleteModal" />
     </div>
 </template>
+<script setup lang="ts">
+const showDeleteModal = ref(false);
+const toggleDeleteModal = () => {
+    showDeleteModal.value = !showDeleteModal.value
+}
+</script>

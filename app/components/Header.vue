@@ -8,25 +8,25 @@
             <!-- Logo -->
             <nuxt-link to="/" class="flex items-center gap-2.5 group">
               <div class="w-8 h-8 bg-primary rounded-lg dark:border-gray-600 dark:border flex items-center justify-center text-white shadow-lg group-hover:scale-105 transition-transform duration-300 tracking-tighter">
-                A
+                <Icon name="solar:book-2-bold" class="w-5 h-5" />
               </div>
               <span class="font-display font-semibold dark:text-gray-200 text-slate-900 tracking-tight text-lg">
                 Afric Storyline
               </span>
             </nuxt-link>
             <!-- Desktop Menu -->
-            <div class="hidden lg:flex items-center gap-8 text-slate-500">
-              <nuxt-link to="/" :class="`${route.path === '/' ? 'text-primary dark:text-orange-400' : 'dark:text-white'} text-sm font-medium hover:text-slate-900 dark:hover:text-gray-400 transition-colors`">Découvrir</nuxt-link>
-              <nuxt-link to="/categories" :class="`${route.path === '/categories' ? 'text-primary dark:text-orange-400' : 'dark:text-white'} text-sm font-medium hover:text-slate-900 dark:hover:text-gray-400 transition-colors`">Categories</nuxt-link>
-              <nuxt-link to="/stories" :class="`${route.path === '/stories' ? 'text-primary dark:text-orange-400' : 'dark:text-white'} text-sm font-medium hover:text-slate-900 dark:hover:text-gray-400 transition-colors`">Histoires</nuxt-link>
-              <nuxt-link to="/authors" :class="`${route.path === '/authors' ? 'text-primary dark:text-orange-400' : 'dark:text-white'} text-sm font-medium hover:text-slate-900 dark:hover:text-gray-400 transition-colors`">Auteurs</nuxt-link>
-              <nuxt-link to="/about" :class="`${route.path === '/about' ? 'text-primary dark:text-orange-400' : 'dark:text-white'} text-sm font-medium hover:text-slate-900 dark:hover:text-gray-400 transition-colors`">A propos</nuxt-link>
+            <div class="hidden lg:flex items-center gap-8 text-slate-500 text-[13.5px] xl:text-sm">
+              <nuxt-link to="/" :class="`${route.path === '/' ? 'text-primary dark:text-orange-400' : 'dark:text-white'} font-medium hover:text-slate-900 dark:hover:text-gray-400 transition-colors`">Découvrir</nuxt-link>
+              <nuxt-link to="/categories" :class="`${route.path === '/categories' ? 'text-primary dark:text-orange-400' : 'dark:text-white'} font-medium hover:text-slate-900 dark:hover:text-gray-400 transition-colors`">Categories</nuxt-link>
+              <nuxt-link to="/stories" :class="`${route.path === '/stories' ? 'text-primary dark:text-orange-400' : 'dark:text-white'} font-medium hover:text-slate-900 dark:hover:text-gray-400 transition-colors`">Histoires</nuxt-link>
+              <nuxt-link to="/authors" :class="`${route.path === '/authors' ? 'text-primary dark:text-orange-400' : 'dark:text-white'} font-medium hover:text-slate-900 dark:hover:text-gray-400 transition-colors`">Auteurs</nuxt-link>
+              <nuxt-link to="/about" :class="`${route.path === '/about' ? 'text-primary dark:text-orange-400' : 'dark:text-white'} font-medium hover:text-slate-900 dark:hover:text-gray-400 transition-colors`">A propos</nuxt-link>
             </div>
             <!-- Right Actions -->
             <div class="flex items-center gap-3">
               <!-- Desktop actions -->
               <button @click="toggleSearch" class="lg:hidden flex p-2 text-slate-400 hover:text-slate-900 dark:text-white dark:hover:text-gray-400 transition-colors">
-                <Icon name="mdi:magnify" class="w-5 h-5" />
+                <Icon name="solar:magnifer-linear" class="w-5 h-5" />
               </button>
             <ThemeToggle class="lg:hidden" />
               <!-- Hamburger (mobile only) -->
@@ -41,13 +41,26 @@
               </button>
               <!-- Desktop actions -->
               <button @click="toggleSearch" class="hidden lg:flex p-2 text-slate-400 hover:text-slate-900 dark:text-white dark:hover:text-gray-400 transition-colors">
-                <Icon name="mdi:magnify" class="w-5 h-5" />
+                <Icon name="solar:magnifer-linear" class="w-4 h-4 xl:w-5 xl:h-5" />
               </button>
               <div class="h-5 w-px bg-slate-200 hidden lg:block"></div>
-              <nuxt-link to="/login" class="hidden lg:block text-sm font-medium text-slate-600 hover:text-slate-900 dark:text-white dark:hover:text-gray-400 transition-colors px-2">
+
+              <div class="flex items-center gap-1 hidden">
+                <nuxt-link to="/profil" class="text-sm font-medium text-slate-600 hover:text-slate-900 dark:text-white dark:hover:text-gray-400 transition-colors px-2">
+                  <img src="/assets/img7.avif" alt="Profil" class="w-9 h-9 border-orange-600 border-2 dark:border-orange-500 rounded-full" />
+                </nuxt-link>
+                <button class="flex items-center gap-2 bg-red-600 font-normal text-[13.5px] hover:bg-red-700 dark:hover:bg-red-500 text-white px-3.5 py-2 rounded-full font-medium transition-all shadow-sm hover:shadow-md transform active:scale-95">
+                  <Icon name="mdi:logout" class="w-4 h-5" />
+                  <span>Déconnexion</span>
+                </button>
+              </div>
+
+              <nuxt-link to="/login" class="hidden lg:flex items-center gap-2 text-[13.5px] xl:text-sm font-medium text-slate-600 hover:text-slate-900 dark:text-white dark:hover:text-gray-400 transition-colors px-2">
+                  <Icon name="mdi:login" class="w-4 h-5" />
                 Connexion
               </nuxt-link>
-              <nuxt-link to="/register" class="hidden lg:flex items-center gap-2 bg-primary hover:bg-slate-800 dark:bg-white dark:hover:bg-orange-50 dark:hover:border-orange-100/50 dark:hover:text-orange-800 dark:text-stone-700 text-white px-4 py-2 rounded-full text-sm font-medium transition-all shadow-sm hover:shadow-md transform active:scale-95">
+              <nuxt-link to="/register" class="hidden lg:flex items-center gap-2 bg-primary hover:bg-slate-800 dark:bg-white dark:hover:bg-orange-50 dark:hover:border-orange-100/50 dark:hover:text-orange-800 dark:text-stone-700 text-white px-4 py-2 rounded-full text-[13.5px] xl:text-sm font-medium transition-all shadow-sm hover:shadow-md transform active:scale-95">
+                  <Icon name="mdi:account-plus" class="w-4 h-5" />
                 <span>Commencer</span>
               </nuxt-link>
               <ThemeToggle class="hidden lg:flex" />
@@ -72,11 +85,20 @@
             <nuxt-link to="/stories" @click="isOpen = !isOpen" :class="`${route.path === '/stories' ? 'text-primary dark:text-orange-400' : 'text-slate-500 dark:text-white'} block text-sm dark:hover:text-gray-400 font-medium hover:text-primary transition-colors`">Histoires</nuxt-link>
             <nuxt-link to="/authors" @click="isOpen = !isOpen" :class="`${route.path === '/authors' ? 'text-primary dark:text-orange-400' : 'text-slate-500 dark:text-white'} block text-sm dark:hover:text-gray-400 font-medium hover:text-primary transition-colors`">Auteurs</nuxt-link>
             <nuxt-link to="/about" @click="isOpen = !isOpen" :class="`${route.path === '/about' ? 'text-primary dark:text-orange-400' : 'text-slate-500 dark:text-white'} block text-sm dark:hover:text-gray-400 font-medium hover:text-primary transition-colors`">A propos</nuxt-link>
+            <nuxt-link to="/profil" @click="isOpen = !isOpen" :class="`${route.path === '/profil' ? 'text-primary dark:text-orange-400' : 'text-slate-500 dark:text-white'} block text-sm dark:hover:text-gray-400 font-medium hover:text-primary transition-colors`">Mon profil</nuxt-link>
             <div class="pt-4 border-t border-slate-200 dark:border-gray-700 flex md:flex-row flex-col gap-2">
-              <nuxt-link to="/login" @click="isOpen = !isOpen" class="text-center font-medium text-primary bg-white rounded-lg px-4 py-3 md:py-2 md:px-6 border-primary border-[1px] dark:border-none">Connexion</nuxt-link>
-              <nuxt-link to="/register" @click="isOpen = !isOpen" class="text-center bg-primary text-white py-3 md:py-2 md:px-6 px-4 rounded-lg font-medium dark:border-gray-600 dark:border-[1px]">
+              <nuxt-link to="/login" @click="isOpen = !isOpen" class="flex items-center justify-center gap-2 text-center font-medium text-primary bg-white rounded-lg px-4 py-3 md:py-2 md:px-6 border-primary border-[1px] dark:border-none">
+                  <Icon name="mdi:login" class="w-4 h-5" />
+                Connexion
+              </nuxt-link>
+              <nuxt-link to="/register" @click="isOpen = !isOpen" class="flex items-center justify-center gap-2 text-center bg-primary text-white py-3 md:py-2 md:px-6 px-4 rounded-lg font-medium dark:border-gray-600 dark:border-[1px]">
+                  <Icon name="mdi:account-plus" class="w-4 h-5" />
                 Commencer
               </nuxt-link>
+              <button @click="isOpen = !isOpen" class="flex items-center justify-center gap-2 text-center bg-red-600 text-white py-3 md:py-2 md:px-6 px-4 rounded-lg font-medium dark:border-gray-600 dark:border-[1px]">
+                <Icon name="mdi:logout" class="w-5 h-5" />
+                Déconnexion
+              </button>
             </div>
           </div>
         </transition>

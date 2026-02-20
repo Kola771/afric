@@ -125,7 +125,7 @@
                                 <nuxt-link to="/dashboard/authors/author-uuid-1" class="p-1 rounded-md hover:bg-slate-100 text-slate-400 hover:text-slate-900 transition-colors">
                                     <Icon name="mdi:eye" width="16" />
                                 </nuxt-link>
-                                <button class="ml-1 p-1 rounded-md hover:bg-slate-100 text-red-600 hover:text-red-700 transition-colors">
+                                <button @click="toggleDeleteModal" class="ml-1 p-1 rounded-md hover:bg-slate-100 text-red-600 hover:text-red-700 transition-colors">
                                     <Icon name="mdi:trash" width="16" />
                                 </button>
                             </td>
@@ -166,7 +166,7 @@
                                 <nuxt-link to="/dashboard/authors/author-uuid-1" class="p-1 rounded-md hover:bg-slate-100 text-slate-400 hover:text-slate-900 transition-colors">
                                     <Icon name="mdi:eye" width="16" />
                                 </nuxt-link>
-                                <button class="ml-1 p-1 rounded-md hover:bg-slate-100 text-red-600 hover:text-red-700 transition-colors">
+                                <button @click="toggleDeleteModal" class="ml-1 p-1 rounded-md hover:bg-slate-100 text-red-600 hover:text-red-700 transition-colors">
                                     <Icon name="mdi:trash" width="16" />
                                 </button>
                             </td>
@@ -211,7 +211,7 @@
                                 <nuxt-link to="/dashboard/authors/author-uuid-1" class="p-1 rounded-md hover:bg-slate-100 text-slate-400 hover:text-slate-900 transition-colors">
                                     <Icon name="mdi:eye" width="16" />
                                 </nuxt-link>
-                                <button class="ml-1 p-1 rounded-md hover:bg-slate-100 text-red-600 hover:text-red-700 transition-colors">
+                                <button @click="toggleDeleteModal" class="ml-1 p-1 rounded-md hover:bg-slate-100 text-red-600 hover:text-red-700 transition-colors">
                                     <Icon name="mdi:trash" width="16" />
                                 </button>
                             </td>
@@ -252,7 +252,7 @@
                                 <nuxt-link to="/dashboard/authors/author-uuid-1" class="p-1 rounded-md hover:bg-slate-100 text-slate-400 hover:text-slate-900 transition-colors">
                                     <Icon name="mdi:eye" width="16" />
                                 </nuxt-link>
-                                <button class="ml-1 p-1 rounded-md hover:bg-slate-100 text-red-600 hover:text-red-700 transition-colors">
+                                <button @click="toggleDeleteModal" class="ml-1 p-1 rounded-md hover:bg-slate-100 text-red-600 hover:text-red-700 transition-colors">
                                     <Icon name="mdi:trash" width="16" />
                                 </button>
                             </td>
@@ -270,6 +270,12 @@
                 </div>
             </div>
         </div>
-
+        <DashboardAuthorDelete @close-delete-modal="toggleDeleteModal" :showDeleteModal="showDeleteModal" v-if="showDeleteModal" />
     </div>
 </template>
+<script setup lang="ts">
+const showDeleteModal = ref(false);
+const toggleDeleteModal = () => {
+    showDeleteModal.value = !showDeleteModal.value
+}
+</script>

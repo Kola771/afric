@@ -9,7 +9,7 @@
                     <div class="mb-8">
                         <nuxt-link to="/" class="flex items-center gap-2 group w-fit">
                             <div class="w-8 h-8 dark:border dark:border-slate-300 dark:bg-slate-800 bg-slate-900 rounded-lg flex items-center justify-center text-white transition-transform group-hover:scale-95">
-                                <span class="font-display font-semibold text-lg tracking-tighter dark:text-white">A</span>
+                                <Icon name="solar:book-2-bold" class="w-5 h-5" />
                             </div>
                             <span class="font-display font-medium text-slate-900 tracking-tight text-sm dark:text-white">Afric Storyline</span>
                         </nuxt-link>
@@ -26,7 +26,7 @@
 
                     <!-- Form Section -->
                     <div class="mt-8">
-                        <form action="#" class="space-y-5" id="registerForm">
+                        <form @submit.prevent="registerFunction" class="space-y-5" id="registerForm">
                             
                             <!-- Grid for Name & Pseudo -->
                             <div class="grid grid-cols-2 gap-4">
@@ -34,7 +34,7 @@
                                 <div class="col-span-1">
                                     <label for="fullname" class="block text-xs font-medium leading-6 text-slate-900 dark:text-white">Nom complet</label>
                                     <div class="mt-1 relative">
-                                        <input id="fullname" name="fullname" type="text" required 
+                                        <input id="fullname" name="fullname" type="text" v-model="full_name" required 
                                             class="block w-full rounded-lg border-0 py-2.5 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-orange-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all pl-3"
                                             placeholder="Votre nom">
                                     </div>
@@ -44,7 +44,7 @@
                                 <div class="col-span-1">
                                     <label for="pseudo" class="block text-xs font-medium leading-6 text-slate-900 dark:text-white">Pseudonyme</label>
                                     <div class="mt-1 relative">
-                                        <input id="pseudo" name="pseudo" type="text" required 
+                                        <input id="pseudo" name="pseudo" type="text" v-model="pseudonym" required 
                                             class="block w-full rounded-lg border-0 py-2.5 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-orange-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all pl-9"
                                             placeholder="@lack_s">
                                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
@@ -56,22 +56,22 @@
 
                             <div>
                                 <label for="pays" class="block text-xs font-medium leading-6 text-slate-900 dark:text-white">Pays d'origine</label>
-                                <select required id="pays" name="pays" class="mt-1 block w-full rounded-lg border-0 py-2.5 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-orange-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all p-3">
-                                    <option value="" disabled selected>Pays d'origine</option>
-                                    <option value="benin">Bénin</option>
-                                    <option value="burkina_faso">Burkina Faso</option>
-                                    <option value="cote_d_ivoire">Côte d'Ivoire</option>
-                                    <option value="mali">Mali</option>
-                                    <option value="niger">Niger</option>
-                                    <option value="senegal">Sénégal</option>
-                                    <option value="togo">Togo</option>
+                                <select required id="pays" name="pays" v-model="country" class="mt-1 block w-full rounded-lg border-0 py-2.5 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-orange-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all p-3">
+                                    <option :value="0" disabled selected>Pays d'origine</option>
+                                    <option :value="1">Bénin</option>
+                                    <option :value="2">Burkina Faso</option>
+                                    <option :value="3">Côte d'Ivoire</option>
+                                    <option :value="4">Mali</option>
+                                    <option :value="5">Niger</option>
+                                    <option :value="6">Sénégal</option>
+                                    <option :value="7">Togo</option>
                                 </select>
                             </div>
                             <!-- Email -->
                             <div>
                                 <label for="email" class="block text-xs font-medium leading-6 text-slate-900 dark:text-white">Adresse email</label>
                                 <div class="mt-1 relative">
-                                    <input id="email" name="email" type="email" autocomplete="email" required 
+                                    <input id="email" name="email" type="email" autocomplete="email" v-model="email" required 
                                         class="block w-full rounded-lg border-0 py-2.5 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-orange-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all pl-3"
                                         placeholder="exemple@email.com">
                                 </div>
@@ -95,7 +95,7 @@
                                         
                                         <!-- Status Icon -->
                                         <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                                            <iconify-icon id="status-icon" icon="solar:check-circle-linear" width="20" class="hidden"></iconify-icon>
+                                            <Icon id="status-icon" name="solar:check-circle-linear" width="20" class="hidden" />
                                         </div>
                                     </div>
                                 </div>
@@ -113,75 +113,83 @@
                                 </div>
 
                                 <!-- Match Text -->
-                                <p v-if="password && !hasMinLength"
+                                <p v-if="password && !hasTrimmedPassword"
                                 class="text-xs font-medium text-red-600 dark:text-red-500 mt-1">
-                                Votre mot de passe doit contenir au moins 8 caractères
+                                    Pas de vide
                                 </p>
 
-                                <p v-if="password && !hasUppercase"
+                                <p v-if="password && !hasMinLength && hasTrimmedPassword"
                                 class="text-xs font-medium text-red-600 dark:text-red-500 mt-1">
-                                Votre mot de passe doit contenir au moins une majuscule
+                                    Votre mot de passe doit contenir au moins 8 caractères
+                                </p>
+
+                                <p v-if="password && !hasUppercase && hasTrimmedPassword"
+                                class="text-xs font-medium text-red-600 dark:text-red-500 mt-1">
+                                    Votre mot de passe doit contenir au moins une majuscule
                                 </p>
 
                                 <p v-if="isPasswordValid && isMatch === true"
                                 class="text-xs font-medium text-green-600 dark:text-green-500 mt-1">
-                                Les mots de passe correspondent
+                                    Les mots de passe correspondent
                                 </p>
 
                                 <p v-else-if="isPasswordValid && isMatch === false"
                                 class="text-xs font-medium text-red-600 dark:text-red-500 mt-1">
-                                Les mots de passe ne correspondent pas
+                                    Les mots de passe ne correspondent pas
                                 </p>
                             </div>
 
                             <!-- Bibliographie -->
-                            <div>
+                            <div v-if="author">
                                 <div class="flex justify-between items-center">
                                     <label for="bio" class="block text-xs font-medium leading-6 text-slate-900 dark:text-white">Bibliographie</label>
                                     <span class="text-xs scale-90 origin-right text-slate-400 dark:text-slate-200">Optionnel</span>
                                 </div>
                                 <div class="mt-1 relative">
-                                    <textarea id="bio" name="bio" rows="3" 
+                                    <textarea id="bio" name="bio" rows="3" v-model="bibliography"
                                         class="block w-full rounded-lg border-0 py-2.5 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-orange-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all pl-3 resize-none"
-                                        placeholder="Vos publications précédentes..."></textarea>
+                                        placeholder="Votre bibliographie..."></textarea>
                                 </div>
                             </div>
 
                             <!-- Préférences Catégories -->
                             <div>
-                                <label class="block text-xs font-medium leading-6 text-slate-900 dark:text-white mb-2">Préférences</label>
+                                <label class="block text-xs font-medium leading-6 text-slate-900 dark:text-white mb-2">
+                                    Préférences
+                                </label>
+
                                 <div class="flex flex-wrap gap-2">
-                                    <label class="cursor-pointer group">
-                                        <input type="checkbox" class="peer sr-only" checked>
-                                        <div class="rounded-md px-3 py-1.5 text-xs font-medium bg-white border border-slate-200 text-slate-600 shadow-sm transition-all peer-checked:border-orange-500 peer-checked:text-orange-600 peer-checked:bg-orange-50 hover:bg-slate-50 flex items-center gap-1.5">
-                                            <span>Roman</span>
-                                        </div>
-                                    </label>
-                                    <label class="cursor-pointer group">
-                                        <input type="checkbox" class="peer sr-only">
-                                        <div class="rounded-md px-3 py-1.5 text-xs font-medium bg-white border border-slate-200 text-slate-600 shadow-sm transition-all peer-checked:border-orange-500 peer-checked:text-orange-600 peer-checked:bg-orange-50 hover:bg-slate-50 flex items-center gap-1.5">
-                                            <span>Poésie</span>
-                                        </div>
-                                    </label>
-                                    <label class="cursor-pointer group">
-                                        <input type="checkbox" class="peer sr-only" checked>
-                                        <div class="rounded-md px-3 py-1.5 text-xs font-medium bg-white border border-slate-200 text-slate-600 shadow-sm transition-all peer-checked:border-orange-500 peer-checked:text-orange-600 peer-checked:bg-orange-50 hover:bg-slate-50 flex items-center gap-1.5">
-                                            <span>Sci-Fi</span>
-                                        </div>
-                                    </label>
-                                    <label class="cursor-pointer group">
-                                        <input type="checkbox" class="peer sr-only">
-                                        <div class="rounded-md px-3 py-1.5 text-xs font-medium bg-white border border-slate-200 text-slate-600 shadow-sm transition-all peer-checked:border-orange-500 peer-checked:text-orange-600 peer-checked:bg-orange-50 hover:bg-slate-50 flex items-center gap-1.5">
-                                            <span>Essai</span>
-                                        </div>
+                                    <label
+                                    v-for="(cat, index) in categoryOptions"
+                                    :key="cat.value"
+                                    class="cursor-pointer group"
+                                    >
+                                    <input
+                                        type="checkbox"
+                                        class="peer sr-only"
+                                        :value="index"
+                                        v-model="categories"
+                                    />
+
+                                    <div
+                                        class="rounded-md px-3 py-1.5 text-xs font-medium border transition-all flex items-center gap-1.5
+                                        bg-white border-slate-200 text-slate-600 shadow-sm
+                                        peer-checked:border-orange-500
+                                        peer-checked:text-orange-600
+                                        peer-checked:bg-orange-50
+                                        hover:bg-slate-50"
+                                    >
+                                        <span>{{ cat.label }}</span>
+                                    </div>
                                     </label>
                                 </div>
                             </div>
 
+
                             <!-- Checkbox Legal -->
                             <div class="flex items-start">
                                 <div class="flex h-5 items-center">
-                                    <input id="terms" name="terms" type="checkbox" required
+                                    <input id="terms" name="terms" type="checkbox" v-model="accept" required
                                         class="h-4 w-4 rounded border-slate-300 text-orange-600 dark:focus:ring-orange-500 focus:ring-orange-600 accent-orange-600">
                                 </div>
                                 <div class="ml-3 text-xs leading-5">
@@ -199,7 +207,7 @@
                         </form>
 
                         <!-- Divider -->
-                        <div class="relative mt-8">
+                        <!-- <div class="relative mt-8">
                             <div class="absolute inset-0 flex items-center" aria-hidden="true">
                                 <div class="w-full border-t border-slate-100"></div>
                             </div>
@@ -208,7 +216,6 @@
                             </div>
                         </div>
 
-                        <!-- Social Login -->
                         <div class="mt-6 grid grid-cols-2 gap-3">
                             <button class="flex w-full items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-200 transition-all">
                                 <img src="/assets/google.svg" alt="Google" class="w-6 h-6 lg:w-5 lg:h-5" />
@@ -218,7 +225,7 @@
                                 <Icon name="mdi:apple" class="w-6 h-6 lg:w-5 lg:h-5" />
                                 <span class="hidden sm:inline">Apple</span>
                             </button>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -250,20 +257,44 @@
     </div>
 </template>
 <script lang="ts" setup>
-import { ref, computed, watch } from 'vue'
+const { full_name, pseudonym, bibliography, country, categories, email, password, role, register } = registerForm();
 
 definePageMeta({
   layout: "not-layout",
 })
 
-const password = ref('')
+  useSeoMeta({
+    title: 'Inscription',
+    description: 'Inscrivez-vous sur Afric Storyline pour accéder à vos histoires préférées et bien plus.',
+    
+    ogTitle: 'Inscription',
+    ogDescription: 'Inscrivez-vous sur Afric Storyline pour accéder à vos histoires préférées et bien plus.',
+    ogImage: 'https://africstoryline.com/afric.png',
+    ogUrl: 'https://africstoryline.com/',
+    ogType: 'website',
+
+    twitterCard: 'summary_large_image',
+    twitterTitle: 'Inscription',
+    twitterDescription: 'Inscrivez-vous sur Afric Storyline pour accéder à vos histoires préférées et bien plus.',
+    twitterImage: 'https://africstoryline.com/afric.png'
+  });
+
 const confirmPassword = ref('')
 const submitDisabled = ref(true)
+const hasTrimmedPassword = computed(() => password.value.trim() !== "")
 const hasMinLength = computed(() => password.value.length >= 8)
-const hasUppercase = computed(() => /[A-Z]/.test(password.value))
+const hasUppercase = computed(() => /[A-Z]/.test(password.value));
+const author = ref<boolean>(false);
+const accept = ref<boolean>(false);
+const categoryOptions = [
+  { label: 'Roman', value: 'roman' },
+  { label: 'Poésie', value: 'poesie' },
+  { label: 'Sci-Fi', value: 'scifi' },
+  { label: 'Essai', value: 'essai' }
+]
 
 const isPasswordValid = computed(() => {
-  return hasMinLength.value && hasUppercase.value
+  return hasTrimmedPassword.value && hasMinLength.value && hasUppercase.value
 })
 
 // ===== Password Strength =====
@@ -277,6 +308,31 @@ const strength = computed(() => {
 
   return score
 })
+
+const isEmailValid = computed(() =>
+  /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)
+)
+
+const hasCategory = computed(() => categories.value.length > 0)
+
+const isFormValid = computed(() => {
+  return (
+    full_name.value.trim() &&
+    pseudonym.value.trim() &&
+    pseudonym.value.trim().length >= 3 &&
+    country.value &&
+    isEmailValid.value &&
+    isPasswordValid.value &&
+    isMatch.value === true &&
+    accept.value === true &&
+    (!author.value || hasCategory.value)
+  )
+})
+
+const registerFunction = async () => {
+    const req = await register();
+    console.log(req);
+}
 
 const strengthClasses = computed(() => {
   if (strength.value === 0) return ['bg-slate-100','bg-slate-100','bg-slate-100','bg-slate-100']
@@ -292,7 +348,15 @@ const isMatch = computed(() => {
   return password.value === confirmPassword.value
 })
 
-watch([isMatch, isPasswordValid], () => {
-  submitDisabled.value = !(isMatch.value === true && isPasswordValid.value)
+watch(isFormValid, (val) => {
+  submitDisabled.value = !val
+})
+
+onMounted(() => {
+    if(process.client) {
+        author.value = localStorage.getItem('register_author') === 'true';
+        role.value = author.value ? 1 : 2;
+        email.value = localStorage.getItem('register_email') || '';
+    }
 })
 </script>

@@ -134,7 +134,7 @@
                                     <option>Auteur</option>
                                     <option>Lecteur/trice</option>
                                 </select>
-                                <button class="ml-1 p-1 rounded-md hover:bg-slate-100 text-red-600 hover:text-red-700 transition-colors">
+                                <button @click="toggleDeleteModal" class="ml-1 p-1 rounded-md hover:bg-slate-100 text-red-600 hover:text-red-700 transition-colors">
                                     <Icon name="mdi:trash" width="16" />
                                 </button>
                             </td>
@@ -171,7 +171,7 @@
                                     <option>Auteur</option>
                                     <option>Lecteur/trice</option>
                                 </select>
-                                <button class="ml-1 p-1 rounded-md hover:bg-slate-100 text-red-600 hover:text-red-700 transition-colors">
+                                <button @click="toggleDeleteModal" class="ml-1 p-1 rounded-md hover:bg-slate-100 text-red-600 hover:text-red-700 transition-colors">
                                     <Icon name="mdi:trash" width="16" />
                                 </button>
                             </td>
@@ -209,7 +209,7 @@
                                     <option>Auteur</option>
                                     <option>Lecteur/trice</option>
                                 </select>
-                                <button class="ml-1 p-1 rounded-md hover:bg-slate-100 text-red-600 hover:text-red-700 transition-colors">
+                                <button @click="toggleDeleteModal" class="ml-1 p-1 rounded-md hover:bg-slate-100 text-red-600 hover:text-red-700 transition-colors">
                                     <Icon name="mdi:trash" width="16" />
                                 </button>
                             </td>
@@ -246,7 +246,7 @@
                                     <option>Auteur</option>
                                     <option>Lecteur/trice</option>
                                 </select>
-                                <button class="ml-1 p-1 rounded-md hover:bg-slate-100 text-red-600 hover:text-red-700 transition-colors">
+                                <button @click="toggleDeleteModal" class="ml-1 p-1 rounded-md hover:bg-slate-100 text-red-600 hover:text-red-700 transition-colors">
                                     <Icon name="mdi:trash" width="16" />
                                 </button>
                             </td>
@@ -264,6 +264,12 @@
                 </div>
             </div>
         </div>
-
+        <DashboardUserDelete @close-delete-modal="toggleDeleteModal" :showDeleteModal="showDeleteModal" v-if="showDeleteModal" />
     </div>
 </template>
+<script setup lang="ts">
+const showDeleteModal = ref(false);
+const toggleDeleteModal = () => {
+    showDeleteModal.value = !showDeleteModal.value
+}
+</script>

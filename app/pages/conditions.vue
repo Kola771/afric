@@ -166,7 +166,21 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, onBeforeUnmount } from "vue";
+  useSeoMeta({
+    title: 'Conditions d\'utilisation',
+    description: 'Découvrez nos conditions d\'utilisation et comment utiliser notre plateforme.',
+    
+    ogTitle: 'Conditions d\'utilisation',
+    ogDescription: 'Découvrez nos conditions d\'utilisation et comment utiliser notre plateforme.',
+    ogImage: 'https://africstoryline.com/afric.png',
+    ogUrl: 'https://africstoryline.com/',
+    ogType: 'website',
+
+    twitterCard: 'summary_large_image',
+    twitterTitle: 'Conditions d\'utilisation',
+    twitterDescription: 'Découvrez nos conditions d\'utilisation et comment utiliser notre plateforme.',
+    twitterImage: 'https://africstoryline.com/afric.png'
+  });
 
 onMounted(() => {
   const tocContainer = document.getElementById("toc-container");
@@ -234,20 +248,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
- /* Custom Scrollbar */
-    .custom-scroll::-webkit-scrollbar {
-        width: 6px;
-    }
-    .custom-scroll::-webkit-scrollbar-track {
-        background: transparent;
-    }
-    .custom-scroll::-webkit-scrollbar-thumb {
-        background-color: #cbd5e1;
-        border-radius: 20px;
-    }
-    html {
-        scroll-behavior: smooth;
-    }
     .fade-in {
         animation: fadeIn 0.4s ease-in-out;
     }

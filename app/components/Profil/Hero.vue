@@ -26,10 +26,14 @@
                 </div>
 
                 <!-- Action Buttons -->
-                <div class="flex items-center gap-3 mb-2 w-full md:w-auto">
+                <div class="flex justify-between gap-3 mb-2 w-full md:w-auto">
+                    <nuxt-link to="/my-stories" class="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-primary border border-slate-200 rounded-lg text-sm font-medium text-white hover:bg-slate-900 hover:border-slate-300 dark:bg-dark dark:hover:bg-primary transition-all shadow-sm">
+                        <Icon name="solar:book-2-bold" class="w-5 h-5" />
+                        Mes histoires
+                    </nuxt-link>
                     <button class="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 hover:border-slate-300 dark:bg-slate-300 transition-all shadow-sm" @click="toggleUpdateModal">
                         <Icon name="mdi:edit" class="w-5 h-5 text-slate-700" />
-                        Éditer le profil
+                        Éditer
                     </button>
                     <button class="flex items-center justify-center p-2 bg-red-200 border border-red-300 dark:bg-red-300 rounded-lg text-slate-700 hover:bg-slate-50 hover:border-slate-300 transition-all shadow-sm" @click="toggleDeleteModal">
                         <Icon name="mdi:delete-outline" class="w-5 h-5 text-red-600" />

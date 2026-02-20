@@ -7,9 +7,9 @@
             <!-- Sticky Reader Header -->
             <div class="sticky top-0 z-40 bg-white/95 dark:bg-dark dark:shadow-white/20 shadow-lg lg:shadow-none backdrop-blur border-b border-slate-200 px-4 py-3 flex items-center justify-between">
                 <div class="flex items-center gap-4">
-                  <nuxt-link :to="`/books/${uuid}`">
+                  <button @click="back">
                     <Icon name="mdi:arrow-left" class="w-5 h-5 dark:text-slate-200" />
-                  </nuxt-link>
+                  </button>
                   <div class="flex flex-col">
                       <span class="text-xs text-slate-600 dark:text-slate-200 uppercase tracking-wider font-semibold truncate">Le Masque d'Or</span>
                       <span class="text-sm font-medium text-slate-900 dark:text-white truncate">Chapitre 1 : L'éveil des ombres</span>
@@ -78,16 +78,16 @@
                 <!-- Comment Section Preview -->
                 <div class="mt-12">
                     <h4 class="font-display font-medium text-slate-900 dark:text-white mb-6">Commentaires</h4>
-                    <div class="space-y-6">
+                    <div class="flex flex-col gap-4">
                         <!-- Comment Item -->
-                        <div class="flex gap-4">
+                        <div :class="`flex gap-4 ${index % 2 == 0 ? 'border-y py-3 border-slate-200' : ''}`" v-for="index in 3" :key="index">
                             <div class="w-8 h-8 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center text-xs font-bold flex-shrink-0 dark:bg-orange-600 dark:text-white">JD</div>
                             <div>
                                 <div class="flex items-baseline gap-2">
-                                    <span class="text-sm font-semibold text-slate-900 dark:text-white">Jean Diallo</span>
+                                    <span class="text-[13px] font-semibold text-slate-900 dark:text-white">Jean Diallo</span>
                                     <span class="text-xs text-slate-400 dark:text-slate-200">il y a 2h</span>
                                 </div>
-                                <p class="text-sm text-slate-600 dark:text-slate-200 mt-1">L'ambiance est incroyable ! J'adore le mélange futuriste et traditionnel. Hâte de lire la suite 🔥</p>
+                                <p class="text-[13px] text-slate-600 dark:text-slate-200 mt-1">L'ambiance est incroyable ! J'adore le mélange futuriste et traditionnel. Hâte de lire la suite 🔥</p>
                             </div>
                         </div>
                         <!-- Comment Input -->
@@ -113,6 +113,10 @@ const uuid = useRoute().params.uuid
 definePageMeta({
   layout: "not-layout",
 });
+
+const back = () => {
+    window.history.back();
+}
 
 const textSizeLevel = ref(0)
 // 0 = normal

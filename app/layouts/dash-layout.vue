@@ -21,7 +21,7 @@
             <div class="hidden lg:flex items-center text-sm text-slate-500">
                 <nuxt-link to="/dashboard" class="hover:text-slate-800 dark:text-white dark:hover:text-slate-200 cursor-pointer">Dashboard</nuxt-link>
                 <span class="mx-2 text-slate-300">/</span>
-                <span class="font-medium text-slate-900 dark:text-white">{{ view }}</span>
+                <span class="font-medium text-slate-900 dark:text-white" v-if="view">{{ view }}</span>
             </div>
 
             <!-- Right Actions -->
@@ -44,8 +44,11 @@
 
 </div>
 </template>
+<script lang="ts" setup>
+  useSeoMeta({
+    title: 'Dashboard',
+  });
 
-<script setup lang="ts">
 import { ref } from "vue";
 const route = useRoute();
 const view = ref<string>("");
@@ -95,9 +98,3 @@ const closeSidebar = () => {
   isSidebarOpen.value = false;
 }
 </script>
-
-<style>
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 20px; }
-</style>

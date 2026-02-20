@@ -39,3 +39,19 @@ interface Chapter {
   title: string
   publishedAt: string
 }
+
+interface RegisterData {
+  full_name: string
+  country: number
+  pseudonym: string
+  password: string
+  email: string
+  bibliography?: string
+  categories?: number[]
+  role: number
+}
+
+interface LoginData {
+  password: string
+  email: string
+}

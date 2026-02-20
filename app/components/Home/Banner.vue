@@ -29,7 +29,7 @@
                             Lire gratuitement
                             <Icon name="mdi:arrow-right" class="w-5 h-5" />
                         </nuxt-link>
-                        <button class="inline-flex items-center justify-center gap-2 bg-white border border-slate-200 text-slate-700 px-8 py-4 rounded-xl text-sm font-medium hover:bg-slate-50 hover:border-slate-300 transition-all">
+                        <button @click="registerAuthor" class="inline-flex items-center justify-center gap-2 bg-white border border-slate-200 text-slate-700 px-8 py-4 rounded-xl text-sm font-medium hover:bg-slate-50 hover:border-slate-300 transition-all">
                             <Icon name="mdi:pen" class="w-5 h-5" />
                             Devenir auteur
                         </button>
@@ -44,12 +44,12 @@
                         <div class="w-px h-8 bg-slate-200"></div>
                         <div>
                             <div class="text-2xl font-display font-semibold text-slate-900 dark:text-white tracking-tight">2.5M</div>
-                            <div class="text-xs font-medium uppercase tracking-wide mt-1">Lectures</div>
+                            <div class="text-xs font-medium uppercase tracking-wide mt-1">Chapitres</div>
                         </div>
                         <div class="w-px h-8 bg-slate-200"></div>
                         <div>
-                            <div class="text-2xl font-display font-semibold text-slate-900 dark:text-white tracking-tight">4.9/5</div>
-                            <div class="text-xs font-medium uppercase tracking-wide mt-1">Note App</div>
+                            <div class="text-2xl font-display font-semibold text-slate-900 dark:text-white tracking-tight">10M+</div>
+                            <div class="text-xs font-medium uppercase tracking-wide mt-1">Visiteurs</div>
                         </div>
                     </div>
                 </div>
@@ -111,3 +111,11 @@
         </div>
     </section>
 </template>
+
+<script setup lang="ts">
+const router = useRouter();
+const registerAuthor = async () => {
+    localStorage.setItem("register_author", "true");
+    router.push("/register")
+};
+</script>

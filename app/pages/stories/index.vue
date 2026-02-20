@@ -9,6 +9,22 @@
     </div>
 </template>
 <script lang="ts" setup>
+  useSeoMeta({
+    title: 'Toutes les histoires',
+    description: 'Explorez des histoires africaines originales écrites par des auteurs émergents et passionnés sur Afric Storyline.',
+    
+    ogTitle: 'Toutes les histoires',
+    ogDescription: 'Découvrez toutes les histoires publiées sur notre plateforme.',
+    ogImage: 'https://africstoryline.com/afric.png',
+    ogUrl: 'https://africstoryline.com/',
+    ogType: 'website',
+
+    twitterCard: 'summary_large_image',
+    twitterTitle: 'Toutes les histoires',
+    twitterDescription: 'Découvrez toutes les histoires publiées sur notre plateforme.',
+    twitterImage: 'https://africstoryline.com/afric.png'
+  });
+
 const books = ref<Book[]>([
   {
     id: 1,

@@ -14,6 +14,22 @@
     </div>
 </template>
 <script lang="ts" setup>
+  useSeoMeta({
+    title: 'Auteurs',
+    description: 'Découvrez nos auteurs préférés et leurs histoires captivantes.',
+    
+    ogTitle: 'Auteurs',
+    ogDescription: 'Découvrez nos auteurs préférés et leurs histoires captivantes.',
+    ogImage: 'https://africstoryline.com/afric.png',
+    ogUrl: 'https://africstoryline.com/',
+    ogType: 'website',
+
+    twitterCard: 'summary_large_image',
+    twitterTitle: 'Auteurs',
+    twitterDescription: 'Découvrez nos auteurs préférés et leurs histoires captivantes.',
+    twitterImage: 'https://africstoryline.com/afric.png'
+  });
+  
 const authors = ref<Author[]>([
   {
     id: 1,

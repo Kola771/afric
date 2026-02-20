@@ -27,10 +27,10 @@
                     <Icon name="solar:sort-vertical-linear" class="w-5 h-5" />
                     <span class="text-xs font-medium hidden sm:inline">Trier</span>
                 </button>
-                <button class="h-8 px-3 rounded-lg border border-slate-200 bg-orange-600 dark:bg-orange-500 dark:hover:bg-orange-600 text-white hover:bg-orange-700 flex items-center gap-2 transition-colors">
+                <nuxt-link to="/dashboard/roles/create" class="h-8 px-3 rounded-lg border border-slate-200 bg-orange-600 dark:bg-orange-500 dark:hover:bg-orange-600 text-white hover:bg-orange-700 flex items-center gap-2 transition-colors">
                     <Icon name="mdi:plus" class="w-5 h-5" />
                     <span class="text-xs font-medium hidden sm:inline">Ajouter</span>
-                </button>
+                </nuxt-link>
             </div>
         </div>
 
@@ -49,8 +49,8 @@
                             <td class="py-3 px-6 text-slate-600 text-xs">Super-admin</td>
                             <td class="py-3 px-6 text-slate-600 text-xs">L'ensemble des vues</td>
                             <td class="py-3 px-6 text-right whitespace-nowrap">
-                                <button class="ml-2 text-orange-600 hover:text-orange-700 transition-colors"><Icon name="mdi:edit" class="w-4 h-4" /></button>
-                                <button class="ml-2 text-red-600 hover:text-red-700 transition-colors"><Icon name="mdi:trash" class="w-4 h-4" /></button>
+                                <nuxt-link :to="`/dashboard/roles/edit/role-uuid-${index}`" class="ml-2 text-orange-600 hover:text-orange-700 transition-colors"><Icon name="mdi:edit" class="w-4 h-4" /></nuxt-link>
+                                <button @click="toggleDeleteModal" class="ml-2 text-red-600 hover:text-red-700 transition-colors"><Icon name="mdi:trash" class="w-4 h-4" /></button>
                             </td>
                         </tr>
                     </tbody>
@@ -65,6 +65,12 @@
                 </div>
             </div>
         </div>
-
+        <DashboardRoleDelete @close-delete-modal="toggleDeleteModal" :showDeleteModal="showDeleteModal" v-if="showDeleteModal" />
     </div>
 </template>
+<script setup lang="ts">
+const showDeleteModal = ref(false);
+const toggleDeleteModal = () => {
+    showDeleteModal.value = !showDeleteModal.value
+}
+</script>

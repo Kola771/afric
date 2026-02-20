@@ -12,7 +12,7 @@ const isOpen = ref(false)
                 <div class="col-span-2 lg:col-span-2">
                     <div class="flex items-center gap-2 mb-4">
                         <div class="w-6 h-6 bg-slate-900 rounded-md flex items-center justify-center text-white dark:border-gray-600 dark:border tracking-tighter p-1">
-                          A
+                          <Icon name="solar:book-2-bold" class="w-5 h-5" />
                         </div>
                         <span class="font-display font-bold text-slate-900 tracking-tight dark:text-white">Afric Storyline</span>
                     </div>
@@ -20,9 +20,8 @@ const isOpen = ref(false)
                         La première plateforme digitale dédiée à la narration africaine contemporaine. Nous connectons les cultures par les mots.
                     </p>
                     <div class="flex gap-4">
-                        <nuxt-link to="#" class="text-slate-800 hover:text-slate-900 dark:hover:text-slate-400 dark:text-slate-200 transition-colors"><Icon name="mdi:twitter" class="w-5 h-5" /></nuxt-link>
-                        <nuxt-link to="#" class="text-slate-800 hover:text-slate-900 dark:hover:text-slate-400 dark:text-slate-200 transition-colors"><Icon name="mdi:instagram" class="w-5 h-5" /></nuxt-link>
-                        <nuxt-link to="#" class="text-slate-800 hover:text-slate-900 dark:hover:text-slate-400 dark:text-slate-200 transition-colors"><Icon name="mdi:linkedin" class="w-5 h-5" /></nuxt-link>
+                        <nuxt-link to="#" class="text-slate-800 hover:text-slate-900 dark:hover:text-slate-400 dark:text-slate-200 transition-colors"><Icon name="mdi:facebook" class="w-5 h-5" /></nuxt-link>
+                        <nuxt-link to="#" class="text-slate-800 hover:text-slate-900 dark:hover:text-slate-400 dark:text-slate-200 transition-colors"><Icon name="mdi:whatsapp" class="w-5 h-5" /></nuxt-link>
                     </div>
                 </div>
                 
@@ -31,7 +30,6 @@ const isOpen = ref(false)
                     <ul class="space-y-3 text-sm text-slate-500">
                         <li><nuxt-link to="/categories" class="hover:text-slate-900 dark:hover:text-slate-400 dark:text-slate-200 transition-colors">Catégories</nuxt-link></li>
                         <li><nuxt-link to="/stories" class="hover:text-slate-900 dark:hover:text-slate-400 dark:text-slate-200 transition-colors">Collections</nuxt-link></li>
-                        <li><nuxt-link to="#" class="hover:text-slate-900 dark:hover:text-slate-400 dark:text-slate-200 transition-colors">Recherche</nuxt-link></li>
                     </ul>
                 </div>
 

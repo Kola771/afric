@@ -77,4 +77,19 @@
     </div>
 </template>
 <script lang="ts" setup>
+  useSeoMeta({
+    title: 'À propos',
+    description: 'Découvrez notre histoire et notre passion pour les histoires africaines.',
+    
+    ogTitle: 'À propos',
+    ogDescription: 'Découvrez notre histoire et notre passion pour les histoires africaines.',
+    ogImage: 'https://africstoryline.com/afric.png',
+    ogUrl: 'https://africstoryline.com/',
+    ogType: 'website',
+
+    twitterCard: 'summary_large_image',
+    twitterTitle: 'À propos',
+    twitterDescription: 'Découvrez notre histoire et notre passion pour les histoires africaines.',
+    twitterImage: 'https://africstoryline.com/afric.png'
+  });
 </script>

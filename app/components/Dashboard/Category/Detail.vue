@@ -109,19 +109,19 @@
                             </td>
                             <td class="py-3 px-6 text-slate-600 whitespace-nowrap"><nuxt-link class="hover:underline hover:text-orange-600 dark:hover:text-orange-500 hover:duration-300 hover:ease-linear" to="/dashboard/authors/author-uuid-1">Amadou Bah</nuxt-link></td>
                             <td class="py-3 px-6">
-                                <div class="flex items-center gap-4">
-                                    <div class="text-xs">
-                                        <span class="font-semibold text-slate-900">42</span> <span class="text-slate-400"><Icon name="mdi:heart" class="w-4 h-4" /></span>
-                                    </div>
-                                    <div class="w-px h-3 bg-slate-200"></div>
-                                    <div class="text-xs">
-                                        <span class="font-semibold text-slate-900">12k</span> <span class="text-slate-400"><Icon name="mdi:eye" class="w-4 h-4" /></span>
-                                    </div>
-                                    <div class="w-px h-3 bg-slate-200"></div>
-                                    <div class="text-xs">
-                                        <span class="font-semibold text-slate-900">1.1k</span> <span class="text-slate-400"><Icon name="mdi:comments" class="w-4 h-4" /></span>
-                                    </div>
-                                </div>
+                                <nuxt-link to="/dashboard/stories/story-uuid-14/detail-like-comment" class="flex items-center gap-4">
+                                    <span class="text-xs">
+                                        <span class="font-semibold text-slate-900 dark:text-slate-700">42</span> <span class="text-slate-400"><Icon name="mdi:heart" class="w-4 h-4" /></span>
+                                    </span>
+                                    <span class="w-px h-3 bg-slate-200"></span>
+                                    <span class="text-xs">
+                                        <span class="font-semibold text-slate-900 dark:text-slate-700">12k</span> <span class="text-slate-400"><Icon name="mdi:eye" class="w-4 h-4" /></span>
+                                    </span>
+                                    <span class="w-px h-3 bg-slate-200"></span>
+                                    <span class="text-xs">
+                                        <span class="font-semibold text-slate-900 dark:text-slate-700">1.1k</span> <span class="text-slate-400"><Icon name="mdi:comments" class="w-4 h-4" /></span>
+                                    </span>
+                                </nuxt-link>
                             </td>
                             <td class="py-3 px-6 whitespace-nowrap">
                                 <span class="inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-[10px] font-medium bg-green-50 text-green-700 border border-green-100">
@@ -131,7 +131,7 @@
                             </td>
                             <td class="py-3 px-6 text-right whitespace-nowrap">
                                 <nuxt-link to="/dashboard/stories/story-uuid-1" class="text-slate-400 hover:text-slate-900 transition-colors"><Icon name="mdi:eye" width="16" /></nuxt-link>
-                                <button class="ml-2 text-red-600 hover:text-red-700 transition-colors"><Icon name="mdi:trash" width="16" /></button>
+                                <button @click="toggleDeleteModal" class="ml-2 text-red-600 hover:text-red-700 transition-colors"><Icon name="mdi:trash" width="16" /></button>
                             </td>
                         </tr>
                     </tbody>
@@ -146,11 +146,15 @@
                 </div>
             </div>
         </div>
-
+        <DashboardCategoryDeleteDetail @close-delete-modal="toggleDeleteModal" :showDeleteModal="showDeleteModal" v-if="showDeleteModal" />
     </div>
 </template>
 <script setup lang="ts">
     const back = () => {
         window.history.back()
+    }
+    const showDeleteModal = ref(false);
+    const toggleDeleteModal = () => {
+        showDeleteModal.value = !showDeleteModal.value
     }
 </script>

@@ -108,7 +108,7 @@
                                     <span class="font-medium text-slate-900 group-hover:text-orange-600 transition-colors">Les Larmes du Soleil</span>
                                 </div>
                             </td>
-                            <td class="py-3 px-6 text-slate-600"><nuxt-link class="hover:underline hover:text-orange-600 dark:hover:text-orange-500 hover:duration-300 hover:ease-linear" to="/dashboard/authors/author-uuid-1">Amadou Bah</nuxt-link></td>
+                            <td class="py-3 px-6 text-sm text-slate-600"><nuxt-link class="hover:underline hover:text-orange-600 dark:hover:text-orange-500 hover:duration-300 hover:ease-linear" to="/dashboard/authors/author-uuid-1">Amadou Bah</nuxt-link></td>
                             <td class="py-3 px-6 whitespace-nowrap">
                                 <span class="inline-flex items-center px-2 py-1 rounded text-[10px] font-medium bg-slate-100 text-slate-600 border border-slate-200">
                                     Roman
@@ -121,19 +121,19 @@
                                 </span>
                             </td>
                             <td class="py-3 px-6">
-                                <div class="flex items-center gap-4">
-                                    <div class="text-xs">
-                                        <span class="font-semibold text-slate-900">42</span> <span class="text-slate-400"><Icon name="mdi:heart" class="w-4 h-4" /></span>
-                                    </div>
-                                    <div class="w-px h-3 bg-slate-200"></div>
-                                    <div class="text-xs">
-                                        <span class="font-semibold text-slate-900">12k</span> <span class="text-slate-400"><Icon name="mdi:eye" class="w-4 h-4" /></span>
-                                    </div>
-                                    <div class="w-px h-3 bg-slate-200"></div>
-                                    <div class="text-xs">
-                                        <span class="font-semibold text-slate-900">1.1k</span> <span class="text-slate-400"><Icon name="mdi:comments" class="w-4 h-4" /></span>
-                                    </div>
-                                </div>
+                                <nuxt-link to="/dashboard/stories/story-uuid-14/detail-like-comment" class="flex items-center gap-4">
+                                    <span class="text-xs">
+                                        <span class="font-semibold text-slate-900 dark:text-slate-700">42</span> <span class="text-slate-400"><Icon name="mdi:heart" class="w-4 h-4" /></span>
+                                    </span>
+                                    <span class="w-px h-3 bg-slate-200"></span>
+                                    <span class="text-xs">
+                                        <span class="font-semibold text-slate-900 dark:text-slate-700">12k</span> <span class="text-slate-400"><Icon name="mdi:eye" class="w-4 h-4" /></span>
+                                    </span>
+                                    <span class="w-px h-3 bg-slate-200"></span>
+                                    <span class="text-xs">
+                                        <span class="font-semibold text-slate-900 dark:text-slate-700">1.1k</span> <span class="text-slate-400"><Icon name="mdi:comments" class="w-4 h-4" /></span>
+                                    </span>
+                                </nuxt-link>
                             </td>
                             <td class="py-3 px-6 whitespace-nowrap">
                                 <span class="inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-[10px] font-medium bg-green-50 text-green-700 border border-green-100">
@@ -143,7 +143,7 @@
                             </td>
                             <td class="py-3 px-6 text-right">
                                 <nuxt-link to="/dashboard/stories/story-uuid-1" class="text-slate-400 hover:text-slate-900 transition-colors"><Icon name="mdi:eye" width="16" /></nuxt-link>
-                                <button class="ml-2 text-red-600 hover:text-red-700 transition-colors"><Icon name="mdi:trash" width="16" /></button>
+                                <button @click="toggleDeleteModal" class="ml-2 text-red-600 hover:text-red-700 transition-colors"><Icon name="mdi:trash" width="16" /></button>
                             </td>
                         </tr>
                         <tr class="group hover:bg-slate-50 transition-colors border-b border-slate-50">
@@ -165,19 +165,19 @@
                                 </span>
                             </td>
                             <td class="py-3 px-6">
-                                <div class="flex items-center gap-4">
-                                    <div class="text-xs">
-                                        <span class="font-semibold text-slate-900">47</span> <span class="text-slate-400"><Icon name="mdi:heart" class="w-4 h-4" /></span>
-                                    </div>
-                                    <div class="w-px h-3 bg-slate-200"></div>
-                                    <div class="text-xs">
-                                        <span class="font-semibold text-slate-900">2k</span> <span class="text-slate-400"><Icon name="mdi:eye" class="w-4 h-4" /></span>
-                                    </div>
-                                    <div class="w-px h-3 bg-slate-200"></div>
-                                    <div class="text-xs">
-                                        <span class="font-semibold text-slate-900">1.4k</span> <span class="text-slate-400"><Icon name="mdi:comments" class="w-4 h-4" /></span>
-                                    </div>
-                                </div>
+                                <nuxt-link to="/dashboard/stories/story-uuid-14/detail-like-comment" class="flex items-center gap-4">
+                                    <span class="text-xs">
+                                        <span class="font-semibold text-slate-900 dark:text-slate-700">71</span> <span class="text-slate-400"><Icon name="mdi:heart" class="w-4 h-4" /></span>
+                                    </span>
+                                    <span class="w-px h-3 bg-slate-200"></span>
+                                    <span class="text-xs">
+                                        <span class="font-semibold text-slate-900 dark:text-slate-700">10k</span> <span class="text-slate-400"><Icon name="mdi:eye" class="w-4 h-4" /></span>
+                                    </span>
+                                    <span class="w-px h-3 bg-slate-200"></span>
+                                    <span class="text-xs">
+                                        <span class="font-semibold text-slate-900 dark:text-slate-700">1.02k</span> <span class="text-slate-400"><Icon name="mdi:comments" class="w-4 h-4" /></span>
+                                    </span>
+                                </nuxt-link>
                             </td>
                             <td class="py-3 px-6 whitespace-nowrap">
                                 <span class="inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-[10px] font-medium bg-amber-50 text-amber-700 border border-amber-100">
@@ -187,7 +187,7 @@
                             </td>
                             <td class="py-3 px-6 text-right">
                                 <nuxt-link to="/dashboard/stories/story-uuid-1" class="text-slate-400 hover:text-slate-900 transition-colors"><Icon name="mdi:eye" width="16" /></nuxt-link>
-                                <button class="ml-2 text-red-600 hover:text-red-700 transition-colors"><Icon name="mdi:trash" width="16" /></button>
+                                <button @click="toggleDeleteModal" class="ml-2 text-red-600 hover:text-red-700 transition-colors"><Icon name="mdi:trash" width="16" /></button>
                             </td>
                         </tr>
                         <tr class="group hover:bg-slate-50 transition-colors">
@@ -206,19 +206,19 @@
                                 </span>
                             </td>
                             <td class="py-3 px-6">
-                                <div class="flex items-center gap-4">
-                                    <div class="text-xs">
-                                        <span class="font-semibold text-slate-900">502</span> <span class="text-slate-400"><Icon name="mdi:heart" class="w-4 h-4" /></span>
-                                    </div>
-                                    <div class="w-px h-3 bg-slate-200"></div>
-                                    <div class="text-xs">
-                                        <span class="font-semibold text-slate-900">10k</span> <span class="text-slate-400"><Icon name="mdi:eye" class="w-4 h-4" /></span>
-                                    </div>
-                                    <div class="w-px h-3 bg-slate-200"></div>
-                                    <div class="text-xs">
-                                        <span class="font-semibold text-slate-900">1k</span> <span class="text-slate-400"><Icon name="mdi:comments" class="w-4 h-4" /></span>
-                                    </div>
-                                </div>
+                                <nuxt-link to="/dashboard/stories/story-uuid-14/detail-like-comment" class="flex items-center gap-4">
+                                    <span class="text-xs">
+                                        <span class="font-semibold text-slate-900 dark:text-slate-700">420</span> <span class="text-slate-400"><Icon name="mdi:heart" class="w-4 h-4" /></span>
+                                    </span>
+                                    <span class="w-px h-3 bg-slate-200"></span>
+                                    <span class="text-xs">
+                                        <span class="font-semibold text-slate-900 dark:text-slate-700">2k</span> <span class="text-slate-400"><Icon name="mdi:eye" class="w-4 h-4" /></span>
+                                    </span>
+                                    <span class="w-px h-3 bg-slate-200"></span>
+                                    <span class="text-xs">
+                                        <span class="font-semibold text-slate-900 dark:text-slate-700">1k</span> <span class="text-slate-400"><Icon name="mdi:comments" class="w-4 h-4" /></span>
+                                    </span>
+                                </nuxt-link>
                             </td>
                             <td class="py-3 px-6 whitespace-nowrap">
                                 <span class="inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-[10px] font-medium bg-green-50 text-green-700 border border-green-100">
@@ -228,7 +228,7 @@
                             </td>
                             <td class="py-3 px-6 text-right">
                                 <nuxt-link to="/dashboard/stories/story-uuid-1" class="text-slate-400 hover:text-slate-900 transition-colors"><Icon name="mdi:eye" width="16" /></nuxt-link>
-                                <button class="ml-2 text-red-600 hover:text-red-700 transition-colors"><Icon name="mdi:trash" width="16" /></button>
+                                <button @click="toggleDeleteModal" class="ml-2 text-red-600 hover:text-red-700 transition-colors"><Icon name="mdi:trash" width="16" /></button>
                             </td>
                         </tr>
                     </tbody>
@@ -243,6 +243,12 @@
                 </div>
             </div>
         </div>
-
+        <DashboardStoryDelete @close-delete-modal="toggleDeleteModal" :showDeleteModal="showDeleteModal" v-if="showDeleteModal" />
     </div>
 </template>
+<script setup lang="ts">
+const showDeleteModal = ref(false);
+const toggleDeleteModal = () => {
+    showDeleteModal.value = !showDeleteModal.value
+}
+</script>

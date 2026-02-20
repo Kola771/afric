@@ -9,7 +9,7 @@
             </button>
         </div>
         <div class="space-y-1">
-            <h3 class="font-display font-medium text-slate-900 dark:text-slate-200 text-base leading-snug group-hover:text-orange-600 transition-colors line-clamp-1">{{ props.book.title }}</h3>
+            <h3 class="font-display font-medium text-slate-900 dark:text-slate-200 text-base leading-snug group-hover:text-orange-600 transition-colors flex"><span class="truncate">{{ props.book.title }}</span></h3>
             <p class="text-xs text-slate-500 dark:text-slate-400">{{ props.book.author }}</p>
             <div class="flex items-center gap-2 text-[10px] text-slate-400 dark:text-slate-300 font-medium pt-1">
                 <span class="flex items-center gap-0.5">

@@ -190,7 +190,21 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, onBeforeUnmount } from "vue";
+  useSeoMeta({
+    title: 'Politique de confidentialité',
+    description: 'Découvrez notre politique de confidentialité et comment nous protégeons vos données.',
+    
+    ogTitle: 'Politique de confidentialité',
+    ogDescription: 'Découvrez notre politique de confidentialité et comment nous protégeons vos données.',
+    ogImage: 'https://africstoryline.com/afric.png',
+    ogUrl: 'https://africstoryline.com/',
+    ogType: 'website',
+
+    twitterCard: 'summary_large_image',
+    twitterTitle: 'Politique de confidentialité',
+    twitterDescription: 'Découvrez notre politique de confidentialité et comment nous protégeons vos données.',
+    twitterImage: 'https://africstoryline.com/afric.png'
+  });
 
 onMounted(() => {
   const sections = document.querySelectorAll<HTMLElement>("section");
@@ -234,20 +248,3 @@ onMounted(() => {
   });
 });
 </script>
-
-<style scoped>
-    /* Custom Scrollbar */
-    .custom-scroll::-webkit-scrollbar {
-        width: 6px;
-    }
-    .custom-scroll::-webkit-scrollbar-track {
-        background: transparent;
-    }
-    .custom-scroll::-webkit-scrollbar-thumb {
-        background-color: #cbd5e1;
-        border-radius: 20px;
-    }
-    html {
-        scroll-behavior: smooth;
-    }
-</style>
