@@ -4,7 +4,7 @@
             <div class="flex items-center md:items-end justify-between mb-8">
                 <div>
                     <h2 class="text-2xl font-display font-medium dark:text-white text-slate-900 tracking-tight">À propos d'Afric Storyline</h2>
-                    <p class="text-slate-500 text-sm mt-1 dark:text-slate-200">Une plateforme dédiée à la promotion de l'écriture africaine et à la découverte de nouveaux talents littéraires.</p>
+                    <p class="text-slate-500 text-md mt-1 dark:text-slate-200">Une plateforme dédiée à la promotion de l'écriture africaine et à la découverte de nouveaux talents littéraires.</p>
                 </div>
             </div>
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
@@ -37,7 +37,7 @@
                 </article>
             </div>
             <div class="flex flex-col gap-4 mb-8">
-                <p class="text-slate-500 text-sm mt-1 dark:text-slate-200">Nous croyons au pouvoir des histoires pour connecter les gens, transmettre la culture et inspirer les générations futures.</p>
+                <p class="text-slate-500 text-md mt-1 dark:text-slate-200">Nous croyons au pouvoir des histoires pour connecter les gens, transmettre la culture et inspirer les générations futures.</p>
                 <article class="flex flex-col gap-2">
                     <h4 class="lg:text-lg text-xl font-display font-medium dark:text-white text-slate-900">Pourquoi Afric Storyline ?</h4>
                     <ul class="flex flex-col gap-2 text-[15px] text-slate-500 dark:text-slate-300">
@@ -64,7 +64,7 @@
                             <Icon name="mdi:facebook" class="w-7 h-7 lg:w-6 lg:h-6" />
                             <span class="">Facebook</span>
                         </nuxt-link>
-                        <nuxt-link to="#" class="col-span-2 md:col-span-1 flex justify-center items-center gap-1 text-sm text-slate-900 hover:bg-orange-600 transition-colors dark:text-slate-200 bg-orange-500 rounded-lg p-2 md:px-4 lg:px-6 text-white">
+                        <nuxt-link to="/register" class="col-span-2 md:col-span-1 flex justify-center items-center gap-1 text-sm text-slate-900 hover:bg-orange-600 transition-colors dark:text-slate-200 bg-orange-500 rounded-lg p-2 md:px-4 lg:px-6 text-white">
                             <Icon name="mdi:register" class="w-7 h-7 lg:w-6 lg:h-6" />
                             <span class="">S'inscrire</span>
                         </nuxt-link>

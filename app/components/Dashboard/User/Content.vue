@@ -134,6 +134,13 @@
                                     <option>Auteur</option>
                                     <option>Lecteur/trice</option>
                                 </select>
+                                <select class="ml-2 text-xs bg-slate-50 border border-slate-200 rounded-md px-2 py-1 text-slate-600 outline-none">
+                                    <option value="" disabled selected>Changez le statut</option>
+                                    <option>Actif</option>
+                                    <option>Suspendu</option>
+                                    <option>Banni</option>
+                                    <option>Désactif</option>
+                                </select>
                                 <button @click="toggleDeleteModal" class="ml-1 p-1 rounded-md hover:bg-slate-100 text-red-600 hover:text-red-700 transition-colors">
                                     <Icon name="mdi:trash" width="16" />
                                 </button>
@@ -170,6 +177,13 @@
                                     <option>Support</option>
                                     <option>Auteur</option>
                                     <option>Lecteur/trice</option>
+                                </select>
+                                <select class="ml-2 text-xs bg-slate-50 border border-slate-200 rounded-md px-2 py-1 text-slate-600 outline-none">
+                                    <option value="" disabled selected>Changez le statut</option>
+                                    <option>Actif</option>
+                                    <option>Suspendu</option>
+                                    <option>Banni</option>
+                                    <option>Désactif</option>
                                 </select>
                                 <button @click="toggleDeleteModal" class="ml-1 p-1 rounded-md hover:bg-slate-100 text-red-600 hover:text-red-700 transition-colors">
                                     <Icon name="mdi:trash" width="16" />
@@ -209,6 +223,13 @@
                                     <option>Auteur</option>
                                     <option>Lecteur/trice</option>
                                 </select>
+                                <select class="ml-2 text-xs bg-slate-50 border border-slate-200 rounded-md px-2 py-1 text-slate-600 outline-none">
+                                    <option value="" disabled selected>Changez le statut</option>
+                                    <option>Actif</option>
+                                    <option>Suspendu</option>
+                                    <option>Banni</option>
+                                    <option>Désactif</option>
+                                </select>
                                 <button @click="toggleDeleteModal" class="ml-1 p-1 rounded-md hover:bg-slate-100 text-red-600 hover:text-red-700 transition-colors">
                                     <Icon name="mdi:trash" width="16" />
                                 </button>
@@ -245,6 +266,13 @@
                                     <option>Support</option>
                                     <option>Auteur</option>
                                     <option>Lecteur/trice</option>
+                                </select>
+                                <select class="ml-2 text-xs bg-slate-50 border border-slate-200 rounded-md px-2 py-1 text-slate-600 outline-none">
+                                    <option value="" disabled selected>Changez le statut</option>
+                                    <option>Actif</option>
+                                    <option>Suspendu</option>
+                                    <option>Banni</option>
+                                    <option>Désactif</option>
                                 </select>
                                 <button @click="toggleDeleteModal" class="ml-1 p-1 rounded-md hover:bg-slate-100 text-red-600 hover:text-red-700 transition-colors">
                                     <Icon name="mdi:trash" width="16" />

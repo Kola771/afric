@@ -51,7 +51,7 @@
                         <!-- Submit Button -->
                         <div>
                             <button type="submit" class="dark:border flex w-full justify-center rounded-lg bg-slate-900 px-3 py-2.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-slate-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-900 transition-all items-center gap-2 group">
-                                Envoyer les instructions
+                                Envoyer le code
                                 <Icon name="mdi:send-outline" class="w-6 h-6 lg:w-5 lg:h-5" />
                             </button>
                         </div>

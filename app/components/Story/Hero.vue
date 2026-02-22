@@ -12,7 +12,7 @@
                 <h2 class="text-5xl sm:text-6xl font-semibold tracking-tighter text-gray-950 dark:text-white leading-[1.1] mb-6">
                     L'Héritage des Sables
                 </h2>
-                <p class="text-lg text-gray-500 dark:text-slate-300 leading-relaxed max-w-md mb-8 line-clamp-4 lg:line-clamp-3 tracking-tight">
+                <p class="text-md text-gray-500 dark:text-slate-300 leading-relaxed max-w-md mb-8 line-clamp-4 lg:line-clamp-3 tracking-tight">
                     Lorem ipsum dolor sit amet consectetur, adipisicing elit. Culpa distinctio saepe veniam vel similique aperiam veritatis, exercitationem, nostrum error, vitae dicta voluptate ipsum in animi aspernatur impedit! Sapiente, vero quisquam!
                 </p>
                 <div class="flex items-center gap-3">

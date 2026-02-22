@@ -21,7 +21,7 @@
                     <div class="mb-2">
                         <h1 class="text-3xl font-display font-semibold text-slate-900 tracking-tight dark:text-white dark:lg:text-slate-800">Laurian AGOSSOU</h1>
                         <p class="text-slate-500 font-medium dark:text-slate-200 dark:lg:text-slate-700">@laurian_ago</p>
-                        <p class="text-sm text-slate-600 mt-2 max-w-md dark:text-slate-200">Passionnée de folklore africain et de science-fiction. J'aime lire à mes heures perdues. Toujours à la recherche de la prochaine pépite littéraire. 📚✨</p>
+                        <p class="text-md text-slate-600 mt-2 max-w-md dark:text-slate-200">Passionnée de folklore africain et de science-fiction. J'aime lire à mes heures perdues. Toujours à la recherche de la prochaine pépite littéraire. 📚✨</p>
                     </div>
                 </div>
 

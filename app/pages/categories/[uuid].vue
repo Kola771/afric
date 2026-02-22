@@ -8,7 +8,7 @@
                   </nuxt-link>
                 <div>
                     <h2 class="text-2xl font-display font-medium dark:text-white text-slate-900 tracking-tight">Toutes les histoires de la catégorie "<span class="text-orange-600 dark:text-orange-400">{{ $route.params.uuid }}</span>"</h2>
-                    <p class="text-slate-500 text-sm mt-1 dark:text-slate-200">Vous avez l'embarras du choix.</p>
+                    <p class="text-slate-500 text-md mt-1 dark:text-slate-200">Vous avez l'embarras du choix.</p>
                 </div>
             </div>
             </div>
