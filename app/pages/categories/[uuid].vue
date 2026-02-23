@@ -1,24 +1,43 @@
 <template>
-    <div class="bg-[#fffcfccc] dark:bg-dark dark:border-b dark:border-slate-300 pt-8">
-        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
-            <div class="flex items-center md:items-end justify-between mb-8">
-                <div class="flex items-center gap-4">
-                  <nuxt-link :to="`/categories`">
-                    <Icon name="mdi:arrow-left" class="w-5 h-5 dark:text-slate-200" />
-                  </nuxt-link>
-                <div>
-                    <h2 class="text-2xl font-display font-medium dark:text-white text-slate-900 tracking-tight">Toutes les histoires de la catégorie "<span class="text-orange-600 dark:text-orange-400">{{ $route.params.uuid }}</span>"</h2>
-                    <p class="text-slate-500 text-md mt-1 dark:text-slate-200">Vous avez l'embarras du choix.</p>
-                </div>
-            </div>
-            </div>
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-6 gap-y-10">
-                <HomeBookCard v-for="book in books" :key="book.id" :book="book" />
-            </div>
-        </section>
-    </div>
+  <div class="bg-[#fffcfccc] dark:bg-dark dark:border-b dark:border-slate-300 pt-8">
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
+      <div class="flex flex-col items-start" v-if="category">
+        <button @click="back"
+          class="hover:bg-slate-200 hover:duration-300 hover:ease-in-out dark:bg-slate-800 dark:hover:bg-slate-700 px-3 py-2 rounded-lg border-slate-400 border-[1px] flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors">
+          <Icon name="mdi:arrow-left" class="w-4 h-4" />
+        </button>
+        <div class="bg-slate-100 dark:bg-slate-800 rounded-lg w-full h-72 mt-2 relative">
+          <img :src="`${config.public.apiBackendUrl}/uploads/categories/${category?.image}`" v-if="category"
+            alt="Image de couverture de l'histoire"
+            class="w-full h-full object-cover lg:object-contain grayscale-[20%] rounded-lg transition-transform duration-700">
+        </div>
+        <div class="py-4">
+          <h2 class="text-xl font-display font-bold text-slate-900 dark:text-white tracking-tight">{{ category?.name }}
+          </h2>
+          <p class="text-sm mb-2 text-slate-500 dark:text-slate-200 mt-1">{{ category?.description }}</p>
+          <p class="text-sm text-orange-600 hover:text-orange-700 dark:text-orange-400">Elle
+            contient 154 histoire(s)</p>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-6 gap-y-10">
+        <HomeBookCard v-for="book in books" :key="book.id" :book="book" />
+      </div>
+    </section>
+  </div>
 </template>
 <script lang="ts" setup>
+const config = useRuntimeConfig();
+const route = useRoute();
+const { getCategoryByUuid } = categoriesData();
+const category = ref<Category | null>(null);
+
+onMounted(async () => {
+  category.value = await getCategoryByUuid(`${route.params.uuid}`);
+});
+
+const back = () => {
+  window.history.back()
+}
 const books = ref<Book[]>([
   {
     id: 2,

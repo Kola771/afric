@@ -46,8 +46,8 @@
                                 Modifier l'histoire
                             </button>
                             <nuxt-link :to="`/my-stories/chapter-uuid-${story.id}`" class="text-orange-500 text-center font-medium text-end gap-1 text-xs text-right dark:text-orange-400 px-1 group-hover:translate-x-1 transition-transform hover:underline">
-                                <Icon name="mdi:pencil" class="w-3 h-3" />
-                                Modifier les chapitres
+                                <Icon name="mdi:book-open-variant-outline" class="w-3 h-3" />
+                                Gestion des chapitres
                             </nuxt-link>
                             <button @click="toggleDeleteModal" class="text-red-500 font-medium text-end gap-1 text-xs text-right dark:text-red-400 px-1 group-hover:translate-x-1 transition-transform hover:underline">
                                 <Icon name="mdi:delete" class="w-3 h-3" />

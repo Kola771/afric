@@ -12,7 +12,7 @@
                 <div class="py-4">
                     <h2 class="text-xl font-display font-bold text-slate-900 dark:text-white tracking-tight">{{ category?.name }}</h2>
                     <p class="text-sm mb-2 text-slate-500 dark:text-slate-200 mt-1">{{ category?.description }}</p>
-                    <nuxt-link :to="`/dashboard/categories/${category?.uuid}/stories`" class="text-sm text-orange-600 hover:text-orange-700 dark:text-orange-500 dark:text-orange-600 underline">Elle contient 154 histoire(s)</nuxt-link>
+                    <nuxt-link :to="`/dashboard/categories/${category?.uuid}/stories`" class="text-sm text-orange-600 hover:text-orange-700 dark:text-orange-400 dark:hover:text-orange-600 underline">Elle contient 154 histoire(s)</nuxt-link>
                 </div>
         </div>
 
@@ -22,7 +22,6 @@
 <script setup lang="ts">
     const config = useRuntimeConfig();
     const route = useRoute();
-    const router = useRouter();
     const { getCategoryByUuid } = categoriesData();
     const category = ref<Category | null>(null);
     

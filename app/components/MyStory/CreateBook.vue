@@ -24,7 +24,7 @@
                   </div>
                 </div>
                 <form class="w-full dark:bg-dark pt-2 lg:pt-0">
-                  <div class="mb-2 px-4 flex flex-col gap-2.5 lg:max-h-[450px] overflow-y-auto">
+                  <div class="mb-2 px-4 flex flex-col gap-2.5 max-h-72 lg:max-h-[450px] overflow-y-auto">
                     <input type="text" name="title" id="title" autocomplete="true" placeholder="Titre" class="w-full text-sm placeholder:text-slate-500 text-slate-800 outline-none border border-slate-300 dark:border-slate-200 dark:bg-slate-50 rounded-md p-2">
 
                     <input type="file" name="image" id="image" class="w-full text-sm placeholder:text-slate-500 text-slate-800 outline-none border border-slate-300 dark:border-slate-200 dark:bg-slate-50 rounded-md p-2" @change="onFileChange">
