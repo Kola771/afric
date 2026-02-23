@@ -1,3 +1,18 @@
+interface User {
+  uuid: string;
+  name: string;
+  bibliography: string;
+  email: string;
+  pseudonym: string;
+  code_color: string;
+  photo: string;
+  role: string;
+  country: string;
+  status: string;
+  sanction_date: Date;
+  selected?: boolean
+}
+
 interface Author {
   url: string
   id: number
@@ -41,17 +56,42 @@ interface Chapter {
 }
 
 interface RegisterData {
-  full_name: string
+  name: string
   country: number
   pseudonym: string
   password: string
   email: string
   bibliography?: string
-  categories?: number[]
   role: number
 }
 
 interface LoginData {
   password: string
   pseudonym: string
+}
+
+interface CountryDto {
+  name: string;
+  code: string;
+  prefix: string;
+  prefix: string;
+  language: string;
+}
+
+interface CountryUpdateDto extends CountryDto {
+  uuid?: string;
+}
+
+interface Country {
+  id: number;
+  uuid: string;
+  name: string;
+  code: string;
+  prefix: string;
+  prefix: string;
+  language: string;
+  created_at: Date;
+  updated_at: Date;
+  city?: City;
+  selected?: boolean;
 }

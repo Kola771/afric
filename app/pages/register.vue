@@ -2,7 +2,7 @@
     <div>
         <div class="flex h-full">
         
-            <div class="flex dark:lg:border flex-1 flex-col justify-center px-4 py-8 sm:px-6 lg:flex-none lg:px-20 xl:px-24 bg-white dark:bg-dark z-10 relative overflow-y-auto h-full scrollbar-hide">
+            <div class="flex dark:lg:border flex-1 flex-col justify-center px-4 py-8 sm:px-6 lg:flex-none lg:px-20 xl:px-24 bg-white dark:bg-dark z-10 relative overflow-y-auto min-h-screen scrollbar-hide">
                 <div class="mx-auto w-full max-w-sm lg:w-[420px] py-8">
                     
                     <!-- Logo -->
@@ -58,17 +58,11 @@
                                 <label for="pays" class="block text-xs font-medium leading-6 text-slate-900 dark:text-white">Pays d'origine</label>
                                 <select required id="pays" name="pays" v-model="country" class="mt-1 block w-full rounded-lg border-0 py-2.5 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-orange-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all p-3">
                                     <option :value="0" disabled selected>Pays d'origine</option>
-                                    <option :value="1">Bénin</option>
-                                    <option :value="2">Burkina Faso</option>
-                                    <option :value="3">Côte d'Ivoire</option>
-                                    <option :value="4">Mali</option>
-                                    <option :value="5">Niger</option>
-                                    <option :value="6">Sénégal</option>
-                                    <option :value="7">Togo</option>
+                                    <option :value="country.id" v-for="(country, index) in countries" :key="index">{{ country.name }}</option>
                                 </select>
                             </div>
                             <!-- Email -->
-                            <div>
+                            <div v-if="showEmailInput">
                                 <label for="email" class="block text-xs font-medium leading-6 text-slate-900 dark:text-white">Adresse email</label>
                                 <div class="mt-1 relative">
                                     <input id="email" name="email" type="email" autocomplete="email" v-model="email" required 
@@ -152,40 +146,6 @@
                                 </div>
                             </div>
 
-                            <!-- Préférences Catégories -->
-                            <div>
-                                <label class="block text-xs font-medium leading-6 text-slate-900 dark:text-white mb-2">
-                                    Préférences
-                                </label>
-
-                                <div class="flex flex-wrap gap-2">
-                                    <label
-                                    v-for="(cat, index) in categoryOptions"
-                                    :key="cat.value"
-                                    class="cursor-pointer group"
-                                    >
-                                    <input
-                                        type="checkbox"
-                                        class="peer sr-only"
-                                        :value="index"
-                                        v-model="categories"
-                                    />
-
-                                    <div
-                                        class="rounded-md px-3 py-1.5 text-xs font-medium border transition-all flex items-center gap-1.5
-                                        bg-white border-slate-200 text-slate-600 shadow-sm
-                                        peer-checked:border-orange-500
-                                        peer-checked:text-orange-600
-                                        peer-checked:bg-orange-50
-                                        hover:bg-slate-50"
-                                    >
-                                        <span>{{ cat.label }}</span>
-                                    </div>
-                                    </label>
-                                </div>
-                            </div>
-
-
                             <!-- Checkbox Legal -->
                             <div class="flex items-start">
                                 <div class="flex h-5 items-center">
@@ -197,11 +157,22 @@
                                 </div>
                             </div>
 
-                            <!-- Submit Button -->
+                            <p v-if="error" class="text-xs text-center font-medium text-red-600 dark:text-red-500 mt-1">{{ error }}</p>
+
                             <div>
-                                <button :disabled="submitDisabled" type="submit" id="submitBtn" class="dark:border flex w-full justify-center rounded-lg bg-slate-900 px-3 py-2.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-slate-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-900 transition-all items-center gap-2 group disabled:opacity-70 disabled:cursor-not-allowed">
-                                    Créer mon compte
-                                    <Icon name="mdi:arrow-right" class="w-5 h-5" />
+                                <button :disabled="submitDisabled" type="submit" id="submitBtn" :class="`dark:border flex w-full justify-center rounded-lg px-3 py-2.5 text-sm font-semibold leading-6 text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-900 transition-all items-center gap-2 group disabled:opacity-70 disabled:cursor-not-allowed ${loading === 'end' ? 'bg-orange-600 dark:bg-orange-500' : 'hover:bg-slate-800 bg-slate-900'}`">
+                                    <span class="flex justify-center items-center gap-2" v-if="loading === ''">
+                                        <Icon name="mdi:loading" class="w-5 h-5 animate-spin" />
+                                        Inscription en cours
+                                    </span>
+                                    <span class="flex justify-center items-center gap-2" v-else-if="loading === 'end'">
+                                        <Icon name="mdi:check" class="w-5 h-5" />
+                                        Inscription terminée
+                                    </span>
+                                    <span class="flex justify-center items-center gap-2" v-else>
+                                        Créer mon compte
+                                        <Icon name="mdi:arrow-right" class="w-5 h-5" />
+                                    </span>
                                 </button>
                             </div>
                         </form>
@@ -257,16 +228,14 @@
     </div>
 </template>
 <script lang="ts" setup>
-const { full_name, pseudonym, bibliography, country, categories, email, password, role, register } = registerForm();
-
 definePageMeta({
   layout: "not-layout",
 })
 
-  useSeoMeta({
+useSeoMeta({
     title: 'Inscription',
     description: 'Inscrivez-vous sur Afric Storyline pour accéder à vos histoires préférées et bien plus.',
-    
+
     ogTitle: 'Inscription',
     ogDescription: 'Inscrivez-vous sur Afric Storyline pour accéder à vos histoires préférées et bien plus.',
     ogImage: 'https://africstoryline.com/afric.png',
@@ -277,7 +246,11 @@ definePageMeta({
     twitterTitle: 'Inscription',
     twitterDescription: 'Inscrivez-vous sur Afric Storyline pour accéder à vos histoires préférées et bien plus.',
     twitterImage: 'https://africstoryline.com/afric.png'
-  });
+});
+
+const { full_name, pseudonym, bibliography, country, email, password, role, register } = registerForm();
+const { allCountries } = countriesData();
+const router = useRouter();
 
 const confirmPassword = ref('')
 const submitDisabled = ref(true)
@@ -286,12 +259,10 @@ const hasMinLength = computed(() => password.value.length >= 8)
 const hasUppercase = computed(() => /[A-Z]/.test(password.value));
 const author = ref<boolean>(false);
 const accept = ref<boolean>(false);
-const categoryOptions = [
-  { label: 'Roman', value: 'roman' },
-  { label: 'Poésie', value: 'poesie' },
-  { label: 'Sci-Fi', value: 'scifi' },
-  { label: 'Essai', value: 'essai' }
-]
+const countries = ref<Country[]>([]);
+const error = ref<string>("");
+const showEmailInput = ref<boolean>(false);
+const loading = ref<'start' | '' | 'end' | 'error'>('start');
 
 const isPasswordValid = computed(() => {
   return hasTrimmedPassword.value && hasMinLength.value && hasUppercase.value
@@ -313,25 +284,34 @@ const isEmailValid = computed(() =>
   /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)
 )
 
-const hasCategory = computed(() => categories.value.length > 0)
-
 const isFormValid = computed(() => {
   return (
     full_name.value.trim() &&
     pseudonym.value.trim() &&
     pseudonym.value.trim().length >= 3 &&
     country.value &&
-    isEmailValid.value &&
+    (showEmailInput.value === true ? isEmailValid.value : true) &&
     isPasswordValid.value &&
     isMatch.value === true &&
-    accept.value === true &&
-    (!author.value || hasCategory.value)
-  )
+    accept.value === true
+     )
 })
 
 const registerFunction = async () => {
-    const req = await register();
-    console.log(req);
+    loading.value = "";
+    error.value = "";
+    const res = await register();
+    if(res.success) {
+        setTimeout(() => {
+            loading.value = "end";
+        }, 2000);
+        setTimeout(() => {
+            router.push("/")
+        }, 1500);
+    } else {
+        loading.value = "error";
+        error.value = res.error;
+    }
 }
 
 const strengthClasses = computed(() => {
@@ -352,11 +332,14 @@ watch(isFormValid, (val) => {
   submitDisabled.value = !val
 })
 
-onMounted(() => {
+onMounted(async () => {
     if(process.client) {
+        const countriesData = await allCountries();
+        countries.value = countriesData;
         author.value = localStorage.getItem('register_author') === 'true';
-        role.value = author.value ? 1 : 2;
+        role.value = author.value ? 4 : 5;
         email.value = localStorage.getItem('register_email') || '';
+        showEmailInput.value = localStorage.getItem('register_email') ? true : (role.value === 4 ? true : false);
     }
 })
 </script>

@@ -107,10 +107,13 @@
     <Search @close-modal="toggleSearch" :showSearch="showSearch" v-if="showSearch" />
   </div>
 </template>
+
 <script setup lang="ts">
 const route = useRoute()
 const isOpen = ref(false)
 const showSearch = ref(false);
+const { toConnectUser } = authenticate();
+const user = ref<User | null>(null);
 
 const toggleSearch = () => {
     showSearch.value = !showSearch.value
