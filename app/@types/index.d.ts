@@ -27,12 +27,11 @@ interface Author {
 }
 
 interface Category {
-  url: string
-  id: number
-  title: string
-  image: string
+  id: number,
+  uuid: string
+  name?: string
+  image?: string
   description?: string
-  isNew?: boolean
 }
 
 interface Book {

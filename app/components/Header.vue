@@ -45,21 +45,24 @@
               </button>
               <div class="h-5 w-px bg-slate-200 hidden lg:block"></div>
 
-              <div class="flex items-center gap-1 hidden">
-                <nuxt-link to="/profil" class="text-sm font-medium text-slate-600 hover:text-slate-900 dark:text-white dark:hover:text-gray-400 transition-colors px-2">
-                  <img src="/assets/img7.avif" alt="Profil" class="w-9 h-9 border-orange-600 border-2 dark:border-orange-500 rounded-full" />
+              <div class="lg:flex items-center gap-1 hidden" v-if="user">
+                <nuxt-link to="/profil" class="text-sm font-medium text-slate-600 hover:text-slate-900 dark:text-white transition-colors px-2">
+                  <img v-if="user.photo" :src="`${config.public.apiBackendUrl}/uploads/users/${user.photo}`" alt="Profil" class="w-8 h-8 border-orange-600 border-2 dark:border-orange-500 rounded-full" />
+                  <span v-if="!user.photo" class="p-1 text-xs flex items-center justify-center w-8 h-8 rounded-full" :style="`background-color: ${user.code_color}`">
+                    {{ user.name.split(" ").length > 0 ? `${user.name.charAt(0).toUpperCase() +user.name.split(" ")[1]?.charAt(0).toUpperCase()}` : user.name.charAt(0).toUpperCase() }}
+                  </span>
                 </nuxt-link>
-                <button class="flex items-center gap-2 bg-red-600 font-normal text-[13.5px] hover:bg-red-700 dark:hover:bg-red-500 text-white px-3.5 py-2 rounded-full font-medium transition-all shadow-sm hover:shadow-md transform active:scale-95">
-                  <Icon name="mdi:logout" class="w-4 h-5" />
+                <button @click="logout()" class="flex items-center gap-2 bg-red-600 font-normal text-[13px] hover:bg-red-700 dark:hover:bg-red-500 text-white px-3.5 py-2 rounded-full font-medium transition-all shadow-sm hover:shadow-md transform active:scale-95">
+                  <Icon name="mdi:logout" class="w-4 h-4" />
                   <span>Déconnexion</span>
                 </button>
               </div>
 
-              <nuxt-link to="/login" class="hidden lg:flex items-center gap-2 text-[13.5px] xl:text-sm font-medium text-slate-600 hover:text-slate-900 dark:text-white dark:hover:text-gray-400 transition-colors px-2">
+              <nuxt-link v-if="!user" to="/login" class="hidden lg:flex items-center gap-2 text-[13.5px] xl:text-sm font-medium text-slate-600 hover:text-slate-900 dark:text-white dark:hover:text-gray-400 transition-colors px-2">
                   <Icon name="mdi:login" class="w-4 h-5" />
                 Connexion
               </nuxt-link>
-              <nuxt-link to="/register" class="hidden lg:flex items-center gap-2 bg-primary hover:bg-slate-800 dark:bg-white dark:hover:bg-orange-50 dark:hover:border-orange-100/50 dark:hover:text-orange-800 dark:text-stone-700 text-white px-4 py-2 rounded-full text-[13.5px] xl:text-sm font-medium transition-all shadow-sm hover:shadow-md transform active:scale-95">
+              <nuxt-link v-if="!user" to="/register" class="hidden lg:flex items-center gap-2 bg-primary hover:bg-slate-800 dark:bg-white dark:hover:bg-orange-50 dark:hover:border-orange-100/50 dark:hover:text-orange-800 dark:text-stone-700 text-white px-4 py-2 rounded-full text-[13.5px] xl:text-sm font-medium transition-all shadow-sm hover:shadow-md transform active:scale-95">
                   <Icon name="mdi:account-plus" class="w-4 h-5" />
                 <span>Commencer</span>
               </nuxt-link>
@@ -85,17 +88,19 @@
             <nuxt-link to="/stories" @click="isOpen = !isOpen" :class="`${route.path === '/stories' ? 'text-primary dark:text-orange-400' : 'text-slate-500 dark:text-white'} block text-sm dark:hover:text-gray-400 font-medium hover:text-primary transition-colors`">Histoires</nuxt-link>
             <nuxt-link to="/authors" @click="isOpen = !isOpen" :class="`${route.path === '/authors' ? 'text-primary dark:text-orange-400' : 'text-slate-500 dark:text-white'} block text-sm dark:hover:text-gray-400 font-medium hover:text-primary transition-colors`">Auteurs</nuxt-link>
             <nuxt-link to="/about" @click="isOpen = !isOpen" :class="`${route.path === '/about' ? 'text-primary dark:text-orange-400' : 'text-slate-500 dark:text-white'} block text-sm dark:hover:text-gray-400 font-medium hover:text-primary transition-colors`">A propos</nuxt-link>
-            <nuxt-link to="/profil" @click="isOpen = !isOpen" :class="`${route.path === '/profil' ? 'text-primary dark:text-orange-400' : 'text-slate-500 dark:text-white'} block text-sm dark:hover:text-gray-400 font-medium hover:text-primary transition-colors`">Mon profil</nuxt-link>
+            <nuxt-link v-if="user" to="/profil" @click="isOpen = !isOpen" :class="`${route.path === '/profil' ? 'text-primary dark:text-orange-400' : 'text-slate-500 dark:text-white'} block text-sm dark:hover:text-gray-400 font-medium hover:text-primary transition-colors`">Mon profil</nuxt-link>
             <div class="pt-4 border-t border-slate-200 dark:border-gray-700 flex md:flex-row flex-col gap-2">
-              <nuxt-link to="/login" @click="isOpen = !isOpen" class="flex items-center justify-center gap-2 text-center font-medium text-primary bg-white rounded-lg px-4 py-3 md:py-2 md:px-6 border-primary border-[1px] dark:border-none">
-                  <Icon name="mdi:login" class="w-4 h-5" />
-                Connexion
-              </nuxt-link>
-              <nuxt-link to="/register" @click="isOpen = !isOpen" class="flex items-center justify-center gap-2 text-center bg-primary text-white py-3 md:py-2 md:px-6 px-4 rounded-lg font-medium dark:border-gray-600 dark:border-[1px]">
-                  <Icon name="mdi:account-plus" class="w-4 h-5" />
-                Commencer
-              </nuxt-link>
-              <button @click="isOpen = !isOpen" class="flex items-center justify-center gap-2 text-center bg-red-600 text-white py-3 md:py-2 md:px-6 px-4 rounded-lg font-medium dark:border-gray-600 dark:border-[1px]">
+              <div class="flex md:flex-row flex-col gap-2" v-if="!user">
+                <nuxt-link to="/login" @click="isOpen = !isOpen" class="flex items-center justify-center gap-2 text-center font-medium text-primary bg-white rounded-lg px-4 py-3 md:py-2 md:px-6 border-primary border-[1px] dark:border-none">
+                    <Icon name="mdi:login" class="w-4 h-5" />
+                  Connexion
+                </nuxt-link>
+                <nuxt-link to="/register" @click="isOpen = !isOpen" class="flex items-center justify-center gap-2 text-center bg-primary text-white py-3 md:py-2 md:px-6 px-4 rounded-lg font-medium dark:border-gray-600 dark:border-[1px]">
+                    <Icon name="mdi:account-plus" class="w-4 h-5" />
+                  Commencer
+                </nuxt-link>
+              </div>
+              <button v-if="user" @click="logout(); isOpen = !isOpen" class="flex items-center justify-center gap-2 text-center bg-red-600 text-white py-3 md:py-2 md:px-6 px-4 rounded-lg font-medium dark:border-gray-600 dark:border-[1px]">
                 <Icon name="mdi:logout" class="w-5 h-5" />
                 Déconnexion
               </button>
@@ -109,13 +114,18 @@
 </template>
 
 <script setup lang="ts">
+const config = useRuntimeConfig();
 const route = useRoute()
 const isOpen = ref(false)
 const showSearch = ref(false);
-const { toConnectUser } = authenticate();
+const { toConnectUser, logout } = authenticate();
 const user = ref<User | null>(null);
 
 const toggleSearch = () => {
     showSearch.value = !showSearch.value
 }
+
+onMounted(async () => {
+  user.value = await toConnectUser();
+})
 </script>

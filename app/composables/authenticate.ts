@@ -23,6 +23,15 @@ export function authenticate() {
         }
     }
 
+    async function authorizeRolePage() {
+        if (process.client) {
+            const user = await toConnectUser();
+            if (user && !["super-admin", "admin", "support"].includes(user.role.toLowerCase())) {
+                window.history.back();
+            }
+        }
+    }
+
     // Récupérons les informations de l'utilisateur connecté
     async function toConnectUser() {
         if (process.client) {
@@ -57,9 +66,27 @@ export function authenticate() {
         }
     }
 
+    // Déconnexion du compte utilisateur connecté
+    async function logout() {
+        if (process.client) {
+            if (localStorage.getItem('user')) {
+                const token = JSON.parse(localStorage.getItem("user") || '{}').token;
+                    localStorage.removeItem("user");
+                    localStorage.removeItem("register_author");
+                    localStorage.removeItem("register_email");
+                    window.location.href = "/";
+                return await axios.delete(`/users/logout`, {
+                    params: { token }
+                });
+            }
+        }
+    }
+
     return {
         connectUser,
+        logout,
         authorizePage,
+        authorizeRolePage,
         toConnectUser,
         dataProfil,
         deleteAccountUserConnect,

@@ -20,7 +20,7 @@
             <div class="bg-white dark:bg-slate-100 p-4 rounded-xl border border-slate-200 shadow-sm">
                 <p class="text-xs font-medium text-slate-500 mb-1">Total Catégories</p>
                 <div class="flex items-end justify-between">
-                    <p class="text-2xl font-display font-bold text-slate-900">14</p>
+                    <p class="text-2xl font-display font-bold text-slate-900">{{ categories.length }}</p>
                     <Icon name="mdi:category" class="text-slate-300" width="24" />
                 </div>
             </div>
@@ -60,7 +60,7 @@
         </div>
 
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-            <div class="overflow-x-auto">
+            <div class="overflow-x-auto lg:max-h-96 lg:overflow-y-auto">
                 <table class="w-full text-left border-collapse">
                     <thead>
                         <tr class="text-xs text-slate-400 dark:text-slate-700 border-b border-slate-100 bg-slate-50/50">
@@ -70,36 +70,20 @@
                         </tr>
                     </thead>
                     <tbody class="text-sm">
-                        <tr class="group hover:bg-slate-50 transition-colors border-b border-slate-50">
+                        <tr class="group hover:bg-slate-50 transition-colors border-b border-slate-50" v-for="(category, index) in categories" :key="index"> 
                             <td class="py-3 px-6">
                                 <div class="flex items-center gap-3">
                                     <div class="w-8 h-10 bg-slate-200 rounded object-cover overflow-hidden">
-                                        <img src="/assets/img4.jpg" class="w-full h-full object-cover opacity-80">
+                                        <img :src="`${config.public.apiBackendUrl}/uploads/categories/${category.image}`" class="w-full h-full object-cover opacity-80">
                                     </div>
-                                    <span class="font-medium text-slate-900 group-hover:text-orange-600 transition-colors">Roman</span>
+                                    <span class="font-medium text-slate-900 group-hover:text-orange-600 transition-colors">{{ category.name }}</span>
                                 </div>
                             </td>
                             <td class="py-3 px-6 text-slate-600 text-xs"><nuxt-link class="flex items-center gap-2 hover:underline hover:text-orange-600 dark:hover:text-orange-500 hover:duration-300 hover:ease-linear" to="/dashboard/categories/category-uuid-1/stories"><Icon name="mdi:book-open-page-variant" class="w-4 h-4" /> 154</nuxt-link></td>
                             <td class="py-3 px-6 text-right">
-                                <nuxt-link to="/dashboard/categories/category-uuid-1" class="text-slate-400 hover:text-slate-900 transition-colors"><Icon name="mdi:eye" class="w-4 h-4" /></nuxt-link>
-                                <nuxt-link to="/dashboard/categories/edit/category-uuid-1" class="ml-2 text-orange-600 hover:text-orange-700 transition-colors"><Icon name="mdi:edit" class="w-4 h-4" /></nuxt-link>
-                                <button @click="toggleDeleteModal" class="ml-2 text-red-600 hover:text-red-700 transition-colors"><Icon name="mdi:trash" class="w-4 h-4" /></button>
-                            </td>
-                        </tr>
-                        <tr class="group hover:bg-slate-50 transition-colors border-b border-slate-50">
-                            <td class="py-3 px-6">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-8 h-10 bg-slate-200 rounded object-cover overflow-hidden">
-                                            <img src="/assets/img6.jpg" class="w-full h-full object-cover opacity-80">
-                                    </div>
-                                    <span class="font-medium text-slate-900 group-hover:text-orange-600 transition-colors">Tragédie</span>
-                                </div>
-                            </td>
-                            <td class="py-3 px-6 text-slate-600 text-xs"><nuxt-link class="flex items-center gap-2 hover:underline hover:text-orange-600 dark:hover:text-orange-500 hover:duration-300 hover:ease-linear" to="/dashboard/categories/category-uuid-2/stories"><Icon name="mdi:book-open-page-variant" class="w-4 h-4" /> 235</nuxt-link></td>
-                            <td class="py-3 px-6 text-right">
-                                <nuxt-link to="/dashboard/categories/category-uuid-2" class="text-slate-400 hover:text-slate-900 transition-colors"><Icon name="mdi:eye" class="w-4 h-4" /></nuxt-link>
-                                <nuxt-link to="/dashboard/categories/edit/category-uuid-2" class="ml-2 text-orange-600 hover:text-orange-700 transition-colors"><Icon name="mdi:edit" class="w-4 h-4" /></nuxt-link>
-                                <button @click="toggleDeleteModal" class="ml-2 text-red-600 hover:text-red-700 transition-colors"><Icon name="mdi:trash" class="w-4 h-4" /></button>
+                                <nuxt-link :to="`/dashboard/categories/${category.uuid}`" class="text-slate-400 hover:text-slate-900 transition-colors"><Icon name="mdi:eye" class="w-4 h-4" /></nuxt-link>
+                                <nuxt-link :to="`/dashboard/categories/edit/${category.uuid}`" class="ml-2 text-orange-600 hover:text-orange-700 transition-colors"><Icon name="mdi:edit" class="w-4 h-4" /></nuxt-link>
+                                <button @click="toggleDeleteModal(category)" class="ml-2 text-red-600 hover:text-red-700 transition-colors"><Icon name="mdi:trash" class="w-4 h-4" /></button>
                             </td>
                         </tr>
                     </tbody>
@@ -107,19 +91,24 @@
             </div>
             
             <div class="flex items-center justify-between p-4 border-t border-slate-100">
-                <span class="text-xs text-slate-500">Affichage de <span class="font-medium text-slate-900">1-4</span> sur <span class="font-medium text-slate-900">14</span> catégories</span>
-                <div class="flex gap-2">
-                    <button class="px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-medium text-slate-500 hover:bg-slate-50 disabled:opacity-50" :disabled="true">Précédent</button>
-                    <button class="px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-medium text-slate-900 hover:bg-slate-50">Suivant</button>
-                </div>
+                <span class="text-xs text-slate-500"><strong>{{ categories.length }}</strong> catégories</span>
             </div>
         </div>
-        <DashboardCategoryDelete @close-delete-modal="toggleDeleteModal" :showDeleteModal="showDeleteModal" v-if="showDeleteModal" />
+        <DashboardCategoryDelete @close-delete-modal="toggleDeleteModal" v-if="category && showDeleteModal" :category="category" :showDeleteModal="showDeleteModal" />
     </div>
 </template>
 <script setup lang="ts">
+const config = useRuntimeConfig();
+const { allCategories } = categoriesData();
+const categories = ref<Category[]>([])
+const category = ref<Category | null>(null)
 const showDeleteModal = ref(false);
-const toggleDeleteModal = () => {
+const toggleDeleteModal = (cat: Category) => {
+    category.value = cat
     showDeleteModal.value = !showDeleteModal.value
 }
+
+onMounted(async () => {
+    categories.value = await allCategories()
+})
 </script>

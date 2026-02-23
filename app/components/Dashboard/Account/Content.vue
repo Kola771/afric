@@ -8,7 +8,7 @@
                 <p class="text-sm text-slate-500 dark:text-slate-200 mt-1">Faîtes une mise à jour de vos informations personnelles !</p>
             </div>
             <div class="flex gap-3">
-                <button class="h-9 px-4 rounded-lg bg-red-600 text-white dark:bg-red-700 border border-slate-200 text-xs font-medium hover:bg-red-700 dark:hover:bg-red-800 shadow-sm transition-colors flex items-center gap-2">
+                <button @click="logout" class="h-9 px-4 rounded-lg bg-red-600 text-white dark:bg-red-700 border border-slate-200 text-xs font-medium hover:bg-red-700 dark:hover:bg-red-800 shadow-sm transition-colors flex items-center gap-2">
                     <Icon name="solar:logout-linear" class="w-5 h-5" />
                     Déconnexion
                 </button>
@@ -17,33 +17,27 @@
         <form class="flex flex-col gap-2.5">
             <div class="flex flex-col gap-1">
                 <label for="fullname" class="text-sm text-slate-900 font-medium dark:text-white">Nom complet :</label>
-                <input type="text" id="fullname" class="block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-orange-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all" />
+                <input type="text" id="fullname" :value="user?.name" class="block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-orange-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all" />
             </div>
             <div class="flex flex-col gap-1">
                 <label for="username" class="text-sm text-slate-900 font-medium dark:text-white">Pseudonyme :</label>
-                <input type="text" id="username" class="block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-orange-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all" />
+                <input type="text" id="username" :value="user?.pseudonym" class="block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-orange-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all" />
             </div>
             <div class="flex flex-col gap-1">
                 <label for="email" class="text-sm text-slate-900 font-medium dark:text-white">Adresse électronique :</label>
-                <input type="email" id="email" class="block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-orange-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all" />
+                <input type="email" id="email" :value="user?.email" class="block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-orange-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all" />
             </div>
             <div class="flex flex-col gap-1">
                 <label for="bio" class="text-sm text-slate-900 font-medium dark:text-white flex items-center justify-between">Bibliographie : <span class="font-normal text-slate-500 dark:text-slate-200 text-xs">(Optionnel)</span></label>
                 <textarea id="bio" name="bio" rows="3" 
                     class="block w-full rounded-lg border-0 py-2.5 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-orange-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all pl-3 resize-none"
-                    placeholder="Vos publications précédentes..."></textarea>
+                    placeholder="Vos publications précédentes...">{{ user?.bibliography }}</textarea>
             </div>
             <div class="flex flex-col gap-1">
                 <label for="country" class="text-sm text-slate-900 font-medium dark:text-white">Pays d'origine :</label>
                 <select required id="country" name="country" class="mt-1 block w-full rounded-lg border-0 py-2.5 lg:p-3 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-orange-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all">
                     <option value="" disabled selected>Pays d'origine</option>
-                    <option value="benin">Bénin</option>
-                    <option value="burkina_faso">Burkina Faso</option>
-                    <option value="cote_d_ivoire">Côte d'Ivoire</option>
-                    <option value="mali">Mali</option>
-                    <option value="niger">Niger</option>
-                    <option value="senegal">Sénégal</option>
-                    <option value="togo">Togo</option>
+                    <option v-for="(country, index) in countries" :key="index" :value="country.id">{{ country.name }}</option>
                 </select>
             </div>
             <div>
@@ -82,3 +76,14 @@
 
     </div>
 </template>
+<script lang="ts" setup>
+const { allCountries } = countriesData();
+const { toConnectUser, logout } = authenticate();
+const user = ref<User | null>(null);
+const countries = ref<Country[]>([]);
+
+onMounted(async () => {
+    user.value = await toConnectUser();
+    countries.value = await allCountries();
+});
+</script>

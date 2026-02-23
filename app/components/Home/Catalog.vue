@@ -2,15 +2,10 @@
     <div id="popular">
         <section class="border-b border-slate-200 bg-white dark:bg-dark sticky top-16 z-10 shadow-sm">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-slate-600 dark:text-primary">
-                <div class="flex items-center gap-1 py-4 overflow-x-auto">
+                <div class="flex items-center gap-1 py-4 overflow-x-auto custom">
                     <button class="flex-shrink-0 px-4 py-1.5 rounded-full bg-slate-900 text-white text-xs font-medium transition-transform hover:scale-105 dark:border-gray-600 dark:border-[1px]">Pour vous</button>
                     <div class="w-px h-4 bg-slate-200 mx-2"></div>
-                    <nuxt-link to="/categories/category-uuid-1" class="flex-shrink-0 px-4 py-1.5 rounded-full bg-white border border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-xs font-medium transition-all whitespace-nowrap dark:hover:bg-orange-50 dark:hover:border-orange-100/50 dark:hover:text-orange-800">Romance</nuxt-link>
-                    <nuxt-link to="/categories/category-uuid-2" class="flex-shrink-0 px-4 py-1.5 rounded-full bg-white border border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-xs font-medium transition-all whitespace-nowrap dark:hover:bg-orange-50 dark:hover:border-orange-100/50 dark:hover:text-orange-800">Afrofuturisme</nuxt-link>
-                    <nuxt-link to="/categories/category-uuid-3" class="flex-shrink-0 px-4 py-1.5 rounded-full bg-white border border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-xs font-medium transition-all whitespace-nowrap dark:hover:bg-orange-50 dark:hover:border-orange-100/50 dark:hover:text-orange-800">Thriller</nuxt-link>
-                    <nuxt-link to="/categories/category-uuid-4" class="flex-shrink-0 px-4 py-1.5 rounded-full bg-white border border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-xs font-medium transition-all whitespace-nowrap dark:hover:bg-orange-50 dark:hover:border-orange-100/50 dark:hover:text-orange-800">Historique</nuxt-link>
-                    <nuxt-link to="/categories/category-uuid-5" class="flex-shrink-0 px-4 py-1.5 rounded-full bg-white border border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-xs font-medium transition-all whitespace-nowrap dark:hover:bg-orange-50 dark:hover:border-orange-100/50 dark:hover:text-orange-800">Poésie</nuxt-link>
-                    <nuxt-link to="/categories/category-uuid-6" class="flex-shrink-0 px-4 py-1.5 rounded-full bg-white border border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-xs font-medium transition-all whitespace-nowrap dark:hover:bg-orange-50 dark:hover:border-orange-100/50 dark:hover:text-orange-800">Jeunesse</nuxt-link>
+                    <nuxt-link v-for="(category, index) in categories" :key="index" :to="`/categories/${category.uuid}`" class="flex-shrink-0 px-4 py-1.5 rounded-full bg-white border border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-xs font-medium transition-all whitespace-nowrap dark:hover:bg-orange-50 dark:hover:border-orange-100/50 dark:hover:text-orange-800">{{ category.name }}</nuxt-link>
                 </div>
             </div>
         </section>
@@ -36,7 +31,34 @@
     </div>
 </template>
 
+<style>
+.custom::-webkit-scrollbar {
+  height: 6px;
+}
+
+.custom::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 20px;
+}
+
+/* Firefox */
+.custom {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+</style>
+
+
 <script lang="ts" setup>
+const { allCategories } = categoriesData();
+const categories = ref<Category[]>([])
+onMounted(async () => {
+    categories.value = await allCategories()
+})
 const books = ref<Book[]>([
   {
     id: 1,

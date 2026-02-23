@@ -77,12 +77,23 @@
                                     <nuxt-link to="/forget-password" class="font-medium text-orange-600 hover:text-orange-500 hover:underline dark:text-orange-500">Mot de passe oublié ?</nuxt-link>
                                 </div>
                             </div>
+
                             <p v-if="errorMsg" class="text-xs text-center font-medium text-red-600 mt-2">{{ errorMsg }}</p>
-                            <!-- Submit Button -->
+
                             <div>
-                                <button type="submit" class="dark:border flex w-full justify-center rounded-lg bg-slate-900 px-3 py-2.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-slate-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-900 transition-all items-center gap-2 group">
-                                    Se connecter
-                                    <Icon name="mdi:arrow-right" class="w-5 h-5" />
+                                <button type="submit" :class="`dark:border flex w-full justify-center rounded-lg px-3 py-2.5 text-sm font-semibold leading-6 text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-900 transition-all items-center gap-2 group ${loadingButton === 'end' ? 'bg-orange-600 dark:bg-orange-500' : 'hover:bg-slate-800 bg-slate-900'}`">
+                                    <span class="flex justify-center items-center gap-2" v-if="loadingButton === ''">
+                                        <Icon name="mdi:loading" class="w-5 h-5 animate-spin" />
+                                        Connexion en cours
+                                    </span>
+                                    <span class="flex justify-center items-center gap-2" v-else-if="loadingButton === 'end'">
+                                        <Icon name="mdi:check" class="w-5 h-5" />
+                                        Connexion terminée
+                                    </span>
+                                    <span class="flex justify-center items-center gap-2" v-else>
+                                        Se connecter
+                                        <Icon name="mdi:arrow-right" class="w-5 h-5" />
+                                    </span>
                                 </button>
                             </div>
                         </form>
@@ -132,8 +143,9 @@
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue'
-
-const { pseudonym, password, login } = authenticateForm();
+const router = useRouter();
+const { pseudonym, password, login } = authForm();
+const { authorizePage } = authenticate();
 
 definePageMeta({
   layout: "not-layout",
@@ -157,24 +169,29 @@ const accept = ref<boolean>(false);
 const errorMsg = ref<string>(''); // Message d'erreur pour affichage
 const loading = ref(false);       // Indicateur de chargement
 const showPassword = ref(false);  // Indicateur pour afficher/masquer le mot de passe
+const loadingButton = ref<'start' | '' | 'end' | 'error'>('start');
 
 const handleLogin = async () => {
   errorMsg.value = '';
+  loadingButton.value = "";
 
   // 1️⃣ Vérifier email
   if (!pseudonym.value || pseudonym.value.trim() === "") {
+    loadingButton.value = "error";
     errorMsg.value = 'Veuillez entrer votre pseudonyme.';
     return;
   }
 
   // 2️⃣ Vérifier mot de passe
   if (!password.value || password.value.length < 8) {
+    loadingButton.value = "error";
     errorMsg.value = 'Le mot de passe doit contenir au moins 8 caractères.';
     return;
   }
 
   // 3️⃣ Vérifier "Se souvenir de moi" si nécessaire
   if (!accept.value) {
+    loadingButton.value = "error";
     errorMsg.value = 'Veuillez accepter de vous souvenir de vous.';
     return;
   }
@@ -183,7 +200,17 @@ const handleLogin = async () => {
   loading.value = true;
   try {
     const res = await login();
-    console.log('Connexion réussie:', res);
+    if(res.success) {
+        setTimeout(() => {
+            loadingButton.value = "end";
+        }, 2000);
+        setTimeout(() => {
+            router.push("/")
+        }, 1500);
+    } else {
+        loadingButton.value = "error";
+        errorMsg.value = res.error;
+    }
   } catch (err) {
     console.error(err);
     errorMsg.value = 'Échec de la connexion, vérifiez vos identifiants.';
@@ -197,4 +224,8 @@ watch(() => accept.value, () => {
         errorMsg.value = '';
     }
 });
+
+onMounted(async () => {
+    await authorizePage();
+})
 </script>

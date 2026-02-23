@@ -69,10 +69,13 @@
                 <!-- User Profile (Bottom) -->
                 <div class="p-4 border-t border-slate-100">
                     <nuxt-link to="/dashboard/account" class="flex items-center gap-3 w-full p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors text-left">
-                        <img src="https://ui-avatars.com/api/?name=Jean+Kouassi&background=0f172a&color=fff" alt="Admin" class="w-8 h-8 rounded-full">
+                         <img v-if="user?.photo" :src="`${config.public.apiBackendUrl}/uploads/users/${user?.photo}`" alt="Profil" class="w-8 h-8 border-orange-600 border-2 dark:border-orange-500 rounded-full" />
+                        <span v-if="!user?.photo" class="p-1 text-xs flex items-center justify-center w-8 h-8 rounded-full" :style="`background-color: ${user?.code_color}`">
+                            {{ user?.name.split(" ").length > 0 ? `${user?.name.charAt(0).toUpperCase() + user?.name.split(" ")[1]?.charAt(0).toUpperCase()}` : user?.name.charAt(0).toUpperCase() }}
+                        </span>
                         <div class="flex-1 min-w-0">
-                            <p class="text-xs font-semibold text-slate-900 dark:text-white truncate">Jean Kouassi</p>
-                            <p class="text-[10px] text-slate-500 dark:text-slate-200 truncate">Admin Principal</p>
+                            <p class="text-xs font-semibold text-slate-900 dark:text-white truncate">{{ user?.name }}</p>
+                            <p class="text-[10px] text-slate-500 dark:text-slate-400 dark:text-slate-200 truncate">{{ user?.role }}</p>
                         </div>
                         <Icon name="solar:alt-arrow-right-linear" class="w-5 h-5 text-slate-400" />
                     </nuxt-link>
@@ -82,8 +85,15 @@
     </transition>
 </template>
 <script setup lang="ts">
+const config = useRuntimeConfig();
 const route = useRoute();
 const emit = defineEmits(['close-modal']);
+const { toConnectUser } = authenticate();
+const user = ref<User | null>(null);
+
+onMounted(async () => {
+    user.value = await toConnectUser();
+})
 
 const closeModal = () => {
     emit('close-modal');

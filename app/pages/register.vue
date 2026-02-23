@@ -250,6 +250,7 @@ useSeoMeta({
 
 const { full_name, pseudonym, bibliography, country, email, password, role, register } = registerForm();
 const { allCountries } = countriesData();
+const { authorizePage } = authenticate();
 const router = useRouter();
 
 const confirmPassword = ref('')
@@ -334,6 +335,7 @@ watch(isFormValid, (val) => {
 
 onMounted(async () => {
     if(process.client) {
+        await authorizePage();
         const countriesData = await allCountries();
         countries.value = countriesData;
         author.value = localStorage.getItem('register_author') === 'true';

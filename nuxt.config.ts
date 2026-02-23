@@ -26,8 +26,8 @@ export default defineNuxtConfig({
   },
    runtimeConfig: {
     public: {
-      frontUrl: process.env.APP_URL || "https://fast-resto.shop",
-      apiBackendUrl: process.env.SERVER_URL || "https://api.fast-resto.shop",
+      frontUrl: process.env.APP_URL || "https://africstoryline.shop",
+      apiBackendUrl: process.env.SERVER_URL || "https://api.africstoryline.shop",
     }
   },
 })

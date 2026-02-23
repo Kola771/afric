@@ -24,8 +24,7 @@ export function registerForm() {
 
         try {
             const response = await axios.post("/users/register", payload.value);
-            if (!response.data.success) {
-            } else {
+            if (response.data.success) {
                 localStorage.setItem("user", JSON.stringify(response.data.user));
             }
             return response.data;

@@ -48,10 +48,9 @@
   useSeoMeta({
     title: 'Dashboard',
   });
-
-import { ref } from "vue";
 const route = useRoute();
 const view = ref<string>("");
+const { authorizeRolePage } = authenticate();
 
 const checkRouteName = () => {
   switch (route.name) {
@@ -88,8 +87,9 @@ watch(() => route.name, () => {
   checkRouteName()
 })
 
-onMounted(() => {
-  checkRouteName()
+onMounted(async () => {
+  authorizeRolePage();
+  checkRouteName();
 })
 
 const isSidebarOpen = ref(false);
