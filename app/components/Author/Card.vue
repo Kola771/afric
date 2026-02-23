@@ -1,6 +1,6 @@
 <template>
     <article @click="openTheAuthorDetail(props.author.url)"
-        class="group border border-slate-200 rounded-2xl flex flex-col bg-white dark:bg-slate-800 w-full mx-auto cursor-pointer">
+        class="group border border-slate-200 rounded-2xl flex flex-col bg-slate-50 dark:bg-slate-800 w-full mx-auto cursor-pointer">
         <div class="flex flex-col gap-4 rounded-lg p-4">
             <div
                 class="relative flex-shrink-0 overflow-hidden rounded-lg shadow-subtle group-hover:shadow-xl transition-all duration-300 ring-1 ring-slate-900/5">

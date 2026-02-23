@@ -25,7 +25,8 @@ export default defineNuxtPlugin(async (nuxtApp) => {
                 // Vérifiez le statut de la réponse
                 if ([401, 419].includes(error.response.status)) {
                     localStorage.removeItem("user");
-                    localStorage.removeItem("searchData");
+                    localStorage.removeItem("register_author");
+                    localStorage.removeItem("register_email");
                     window.location.href = "/login";
                 }
             } else if (error.code === 'ECONNABORTED') {

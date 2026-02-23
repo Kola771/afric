@@ -2,14 +2,14 @@ import { ref } from 'vue';
 import axios from "axios";
 
 export function authenticateForm() {
-    const email = ref<string>("");
+    const pseudonym = ref<string>("");
     const password = ref<string>("");
     const router = useRouter();
 
     // fonction pour s'authentifier
     async function login() {
         const payload = ref<LoginData>({
-            email: email.value.trim(),
+            pseudonym: pseudonym.value.trim(),
             password: password.value,
         });
         console.log(payload.value)
@@ -29,7 +29,7 @@ export function authenticateForm() {
     }
 
     return {
-        email,
+        pseudonym,
         password,
         login
     };

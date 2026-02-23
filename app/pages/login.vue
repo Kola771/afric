@@ -46,13 +46,13 @@
                         </div> -->
                         <!-- Main Form -->
                         <form @submit.prevent="handleLogin" class="mt-6 space-y-5">
-                            <!-- Email Input -->
+                            <!-- Pseudonyme Input -->
                             <div>
-                                <label for="email" class="block text-xs font-medium leading-6 text-slate-900 dark:text-white">Adresse email</label>
+                                <label for="pseudonym" class="block text-xs font-medium leading-6 text-slate-900 dark:text-white">Votre pseudonyme</label>
                                 <div class="mt-1.5 relative">
-                                    <input id="email" name="email" type="email" autocomplete="email" v-model="email" required
+                                    <input id="pseudonym" name="pseudonym" type="text" v-model="pseudonym" required
                                         class="block w-full rounded-lg border-0 py-2.5 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-orange-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all pl-3"
-                                        placeholder="exemple@email.com">
+                                        placeholder="@lay_sc45">
                                 </div>
                             </div>
                             <!-- Password Input -->
@@ -133,7 +133,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 
-const { email, password, login } = authenticateForm();
+const { pseudonym, password, login } = authenticateForm();
 
 definePageMeta({
   layout: "not-layout",
@@ -158,17 +158,12 @@ const errorMsg = ref<string>(''); // Message d'erreur pour affichage
 const loading = ref(false);       // Indicateur de chargement
 const showPassword = ref(false);  // Indicateur pour afficher/masquer le mot de passe
 
-// Fonction de validation email simple
-const isValidEmail = (email: string) => {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-}
-
 const handleLogin = async () => {
   errorMsg.value = '';
 
   // 1️⃣ Vérifier email
-  if (!email.value || !isValidEmail(email.value)) {
-    errorMsg.value = 'Veuillez entrer une adresse email valide.';
+  if (!pseudonym.value || pseudonym.value.trim() === "") {
+    errorMsg.value = 'Veuillez entrer votre pseudonyme.';
     return;
   }
 
@@ -196,4 +191,10 @@ const handleLogin = async () => {
     loading.value = false;
   }
 }
+
+watch(() => accept.value, () => {
+    if(accept.value) {
+        errorMsg.value = '';
+    }
+});
 </script>

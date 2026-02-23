@@ -53,5 +53,5 @@ interface RegisterData {
 
 interface LoginData {
   password: string
-  email: string
+  pseudonym: string
 }

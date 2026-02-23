@@ -6,17 +6,17 @@
                 class="lg:hidden mb-2 p-1 border rounded-lg flex items-center justify-center hover:bg-slate-100 text-slate-500 dark:text-slate-200 dark:hover:text-slate-300 dark:hover:bg-slate-700 transition-colors">
                 <Icon name="mdi:arrow-left" class="w-6 h-6" />
             </button>
-            <div class="flex flex-col lg:justify-start justify-center items-center gap-2">
+            <div class="flex flex-col lg:justify-start justify-center items-center gap-2 lg:sticky lg:top-28">
                 <div class="group flex flex-col justify-center items-center gap-2 w-full">
                     <img src="/assets/img.jpg"
-                        class="w-24 h-24 group-hover:scale-90 hover:duration-300 transition-all lg:w-full lg:h-72 object-cover rounded-full lg:rounded-lg"
+                        class="w-24 h-24 md:w-36 md:h-36 lg:group-hover:scale-90 hover:duration-300 transition-all lg:w-full lg:h-72 object-cover rounded-full lg:rounded-lg"
                         alt="Image de l'auteur">
                     <div>
                         <h2 class="text-center text-lg font-bold text-slate-900 dark:text-white">Alain Mabanckou</h2>
                         <p class="text-center text-slate-600 text-sm dark:text-slate-300">Originaire : Congo</p>
                     </div>
                     <div
-                        class="lg:mt-4 lg:flex lg:justify-between lg:items-center gap-2 text-slate-200 dark:text-slate-200 hidden w-full">
+                        class="lg:rounded-lg lg:bg-slate-50 dark:lg:bg-slate-800 lg:p-3 lg:mt-1 lg:flex lg:justify-between lg:items-center gap-2 text-slate-200 dark:text-slate-200 hidden w-full">
                         <span class="text-xs">
                             <span class="font-semibold text-slate-900 dark:text-slate-200">42</span> <span
                                 class="text-slate-400">
@@ -68,7 +68,7 @@
                 <!-- stories List -->
                 <div class="border-t border-slate-200 mt-6 pt-6">
                     <h3 class="font-display text-xl font-medium text-slate-900 dark:text-white mb-4">Histoires</h3>
-                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-10">
+                    <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-10">
                         <nuxt-link v-for="story in stories" :key="story.id" :to="`/books/book-uuid-${story.id}`"
                             class="group flex flex-col rounded-lg bg-white dark:bg-slate-800 border border-slate-100 hover:border-slate-300 transition-all group-hover:scale-105 hover:shadow-sm pb-2">
                             <img :src="story.image"

@@ -1,7 +1,7 @@
 <template>
     <div class="bg-[#fffcfccc] dark:bg-dark dark:border-slate-200 dark:border-b pt-12 pb-12">
         <section class="max-w-7xl mx-auto px-6 pt-12 border-t border-slate-100 lg:gap-10">
-            <div class="flex flex-col gap-4 md:items-center md:flex-row md:justify-between bg-white dark:bg-transparent border px-3 py-4 lg:p-3 rounded-lg">
+            <div class="flex flex-col gap-4 md:items-center md:flex-row md:justify-between bg-slate-50 dark:bg-slate-800 border px-3 py-4 lg:p-3 rounded-lg">
                 <div class="flex flex-col gap-1 items-start">
                     <button @click="back" class="p-1 border rounded-lg flex items-center justify-center hover:bg-slate-100 text-slate-500 dark:text-slate-200 dark:hover:text-slate-300 dark:hover:bg-slate-700 transition-colors">
                         <Icon name="mdi:arrow-left" class="w-5 h-5" />
@@ -12,14 +12,14 @@
                        et n'est pas accessible aux lecteurs en ligne.
                                    </p>
                 </div>
-                <button @click="toggleCreateModal" class="flex items-center gap-2 bg-primary text-white dark:bg-slate-800 dark:border hover:bg-slate-700 hover:ease-in-out hover:duration-300 rounded-full py-3 text-[13px] justify-center border-slate-200 border md:px-6 md:py-2.5">
+                <button @click="toggleCreateModal" class="flex items-center gap-2 bg-primary text-white dark:bg-dark dark:border hover:bg-slate-700 hover:ease-in-out hover:duration-300 rounded-full py-3 text-[13px] justify-center border-slate-200 border md:px-6 md:py-2.5">
                     <Icon name="mdi:plus" class="w-5 h-5" />
                     Ajouter une histoire
                 </button>
             </div>
             <div class="border-t border-slate-200 mt-6 pt-6">
                 <h3 class="font-display text-xl font-medium text-slate-900 dark:text-white flex items-center gap-1 mb-4"><Icon name="mdi:book-multiple-outline" class="w-5 h-5" /> Mes histoires</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-x-6 gap-y-10">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-x-6 gap-y-10">
                     <div class="flex flex-col gap-1 rounded-lg bg-white dark:bg-slate-800 border border-slate-100 hover:border-slate-300 transition-all group-hover:scale-105 hover:shadow-sm pb-2" v-for="(story, index) in stories">
                         <nuxt-link
                             :key="story.id"
