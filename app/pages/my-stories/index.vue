@@ -37,21 +37,25 @@
                                 </p>
                             </div>
                         </nuxt-link>
-                        <nuxt-link :to="`/my-stories/${story.id}/likes-and-comments`" class="hover:text-orange-600 transition-colors hover:underline px-2.5 py-2 text-xs text-slate-500 dark:text-slate-200 flex flex-wrap gap-2">
+                        <div class="hover:text-orange-600 transition-colors hover:underline px-2.5 py-2 text-xs text-slate-500 dark:text-slate-200 flex flex-wrap gap-2">
                             <span>{{ story.chapters }} chap,</span> <span class="flex items-center gap-1"><Icon name="mdi:eye" class="w-3 h-3" /> <span>{{ story.views }} vue(s)</span></span>
-                        </nuxt-link>
+                        </div>
                         <div class="grid grid-cols-2 gap-2 px-2.5 w-full">
                             <nuxt-link :to="`/my-stories/uuid-test-${story.id}/edit_book`" class="bg-blue-500 p-1.5 rounded flex items-center gap-1 justify-center text-white font-medium gap-1 text-xs dark:bg-blue-600 px-1 group-hover:translate-x-1 transition-transform hover:underline">
                                 <Icon name="mdi:pencil" class="w-3 h-3" />
-                                Modifier l'histoire
+                                Modifier le livre
                             </nuxt-link>
                             <nuxt-link :to="`/my-stories/chapter-uuid-${story.id}`" class="bg-orange-500 p-1.5 rounded flex items-center gap-1 justify-center text-white font-medium gap-1 text-xs dark:bg-orange-600 px-1 group-hover:translate-x-1 transition-transform hover:underline">
                                 <Icon name="mdi:book-open-variant-outline" class="w-3 h-3" />
                                 Chapitres
                             </nuxt-link>
-                            <button @click="toggleDeleteModal" class="col-span-2 bg-red-500 p-1.5 rounded flex items-center gap-1 justify-center text-white font-medium gap-1 text-xs dark:bg-red-600 px-1 group-hover:translate-x-1 transition-transform">
+                            <nuxt-link :to="`/my-stories/${story.id}/likes-and-comments`" class="bg-slate-700 p-1.5 rounded flex items-center gap-1 justify-center text-white font-medium gap-1 text-xs px-1 group-hover:translate-x-1 transition-transform hover:underline">
+                                <Icon name="mdi:graph" class="w-3 h-3" />
+                                Stats
+                            </nuxt-link>
+                            <button @click="toggleDeleteModal" class="bg-red-500 p-1.5 rounded flex items-center gap-1 justify-center text-white font-medium gap-1 text-xs dark:bg-red-600 px-1 group-hover:translate-x-1 transition-transform">
                                 <Icon name="mdi:delete" class="w-3 h-3" />
-                                Supprimer l'histoire
+                                Supprimer
                             </button>
                         </div>
                     </div>

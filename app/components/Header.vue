@@ -46,25 +46,25 @@
               <div class="h-5 w-px bg-slate-200 hidden lg:block"></div>
 
               <div class="lg:flex items-center gap-1 hidden relative" v-if="user">
-                <div class="relative" @mouseenter="showProfileMenu = true" @mouseleave="showProfileMenu = false">
+                <div class="relative max-w-32" @mouseenter="showProfileMenu = true" @mouseleave="showProfileMenu = false">
                   <!-- Avatar cliquable -->
                   <div class="flex items-center gap-1 bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 transition-all duration-300 border-slate-200 border rounded-full py-1 pl-1 pr-1.5 cursor-pointer">
                     <img
                       v-if="user.photo"
                       :src="`${config.public.apiBackendUrl}/uploads/users/${user.photo}`"
                       alt="Profil"
-                      class="w-7 h-7 border-orange-600 border-2 dark:border-orange-500 rounded-full"
+                      class="w-7 h-7 border-orange-600 border-2 dark:border-orange-500 rounded-full flex-shrink-0"
                     />
                     <span
                       v-if="!user.photo"
-                      class="p-1 text-xs flex items-center justify-center w-7 h-7 rounded-full"
+                      class="p-1 text-xs flex items-center justify-center w-7 h-7 rounded-full flex-shrink-0"
                       :style="`background-color: ${user.code_color}`"
                     >
-                      {{ user.name.split(" ").length > 0
+                      {{ user.name.split(" ").length > 1
                         ? `${user.name.charAt(0).toUpperCase() + user.name.split(" ")[1]?.charAt(0).toUpperCase()}`
                         : user.name.charAt(0).toUpperCase() }}
                     </span>
-                    <span class="text-xs">{{ user.name }}</span>
+                    <span class="text-xs flex truncate"><span>{{ user.name }}</span></span>
                   </div>
 
                   <!-- Menu flottant (en dehors du nuxt-link) -->
@@ -72,14 +72,20 @@
                     v-if="showProfileMenu"
                     class="absolute top-full text-[13.5px] mt-1 right-0 w-40 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg py-2 z-50"
                   >
-                    <nuxt-link
+                    <nuxt-link @click="showProfileMenu = false"
                       to="/profil"
                       class="block px-4 py-2 flex items-center gap-2 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
                     >
                     <Icon name="mdi:account" class="w-4 h-4" />
                     Mon profil</nuxt-link>
+                    <nuxt-link v-if="authorizeRoleUser(`${user.role}`)" @click="showProfileMenu = false"
+                      to="/dashboard"
+                      class="block px-4 py-2 flex items-center gap-2 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+                    >
+                    <Icon name="mdi:view-dashboard" class="w-4 h-4" />
+                    Dashboard</nuxt-link>
                     <button
-                      @click="logout()"
+                      @click="logout(); showProfileMenu = false"
                       class="w-full text-left px-4 py-2 flex items-center gap-2 text-red-600 dark:text-red-500 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
                     >
                     <Icon name="mdi:logout" class="w-4 h-4" />

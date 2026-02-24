@@ -13,7 +13,7 @@
                     <p class="text-sm text-slate-500 dark:text-slate-200 mt-1">Faîtes une mise à jour de vos informations personnelles !</p>
                 </div>
             </div>
-            <form class="flex flex-col gap-2.5" @submit.prevent="changeData">
+            <form class="flex flex-col gap-4" @submit.prevent="changeData">
                 <div class="flex flex-col gap-1">
                     <label for="fullname" class="text-sm text-slate-900 font-medium dark:text-white">Nom complet :</label>
                     <input type="text" id="fullname" v-model="name" class="block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-orange-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all" />

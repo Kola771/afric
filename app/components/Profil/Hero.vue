@@ -9,16 +9,16 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" v-if="user">
             <div class="relative -mt-16 sm:-mt-20 mb-6 flex flex-col md:flex-row md:items-end justify-between gap-6">
                 <!-- Avatar & Info -->
-                <div class="flex flex-col md:flex-row items-start md:items-end gap-3 lg:gap-6">
+                <div :class="`flex ${user.bibliography ? 'flex-col dark:text-slate-200 dark:lg:text-slate-700' : 'items-end dark:text-slate-200'} md:flex-row items-start md:items-end gap-3 lg:gap-6`">
                     <div class="relative group">
-                        <div class="w-32 h-32 sm:w-40 sm:h-40 rounded-full border-[4px] border-white shadow-lg overflow-hidden bg-slate-200">
+                        <div class="w-28 h-28 sm:w-40 sm:h-40 rounded-full border-[4px] border-white shadow-lg overflow-hidden bg-slate-200">
                             <img v-if="user?.photo" :src="`${config.public.apiBackendUrl}/uploads/users/${user.photo}`" class="w-full h-full object-cover" alt="Profile">
                             <span
                                 v-if="!user?.photo"
                                 class="p-1 text-xl lg:text-3xl font-medium text-slate-600 flex items-center justify-center w-full h-full rounded-full"
                                 :style="`background-color: ${user?.code_color}`"
                                 >
-                                {{ user?.name.split(" ").length > 0
+                                {{ user?.name.split(" ").length > 1
                                     ? `${user?.name.charAt(0).toUpperCase() + user?.name.split(" ")[1]?.charAt(0).toUpperCase()}`
                                     : user?.name.charAt(0).toUpperCase() 
                                 }}
@@ -29,8 +29,8 @@
                         </button>
                     </div>
                     <div class="mb-2 w-full">
-                        <h2 class="text-3xl font-display font-semibold text-slate-900 tracking-tight dark:text-white dark:lg:text-slate-800">{{ user.name }}</h2>
-                        <p class="text-slate-500 text-md font-medium dark:text-slate-200 dark:lg:text-slate-700">{{ user.pseudonym }}</p>
+                        <h2 class="text-3xl font-display font-semibold tracking-tight">{{ user.name }}</h2>
+                        <p class="text-slate-500 text-md font-medium">{{ user.pseudonym }}</p>
                         <p class="text-sm lg:text-md text-slate-600 mt-2 dark:text-slate-200">
                             <!-- Si la bibliography existe -->
                             <template v-if="user.bibliography && user.bibliography.trim() !== ''">
