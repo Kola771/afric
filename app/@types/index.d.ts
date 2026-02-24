@@ -7,10 +7,12 @@ interface User {
   code_color: string;
   photo: string;
   role: string;
+  id_country: number;
   country: string;
   status: string;
   sanction_date: Date;
   selected?: boolean
+  preferences?: Category[]
 }
 
 interface Author {
@@ -26,12 +28,39 @@ interface Author {
   isNew?: boolean
 }
 
+interface Country {
+  id: number
+  uuid: string
+  name?: string
+  flag?: string
+  code?: string
+  language?: string
+  status?: string
+  deadline?: Date
+}
+
 interface Category {
-  id: number,
+  id: number
   uuid: string
   name?: string
   image?: string
   description?: string
+  status?: string
+  deadline?: Date
+}
+
+interface RoleDto {
+  name?: string
+  description?: string
+}
+
+interface Role {
+  id: number
+  uuid: string
+  name?: string
+  description?: string
+  status?: string
+  deadline?: Date
 }
 
 interface Book {
@@ -62,6 +91,15 @@ interface RegisterData {
   email: string
   bibliography?: string
   role: number
+}
+
+interface PersonalData {
+  name: string
+  country: number
+  pseudonym: string
+  email: string
+  bibliography?: string
+  categories?: number[]
 }
 
 interface LoginData {

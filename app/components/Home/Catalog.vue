@@ -54,10 +54,10 @@
 
 
 <script lang="ts" setup>
-const { allCategories } = categoriesData();
+const { allCategorieActifs } = categoriesData();
 const categories = ref<Category[]>([])
 onMounted(async () => {
-    categories.value = await allCategories()
+    categories.value = await allCategorieActifs()
 })
 const books = ref<Book[]>([
   {

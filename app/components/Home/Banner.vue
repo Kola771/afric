@@ -2,7 +2,7 @@
     <section class="relative overflow-hidden border-b border-slate-200">
         <div class="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-slate-100 to-transparent"></div>
         
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-24 lg:pt-32 lg:pb-32">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16 lg:pt-32 lg:pb-32">
             <div class="grid lg:grid-cols-2 gap-16 items-center">
                 
                 <!-- Left: Content -->
@@ -29,7 +29,7 @@
                             Lire gratuitement
                             <Icon name="mdi:arrow-right" class="w-5 h-5" />
                         </nuxt-link>
-                        <button @click="registerAuthor" class="inline-flex items-center justify-center gap-2 bg-white border border-slate-200 text-slate-700 px-8 py-4 rounded-xl text-sm font-medium hover:bg-slate-50 hover:border-slate-300 transition-all">
+                        <button v-if="!user" @click="registerAuthor" class="inline-flex items-center justify-center gap-2 bg-white border border-slate-200 text-slate-700 px-8 py-4 rounded-xl text-sm font-medium hover:bg-slate-50 hover:border-slate-300 transition-all">
                             <Icon name="mdi:pen" class="w-5 h-5" />
                             Devenir auteur
                         </button>
@@ -113,9 +113,15 @@
 </template>
 
 <script setup lang="ts">
+const { toConnectUser } = authenticate();
+const user = ref<User | null>(null);
 const router = useRouter();
 const registerAuthor = async () => {
     localStorage.setItem("register_author", "true");
     router.push("/register")
 };
+
+onMounted(async () => {
+    user.value = await toConnectUser();
+})
 </script>

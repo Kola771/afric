@@ -6,7 +6,7 @@
             <div class="lg:col-span-8 space-y-12">
                 
                 <!-- Tabs -->
-                <div class="flex items-center gap-8 border-b border-slate-200 pb-px overflow-x-auto hide-scroll">
+                <div class="flex items-center gap-8 border-b border-slate-200 pb-px overflow-x-auto custom">
                     <button class="pb-3 border-b-2 border-slate-900 dark:border-orange-200 text-slate-900 dark:text-slate-200 font-medium text-sm whitespace-nowrap">Lectures récentes</button>
                     <button class="pb-3 border-b-2 border-transparent hover:border-slate-200 text-slate-500 hover:text-slate-700 font-medium text-sm transition-colors whitespace-nowrap">Histoires lues</button>
                     <button class="pb-3 border-b-2 border-transparent hover:border-slate-200 text-slate-500 hover:text-slate-700 font-medium text-sm transition-colors whitespace-nowrap">Histoires appréciées</button>
@@ -149,6 +149,28 @@
         </div>
     </div>
 </template>
+
+<style scoped>
+.custom::-webkit-scrollbar {
+  height: 6px;
+}
+
+.custom::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 20px;
+}
+
+/* Firefox */
+.custom {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+</style>
+
 <script lang="ts" setup>
 const router = useRouter();
 const openTheChapterDetail = (url: string) => {

@@ -6,35 +6,59 @@
             <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
         </div>
         
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" v-if="user">
             <div class="relative -mt-16 sm:-mt-20 mb-6 flex flex-col md:flex-row md:items-end justify-between gap-6">
                 <!-- Avatar & Info -->
-                <div class="flex flex-col md:flex-row items-start md:items-end gap-6">
+                <div class="flex flex-col md:flex-row items-start md:items-end gap-3 lg:gap-6">
                     <div class="relative group">
                         <div class="w-32 h-32 sm:w-40 sm:h-40 rounded-full border-[4px] border-white shadow-lg overflow-hidden bg-slate-200">
-                            <img src="https://i.pravatar.cc/300?img=12" class="w-full h-full object-cover" alt="Profile">
+                            <img v-if="user?.photo" :src="`${config.public.apiBackendUrl}/uploads/users/${user.photo}`" class="w-full h-full object-cover" alt="Profile">
+                            <span
+                                v-if="!user?.photo"
+                                class="p-1 text-xl lg:text-3xl font-medium text-slate-600 flex items-center justify-center w-full h-full rounded-full"
+                                :style="`background-color: ${user?.code_color}`"
+                                >
+                                {{ user?.name.split(" ").length > 0
+                                    ? `${user?.name.charAt(0).toUpperCase() + user?.name.split(" ")[1]?.charAt(0).toUpperCase()}`
+                                    : user?.name.charAt(0).toUpperCase() 
+                                }}
+                            </span>
                         </div>
-                        <button class="absolute bottom-2 right-2 bg-slate-900 text-white flex items-center justify-center p-2 rounded-full shadow-md transition-all hover:scale-105">
+                        <button class="hidden absolute bottom-2 right-2 bg-slate-900 text-white flex items-center justify-center p-2 rounded-full shadow-md transition-all hover:scale-105">
                             <Icon name="mdi:camera" class="w-5 h-5 text-white" />
                         </button>
                     </div>
-                    <div class="mb-2">
-                        <h1 class="text-3xl font-display font-semibold text-slate-900 tracking-tight dark:text-white dark:lg:text-slate-800">Laurian AGOSSOU</h1>
-                        <p class="text-slate-500 font-medium dark:text-slate-200 dark:lg:text-slate-700">@laurian_ago</p>
-                        <p class="text-md text-slate-600 mt-2 max-w-md dark:text-slate-200">Passionnée de folklore africain et de science-fiction. J'aime lire à mes heures perdues. Toujours à la recherche de la prochaine pépite littéraire. 📚✨</p>
+                    <div class="mb-2 w-full">
+                        <h2 class="text-3xl font-display font-semibold text-slate-900 tracking-tight dark:text-white dark:lg:text-slate-800">{{ user.name }}</h2>
+                        <p class="text-slate-500 text-md font-medium dark:text-slate-200 dark:lg:text-slate-700">{{ user.pseudonym }}</p>
+                        <p class="text-sm lg:text-md text-slate-600 mt-2 dark:text-slate-200">
+                            <!-- Si la bibliography existe -->
+                            <template v-if="user.bibliography && user.bibliography.trim() !== ''">
+                                {{ user.bibliography }}
+                            </template>
+
+                            <!-- Skeleton barre horizontale -->
+                            <!-- <template v-else>
+                                <div class="space-y-2">
+                                    <span class="skeleton-fill dark:bg-slate-200 w-3/4"></span>
+                                    <span class="skeleton-fill dark:bg-slate-200 w-5/6"></span>
+                                    <span class="skeleton-fill dark:bg-slate-200 w-full"></span>
+                                </div>
+                            </template> -->
+                        </p>
                     </div>
                 </div>
 
                 <!-- Action Buttons -->
-                <div class="flex justify-between gap-3 mb-2 w-full md:w-auto">
-                    <nuxt-link to="/my-stories" class="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-primary border border-slate-200 rounded-lg text-sm font-medium text-white hover:bg-slate-900 hover:border-slate-300 dark:bg-dark dark:hover:bg-primary transition-all shadow-sm">
+                <div class="flex justify-between gap-3 mb-2 w-full md:w-auto text-xs lg:text-sm">
+                    <nuxt-link to="/my-stories" v-if="authorizeRoleUser(`${user.role.toLocaleLowerCase()}`)" class="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-primary border border-slate-200 rounded-lg font-medium text-white hover:bg-slate-900 hover:border-slate-300 dark:bg-dark dark:hover:bg-primary transition-all shadow-sm">
                         <Icon name="solar:book-2-bold" class="w-5 h-5" />
                         Mes histoires
                     </nuxt-link>
-                    <button class="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 hover:border-slate-300 dark:bg-slate-300 transition-all shadow-sm" @click="toggleUpdateModal">
+                    <nuxt-link to="/profil/personal" class="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-lg font-medium text-slate-700 hover:bg-slate-50 hover:border-slate-300 dark:bg-slate-300 transition-all shadow-sm">
                         <Icon name="mdi:edit" class="w-5 h-5 text-slate-700" />
                         Éditer
-                    </button>
+                    </nuxt-link>
                     <button class="flex items-center justify-center p-2 bg-red-200 border border-red-300 dark:bg-red-300 rounded-lg text-slate-700 hover:bg-slate-50 hover:border-slate-300 transition-all shadow-sm" @click="toggleDeleteModal">
                         <Icon name="mdi:delete-outline" class="w-5 h-5 text-red-600" />
                     </button>
@@ -44,32 +68,59 @@
             <!-- Stats Bar -->
             <div class="flex items-center gap-8 py-6 border-y border-slate-200">
                 <div class="flex flex-col">
-                    <span class="text-lg font-display font-bold text-slate-900 tracking-tight dark:text-white">24</span>
+                    <span class="text-lg font-display font-bold text-slate-900 tracking-tight dark:text-white">0</span>
                     <span class="text-xs text-slate-500 uppercase tracking-wide font-medium dark:text-slate-200">Lectures</span>
                 </div>
-                <div class="flex flex-col">
-                    <span class="text-lg font-display font-bold text-slate-900 tracking-tight dark:text-white">84</span>
-                    <span class="text-xs text-slate-500 uppercase tracking-wide font-medium dark:text-slate-200">Abonnements</span>
-                </div>
-                <div class="h-8 w-px bg-slate-200 mx-2 hidden sm:block"></div>
-                <div class="hidden sm:flex items-center gap-2 bg-orange-50 text-orange-900 px-3 py-1.5 rounded-full text-xs font-medium border border-orange-100">
-                    Lecteur Or
+                <div class="h-8 w-px bg-slate-200 mx-2"></div>
+                <div class="capitalize flex items-center gap-2 bg-orange-50 text-orange-900 px-3 py-1.5 rounded-full text-xs font-medium border border-orange-100">
+                    {{ user.role }}
                 </div>
             </div>
         </div>
-        <ProfilUpdateProfil @close-update-modal="toggleUpdateModal" :showUpdateModal="showUpdateModal" v-if="showUpdateModal" />
         <ProfilDeleteUser @close-delete-modal="toggleDeleteModal" :showDeleteModal="showDeleteModal" v-if="showDeleteModal" />
     </div>
 </template>
 
+<style scoped>
+.skeleton-fill {
+  display: block;
+  height: 12px;
+  background-color: #e2e8f0; /* slate-200 */
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.skeleton-fill::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+  background-color: #a5a5a580; /* gris semi-transparent */
+  animation: fillBar 1.5s linear infinite; /* animation continue tant que le skeleton existe */
+  border-radius: 4px;
+}
+
+@keyframes fillBar {
+  0% { width: 0%; }
+  50% { width: 50%; }
+  100% { width: 100%; }
+}
+</style>
+
 <script setup lang="ts">
-const showUpdateModal = ref(false);
+const config = useRuntimeConfig();
+const { toConnectUser } = authenticate();
+const user = ref<User | null>(null);
 const showDeleteModal = ref(false);
 
-const toggleUpdateModal = () => {
-    showUpdateModal.value = !showUpdateModal.value
-}
 const toggleDeleteModal = () => {
     showDeleteModal.value = !showDeleteModal.value
 }
+
+onMounted(async () => {
+    user.value = await toConnectUser();
+})
 </script>

@@ -16,15 +16,17 @@
                       <ExclamationTriangleIcon class="size-6 text-red-600" aria-hidden="true" />
                     </div>
                     <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                      <DialogTitle as="h3" class="text-base font-semibold text-gray-900 dark:text-white">Supprimer le pays "<strong class="text-orange-600 dark:text-orange-500">Bénin</strong>"</DialogTitle>
+                      <DialogTitle as="h3" class="text-base font-semibold text-gray-900 dark:text-white">Supprimer le pays "<strong class="text-orange-600 dark:text-orange-500">{{ props.country.name }}</strong>"</DialogTitle>
                       <div class="mt-2">
-                        <p class="text-sm text-gray-500 dark:text-slate-200">Êtes-vous sûr de vouloir supprimer ce pays ? Toutes les données (utilisateurs, histoires, etc.) liées à ce pays seront supprimées définitivement 30 jours plus tard après avoir effectué cette action.</p>
+                        <p class="text-sm text-gray-500 dark:text-slate-200">Êtes-vous sûr de vouloir supprimer ce pays ? Tous les utilisateurs liés à ce pays seront supprimés définitivement 10 jours plus tard après avoir effectué cette action.</p>
                       </div>
                     </div>
                   </div>
                 </div>
+                <p v-if="error" class="text-xs text-center font-medium text-red-600 dark:text-red-500 mb-2">{{ error }}</p>
+                <p v-if="message" class="text-xs text-center font-medium text-green-600 dark:text-green-500 mb-2">{{ message }}</p>
                 <div class="dark:bg-slate-800 bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                  <button type="button" class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 lg:px-6 py-2 text-sm font-semibold text-white shadow-xs hover:bg-red-500 sm:ml-3 sm:w-auto" @click="closeModal">Supprimer</button>
+                  <button type="button" class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 lg:px-6 py-2 text-sm font-semibold text-white shadow-xs hover:bg-red-500 sm:ml-3 sm:w-auto" @click="deleteCountry">Supprimer</button>
                   <button type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 lg:px-6 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto" @click="closeModal" ref="cancelButtonRef">Annuler</button>
                 </div>
               </DialogPanel>
@@ -36,13 +38,31 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { ExclamationTriangleIcon } from '@heroicons/vue/24/outline'
+const {inactiveFunction} = countriesData()
+const props = defineProps<{
+    country: Country
+}>();
 
+const error = ref<string | null | undefined>(null);
+const message = ref<string | null | undefined>(null);
 const open = ref(true)
 const emit = defineEmits(['close-delete-modal']);
+const deleteCountry = async () => {
+    const res = await inactiveFunction(props.country.uuid);
+    if (res.success) {
+      message.value = res.msg;
+      setTimeout(() => {
+          emit('close-delete-modal');
+          open.value = false;
+        }, 2000);
+    } else {
+        error.value = res.error;
+    }
+}
 const closeModal = () => {
     emit('close-delete-modal');
     open.value = false;

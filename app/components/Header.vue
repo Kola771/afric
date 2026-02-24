@@ -11,7 +11,7 @@
                 <Icon name="solar:book-2-bold" class="w-5 h-5" />
               </div>
               <span class="font-display font-semibold dark:text-gray-200 text-slate-900 tracking-tight text-lg">
-                Afric Storyline
+                Afric <span class="text-orange-600 dark:text-orange-500">Storyline</span>
               </span>
             </nuxt-link>
             <!-- Desktop Menu -->
@@ -45,17 +45,48 @@
               </button>
               <div class="h-5 w-px bg-slate-200 hidden lg:block"></div>
 
-              <div class="lg:flex items-center gap-1 hidden" v-if="user">
-                <nuxt-link to="/profil" class="text-sm font-medium text-slate-600 hover:text-slate-900 dark:text-white transition-colors px-2">
-                  <img v-if="user.photo" :src="`${config.public.apiBackendUrl}/uploads/users/${user.photo}`" alt="Profil" class="w-8 h-8 border-orange-600 border-2 dark:border-orange-500 rounded-full" />
-                  <span v-if="!user.photo" class="p-1 text-xs flex items-center justify-center w-8 h-8 rounded-full" :style="`background-color: ${user.code_color}`">
-                    {{ user.name.split(" ").length > 0 ? `${user.name.charAt(0).toUpperCase() +user.name.split(" ")[1]?.charAt(0).toUpperCase()}` : user.name.charAt(0).toUpperCase() }}
-                  </span>
-                </nuxt-link>
-                <button @click="logout()" class="flex items-center gap-2 bg-red-600 font-normal text-[13px] hover:bg-red-700 dark:hover:bg-red-500 text-white px-3.5 py-2 rounded-full font-medium transition-all shadow-sm hover:shadow-md transform active:scale-95">
-                  <Icon name="mdi:logout" class="w-4 h-4" />
-                  <span>Déconnexion</span>
-                </button>
+              <div class="lg:flex items-center gap-1 hidden relative" v-if="user">
+                <div class="relative" @mouseenter="showProfileMenu = true" @mouseleave="showProfileMenu = false">
+                  <!-- Avatar cliquable -->
+                  <div class="flex items-center gap-1 bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 transition-all duration-300 border-slate-200 border rounded-full py-1 pl-1 pr-1.5 cursor-pointer">
+                    <img
+                      v-if="user.photo"
+                      :src="`${config.public.apiBackendUrl}/uploads/users/${user.photo}`"
+                      alt="Profil"
+                      class="w-7 h-7 border-orange-600 border-2 dark:border-orange-500 rounded-full"
+                    />
+                    <span
+                      v-if="!user.photo"
+                      class="p-1 text-xs flex items-center justify-center w-7 h-7 rounded-full"
+                      :style="`background-color: ${user.code_color}`"
+                    >
+                      {{ user.name.split(" ").length > 0
+                        ? `${user.name.charAt(0).toUpperCase() + user.name.split(" ")[1]?.charAt(0).toUpperCase()}`
+                        : user.name.charAt(0).toUpperCase() }}
+                    </span>
+                    <span class="text-xs">{{ user.name }}</span>
+                  </div>
+
+                  <!-- Menu flottant (en dehors du nuxt-link) -->
+                  <div
+                    v-if="showProfileMenu"
+                    class="absolute top-full text-[13.5px] mt-1 right-0 w-40 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg py-2 z-50"
+                  >
+                    <nuxt-link
+                      to="/profil"
+                      class="block px-4 py-2 flex items-center gap-2 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+                    >
+                    <Icon name="mdi:account" class="w-4 h-4" />
+                    Mon profil</nuxt-link>
+                    <button
+                      @click="logout()"
+                      class="w-full text-left px-4 py-2 flex items-center gap-2 text-red-600 dark:text-red-500 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+                    >
+                    <Icon name="mdi:logout" class="w-4 h-4" />
+                    Déconnexion</button>
+                  </div>
+                </div>
+
               </div>
 
               <nuxt-link v-if="!user" to="/login" class="hidden lg:flex items-center gap-2 text-[13.5px] xl:text-sm font-medium text-slate-600 hover:text-slate-900 dark:text-white dark:hover:text-gray-400 transition-colors px-2">
@@ -89,7 +120,7 @@
             <nuxt-link to="/authors" @click="isOpen = !isOpen" :class="`${route.path === '/authors' ? 'text-primary dark:text-orange-400' : 'text-slate-500 dark:text-white'} block text-sm dark:hover:text-gray-400 font-medium hover:text-primary transition-colors`">Auteurs</nuxt-link>
             <nuxt-link to="/about" @click="isOpen = !isOpen" :class="`${route.path === '/about' ? 'text-primary dark:text-orange-400' : 'text-slate-500 dark:text-white'} block text-sm dark:hover:text-gray-400 font-medium hover:text-primary transition-colors`">A propos</nuxt-link>
             <nuxt-link v-if="user" to="/profil" @click="isOpen = !isOpen" :class="`${route.path === '/profil' ? 'text-primary dark:text-orange-400' : 'text-slate-500 dark:text-white'} block text-sm dark:hover:text-gray-400 font-medium hover:text-primary transition-colors`">Mon profil</nuxt-link>
-            <div class="pt-4 border-t border-slate-200 dark:border-gray-700 flex md:flex-row flex-col gap-2">
+            <div class="pt-4 border-t border-slate-200 dark:border-gray-700 flex md:flex-row flex-col gap-2 text-[13px]">
               <div class="flex md:flex-row flex-col gap-2" v-if="!user">
                 <nuxt-link to="/login" @click="isOpen = !isOpen" class="flex items-center justify-center gap-2 text-center font-medium text-primary bg-white rounded-lg px-4 py-3 md:py-2 md:px-6 border-primary border-[1px] dark:border-none">
                     <Icon name="mdi:login" class="w-4 h-5" />
@@ -116,8 +147,9 @@
 <script setup lang="ts">
 const config = useRuntimeConfig();
 const route = useRoute()
-const isOpen = ref(false)
-const showSearch = ref(false);
+const isOpen = ref<boolean>(false)
+const showSearch = ref<boolean>(false);
+const showProfileMenu = ref<boolean>(false);
 const { toConnectUser, logout } = authenticate();
 const user = ref<User | null>(null);
 

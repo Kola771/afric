@@ -7,6 +7,11 @@ export function categoriesData() {
         return categories.data;
     }
 
+    async function allCategorieActifs() {
+        const categories = await axios.get(`/categories/actifs`);
+        return categories.data;
+    }
+
     async function getCategoryByUuid(uuid: string) {
         const category = await axios.get(`/categories/${uuid}`);
         return category.data;
@@ -65,6 +70,21 @@ export function categoriesData() {
         return { success: false, status: 400, error: "Client-side error" };
     }
 
+    async function inactiveFunction(uuid: string): Promise<{ success: boolean, msg?: string, error?: string | null, status?: number }> {
+        if (process.client) {
+            if (localStorage.getItem('user')) {
+                const token = JSON.parse(localStorage.getItem("user") || '{}').token;
+                try {
+                    const res = await axios.delete(`/categories/inactive/${uuid}`, { params: { token } });
+                    return res?.data;
+                } catch (error: any) {
+                    return { success: false, status: error.response?.status || 500, error: error.message };
+                }
+            }
+        }
+        return { success: false, status: 400, error: "Client-side error" };
+    }
+
     async function deleteData(data: Category[]): Promise<{ success: boolean, msg?: string, error?: string | null, status?: number }> {
         if (process.client) {
             if (localStorage.getItem('user')) {
@@ -85,10 +105,12 @@ export function categoriesData() {
 
     return {
         allCategories,
+        allCategorieActifs,
         getCategoryByUuid,
         createData,
         updateData,
         updateImg,
-        deleteData
+        inactiveFunction,
+        deleteData,
     }
 }

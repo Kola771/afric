@@ -71,7 +71,7 @@
         </div>
 
         <!-- User Profile (Bottom) -->
-        <div class="p-4 border-t border-slate-100">
+        <div class="p-4 border-t border-slate-100" v-if="user">
             <nuxt-link to="/dashboard/account" class="flex items-center gap-3 w-full p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors text-left">
                 <img v-if="user?.photo" :src="`${config.public.apiBackendUrl}/uploads/users/${user?.photo}`" alt="Profil" class="w-8 h-8 border-orange-600 border-2 dark:border-orange-500 rounded-full" />
                 <span v-if="!user?.photo" class="p-1 text-xs flex items-center justify-center w-8 h-8 rounded-full" :style="`background-color: ${user?.code_color}`">
