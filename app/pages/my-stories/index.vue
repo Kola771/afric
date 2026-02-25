@@ -50,7 +50,7 @@
                                 class="h-8 pl-8 pr-3 w-full md:w-48 rounded-lg bg-slate-50 border border-slate-200 text-xs focus:outline-none focus:ring-1 focus:ring-slate-300 transition-colors">
                         </div>
                         <button @click="toggleSort('title')"
-                            class="h-8 px-3 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 flex items-center gap-2 transition-colors">
+                            class="h-8 px-3 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700 flex items-center gap-2 transition-colors">
                             <Icon :name="sortKey === 'title'
                                     ? sortDirection === 'asc'
                                         ? 'solar:arrow-up-linear'
@@ -268,7 +268,7 @@ const status = (status: string) => {
         case "draft":
             return "Brouillon"
         case "inactive":
-            return "Inactif"
+            return "Inactive"
         default:
             return "Brouillon"
     }

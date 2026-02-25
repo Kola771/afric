@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-[#fffcfccc] dark:bg-dark">
+    <div class="bg-[#fffcfccc] dark:bg-dark dark:border-slate-200 dark:border-b">
         <div class="max-w-6xl mx-auto space-y-8 px-4 sm:px-6 lg:px-8 pt-24 pb-12" v-if="user && book">
             <!-- Welcome Section -->
             <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
