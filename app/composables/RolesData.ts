@@ -1,8 +1,7 @@
 import axios from "axios";
 
 export function rolesData() {
-    const route = useRoute();
-
+    
     async function allRoles() {
         const roles = await axios.get(`/roles`);
         return roles.data;

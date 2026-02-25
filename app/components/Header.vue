@@ -78,7 +78,7 @@
                     >
                     <Icon name="mdi:account" class="w-4 h-4" />
                     Mon profil</nuxt-link>
-                    <nuxt-link v-if="authorizeRoleUser(`${user.role}`)" @click="showProfileMenu = false"
+                    <nuxt-link v-if="authorizeRoleDash(`${user.role}`)" @click="showProfileMenu = false"
                       to="/dashboard"
                       class="block px-4 py-2 flex items-center gap-2 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
                     >
@@ -125,6 +125,7 @@
             <nuxt-link to="/stories" @click="isOpen = !isOpen" :class="`${route.path === '/stories' ? 'text-primary dark:text-orange-400' : 'text-slate-500 dark:text-white'} block text-sm dark:hover:text-gray-400 font-medium hover:text-primary transition-colors`">Histoires</nuxt-link>
             <nuxt-link to="/authors" @click="isOpen = !isOpen" :class="`${route.path === '/authors' ? 'text-primary dark:text-orange-400' : 'text-slate-500 dark:text-white'} block text-sm dark:hover:text-gray-400 font-medium hover:text-primary transition-colors`">Auteurs</nuxt-link>
             <nuxt-link to="/about" @click="isOpen = !isOpen" :class="`${route.path === '/about' ? 'text-primary dark:text-orange-400' : 'text-slate-500 dark:text-white'} block text-sm dark:hover:text-gray-400 font-medium hover:text-primary transition-colors`">A propos</nuxt-link>
+            <nuxt-link to="/dashboard" v-if="user && authorizeRoleDash(`${user.role}`)" @click="isOpen = !isOpen" :class="`${route.path === '/dashboard' ? 'text-primary dark:text-orange-400' : 'text-slate-500 dark:text-white'} block text-sm dark:hover:text-gray-400 font-medium hover:text-primary transition-colors`">Tableau de bord</nuxt-link>
             <nuxt-link v-if="user" to="/profil" @click="isOpen = !isOpen" :class="`${route.path === '/profil' ? 'text-primary dark:text-orange-400' : 'text-slate-500 dark:text-white'} block text-sm dark:hover:text-gray-400 font-medium hover:text-primary transition-colors`">Mon profil</nuxt-link>
             <div class="pt-4 border-t border-slate-200 dark:border-gray-700 flex md:flex-row flex-col gap-2 text-[13px]">
               <div class="flex md:flex-row flex-col gap-2" v-if="!user">

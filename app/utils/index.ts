@@ -31,3 +31,12 @@ export function formatLocalDate(isoDate: string | Date): string {
 export function authorizeRoleUser(role: string): boolean {
   return role === 'super-admin' || role === 'admin' || role === 'support' || role === 'auteur';
 }
+
+/**
+ * Vérifie si l'utilisateur a le droit d'accéder au tableau de bord
+ * @param role - rôle de l'utilisateur
+ * @returns boolean
+ */
+export function authorizeRoleDash(role: string): boolean {
+  return role === 'super-admin' || role === 'admin' || role === 'support';
+}

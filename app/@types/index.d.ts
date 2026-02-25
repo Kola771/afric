@@ -1,4 +1,5 @@
 interface User {
+  id: number;
   uuid: string;
   name: string;
   bibliography: string;
@@ -54,6 +55,12 @@ interface RoleDto {
   description?: string
 }
 
+interface VisitorDto {
+  ip?: string
+  region?: any
+  origin?: any
+}
+
 interface Role {
   id: number
   uuid: string
@@ -61,6 +68,17 @@ interface Role {
   description?: string
   status?: string
   deadline?: Date
+}
+
+interface BookData {
+  id: number
+  uuid: string
+  title: string
+  description: string
+  status: string
+  deadline: Date
+  image: string
+  book_categories?: any
 }
 
 interface Book {
