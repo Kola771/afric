@@ -72,6 +72,7 @@ interface Role {
 
 interface BookData {
   id: number
+  id_user: string
   uuid: string
   title: string
   description: string
@@ -79,6 +80,15 @@ interface BookData {
   deadline: Date
   image: string
   book_categories?: any
+  created_at?: Date
+}
+
+interface ChapterDto {
+  id_book: number
+  title: string
+  content: string
+  status: string
+  id_user?: number
 }
 
 interface Book {
@@ -91,7 +101,19 @@ interface Book {
   category?: string
   state?: string
   rank?: string
-  isNew?: boolean
+}
+
+interface ChapterData {
+  id: number
+  uuid: string
+  title: string
+  content: string
+  status: string
+  created_at: Date
+  book?: any
+  likes?: []
+  views?: []
+  comments?: []
 }
 
 interface Chapter {

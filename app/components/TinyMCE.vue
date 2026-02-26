@@ -31,7 +31,7 @@ const editorInit = {
     'emoticons charmap | removeformat',
   fontsize_formats: '8pt 10pt 12pt 14pt 16pt 18pt 20pt 24pt 32pt 48pt',
   content_style: `
-    body { font-family: Helvetica, Arial, sans-serif; font-size: 14px; }
+    body { font-family: Times New Roman, Arial, sans-serif; font-size: 14px; }
     table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
     th, td { border: 1px solid #ccc; padding: 6px; }
     th { background: #f3f4f6; }
