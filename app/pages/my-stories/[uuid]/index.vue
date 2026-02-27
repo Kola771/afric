@@ -46,51 +46,61 @@
         </div>
 
         <div class="flex-1 max-h-[80vh] overflow-y-auto custom-scroll p-3 space-y-1" v-if="chapters?.length > 0">
-          <button v-for="chap in chapters" :key="chap.id" @click="attemptSwitchChapter(chap.id)" :class="[
+          <div v-for="chap in chapters" :key="chap.id" class="flex flex-col justify-between gap-1" :class="[
             'w-full group flex items-start gap-3 p-3 rounded-xl text-left transition-all',
             chap.id === currentChapterId
               ? 'bg-slate-50 dark:bg-slate-100 border border-slate-200'
-              : 'border dark:hover:bg-slate-100 dark:border-slate-200 border-transparent hover:border-slate-200 hover:bg-slate-50'
+              : 'border border-slate-300 dark:hover:bg-slate-100 dark:border-slate-200 hover:border-slate-200 hover:bg-slate-50'
           ]">
-            <div :class="['mt-0.5 shrink-0', chap.id === currentChapterId ? 'text-orange-600' : 'text-slate-400']">
-              <Icon :name="chap.id === currentChapterId ? 'mdi:book-open-variant' : 'mdi:book-open-variant-outline'"
-                class="w-5 h-5" />
-            </div>
-            <div class="min-w-0 flex-1">
-              <div class="flex justify-between items-center mb-0.5">
-                <span
-                  :class="['text-xs font-medium truncate', chap.id === currentChapterId ? 'text-slate-900' : 'text-slate-700 dark:text-white group-hover:text-slate-900']">{{
-                    chap.title }}</span>
-                <span
-                  :class="['text-[10px] font-semibold px-1.5 py-0.5 rounded border', chap.status.toLocaleLowerCase() === 'completed' ? 'bg-green-50 text-green-600 border-green-100' : 'bg-slate-100 text-slate-500 border-slate-200']">{{
-                    showStatus(`${chap.status}`) }}</span>
+            <button @click="attemptSwitchChapter(chap.id)"
+              class="w-full group flex items-start gap-3 text-left transition-all">
+              <div :class="['mt-0.5 shrink-0', chap.id === currentChapterId ? 'text-orange-600' : 'text-slate-400']">
+                <Icon :name="chap.id === currentChapterId ? 'mdi:book-open-variant' : 'mdi:book-open-variant-outline'"
+                  class="w-5 h-5" />
               </div>
-              <div class="flex justify-between items-center gap-2">
-                <p :class="['text-xs truncate font-serif line-clamp-1', chap.id === currentChapterId ? 'text-slate-500' : 'text-slate-400']">{{ formatLocalDate(`${chap.created_at}`) }}</p>
-                <div class="flex items-center gap-1">
-                  <div class="text-xs">
-                    <span class="font-semibold text-slate-900 dark:text-slate-400">{{ chap.likes?.length || 0 }}</span>
-                    <span class="text-slate-400 dark:text-slate-600">
-                      <Icon name="mdi:heart" class="w-4 h-4" />
-                    </span>
-                  </div>
-                  <div class="text-xs">
-                    <span class="font-semibold text-slate-900 dark:text-slate-400">{{ chap.views?.length || 0 }}</span>
-                    <span class="text-slate-400 dark:text-slate-600">
-                      <Icon name="mdi:eye" class="w-4 h-4" />
-                    </span>
-                  </div>
-                  <div class="w-px h-3 bg-slate-200"></div>
-                  <div class="text-xs">
-                    <span class="font-semibold text-slate-900 dark:text-slate-400">{{ chap.comments?.length || 0
-                    }}</span> <span class="text-slate-400 dark:text-slate-600">
-                      <Icon name="mdi:comments" class="w-4 h-4" />
-                    </span>
+              <div class="min-w-0 flex-1">
+                <div class="flex justify-between items-center mb-0.5">
+                  <span
+                    :class="['text-xs font-medium truncate', chap.id === currentChapterId ? 'text-slate-900' : 'text-slate-700 dark:text-white group-hover:text-slate-900']">{{
+                      chap.title }}</span>
+                  <span
+                    :class="['text-[10px] font-semibold px-1.5 py-0.5 rounded border', chap.status.toLocaleLowerCase() === 'completed' ? 'bg-green-50 text-green-600 border-green-100' : 'bg-slate-100 text-slate-500 border-slate-200']">{{
+                      showStatus(`${chap.status}`) }}</span>
+                </div>
+                <div class="flex justify-between items-center gap-2">
+                  <p
+                    :class="['text-xs truncate font-serif line-clamp-1', chap.id === currentChapterId ? 'text-slate-500' : 'text-slate-400']">
+                    {{ formatLocalDate(`${chap.created_at}`) }}</p>
+                  <div class="flex items-center gap-1">
+                    <div class="text-xs">
+                      <span class="font-semibold text-slate-900 dark:text-slate-400">{{ chap.likes?.length || 0
+                      }}</span>
+                      <span class="text-slate-400 dark:text-slate-600">
+                        <Icon name="mdi:heart" class="w-4 h-4" />
+                      </span>
+                    </div>
+                    <div class="text-xs">
+                      <span class="font-semibold text-slate-900 dark:text-slate-400">{{ chap.views?.length || 0
+                      }}</span>
+                      <span class="text-slate-400 dark:text-slate-600">
+                        <Icon name="mdi:eye" class="w-4 h-4" />
+                      </span>
+                    </div>
+                    <div class="w-px h-3 bg-slate-200"></div>
+                    <div class="text-xs">
+                      <span class="font-semibold text-slate-900 dark:text-slate-400">{{ chap.comments?.length || 0
+                      }}</span> <span class="text-slate-400 dark:text-slate-600">
+                        <Icon name="mdi:comments" class="w-4 h-4" />
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </button>
+            </button>
+            <button class="text-[10px] text-red-400 dark:text-red-500 font-medium flex-shrink-0 text-right w-full" @click="showDelete(chap)">
+              <Icon name="mdi:trash" class="w-3 h-3" />
+            </button>
+          </div>
         </div>
         <div v-else class="flex flex-col items-center justify-center py-16 text-center h-screen">
           <Icon name="mdi:book-outline" class="w-12 h-12 text-slate-300 mb-3" />
@@ -174,45 +184,61 @@
           </button>
         </div>
         <div class="space-y-2 max-h-[calc(100vh-10rem)] overflow-y-auto" v-if="chapters?.length > 0">
-          <button v-for="chap in chapters" :key="chap.id"
-            @click="() => { attemptSwitchChapter(chap.id); showMobileChapters = false }"
-            :class="['text-sm w-full text-left p-2 rounded transition', chap.id === currentChapterId ? 'bg-slate-100 dark:bg-slate-100 border border-slate-200' : 'dark:hover:bg-slate-100 dark:border-slate-200 dark:border hover:bg-slate-50']">
-
-            <div class="min-w-0 flex-1">
-              <div class="flex justify-between items-center mb-0.5">
-                <span
-                  :class="['text-xs font-medium truncate', chap.id === currentChapterId ? 'text-slate-900' : 'dark:text-white text-slate-700 group-hover:text-slate-900']">{{
-                    chap.title }}</span>
-                <span
-                  :class="['text-[10px] font-semibold px-1.5 py-0.5 rounded border', chap.status.toLocaleLowerCase() === 'completed' ? 'bg-green-50 text-green-600 border-green-100' : 'bg-slate-100 text-slate-500 border-slate-200']">{{
-                    showStatus(`${chap.status}`) }}</span>
+          <div v-for="chap in chapters" :key="chap.id" class="flex flex-col justify-between gap-1" :class="[
+            'w-full group flex items-start gap-3 p-3 rounded-xl text-left transition-all',
+            chap.id === currentChapterId
+              ? 'bg-slate-50 dark:bg-slate-100 border border-slate-200'
+              : 'border border-slate-300 dark:hover:bg-slate-100 dark:border-slate-200 hover:border-slate-200 hover:bg-slate-50'
+          ]">
+            <button @click="attemptSwitchChapter(chap.id)"
+              class="max-w-full group flex items-start gap-3 text-left transition-all">
+              <div :class="['mt-0.5 shrink-0', chap.id === currentChapterId ? 'text-orange-600' : 'text-slate-400']">
+                <Icon :name="chap.id === currentChapterId ? 'mdi:book-open-variant' : 'mdi:book-open-variant-outline'"
+                  class="w-5 h-5" />
               </div>
-              <div class="flex justify-between items-center gap-2">
-                <p :class="['text-xs truncate font-serif line-clamp-1', chap.id === currentChapterId ? 'text-slate-500' : 'text-slate-400']">{{ formatLocalDate(`${chap.created_at}`) }}</p>
-                <div class="flex items-center gap-1">
-                  <div class="text-xs">
-                    <span class="font-semibold text-slate-900 dark:text-slate-200">{{ chap?.likes?.length || 0 }}</span>
-                    <span class="text-slate-400 dark:text-slate-600">
-                      <Icon name="mdi:heart" class="w-4 h-4" />
-                    </span>
-                  </div>
-                  <div class="text-xs">
-                    <span class="font-semibold text-slate-900 dark:text-slate-200">{{ chap?.views?.length || 0 }}</span>
-                    <span class="text-slate-400 dark:text-slate-600">
-                      <Icon name="mdi:eye" class="w-4 h-4" />
-                    </span>
-                  </div>
-                  <div class="w-px h-3 bg-slate-200"></div>
-                  <div class="text-xs">
-                    <span class="font-semibold text-slate-900 dark:text-slate-200">{{ chap?.comments?.length || 0
-                    }}</span> <span class="text-slate-400 dark:text-slate-600">
-                      <Icon name="mdi:comments" class="w-4 h-4" />
-                    </span>
+              <div class="min-w-0 flex-1">
+                <div class="flex justify-between items-center mb-0.5">
+                  <span
+                    :class="['text-xs font-medium truncate w-2/3', chap.id === currentChapterId ? 'text-slate-900' : 'text-slate-700 dark:text-white group-hover:text-slate-900']">{{
+                      chap.title }}</span>
+                  <span
+                    :class="['text-[10px] font-semibold px-1.5 py-0.5 rounded border', chap.status.toLocaleLowerCase() === 'completed' ? 'bg-green-50 text-green-600 border-green-100' : 'bg-slate-100 text-slate-500 border-slate-200']">{{
+                      showStatus(`${chap.status}`) }}</span>
+                </div>
+                <div class="flex justify-between items-center gap-2">
+                  <p
+                    :class="['text-xs truncate font-serif line-clamp-1', chap.id === currentChapterId ? 'text-slate-500' : 'text-slate-400']">
+                    {{ formatLocalDate(`${chap.created_at}`) }}</p>
+                  <div class="flex items-center gap-1">
+                    <div class="text-xs">
+                      <span class="font-semibold text-slate-900 dark:text-slate-400">{{ chap.likes?.length || 0
+                      }}</span>
+                      <span class="text-slate-400 dark:text-slate-600">
+                        <Icon name="mdi:heart" class="w-4 h-4" />
+                      </span>
+                    </div>
+                    <div class="text-xs">
+                      <span class="font-semibold text-slate-900 dark:text-slate-400">{{ chap.views?.length || 0
+                      }}</span>
+                      <span class="text-slate-400 dark:text-slate-600">
+                        <Icon name="mdi:eye" class="w-4 h-4" />
+                      </span>
+                    </div>
+                    <div class="w-px h-3 bg-slate-200"></div>
+                    <div class="text-xs">
+                      <span class="font-semibold text-slate-900 dark:text-slate-400">{{ chap.comments?.length || 0
+                      }}</span> <span class="text-slate-400 dark:text-slate-600">
+                        <Icon name="mdi:comments" class="w-4 h-4" />
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </button>
+            </button>
+            <button class="text-[10px] text-red-400 dark:text-red-500 font-medium flex-shrink-0 text-right w-full" @click="showDelete(chap)">
+              <Icon name="mdi:trash" class="w-3 h-3" />
+            </button>
+          </div>
         </div>
         <div v-else class="flex flex-col items-center justify-center py-16 text-center">
           <Icon name="mdi:book-outline" class="w-12 h-12 text-slate-300 mb-3" />
@@ -258,7 +284,7 @@
               </div>
             </div>
           </div>
-          <p class="text-xs text-red-600 text-center mt-1" v-if="errorSave">{{ errorSave }}</p>
+
           <div class="bg-slate-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 gap-2 border-t border-slate-100">
             <button @click="confirmSwitch(true, STATUS.DRAFT)"
               class="inline-flex w-full justify-center rounded-lg bg-slate-900 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-slate-800 sm:ml-3 sm:w-auto transition-colors">Sauvegarder</button>
@@ -266,6 +292,75 @@
               class="mt-3 inline-flex w-full justify-center rounded-lg bg-white px-3 py-2 text-sm font-semibold text-red-600 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-red-50 sm:mt-0 sm:w-auto transition-colors">Ignorer</button>
             <button @click="closeModal"
               class="mt-3 inline-flex w-full justify-center rounded-lg px-3 py-2 text-sm font-semibold text-slate-600 hover:text-slate-900 sm:mt-0 sm:w-auto transition-colors mr-auto">Annuler</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div v-if="showDeleteModal && chapterDelete" class="fixed inset-0 z-50">
+      <div class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity"></div>
+      <div
+        class="fixed inset-0 z-10 w-screen overflow-y-auto flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+        <div
+          class="relative transform overflow-hidden rounded-xl bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-md ring-1 ring-black/5">
+          <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+            <div class="sm:flex sm:items-start">
+              <div
+                class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-50 sm:mx-0 sm:h-10 sm:w-10 ring-1 ring-red-100">
+                <Icon name="mdi:alert" class="text-red-600" width="24"></Icon>
+              </div>
+              <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                <h3 class="text-base font-semibold leading-6 text-slate-900">Suppression du chaptire "<strong
+                    class="text-red-600 dark:text-red-500">{{ chapterDelete?.title }}</strong>"</h3>
+                <div class="mt-2">
+                  <p class="text-sm text-slate-500">Toutes les données liées à ce chapitre disparaîtront définitivement.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-slate-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 gap-2 border-t border-slate-100">
+            <button @click="() => showDeleteModal = false"
+              class="mt-3 inline-flex w-full justify-center rounded-lg px-3 py-2 text-sm font-semibold text-slate-600 hover:text-slate-900 sm:mt-0 sm:w-auto transition-colors">Annuler</button>
+            <button @click="deleteChapter"
+              class="inline-flex w-full justify-center rounded-lg bg-red-600 dark:bg-red-500 dark:hover:bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-700 sm:ml-3 sm:w-auto transition-colors">Supprimer</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div v-if="errorSave || good" class="fixed inset-0 z-50">
+      <div class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity"></div>
+      <div
+        class="fixed inset-0 z-10 w-screen overflow-y-auto flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+        <div
+          class="relative transform overflow-hidden rounded-xl bg-white text-left shadow-2xl transition-all sm:my-8 w-full md:max-w-md ring-1 ring-black/5">
+          <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+            <div class="sm:flex sm:items-start" v-if="errorSave">
+              <div
+                class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-50 sm:mx-0 sm:h-10 sm:w-10 ring-1 ring-red-100">
+                <Icon name="mdi:alert" class="text-red-600" width="24"></Icon>
+              </div>
+              <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                <h3 class="text-base font-semibold leading-6 text-slate-900">Erreur</h3>
+                <p class="text-xs text-red-600 text-center mt-1">{{ errorSave }}</p>
+              </div>
+            </div>
+            <div class="sm:flex sm:items-start" v-if="good">
+              <div
+                class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-green-50 sm:mx-0 sm:h-10 sm:w-10 ring-1 ring-green-100">
+                <Icon name="mdi:success" class="text-green-600" width="24"></Icon>
+              </div>
+              <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                <h3 class="text-base font-semibold leading-6 text-slate-900">Succès</h3>
+                <p class="text-xs text-green-600 text-center mt-1">{{ good }}</p>
+              </div>
+            </div>
+          </div>
+          <div class="bg-slate-50 px-4 py-3 sm:flex md:justify-end sm:px-6 gap-2 border-t border-slate-100">
+            <button @click="closeModalMessage"
+              class="mt-3 bg-red-600 dark:bg-red-500 w-full justify-center rounded-lg px-3 py-2 text-sm font-semibold text-white sm:mt-0 sm:w-auto transition-colors">Fermer</button>
           </div>
         </div>
       </div>
@@ -281,9 +376,10 @@ definePageMeta({
 });
 
 const { getBookByUuid } = booksData();
-const { findAllPaginated, createData, updateData } = chaptersData();
+const { findAllPaginated, createData, updateData, deleteData } = chaptersData();
 const book = ref<BookData | null>(null);
 const chapters = ref<ChapterData[]>([]);
+const chapterDelete = ref<ChapterData | null>(null);
 const page = ref<number>(1);
 const limit = ref<number>(25);
 const totalPages = ref<number>(0);
@@ -291,7 +387,9 @@ const chapterUuid = ref<string>("")
 const chapterTitle = ref<string>("")
 const chapterContent = ref<string>("")
 const error = ref<string | undefined | null>(null);
+const good = ref<string | undefined | null>(null);
 const errorSave = ref<string | undefined | null>(null);
+const backurl = ref<number>(0);
 const STATUS = ref({
   DRAFT: "draft",
   COMPLETED: "completed"
@@ -300,7 +398,8 @@ const view = ref<'edit' | 'preview'>('edit')
 const saving = ref(false)
 const currentChapterId = ref(1)
 const pendingChapterId = ref<number | null>(null)
-const showUnsavedModal = ref(false)
+const showUnsavedModal = ref<boolean>(false)
+const showDeleteModal = ref<boolean>(false)
 let isDirty = ref(false)
 const showMobileChapters = ref(false)
 
@@ -313,7 +412,8 @@ const showStatus = (status: string) => {
 }
 
 function goBack() {
-  if(isDirty.value) {
+  backurl.value++;
+  if (isDirty.value) {
     showUnsavedModal.value = true
   } else {
     window.history.back()
@@ -349,6 +449,38 @@ function attemptSwitchChapter(id: number) {
 }
 
 function closeModal() { showUnsavedModal.value = false; pendingChapterId.value = null }
+function closeModalMessage() {
+  if (backurl.value > 0) {
+    window.history.back();
+    backurl.value = 0;
+  } else {
+    window.location.reload();
+  }
+}
+
+function showDelete(chap: ChapterData) {
+  chapterDelete.value = chap;
+  showDeleteModal.value = true;
+}
+
+async function deleteChapter() {
+  showDeleteModal.value = false;
+  if (chapterDelete) {
+    const res = await deleteData(`${chapterDelete.value?.uuid}`);
+    if (res.success) {
+      localStorage.setItem('chapterId', ``);
+      setTimeout(() => {
+        good.value = res.msg;
+      }, 1000);
+    } else {
+      setTimeout(() => {
+        errorSave.value = res.error;
+      }, 1000);
+    }
+  } else {
+    errorSave.value = "Veuillez bien sélectionner un chapitre !";
+  }
+}
 
 function loadChapter(id: number) {
   currentChapterId.value = id
@@ -356,6 +488,9 @@ function loadChapter(id: number) {
   chapterTitle.value = chap.title
   chapterContent.value = chap.content
   chapterUuid.value = chap.uuid
+  useSeoMeta({
+    title: `${chapterTitle.value}`
+  })
 }
 
 const onLoad = async () => {
@@ -396,6 +531,7 @@ const createChapter = async () => {
 
 async function confirmSwitch(save: boolean, status: string) {
   errorSave.value = null;
+  showUnsavedModal.value = false;
   if (save) {
     saveContent();
     const res = await updateData(`${chapterUuid.value}`, {
@@ -407,13 +543,22 @@ async function confirmSwitch(save: boolean, status: string) {
     });
     if (res.success && book.value) {
       localStorage.setItem('chapterId', `${pendingChapterId.value ?? currentChapterId.value}`);
-      window.location.reload();
+      setTimeout(() => {
+        good.value = res.msg;
+      }, 1000);
     } else {
-      errorSave.value = res.error;
+      setTimeout(() => {
+        errorSave.value = res.error;
+      }, 1000);
     }
   } else {
     localStorage.setItem('chapterId', `${pendingChapterId.value}`);
-    window.location.reload();
+    if (backurl.value > 0) {
+      window.history.back();
+      backurl.value = 0;
+    } else {
+      window.location.reload();
+    }
   }
 }
 

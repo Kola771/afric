@@ -24,6 +24,49 @@ export function formatLocalDate(isoDate: string | Date): string {
 }
 
 /**
+ * Retourne le nombre de jours entre deux dates
+ * ainsi que la date la plus récente
+ * 
+ * @param date1 - string ISO ou Date
+ * @param date2 - string ISO ou Date
+ */
+export function getDaysFromToday(
+  targetDate: string | Date
+): {
+  days: number;
+  lastDate: Date;
+  isPast: boolean;
+} {
+
+  const today = new Date();
+  const target = typeof targetDate === "string"
+    ? new Date(targetDate)
+    : new Date(targetDate);
+
+  // Normaliser à minuit pour éviter les bugs liés aux heures
+  const utcToday = Date.UTC(
+    today.getFullYear(),
+    today.getMonth(),
+    today.getDate()
+  );
+
+  const utcTarget = Date.UTC(
+    target.getFullYear(),
+    target.getMonth(),
+    target.getDate()
+  );
+
+  const diffTime = utcTarget - utcToday;
+  const days = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+  return {
+    days: Math.abs(days),
+    lastDate: target > today ? target : today,
+    isPast: days < 0
+  };
+}
+
+/**
  * Vérifie si l'utilisateur a le droit d'accéder à la création de livre et chapitres
  * @param role - rôle de l'utilisateur
  * @returns boolean

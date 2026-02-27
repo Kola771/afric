@@ -52,10 +52,10 @@
                         <button @click="toggleSort('title')"
                             class="h-8 px-3 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700 flex items-center gap-2 transition-colors">
                             <Icon :name="sortKey === 'title'
-                                    ? sortDirection === 'asc'
-                                        ? 'solar:arrow-up-linear'
-                                        : 'solar:arrow-down-linear'
-                                    : 'solar:sort-vertical-linear'
+                                ? sortDirection === 'asc'
+                                    ? 'solar:arrow-up-linear'
+                                    : 'solar:arrow-down-linear'
+                                : 'solar:sort-vertical-linear'
                                 " class="w-5 h-5" />
                             <span class="text-xs font-medium hidden sm:inline dark:text-slate-200">Trier</span>
                         </button>
@@ -81,7 +81,7 @@
                                 </p>
                                 <p
                                     class="flex flex-wrap items-center gap-3 my-1 text-[10px] font-medium text-orange-600">
-                                    <span class="bg-slate-100 text-slate-500 px-2 py-1 rounded">{{ status(book.status)
+                                    <span :class="`${book.status === 'inactive' ? 'text-red-600 bg-red-50 dark:text-red-600' : (book.status === 'completed' ? 'text-green-600 dark:text-green-500 bg-green-50' : (book.status === 'ongoing' ? 'text-blue-600 dark:text-blue-500 bg-blue-50' : 'bg-slate-100 text-slate-500'))} px-2 py-1 rounded`">{{ status(book.status)
                                     }}</span>
                                 </p>
                             </div>
@@ -105,7 +105,7 @@
                                 <Icon name="mdi:graph" class="w-3 h-3" />
                                 Stats
                             </nuxt-link>
-                            <button @click="toggleDeleteModal"
+                            <button @click="toggleDeleteModal(book)"
                                 class="bg-red-500 p-1.5 rounded flex items-center gap-1 justify-center text-white font-medium gap-1 text-xs dark:bg-red-600 px-1 group-hover:translate-x-1 transition-transform">
                                 <Icon name="mdi:delete" class="w-3 h-3" />
                                 Supprimer
@@ -128,8 +128,8 @@
                 <LoadersFirst v-if="loading && books.length > 0" />
             </div>
         </section>
-        <MyStoryDeleteBook @close-delete-modal="toggleDeleteModal" :showDeleteModal="showDeleteModal"
-            v-if="showDeleteModal" />
+        <MyStoryDeleteBook @close-delete-modal="showDeleteModal = false" @close-and-load="closeDeleteModal" :book="book" :showDeleteModal="showDeleteModal"
+            v-if="showDeleteModal && book" />
     </div>
 </template>
 
@@ -163,6 +163,7 @@ const { findAllPaginatedAuthor } = booksData();
 const { toConnectUser } = authenticate();
 const user = ref<User | null>(null);
 const books = ref<BookData[]>([]);
+const book = ref<BookData | null>(null);
 const page = ref(1);
 const limit = ref(25); // 25 livres par page
 const totalPages = ref<number>(1); // nombre total de pages
@@ -268,14 +269,23 @@ const status = (status: string) => {
         case "draft":
             return "Brouillon"
         case "inactive":
-            return "Inactive"
+            return "Inactif"
         default:
             return "Brouillon"
     }
 }
 
-const toggleDeleteModal = () => {
+const toggleDeleteModal = (b: BookData) => {
+    book.value = b;
     showDeleteModal.value = !showDeleteModal.value
+}
+
+const closeDeleteModal = async () => {
+    if (user.value) {
+        const { data, totalPages: tp } = await findAllPaginatedAuthor(page.value, limit.value, user.value?.id);
+        books.value = data;
+        totalPages.value = tp;
+    }
 }
 
 const back = () => {
