@@ -97,10 +97,12 @@
                 </div>
               </div>
             </button>
-            <button class="text-[10px] text-red-400 dark:text-red-500 font-medium flex-shrink-0 text-right w-full"
-              @click="showDelete(chap)">
-              <Icon name="mdi:trash" class="w-3 h-3" />
-            </button>
+            <div class="w-full flex justify-end">
+              <button class="text-[10px] text-red-400 dark:text-red-500 font-medium flex-shrink-0 text-right"
+                @click="showDelete(chap)">
+                <Icon name="mdi:trash" class="w-4 h-4" />
+              </button>
+            </div>
           </div>
         </div>
         <div v-else class="flex flex-col items-center justify-center py-16 text-center h-screen">
@@ -122,7 +124,7 @@
             Nouveau Chapitre
           </button>
           <button @click="showPdfModal = true"
-            class="flex w-full items-center justify-center gap-2 rounded-lg border border-dashed border-slate-300 bg-white px-3 py-2.5 text-xs font-semibold text-slate-600 hover:border-orange-400 hover:text-orange-600 hover:bg-orange-50 transition-all">
+            class="mt-2 flex w-full items-center justify-center gap-2 rounded-lg border border-dashed border-slate-300 bg-white px-3 py-2.5 text-xs font-semibold text-slate-600 hover:border-orange-400 hover:text-orange-600 hover:bg-orange-50 transition-all">
             <Icon name="mdi:plus" class="w-5 h-5" />
             Importer les chapitres
           </button>
@@ -170,10 +172,12 @@
                 Importer une image du chapitre (option alternative)
               </label>
 
-              <input type="file" accept="image/*" @change="handleImageUpload" class="text-xs border-slate-300 border p-2 rounded-lg w-full dark:text-slate-200" :disabled="ocrLoading" />
+              <input type="file" accept="image/*" @change="handleImageUpload"
+                class="text-xs border-slate-300 border p-2 rounded-lg w-full dark:text-slate-200"
+                :disabled="ocrLoading" />
 
               <p class="text-[11px] text-slate-400 dark:text-slate-200 mt-1">
-                Vous pouvez soit rédiger votre chapitre dans l’éditeur ci-dessous,
+                ⚠️ Vous pouvez soit rédiger votre chapitre dans l’éditeur ci-dessous,
                 soit importer une image contenant le texte.
                 Le contenu sera extrait automatiquement et inséré dans l’éditeur.
                 Merci de relire et corriger avant publication.
@@ -221,6 +225,11 @@
                 class="flex w-full items-center justify-center gap-2 rounded-lg border border-dashed border-slate-300 bg-white px-3 py-2.5 text-xs font-semibold text-slate-600 hover:border-orange-400 hover:text-orange-600 hover:bg-orange-50 transition-all">
                 <Icon name="mdi:plus" class="w-5 h-5" />
                 Nouveau Chapitre
+              </button>
+              <button @click="showPdfModal = true"
+                class="mt-2 flex w-full items-center justify-center gap-2 rounded-lg border border-dashed border-slate-300 bg-white px-3 py-2.5 text-xs font-semibold text-slate-600 hover:border-orange-400 hover:text-orange-600 hover:bg-orange-50 transition-all">
+                <Icon name="mdi:plus" class="w-5 h-5" />
+                Importer les chapitres
               </button>
               <p class="text-xs text-red-600 text-center mt-1" v-if="error">{{ error }}</p>
             </div>
@@ -291,10 +300,12 @@
                 </div>
               </div>
             </button>
-            <button class="text-[10px] text-red-400 dark:text-red-500 font-medium flex-shrink-0 text-right w-full"
-              @click="showDelete(chap)">
-              <Icon name="mdi:trash" class="w-3 h-3" />
-            </button>
+            <div class="w-full flex justify-end">
+              <button class="text-[10px] text-red-400 dark:text-red-500 font-medium flex-shrink-0 text-right"
+                @click="showDelete(chap)">
+                <Icon name="mdi:trash" class="w-4 h-4" />
+              </button>
+            </div>
           </div>
         </div>
         <div v-else class="flex flex-col items-center justify-center py-16 text-center">
@@ -313,6 +324,11 @@
             class="flex w-full items-center justify-center gap-2 rounded-lg border border-dashed border-slate-300 bg-white px-3 py-2.5 text-xs font-semibold text-slate-600 hover:border-orange-400 hover:text-orange-600 hover:bg-orange-50 transition-all">
             <Icon name="mdi:plus" class="w-5 h-5" />
             Nouveau Chapitre
+          </button>
+          <button @click="showPdfModal = true; showMobileChapters = false"
+            class="mt-2 flex w-full items-center justify-center gap-2 rounded-lg border border-dashed border-slate-300 bg-white px-3 py-2.5 text-xs font-semibold text-slate-600 hover:border-orange-400 hover:text-orange-600 hover:bg-orange-50 transition-all">
+            <Icon name="mdi:plus" class="w-5 h-5" />
+            Importer les chapitres
           </button>
           <p class="text-xs text-red-600 text-center mt-1" v-if="error">{{ error }}</p>
         </div>
@@ -425,11 +441,11 @@
 
     <div v-if="showPdfModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
       <div class="bg-white dark:bg-dark dark:border-slate-300 dark:border w-[95%] md:max-w-[600px] rounded-xl p-6">
+        <h2 class="text-sm font-semibold mb-4 dark:text-slate-200">
+          Importer un PDF
+        </h2>
 
-        <div class="overflow-y-auto max-h-[80vh]">
-          <h2 class="text-sm font-semibold mb-4 dark:text-slate-200">
-            Importer un PDF
-          </h2>
+        <div class="overflow-y-auto max-h-[80vh] lg:max-h-[70vh]">
           <input type="file" accept="application/pdf" @change="handlePdfUpload" :disabled="pdfLoading"
             class="text-xs border-slate-300 border w-full p-2 rounded-lg dark:text-slate-200" />
           <p class="text-[11px] text-slate-400 mt-2 dark:text-slate-200">
@@ -474,7 +490,8 @@
         </div>
 
         <div class="flex justify-end gap-2 mt-6">
-          <button @click="closeModalPdf" class="text-xs text-red-500 dark:border-slate-200 dark:border dark:px-4 dark:py-1.5 dark:rounded dark:lg:py-2 dark:lg:px-6">
+          <button @click="closeModalPdf"
+            class="text-xs text-red-500 dark:border-slate-200 dark:border dark:px-4 dark:py-1.5 dark:rounded dark:lg:py-2 dark:lg:px-6">
             Fermer
           </button>
         </div>
