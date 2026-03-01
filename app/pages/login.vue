@@ -12,7 +12,7 @@
                             <div class="w-8 h-8 dark:border dark:border-slate-300 dark:bg-slate-800 bg-slate-900 rounded-lg flex items-center justify-center text-white transition-transform group-hover:scale-95">
                                 <Icon name="solar:book-2-bold" class="w-5 h-5" />
                             </div>
-                            <span class="font-display font-medium text-slate-900 tracking-tight text-sm dark:text-white">Afric Storyline</span>
+                            <span class="font-display font-medium text-slate-900 tracking-tight text-sm dark:text-white">Afric <span class="text-orange-600 dark:text-orange-500">Storyline</span></span>
                         </nuxt-link>
                     </div>
                     <!-- Header -->
@@ -165,7 +165,7 @@ useSeoMeta({
   twitterImage: 'https://africstoryline.com/afric.png'
 });
 
-const accept = ref<boolean>(false);
+const accept = ref<boolean>(true);
 const errorMsg = ref<string>(''); // Message d'erreur pour affichage
 const loading = ref(false);       // Indicateur de chargement
 const showPassword = ref(false);  // Indicateur pour afficher/masquer le mot de passe

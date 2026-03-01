@@ -20,7 +20,7 @@
                     Ajouter une histoire
                 </nuxt-link>
             </div>
-            <div class="border-t border-slate-200 mt-6 pt-6">
+            <div class="border-t border-slate-200 mt-8 lg:mt-7 pt-6 lg:pt-5">
                 <h3
                     class="font-display text-xl font-medium text-slate-900 dark:text-white flex items-center gap-1 mb-4">
                     <Icon name="mdi:book-multiple-outline" class="w-5 h-5" /> Mes histoires
@@ -301,6 +301,8 @@ const onLoad = async () => {
         if (!authorizeRoleUser(`${user.value.role.toLocaleLowerCase()}`)) {
             router.push("/");
         }
+    } else {
+        router.push("/login");
     }
 }
 

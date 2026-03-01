@@ -72,6 +72,18 @@
                     </div>
                 </div>
                 <div>
+                    <label for="step" class="text-sm text-slate-900 font-medium dark:text-white">Limite age
+                        :</label>
+                    <select required id="step"
+                        class="w-full text-sm placeholder:text-slate-500 text-slate-800 outline-none border border-slate-300 dark:border-slate-200 dark:bg-slate-50 rounded-md p-2.5"
+                        v-model="rating_age">
+                        <option value="" disabled selected>Limite d'age</option>
+                        <option value="12+">12ans+</option>
+                        <option value="16+">16ans+</option>
+                        <option value="18+">18ans+</option>
+                    </select>
+                </div>
+                <div>
                     <label for="step" class="text-sm text-slate-900 font-medium dark:text-white">État de l'histoire
                         :</label>
                     <select required id="step"
@@ -107,6 +119,7 @@ const book = ref<BookData | null>(null);
 const title = ref<string>("");
 const status = ref<string>("");
 const description = ref<string>("");
+const rating_age = ref<string>("");
 const categories = ref<Category[]>([]);
 const selectedCategories = ref<number[]>([]);
 const error = ref<string | null | undefined>(null);

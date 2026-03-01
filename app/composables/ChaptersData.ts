@@ -7,6 +7,11 @@ export function chaptersData() {
         return chapters.data;
     }
 
+    async function countDistinctChapters() {
+        const chapter = await axios.get(`/chapters/count`);
+        return chapter.data;
+    }
+
     async function getChapterByUuid(uuid: string) {
         const chapter = await axios.get(`/chapters/${uuid}`);
         return chapter.data;
@@ -65,6 +70,7 @@ export function chaptersData() {
 
     return {
         getChapterByUuid,
+        countDistinctChapters,
         allChapters,
         findAllPaginated,
         createData,

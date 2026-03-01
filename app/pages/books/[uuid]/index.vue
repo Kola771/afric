@@ -4,7 +4,7 @@
             <div class="p-4 md:p-10 lg:p-12">
                 <div class="grid md:grid-cols-12 gap-10">
                 <!-- Left: Cover -->
-                <div class="md:col-span-4 lg:col-span-3">
+                <div class="md:col-span-4 lg:col-span-3 md:sticky md:top-24 self-start">
                     <div class="rounded-xl overflow-hidden shadow-2xl border border-slate-200 rotate-1 hover:rotate-0 transition-transform duration-500">
                         <img src="/assets/img.jpg" class="w-full object-cover aspect-[3/4]" alt="Cover Large">
                     </div>
@@ -80,7 +80,7 @@
                         <h4 class="font-display font-medium text-slate-900 dark:text-white mb-6">Commentaires</h4>
                         <div class="flex flex-col gap-4">
                             <!-- Comment Item -->
-                            <div :class="`flex gap-4 ${index % 2 == 0 ? 'border-y py-3 border-slate-200' : ''}`" v-for="index in 3" :key="index">
+                            <div :class="`flex gap-4 ${index % 2 == 0 ? 'border-y py-3 lg:py-3.5 border-slate-200' : ''}`" v-for="index in 3" :key="index">
                                 <div class="w-8 h-8 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center text-xs font-bold flex-shrink-0 dark:bg-orange-600 dark:text-white">A</div>
                                 <div>
                                     <div class="flex items-baseline gap-2">
@@ -89,6 +89,9 @@
                                     </div>
                                     <p class="text-[13px] text-slate-600 dark:text-slate-200 mt-1">Très intéressant !</p>
                                 </div>
+                            </div>
+                            <div class="flex w-full md:justify-end">
+                                <button class="bg-dark transition-all duration-300 ease-linear dark:border dark:border-slate-300 dark:bg-slate-800 dark:hover:bg-slate-900 hover:bg-primary text-white text-xs w-full md:w-auto md:px-6 p-2.5 rounded-lg">Afficher plus</button>
                             </div>
                             <!-- Comment Input -->
                             <div class="relative mt-6">

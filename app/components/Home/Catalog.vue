@@ -101,7 +101,6 @@ const books = ref<Book[]>([
     rating: 4.5,
     category: "Sci-Fi",
     state: "Terminé",
-    isNew: true,
     url: "/books/book-uuid-4"
   },
   {

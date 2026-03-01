@@ -2,7 +2,7 @@
   <div>
     <header>
       <nav
-        class="fixed top-0 w-full z-50 border-b border-slate-200 bg-white/80 dark:bg-dark dark:border-slate-300 dark:text-white backdrop-blur-md transition-all">
+        class="fixed top-0 w-full z-50 border-b border-slate-200 bg-white/80 dark:bg-dark/80 dark:border-slate-300 dark:text-white backdrop-blur-md transition-all">
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="flex justify-between items-center h-16">
@@ -155,7 +155,7 @@
               Connexion
             </nuxt-link>
           </div>
-          <nuxt-link :to="`${authorizeRoleDash(`${user.role}`) ? '/dashboard/account' : '/profil'}`" v-if="user"
+          <nuxt-link :to="`/profil`" v-if="user"
             @click="isOpen = !isOpen"
             class="flex items-center gap-3 w-full pb-1 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors text-left">
             <img v-if="user?.photo" :src="`${config.public.apiBackendUrl}/uploads/users/${user?.photo}`" alt="Profil"

@@ -17,6 +17,16 @@ export function booksData() {
         return book.data;
     }
 
+    async function countDistinctBooks() {
+        try {
+            const response = await axios.get(`/books/count`);
+
+            return response?.data;
+        } catch (error: any) {
+            return { success: false, status: error.response?.status || 500, error: error.message };
+        }
+    }
+
     async function findAllPaginatedAuthor(page: number = 1, limit: number = 25, id_user: number): Promise<{  data: BookData[], total: number, totalPages: number, currentPage: number }> {
         if (process.client) {
             if (localStorage.getItem('user')) {
@@ -131,6 +141,7 @@ export function booksData() {
 
     return {
         allBooks,
+        countDistinctBooks,
         existingData,
         findAllPaginatedAuthor,
         allBooksActifs,

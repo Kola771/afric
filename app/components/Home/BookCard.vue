@@ -2,11 +2,10 @@
     <article class="group cursor-pointer" @click="openTheBook(props.book.url)">
         <div class="relative aspect-[2/3] overflow-hidden rounded-lg bg-slate-100 mb-3 shadow-subtle group-hover:shadow-xl transition-all duration-300 ring-1 ring-slate-900/5">
             <img :src="props.book.image" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" :alt="props.book.title">
-            <div v-if="props.book.isNew" class="absolute top-0 right-0 bg-orange-500 text-white px-2 py-1 rounded-bl-lg text-[10px] font-bold">NOUVEAU</div>
             <div class="absolute top-2 left-2 bg-slate-900/90 text-white px-1.5 py-0.5 rounded text-[10px] font-bold">{{ props.book.id }}</div>
-            <button class="absolute bottom-3 right-3 p-2 bg-white/95 backdrop-blur rounded-full flex-shrink-0 flex items-center justify-center text-slate-900 opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0 shadow-lg hover:text-orange-600">
+            <!-- <button class="absolute bottom-3 right-3 p-2 bg-white/95 backdrop-blur rounded-full flex-shrink-0 flex items-center justify-center text-slate-900 opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0 shadow-lg hover:text-orange-600">
                 <Icon name="mdi:heart" class="w-5 h-5" />
-            </button>
+            </button> -->
         </div>
         <div class="space-y-1">
             <h3 class="font-display font-medium text-slate-900 dark:text-slate-200 text-base leading-snug group-hover:text-orange-600 transition-colors flex"><span class="truncate">{{ props.book.title }}</span></h3>

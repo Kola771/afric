@@ -7,11 +7,11 @@
         </div>
         
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" v-if="user">
-            <div class="relative -mt-16 sm:-mt-20 mb-6 flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div class="relative -mt-10 sm:-mt-20 lg:-mt-14 dark:text-white mb-6 flex flex-col md:flex-row md:items-end justify-between gap-6">
                 <!-- Avatar & Info -->
-                <div :class="`flex ${user.bibliography ? 'flex-col dark:text-slate-200 dark:lg:text-slate-700' : 'items-end dark:text-slate-200'} md:flex-row items-start md:items-end gap-3 lg:gap-6`">
+                <div :class="`flex flex-wrap items-end md:items-end gap-3 lg:gap-6`">
                     <div class="relative group">
-                        <div class="w-28 h-28 sm:w-40 sm:h-40 rounded-full border-[4px] border-white shadow-lg overflow-hidden bg-slate-200">
+                        <div class="w-24 h-24 sm:w-40 sm:h-40 rounded-full border-[4px] border-white shadow-lg overflow-hidden bg-slate-200">
                             <img v-if="user?.photo" :src="`${config.public.apiBackendUrl}/uploads/users/${user.photo}`" class="w-full h-full object-cover" alt="Profile">
                             <span
                                 v-if="!user?.photo"
@@ -28,25 +28,20 @@
                             <Icon name="mdi:camera" class="w-5 h-5 text-white" />
                         </button>
                     </div>
-                    <div class="mb-2 w-full">
+                    <div class="mb-2">
                         <h2 class="text-3xl font-display font-semibold tracking-tight">{{ user.name }}</h2>
                         <p class="text-slate-500 text-md font-medium">{{ user.pseudonym }}</p>
-                        <p class="text-sm lg:text-md text-slate-600 mt-2 dark:text-slate-200">
-                            <!-- Si la bibliography existe -->
+                        <p class="hidden lg:block text-sm lg:text-md text-slate-600 mt-2 dark:text-slate-200">
                             <template v-if="user.bibliography && user.bibliography.trim() !== ''">
                                 {{ user.bibliography }}
                             </template>
-
-                            <!-- Skeleton barre horizontale -->
-                            <!-- <template v-else>
-                                <div class="space-y-2">
-                                    <span class="skeleton-fill dark:bg-slate-200 w-3/4"></span>
-                                    <span class="skeleton-fill dark:bg-slate-200 w-5/6"></span>
-                                    <span class="skeleton-fill dark:bg-slate-200 w-full"></span>
-                                </div>
-                            </template> -->
                         </p>
                     </div>
+                    <p class="lg:hidden text-sm lg:text-md text-slate-600 mt-2 dark:text-slate-200">
+                        <template v-if="user.bibliography && user.bibliography.trim() !== ''">
+                            {{ user.bibliography }}
+                        </template>
+                    </p>
                 </div>
 
                 <!-- Action Buttons -->

@@ -7,7 +7,7 @@
                     <p class="text-slate-500 text-sm mt-1 dark:text-slate-200">Découvrez nos auteurs préférés.</p>
                 </div>
             </div>
-             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
                 <AuthorCard v-for="author in authors" :key="author.id" :author="author" />
             </div>
         </div>

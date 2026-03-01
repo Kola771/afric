@@ -1,29 +1,74 @@
 <template>
-    <div class="bg-[#fffcfccc] dark:bg-dark dark:border-b dark:border-slate-300 pt-20 pb-12 lg:py-24">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <StoryHero />
-            <div class="pt-12 lg:pt-14 border-slate-200 border-t grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-6 gap-y-10">
-                <HomeBookCard v-for="book in books" :key="book.id" :book="book" />
-            </div>
+  <div class="bg-[#fffcfccc] dark:bg-dark dark:border-b dark:border-slate-300 pt-20 pb-12 lg:py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-8">
+      <StoryHero />
+      <div class="pt-8 border-slate-200 border-t flex flex-col gap-8">
+        <div class="flex items-center md:items-end justify-between">
+          <div>
+            <h2 class="text-2xl font-display font-medium dark:text-white text-slate-900 tracking-tight">18ans+</h2>
+          </div>
+          <nuxt-link to="/stories/#"
+            class="flex items-center gap-1 text-sm font-medium text-slate-900 hover:text-orange-600 transition-colors dark:text-slate-200 dark:hover:text-orange-500">
+            <span class="hidden sm:block">Voir tout</span>
+            <Icon name="mdi:arrow-right" class="w-5 h-5" />
+          </nuxt-link>
         </div>
+        <div
+          class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-6 gap-y-10">
+          <HomeBookCard v-for="book in books" :key="book.id" :book="book" />
+        </div>
+      </div>
+      <div class="pt-8 border-slate-200 border-t flex flex-col gap-8">
+        <div class="flex items-center md:items-end justify-between">
+          <div>
+            <h2 class="text-2xl font-display font-medium dark:text-white text-slate-900 tracking-tight">16ans+</h2>
+          </div>
+          <nuxt-link to="/stories/#"
+            class="flex items-center gap-1 text-sm font-medium text-slate-900 hover:text-orange-600 transition-colors dark:text-slate-200 dark:hover:text-orange-500">
+            <span class="hidden sm:block">Voir tout</span>
+            <Icon name="mdi:arrow-right" class="w-5 h-5" />
+          </nuxt-link>
+        </div>
+        <div
+          class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-6 gap-y-10">
+          <HomeBookCard v-for="book in books" :key="book.id" :book="book" />
+        </div>
+      </div>
+      <div class="pt-8 border-slate-200 border-t flex flex-col gap-8">
+        <div class="flex items-center md:items-end justify-between">
+          <div>
+            <h2 class="text-2xl font-display font-medium dark:text-white text-slate-900 tracking-tight">12ans+</h2>
+          </div>
+          <nuxt-link to="/stories/#"
+            class="flex items-center gap-1 text-sm font-medium text-slate-900 hover:text-orange-600 transition-colors dark:text-slate-200 dark:hover:text-orange-500">
+            <span class="hidden sm:block">Voir tout</span>
+            <Icon name="mdi:arrow-right" class="w-5 h-5" />
+          </nuxt-link>
+        </div>
+        <div
+          class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-6 gap-y-10">
+          <HomeBookCard v-for="book in books" :key="book.id" :book="book" />
+        </div>
+      </div>
     </div>
+  </div>
 </template>
 <script lang="ts" setup>
-  useSeoMeta({
-    title: 'Toutes les histoires',
-    description: 'Explorez des histoires africaines originales écrites par des auteurs émergents et passionnés sur Afric Storyline.',
-    
-    ogTitle: 'Toutes les histoires',
-    ogDescription: 'Découvrez toutes les histoires publiées sur notre plateforme.',
-    ogImage: 'https://africstoryline.com/afric.png',
-    ogUrl: 'https://africstoryline.com/',
-    ogType: 'website',
+useSeoMeta({
+  title: 'Toutes les histoires',
+  description: 'Explorez des histoires africaines originales écrites par des auteurs émergents et passionnés sur Afric Storyline.',
 
-    twitterCard: 'summary_large_image',
-    twitterTitle: 'Toutes les histoires',
-    twitterDescription: 'Découvrez toutes les histoires publiées sur notre plateforme.',
-    twitterImage: 'https://africstoryline.com/afric.png'
-  });
+  ogTitle: 'Toutes les histoires',
+  ogDescription: 'Découvrez toutes les histoires publiées sur notre plateforme.',
+  ogImage: 'https://africstoryline.com/afric.png',
+  ogUrl: 'https://africstoryline.com/',
+  ogType: 'website',
+
+  twitterCard: 'summary_large_image',
+  twitterTitle: 'Toutes les histoires',
+  twitterDescription: 'Découvrez toutes les histoires publiées sur notre plateforme.',
+  twitterImage: 'https://africstoryline.com/afric.png'
+});
 
 const books = ref<Book[]>([
   {
@@ -67,7 +112,6 @@ const books = ref<Book[]>([
     rating: 4.5,
     category: "Sci-Fi",
     state: "Terminé",
-    isNew: true,
     url: "/books/book-uuid-4"
   },
   {
@@ -79,26 +123,6 @@ const books = ref<Book[]>([
     category: "Romance",
     state: "En cours",
     url: "/books/book-uuid-5"
-  },
-  {
-    id: 6,
-    title: "Lumière dans l'Obscurité",
-    author: "Chloé B.",
-    image: "/assets/img8.avif",
-    rating: 4.2,
-    category: "Romance",
-    state: "En cours",
-    url: "/books/book-uuid-6"
-  },
-  {
-    id: 7,
-    title: "Les Ombres du Passé",
-    author: "Chloé B.",
-    image: "/assets/img7.avif",
-    rating: 4.2,
-    category: "Romance",
-    state: "En cours",
-    url: "/books/book-uuid-7"
   },
 ])
 </script>

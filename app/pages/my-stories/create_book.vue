@@ -63,6 +63,18 @@
                         </label>
                     </div>
                 </div>
+                <div>
+                    <label for="step" class="text-sm text-slate-900 font-medium dark:text-white">Limite age
+                        :</label>
+                    <select required id="step"
+                        class="w-full text-sm placeholder:text-slate-500 text-slate-800 outline-none border border-slate-300 dark:border-slate-200 dark:bg-slate-50 rounded-md p-2.5"
+                        v-model="rating_age">
+                        <option value="" disabled selected>Limite d'age</option>
+                        <option value="12+">12ans+</option>
+                        <option value="16+">16ans+</option>
+                        <option value="18+">18ans+</option>
+                    </select>
+                </div>
 
                 <div v-if="error" class="text-xs text-center font-medium text-red-500 mt-2">{{ error }}</div>
                 <div v-if="message" class="text-xs text-center font-medium text-green-500 mt-2">{{ message }}</div>
@@ -82,6 +94,7 @@ const { toConnectUser } = authenticate();
 const user = ref<User | null>(null);
 const title = ref<string>("");
 const description = ref<string>("");
+const rating_age = ref<string>("");
 const categories = ref<Category[]>([]);
 const selectedCategories = ref<number[]>([]);
 const error = ref<string | null | undefined>(null);

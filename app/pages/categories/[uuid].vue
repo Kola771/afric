@@ -1,6 +1,6 @@
 <template>
   <div class="bg-[#fffcfccc] dark:bg-dark dark:border-b dark:border-slate-300 pt-8">
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12 flex flex-col gap-4">
       <div class="flex flex-col items-start" v-if="category">
         <button @click="back"
           class="hover:bg-slate-200 hover:duration-300 hover:ease-in-out dark:bg-slate-800 dark:hover:bg-slate-700 px-3 py-2 rounded-lg border-slate-400 border-[1px] flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors">
@@ -19,8 +19,29 @@
             contient 154 histoire(s)</p>
         </div>
       </div>
-      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-6 gap-y-10">
-        <HomeBookCard v-for="book in books" :key="book.id" :book="book" />
+      <div class="pt-5 border-slate-200 border-t flex flex-col gap-8">
+        <div class="flex items-center md:items-end justify-between">
+          <div>
+            <h2 class="text-2xl font-display font-medium dark:text-white text-slate-900 tracking-tight">18ans+</h2>
+          </div>
+          <div class="flex gap-2">
+            <select name="" id="" class="bg-slate-50 dark:bg-slate-800 dark:text-white outline-none px-3 py-1.5 text-sm lg:text-xs rounded-lg border-slate-300 border">
+              <option value="" disabled selected>Statut</option>
+              <option value="12+">En cours</option>
+              <option value="16+">En pause</option>
+              <option value="18+">Terminé</option>
+            </select>
+            <select name="" id="" class="bg-slate-50 dark:bg-slate-800 dark:text-white outline-none px-3 py-1.5 text-sm lg:text-xs rounded-lg border-slate-300 border">
+              <option value="" disabled selected>Options</option>
+              <option value="12+">12ans+</option>
+              <option value="16+">16ans+</option>
+              <option value="18+">18ans+</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-6 gap-y-10">
+          <HomeBookCard v-for="book in books" :key="book.id" :book="book" />
+        </div>
       </div>
     </section>
   </div>

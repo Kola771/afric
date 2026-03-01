@@ -38,17 +38,17 @@
                     <!-- Stats/Trust -->
                     <div class="mt-12 pt-8 border-t border-slate-200 flex items-center gap-8 text-slate-500 dark:text-slate-200">
                         <div>
-                            <div class="text-2xl font-display font-semibold text-slate-900 dark:text-white tracking-tight">15k+</div>
+                            <div class="text-2xl font-display font-semibold text-slate-900 dark:text-white tracking-tight">{{formatNumber(books)}}+</div>
                             <div class="text-xs font-medium uppercase tracking-wide mt-1">Histoires</div>
                         </div>
                         <div class="w-px h-8 bg-slate-200"></div>
                         <div>
-                            <div class="text-2xl font-display font-semibold text-slate-900 dark:text-white tracking-tight">2.5M</div>
+                            <div class="text-2xl font-display font-semibold text-slate-900 dark:text-white tracking-tight">{{ formatNumber(chapters) }}+</div>
                             <div class="text-xs font-medium uppercase tracking-wide mt-1">Chapitres</div>
                         </div>
                         <div class="w-px h-8 bg-slate-200"></div>
                         <div>
-                            <div class="text-2xl font-display font-semibold text-slate-900 dark:text-white tracking-tight">10M+</div>
+                            <div class="text-2xl font-display font-semibold text-slate-900 dark:text-white tracking-tight">{{formatNumber(visitors)}}+</div>
                             <div class="text-xs font-medium uppercase tracking-wide mt-1">Visiteurs</div>
                         </div>
                     </div>
@@ -114,7 +114,13 @@
 
 <script setup lang="ts">
 const { toConnectUser } = authenticate();
+const { findAll } = visitorsData();
+const { countDistinctBooks } = booksData();
+const { countDistinctChapters } = chaptersData();
 const user = ref<User | null>(null);
+const visitors = ref<number>(0);
+const books = ref<number>(0);
+const chapters = ref<number>(0);
 const router = useRouter();
 const registerAuthor = async () => {
     localStorage.setItem("register_author", "true");
@@ -122,6 +128,9 @@ const registerAuthor = async () => {
 };
 
 onMounted(async () => {
+    visitors.value = await findAll();
+    books.value = await countDistinctBooks();
+    chapters.value = await countDistinctChapters();
     user.value = await toConnectUser();
 })
 </script>
