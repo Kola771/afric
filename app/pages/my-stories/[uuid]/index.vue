@@ -28,7 +28,7 @@
           class="hidden sm:flex items-center gap-2 px-3 py-1.5 text-xs font-medium text-slate-700 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors">
           Brouillon
         </button>
-        <button @click="confirmSwitch(true, STATUS.COMPLETED)"
+        <button @click="confirmSwitch(true, STATUS.COMPLETED)" :disabled="ocrLoading"
           class="dark:border dark:bg-slate-800 flex items-center gap-2 px-4 py-1.5 text-xs font-medium text-white bg-slate-900 rounded-lg hover:bg-slate-800 transition-all shadow-sm">
           Publier
           <Icon name="mdi:send" class="w-5 h-4 animate-pulse" />
@@ -121,6 +121,11 @@
             <Icon name="mdi:plus" class="w-5 h-5" />
             Nouveau Chapitre
           </button>
+          <button @click="showPdfModal = true"
+            class="flex w-full items-center justify-center gap-2 rounded-lg border border-dashed border-slate-300 bg-white px-3 py-2.5 text-xs font-semibold text-slate-600 hover:border-orange-400 hover:text-orange-600 hover:bg-orange-50 transition-all">
+            <Icon name="mdi:plus" class="w-5 h-5" />
+            Importer les chapitres
+          </button>
           <p class="text-xs text-red-600 text-center mt-1" v-if="error">{{ error }}</p>
         </div>
       </aside>
@@ -160,6 +165,34 @@
               class="w-full dark:text-white text-3xl font-display font-bold text-slate-900 placeholder:text-slate-300 border-slate-300 border p-0 focus:ring-0 bg-transparent mb-6 tracking-tight"
               placeholder="Titre du chapitre">
 
+            <div class="mb-5 lg:mb-7">
+              <label class="text-xs font-medium text-slate-600 block mb-1 dark:text-slate-200">
+                Importer une image du chapitre (option alternative)
+              </label>
+
+              <input type="file" accept="image/*" @change="handleImageUpload" class="text-xs border-slate-300 border p-2 rounded-lg w-full dark:text-slate-200" :disabled="ocrLoading" />
+
+              <p class="text-[11px] text-slate-400 dark:text-slate-200 mt-1">
+                Vous pouvez soit rédiger votre chapitre dans l’éditeur ci-dessous,
+                soit importer une image contenant le texte.
+                Le contenu sera extrait automatiquement et inséré dans l’éditeur.
+                Merci de relire et corriger avant publication.
+              </p>
+
+              <!-- LOADING OCR -->
+              <div v-if="ocrLoading" class="mt-3 space-y-2">
+                <div class="flex items-center gap-2 text-xs text-orange-600 font-medium">
+                  <Icon name="mdi:loading" class="w-4 h-4 animate-spin" />
+                  Extraction du texte... {{ ocrProgress }}%
+                </div>
+
+                <div class="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
+                  <div class="bg-orange-500 h-2 transition-all duration-300 ease-out"
+                    :style="{ width: ocrProgress + '%' }"></div>
+                </div>
+              </div>
+            </div>
+
             <TinyMCE v-model="chapterContent" @update:modelValue="markDirty" />
           </div>
 
@@ -182,7 +215,7 @@
             <p class="text-xs text-slate-400 mt-1">
               Ajoutez un chapitre pour commencer
             </p>
-            
+
             <div class="p-3 border-t border-slate-100 bg-slate-50/50 dark:bg-dark">
               <button @click="createChapter"
                 class="flex w-full items-center justify-center gap-2 rounded-lg border border-dashed border-slate-300 bg-white px-3 py-2.5 text-xs font-semibold text-slate-600 hover:border-orange-400 hover:text-orange-600 hover:bg-orange-50 transition-all">
@@ -390,13 +423,78 @@
       </div>
     </div>
 
+    <div v-if="showPdfModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+      <div class="bg-white dark:bg-dark dark:border-slate-300 dark:border w-[95%] md:max-w-[600px] rounded-xl p-6">
+
+        <div class="overflow-y-auto max-h-[80vh]">
+          <h2 class="text-sm font-semibold mb-4 dark:text-slate-200">
+            Importer un PDF
+          </h2>
+          <input type="file" accept="application/pdf" @change="handlePdfUpload" :disabled="pdfLoading"
+            class="text-xs border-slate-300 border w-full p-2 rounded-lg dark:text-slate-200" />
+          <p class="text-[11px] text-slate-400 mt-2 dark:text-slate-200">
+            Nous extrayons automatiquement le contenu associé aux intitulés tels que
+            <strong>Préface</strong>, <strong>Résumé</strong>, <strong>Introduction</strong>
+            ou <strong>Chapitre 1, Chapitre 2, etc.</strong>.
+            Assurez-vous que ces titres apparaissent clairement dans votre document PDF.
+            Si des chapitres existent déjà sur la plateforme, la numérotation sera ajustée automatiquement.
+          </p>
+          <!-- Loader -->
+          <div v-if="pdfLoading" class="mt-4 text-xs text-orange-600 dark:text-orange-500">
+            Extraction des chapitres en cours...
+          </div>
+          <!-- Erreur -->
+          <div v-if="pdfError" class="mt-4 text-xs text-red-500">
+            {{ pdfError }}
+          </div>
+          <!-- Affichage navigation -->
+          <div v-if="pdfChapters.length" class="mt-6">
+            <div class="flex items-center justify-between mb-3 dark:text-slate-200">
+              <button @click="prevPdfChapter" :disabled="currentPdfIndex === 0"
+                class="p-2 flex items-center justify-center rounded-lg border border-slate-200 hover:bg-slate-100 disabled:opacity-30">
+                <Icon name="mdi:chevron-left" class="w-5 h-5" />
+              </button>
+              <span class="text-xs text-slate-500 dark:text-slate-200">
+                {{ currentPdfIndex + 1 }} / {{ pdfChapters.length }}
+              </span>
+              <button @click="nextPdfChapter" :disabled="currentPdfIndex === pdfChapters.length - 1"
+                class="p-2 flex items-center justify-center rounded-lg border border-slate-200 hover:bg-slate-100 disabled:opacity-30">
+                <Icon name="mdi:chevron-right" class="w-5 h-5" />
+              </button>
+            </div>
+            <div class="border rounded-xl p-4 min-h-[250px] bg-slate-50">
+              <h3 class="text-sm font-semibold mb-3">
+                {{ currentPdfChapter?.title || 'Titre non détecté' }}
+              </h3>
+              <div class="text-xs text-slate-600 whitespace-pre-line max-h-[300px] overflow-y-auto">
+                {{ currentPdfChapter?.content }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex justify-end gap-2 mt-6">
+          <button @click="closeModalPdf" class="text-xs text-red-500 dark:border-slate-200 dark:border dark:px-4 dark:py-1.5 dark:rounded dark:lg:py-2 dark:lg:px-6">
+            Fermer
+          </button>
+        </div>
+      </div>
+    </div>
+
+
   </div>
 </template>
 
 <script lang="ts" setup>
-const uuid = useRoute().params.uuid
+const uuid = useRoute().params.uuid;
+import Tesseract from 'tesseract.js'
+interface ImportedChapter {
+  title: string
+  content: string
+}
 definePageMeta({
   layout: "not-layout",
+  ssr: false
 });
 
 const { getBookByUuid } = booksData();
@@ -425,7 +523,176 @@ const pendingChapterId = ref<number | null>(null)
 const showUnsavedModal = ref<boolean>(false)
 const showDeleteModal = ref<boolean>(false)
 let isDirty = ref(false)
-const showMobileChapters = ref(false)
+const showMobileChapters = ref(false);
+const showPdfModal = ref<boolean>(false)
+const pdfFile = ref<File | null>(null)
+const pdfLoading = ref<boolean>(false)
+const pdfChapters = ref<ImportedChapter[]>([])
+const pdfError = ref<string | null>(null)
+const currentPdfIndex = ref<number>(0)
+const ocrLoading = ref<boolean>(false)
+const ocrProgress = ref<number>(0)
+
+const currentPdfChapter = computed(() => {
+  return pdfChapters.value[currentPdfIndex.value] || null
+})
+
+function nextPdfChapter() {
+  if (currentPdfIndex.value < pdfChapters.value.length - 1) {
+    currentPdfIndex.value++
+  }
+}
+
+function prevPdfChapter() {
+  if (currentPdfIndex.value > 0) {
+    currentPdfIndex.value--
+  }
+}
+
+function closeModalPdf() {
+  showPdfModal.value = false;
+  pdfChapters.value = [];
+  currentPdfIndex.value = 0;
+}
+
+async function handlePdfUpload(event: Event): Promise<void> {
+  if (process.server) return
+
+  const input = event.target as HTMLInputElement
+  const file = input.files?.[0]
+  if (!file) return
+
+  pdfFile.value = file
+  pdfLoading.value = true
+  pdfError.value = null
+  pdfChapters.value = []
+
+  try {
+    // 🔥 Import dynamique côté client
+    const pdfjsLib = await import('pdfjs-dist/build/pdf')
+    const pdfWorker = await import('pdfjs-dist/build/pdf.worker?url')
+
+    pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker.default
+
+    const arrayBuffer = await file.arrayBuffer()
+    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise
+
+    let fullText = ''
+
+    for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+      const page = await pdf.getPage(pageNum)
+      const content = await page.getTextContent()
+
+      const pageText = content.items
+        .map((item: any) => item.str)
+        .join(' ')
+
+      fullText += pageText + '\n\n'
+    }
+
+    pdfChapters.value = splitChapters(fullText)
+    currentPdfIndex.value = 0
+
+    if (!pdfChapters.value.length) {
+      pdfError.value = "Aucun chapitre détecté. Vérifiez le format (Chapitre 1, Chapitre 2...)."
+    }
+
+  } catch (error) {
+    console.error(error)
+    pdfError.value = "Erreur lors de l'extraction du PDF."
+  } finally {
+    pdfLoading.value = false
+    input.value = ''
+  }
+}
+
+function splitChapters(text: string): ImportedChapter[] {
+  // Regex qui gère :
+  // - préface / preface (avec ou sans accents)
+  // - résumé / resume
+  // - introduction
+  // - chapitre X ou chapitre_X
+  const regex = /\b(pr[eé]face|resume|r[eé]sum[eé]|introduction|chapitre[_ ]?\d+)\b/gi;
+
+  const matches = [...text.matchAll(regex)];
+  if (!matches.length) return [];
+
+  const extracted: ImportedChapter[] = [];
+  let chapterCounter = chapters.value.length + 1; // Compteur pour les chapitres numériques
+
+  for (let i = 0; i < matches.length; i++) {
+    const start = matches[i].index!;
+    const end = matches[i + 1]?.index ?? text.length;
+
+    // le titre exact tel qu'il apparaît
+    let title = matches[i][0].trim();
+    let rawContent = text.slice(start, end).trim();
+    let content = rawContent.replace(new RegExp(`^${matches[i][0]}`, 'i'), '').trim();
+
+    // normaliser certains titres
+    if (/pr[eé]face/i.test(title)) {
+      title = "Préface";
+    } else if (/resume/i.test(title) || /r[eé]sum[eé]/i.test(title)) {
+      title = "Résumé";
+    } else if (/introduction/i.test(title)) {
+      title = "Introduction";
+    } else if (/chapitre[_ ]?\d+/i.test(title)) {
+      // renumérotation propre pour les chapitres
+      title = `Chapitre ${chapterCounter}`;
+      chapterCounter++;
+    }
+
+    extracted.push({
+      title,
+      content
+    });
+  }
+
+  return extracted;
+}
+
+async function handleImageUpload(event: Event): Promise<void> {
+  const input = event.target as HTMLInputElement
+  const file: File | undefined = input.files?.[0]
+
+  if (!file) return
+
+  try {
+    ocrLoading.value = true
+    ocrProgress.value = 0
+
+    const { data } = await Tesseract.recognize(
+      file,
+      'fra',
+      {
+        logger: (m: any) => {
+          if (m.status === 'recognizing text') {
+            ocrProgress.value = Math.round(m.progress * 100)
+          }
+        }
+      }
+    )
+
+    // Injection du texte extrait dans l’éditeur
+    chapterContent.value = cleanExtractedText(data.text);
+    view.value = "preview";
+
+    isDirty.value = true
+  } catch (error) {
+    console.error('Erreur OCR:', error)
+  } finally {
+    ocrLoading.value = false
+    input.value = ''
+  }
+}
+
+function cleanExtractedText(text: string): string {
+  return text
+    .replace(/\r\n/g, '\n')
+    .replace(/\n{3,}/g, '\n\n')
+    .replace(/[ \t]+/g, ' ')
+    .trim()
+}
 
 const showStatus = (status: string) => {
   if (status === STATUS.value.DRAFT) {
