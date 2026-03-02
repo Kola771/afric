@@ -16,7 +16,7 @@
           </h2>
           <p class="text-sm mb-2 text-slate-500 dark:text-slate-200 mt-1">{{ category?.description }}</p>
           <p class="text-sm text-orange-600 hover:text-orange-700 dark:text-orange-400">Elle
-            contient 154 histoire(s)</p>
+            contient {{ category?.booksCount }} histoire(s)</p>
         </div>
       </div>
       <div class="pt-5 border-slate-200 border-t flex flex-col gap-8">
@@ -40,7 +40,7 @@
           </div>
         </div>
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-6 gap-y-10">
-          <HomeBookCard v-for="book in books" :key="book.id" :book="book" />
+          <HomeCard v-for="book in books" :key="book.id" :book="book" />
         </div>
       </div>
     </section>
@@ -50,35 +50,51 @@
 const config = useRuntimeConfig();
 const route = useRoute();
 const { getCategoryByUuid } = categoriesData();
+const { findAllPaginated } = booksData();
 const category = ref<Category | null>(null);
+const books = ref<BookData[]>([]);
+const page = ref(1);
+const limit = ref(25); // 25 livres par page
+const totalPages = ref<number>(1); // nombre total de pages
+const loading = ref(false); // pour éviter les doubles requêtes
 
 onMounted(async () => {
   category.value = await getCategoryByUuid(`${route.params.uuid}`);
+  console.log(category.value)
+  if(category.value) {
+    const {data, totalPages: tp} = await findAllPaginated(page.value, limit.value, Number(category.value.id));
+    books.value = data;
+    totalPages.value = tp;
+    console.log(books.value)
+    useSeoMeta({
+      title: `${category.value?.name}`
+    })
+  }
 });
 
 const back = () => {
   window.history.back()
 }
-const books = ref<Book[]>([
-  {
-    id: 2,
-    title: "Nairobi by Night",
-    author: "Sarah O.",
-    image: "/assets/img6.jpg",
-    state: "En cours",
-    rating: 4.6,
-    rank: "#2",
-    url: "/books/book-uuid-2"
-  },
-  {
-    id: 3,
-    title: "Le Chant du Baobab",
-    author: "Moussa Traoré",
-    image: "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?q=80&w=600&auto=format&fit=crop",
-    state: "En cours",
-    rating: 4.9,
-    rank: "#3",
-    url: "/books/book-uuid-3"
-  },
-])
+// const books = ref<Book[]>([
+//   {
+//     id: 2,
+//     title: "Nairobi by Night",
+//     author: "Sarah O.",
+//     image: "/assets/img6.jpg",
+//     state: "En cours",
+//     rating: 4.6,
+//     rank: "#2",
+//     url: "/books/book-uuid-2"
+//   },
+//   {
+//     id: 3,
+//     title: "Le Chant du Baobab",
+//     author: "Moussa Traoré",
+//     image: "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?q=80&w=600&auto=format&fit=crop",
+//     state: "En cours",
+//     rating: 4.9,
+//     rank: "#3",
+//     url: "/books/book-uuid-3"
+//   },
+// ])
 </script>

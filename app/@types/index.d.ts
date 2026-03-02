@@ -48,6 +48,7 @@ interface Category {
   description?: string
   status?: string
   deadline?: Date
+  booksCount?: number
 }
 
 interface RoleDto {

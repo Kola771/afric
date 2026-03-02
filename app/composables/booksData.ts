@@ -38,6 +38,17 @@ export function booksData() {
         return { data: [], total: 0, totalPages: 0, currentPage: 0 };
     }
 
+    async function findAllPaginated(page: number = 1, limit: number = 25, id_category: number): Promise<{  data: BookData[], total: number, totalPages: number, currentPage: number }> {
+        if (process.client) {
+            if (localStorage.getItem('user')) {
+                const token = JSON.parse(localStorage.getItem("user") || '{}').token;
+                const response = await axios.get(`/books/categories?page=${page}&limit=${limit}&id_category=${id_category}`, {params: {token}});
+                return response?.data;
+            }
+        }
+        return { data: [], total: 0, totalPages: 0, currentPage: 0 };
+    }
+
     async function existingData(data: any): Promise<{ success: boolean, msg?: string, error?: string | null, status?: number }> {
         if (process.client) {
             if (localStorage.getItem('user')) {
@@ -144,6 +155,7 @@ export function booksData() {
         countDistinctBooks,
         existingData,
         findAllPaginatedAuthor,
+        findAllPaginated,
         allBooksActifs,
         getBookByUuid,
         createData,
