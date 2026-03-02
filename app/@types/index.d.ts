@@ -83,6 +83,7 @@ interface BookData {
   book_pdf?: string|null
   image: string
   book_categories?: any
+  user?: any
   created_at?: Date
 }
 
