@@ -15,14 +15,14 @@
                 <p class="text-md text-gray-500 dark:text-slate-300 leading-relaxed max-w-md mb-8 line-clamp-4 lg:line-clamp-3 tracking-tight">
                     Lorem ipsum dolor sit amet consectetur, adipisicing elit. Culpa distinctio saepe veniam vel similique aperiam veritatis, exercitationem, nostrum error, vitae dicta voluptate ipsum in animi aspernatur impedit! Sapiente, vero quisquam!
                 </p>
-                <div class="flex items-center gap-3">
-                    <nuxt-link to="/books/book-uuid-1/chapter/chapter-uuid-1" class="inline-flex items-center justify-center gap-2 bg-slate-900 text-white px-8 py-4 rounded-xl text-sm font-medium hover:bg-slate-800 transition-all shadow-xl shadow-slate-200 dark:shadow-slate-800 dark:border-[1px] dark:border-gray-600">
+                <div class="flex items-center gap-3 text-xs lg:text-sm">
+                    <nuxt-link to="/books/book-uuid-1/chapter/chapter-uuid-1" class="inline-flex items-center justify-center gap-2 bg-slate-900 text-white px-8 py-4 rounded-xl font-medium hover:bg-slate-800 transition-all shadow-xl shadow-slate-200 dark:shadow-slate-800 dark:border-[1px] dark:border-gray-600">
                         <span class="md:hidden">Commencer</span>
                         <span class="hidden md:block">Commencer la lecture</span>
-                        <Icon name="mdi:arrow-right" class="w-5 h-5" />
+                        <Icon name="mdi:arrow-right" class="w-4 h-4" />
                     </nuxt-link>
-                    <nuxt-link to="/books/book-uuid-1" class="inline-flex items-center justify-center gap-2 bg-white border border-slate-200 text-slate-700 px-8 py-4 rounded-xl text-sm font-medium hover:bg-slate-50 hover:border-slate-300 transition-all">
-                        <Icon name="mdi:book-multiple" class="w-5 h-5" />
+                    <nuxt-link to="/books/book-uuid-1" class="inline-flex items-center justify-center gap-2 bg-white border border-slate-200 text-slate-700 px-8 py-4 rounded-xl font-medium hover:bg-slate-50 hover:border-slate-300 transition-all">
+                        <Icon name="mdi:book-multiple" class="w-4 h-4" />
                         3 Chapitre(s)
                     </nuxt-link>
                 </div>

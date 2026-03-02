@@ -63,11 +63,11 @@
                 </div>
                 <div v-if="sortedBooks.length > 0"
                     class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-10">
-                    <div class="flex flex-col justify-between gap-1 rounded-lg bg-white dark:bg-slate-800 border border-slate-100 hover:border-slate-300 transition-all group-hover:scale-105 hover:shadow-sm pb-2"
+                    <div class="flex flex-col justify-between gap-1 rounded-3xl shadow-sm hover:shadow-md bg-white dark:bg-slate-800 border border-slate-100 hover:border-slate-300 transition-all group-hover:scale-105 hover:shadow-sm pb-2"
                         v-for="(book, index) in sortedBooks" ref="bookRefs">
                         <nuxt-link :key="book.id" :to="`/books/${book.uuid}`" class="group flex flex-col">
                             <img :src="`${config.public.apiBackendUrl}/uploads/books/${book?.image}`"
-                                class="w-full h-40 md:h-36 lg:h-40 rounded-t-lg object-cover transition-transform duration-500"
+                                class="w-full h-40 md:h-36 lg:h-40 rounded-t-3xl object-cover transition-transform duration-500"
                                 :alt="book.title">
                             <div class="px-2.5 pt-2 flex flex-col gap-1">
                                 <p
@@ -81,34 +81,35 @@
                                 </p>
                                 <p
                                     class="flex flex-wrap items-center gap-3 my-1 text-[10px] font-medium text-orange-600">
-                                    <span :class="`${book.status === 'inactive' ? 'text-red-600 bg-red-50 dark:text-red-600' : (book.status === 'completed' ? 'text-green-600 dark:text-green-500 bg-green-50' : (book.status === 'ongoing' ? 'text-blue-600 dark:text-blue-500 bg-blue-50' : 'bg-slate-100 text-slate-500'))} px-2 py-1 rounded`">{{ status(book.status)
-                                    }}</span>
+                                    <span
+                                        :class="`${book.status === 'inactive' ? 'text-red-600 bg-red-50 dark:text-red-600' : (book.status === 'completed' ? 'text-green-600 dark:text-green-500 bg-green-50' : (book.status === 'ongoing' ? 'text-blue-600 dark:text-blue-500 bg-blue-50' : 'bg-slate-100 text-slate-500'))} px-2 py-1 rounded`">{{
+                                            status(book.status)
+                                        }}</span>
                                 </p>
                             </div>
                         </nuxt-link>
-                        <!-- <div class="hover:text-orange-600 transition-colors hover:underline px-2.5 py-2 text-xs text-slate-500 dark:text-slate-200 flex flex-wrap gap-2">
+                        <!-- <div class="hover:text-orange-600 transition-colors px-2.5 py-2 text-xs text-slate-500 dark:text-slate-200 flex flex-wrap gap-2">
                             <span>{{ book.chapters }} chap,</span> <span class="flex items-center gap-1"><Icon name="mdi:eye" class="w-3 h-3" /> <span>{{ book.views }} vue(s)</span></span>
                         </div> -->
-                        <div class="grid grid-cols-2 gap-2 px-2.5 w-full">
+                        <div class="grid grid-cols-5 gap-2 px-2.5 pb-1.5 w-full">
                             <nuxt-link :to="`/my-stories/${book.uuid}/edit_book`"
-                                class="bg-blue-500 p-1.5 rounded flex items-center gap-1 justify-center text-white font-medium gap-1 text-xs dark:bg-blue-600 px-1 group-hover:translate-x-1 transition-transform hover:underline">
+                                class="col-span-5 bg-slate-50 dark:bg-transparent dark:text-slate-200 dark:border-slate-200 border-slate-400 border-[1px] p-2 rounded flex items-center gap-1 justify-center text-slate-700 font-medium gap-1 text-xs px-1 group-hover:translate-x-1 transition-transform">
                                 <Icon name="mdi:pencil" class="w-3 h-3" />
                                 Modifier le livre
                             </nuxt-link>
                             <nuxt-link :to="`/my-stories/${book.uuid}`"
-                                class="bg-orange-500 p-1.5 rounded flex items-center gap-1 justify-center text-white font-medium gap-1 text-xs dark:bg-orange-600 px-1 group-hover:translate-x-1 transition-transform hover:underline">
+                                class="col-span-2 bg-orange-500 p-2 rounded flex items-center gap-1 justify-center text-white font-medium gap-1 text-xs dark:bg-orange-600 px-1 group-hover:translate-x-1 transition-transform">
                                 <Icon name="mdi:book-open-variant-outline" class="w-3 h-3" />
                                 Chapitres
                             </nuxt-link>
-                            <nuxt-link :to="`/my-stories/${book.uuid}/likes-and-comments`"
-                                class="bg-slate-700 p-1.5 rounded flex items-center gap-1 justify-center text-white font-medium gap-1 text-xs px-1 group-hover:translate-x-1 transition-transform hover:underline">
+                            <button @click="openStats(book)"
+                                class="col-span-2 bg-slate-700 p-2 rounded flex items-center gap-1 justify-center text-white font-medium gap-1 text-xs px-1 group-hover:translate-x-1 transition-transform">
                                 <Icon name="mdi:graph" class="w-3 h-3" />
                                 Stats
-                            </nuxt-link>
+                            </button>
                             <button @click="toggleDeleteModal(book)"
-                                class="bg-red-500 p-1.5 rounded flex items-center gap-1 justify-center text-white font-medium gap-1 text-xs dark:bg-red-600 px-1 group-hover:translate-x-1 transition-transform">
+                                class="bg-red-50 border-red-500 border-[1px] p-2 rounded flex items-center gap-1 justify-center text-red-500 font-medium gap-1 text-xs dark:bg-red-600 dark:text-white dark:border-none px-1 group-hover:translate-x-1 transition-transform">
                                 <Icon name="mdi:delete" class="w-3 h-3" />
-                                Supprimer
                             </button>
                         </div>
                     </div>
@@ -128,8 +129,75 @@
                 <LoadersFirst v-if="loading && books.length > 0" />
             </div>
         </section>
-        <MyStoryDeleteBook @close-delete-modal="showDeleteModal = false" @close-and-load="closeDeleteModal" :book="book" :showDeleteModal="showDeleteModal"
-            v-if="showDeleteModal && book" />
+        <MyStoryDeleteBook @close-delete-modal="showDeleteModal = false" @close-and-load="closeDeleteModal" :book="book"
+            :showDeleteModal="showDeleteModal" v-if="showDeleteModal && book" />
+
+        <StatsModal :show="showStatsModal" @close="closeStats">
+            <div class="flex flex-col h-full lg:h-full lg:w-full">
+                <!-- En-tête fixe -->
+                <div
+                    class="flex items-center justify-between flex-shrink-0 bg-white dark:bg-slate-800 z-10 border-b border-slate-200 dark:border-slate-700">
+                    <h3 class="text-lg font-medium flex text-slate-900 dark:text-white max-w-2/3">
+                        <span class="truncate">{{ currentBookStats?.title }}</span>
+                    </h3>
+                    <div class="text-[12px] lg:text-xs flex flex-wrap items-center">
+                        <button @click="showComments"
+                            :class="step === 'comments' ? 'border-orange-600 dark:border-orange-500' : 'border-slate-300 dark:hover:bg-slate-50'"
+                            class="ml-1 p-2 border-b-[1px] flex items-center gap-2 transition-all duration-300 dark:text-white">
+                            <Icon name="mdi:comment-multiple" class="w-4 h-4" /> 200
+                        </button>
+                        <button @click="showLikes"
+                            :class="step === 'likes' ? 'border-orange-600 dark:border-orange-500' : 'border-slate-300 dark:hover:bg-slate-50'"
+                            class="ml-1 p-2 border-b-[1px] flex items-center gap-2 transition-all duration-300 dark:text-white">
+                            <Icon name="mdi:heart" class="w-4 h-4" /> 700
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Contenu scrollable -->
+                <div class="flex-1 overflow-y-auto p-4">
+                    <div v-if="step === 'likes'" class="grid grid-cols-1 gap-4 mt-2">
+                        <div class="flex gap-4" v-for="index in 24" :key="index">
+                            <div
+                                class="w-8 h-8 rounded-full bg-orange-500 text-white flex items-center justify-center text-xs font-bold flex-shrink-0 dark:bg-orange-600 dark:text-white">
+                                A
+                            </div>
+                            <div>
+                                <div class="flex items-center gap-3">
+                                    <div class="flex items-baseline gap-2">
+                                        <span class="text-[13px] font-semibold text-slate-900 dark:text-slate-200">John
+                                            Days</span>
+                                        <span class="text-xs text-slate-400 dark:text-slate-200">il y a 2h</span>
+                                    </div>
+                                    <span
+                                        class="px-3 py-0.5 rounded-full bg-orange-50 border border-orange-100/50 text-orange-800 text-[10px] font-medium">
+                                        Lecteur
+                                    </span>
+                                </div>
+                                <p class="text-xs lg:text-xs text-slate-600 dark:text-slate-200">@j_day</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div v-if="step === 'comments'" class="grid grid-cols-1 gap-4 mt-2">
+                        <div class="flex gap-4" v-for="index in 24" :key="index">
+                            <div
+                                class="w-8 h-8 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center text-xs font-bold flex-shrink-0 dark:bg-orange-600 dark:text-white">
+                                A
+                            </div>
+                            <div>
+                                <div class="flex items-baseline gap-2">
+                                    <span
+                                        class="text-[13px] font-semibold text-slate-900 dark:text-slate-200">Arnaud</span>
+                                    <span class="text-xs text-slate-400 dark:text-slate-200">il y a 5h</span>
+                                </div>
+                                <p class="text-xs text-slate-600 dark:text-slate-200 mt-1">Très intéressant !</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </StatsModal>
     </div>
 </template>
 
@@ -179,6 +247,28 @@ const searchTerm = ref('');  // utilisé pour filtrer
 type SortDirection = 'asc' | 'desc' | null;
 const sortKey = ref<keyof BookData | null>(null);
 const sortDirection = ref<SortDirection>(null);
+const showStatsModal = ref(false)
+const currentBookStats = ref<BookData | null>(null)
+const step = ref<string>("comments");
+
+const showLikes = () => {
+    step.value = "likes";
+}
+
+const showComments = () => {
+    step.value = "comments";
+}
+
+const openStats = (book: BookData) => {
+    step.value = "comments";
+    currentBookStats.value = book
+    showStatsModal.value = true
+}
+
+const closeStats = () => {
+    showStatsModal.value = false
+    currentBookStats.value = null
+}
 
 // Détecter Enter
 const onSearchEnter = (event: KeyboardEvent) => {

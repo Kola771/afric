@@ -18,7 +18,7 @@
             formatLocalDate(book.created_at) }}</p>
         </div>
       </div>
-      <div class="flex items-center gap-3">
+      <div class="flex items-center gap-3" v-if="!['completed'].includes(book.status)">
         <span v-if="saving"
           class="text-xs text-orange-600 dark:text-orange-500 font-medium flex items-center gap-1 animate-pulse">
           <Icon name="mdi:loading" class="w-5 h-5 animate-spin" />
@@ -45,7 +45,7 @@
           <h2 class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-200">Sommaire</h2>
         </div>
 
-        <div class="flex-1 max-h-[80vh] overflow-y-auto custom-scroll p-3 space-y-1" v-if="chapters?.length > 0">
+        <div :class="`${['completed'].includes(book.status) ? 'max-h-screen' : 'max-h-[80vh]'} flex-1 overflow-y-auto custom-scroll p-3 space-y-1`" v-if="chapters?.length > 0">
           <div v-for="chap in chapters" :key="chap.id" class="flex flex-col justify-between gap-1" :class="[
             'w-full group flex items-start gap-3 p-3 rounded-xl text-left transition-all',
             chap.id === currentChapterId
@@ -112,12 +112,12 @@
             Aucun chapitre trouvé
           </p>
 
-          <p class="text-xs text-slate-400 mt-1">
+          <p class="text-xs text-slate-400 mt-1" v-if="!['completed'].includes(book.status)">
             Ajoutez un chapitre pour commencer
           </p>
         </div>
 
-        <div class="p-3 border-t border-slate-100 bg-slate-50/50 dark:bg-dark">
+        <div class="p-3 border-t border-slate-100 bg-slate-50/50 dark:bg-dark" v-if="!['completed'].includes(book.status)">
           <button @click="createChapter"
             class="flex w-full items-center justify-center gap-2 rounded-lg border border-dashed border-slate-300 bg-white px-3 py-2.5 text-xs font-semibold text-slate-600 hover:border-orange-400 hover:text-orange-600 hover:bg-orange-50 transition-all">
             <Icon name="mdi:plus" class="w-5 h-5" />
@@ -153,7 +153,7 @@
               <Icon name="mdi:eye" class="w-5 h-5" /> Aperçu
             </button>
           </div>
-          <button @click="saveContent"
+          <button @click="saveContent" v-if="!['completed'].includes(book.status)"
             class="flex md:hidden items-center gap-2 px-3 py-1.5 text-xs font-medium text-slate-700 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors">
             Brouillon
           </button>
@@ -169,30 +169,36 @@
 
             <div class="mb-5 lg:mb-7">
               <label class="text-xs font-medium text-slate-600 block mb-1 dark:text-slate-200">
-                Importer une image du chapitre (option alternative)
+                Importer jusqu'à 3 images pour le chapitre (option alternative)
               </label>
 
-              <input type="file" accept="image/*" @change="handleImageUpload"
+              <input type="file" accept="image/*" multiple @change="handleImagesUpload"
                 class="text-xs border-slate-300 border p-2 rounded-lg w-full dark:text-slate-200"
                 :disabled="ocrLoading" />
 
-              <p class="text-[11px] text-slate-400 dark:text-slate-200 mt-1">
+              <p class="text-[11px] text-slate-600 dark:text-slate-200 mt-1">
                 ⚠️ Vous pouvez soit rédiger votre chapitre dans l’éditeur ci-dessous,
-                soit importer une image contenant le texte.
+                soit importer jusqu’à <strong>3 images</strong> contenant le texte.
                 Le contenu sera extrait automatiquement et inséré dans l’éditeur.
                 Merci de relire et corriger avant publication.
               </p>
+              <!-- Erreur -->
+              <div v-if="errorSize" class="mt-3 text-xs text-center text-red-500">
+                {{ errorSize }}
+              </div>
 
               <!-- LOADING OCR -->
               <div v-if="ocrLoading" class="mt-3 space-y-2">
-                <div class="flex items-center gap-2 text-xs text-orange-600 font-medium">
+                <div v-for="(progress, idx) in ocrProgressList" :key="idx"
+                  class="flex items-center gap-2 text-xs text-orange-600 font-medium">
                   <Icon name="mdi:loading" class="w-4 h-4 animate-spin" />
-                  Extraction du texte... {{ ocrProgress }}%
+                  Extraction de l'image {{ idx + 1 }}... {{ progress }}%
                 </div>
 
-                <div class="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
+                <div v-for="(progress, idx) in ocrProgressList" :key="'bar' + idx"
+                  class="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
                   <div class="bg-orange-500 h-2 transition-all duration-300 ease-out"
-                    :style="{ width: ocrProgress + '%' }"></div>
+                    :style="{ width: progress + '%' }"></div>
                 </div>
               </div>
             </div>
@@ -216,11 +222,11 @@
               Aucun chapitre trouvé
             </p>
 
-            <p class="text-xs text-slate-400 mt-1">
+            <p class="text-xs text-slate-400 mt-1" v-if="!['completed'].includes(book.status)">
               Ajoutez un chapitre pour commencer
             </p>
 
-            <div class="p-3 border-t border-slate-100 bg-slate-50/50 dark:bg-dark">
+            <div class="p-3 border-t border-slate-100" v-if="!['completed'].includes(book.status)">
               <button @click="createChapter"
                 class="flex w-full items-center justify-center gap-2 rounded-lg border border-dashed border-slate-300 bg-white px-3 py-2.5 text-xs font-semibold text-slate-600 hover:border-orange-400 hover:text-orange-600 hover:bg-orange-50 transition-all">
                 <Icon name="mdi:plus" class="w-5 h-5" />
@@ -248,7 +254,7 @@
             <Icon name="mdi:close" class="w-5 h-5" />
           </button>
         </div>
-        <div class="space-y-2 max-h-[calc(100vh-10rem)] overflow-y-auto" v-if="chapters?.length > 0">
+        <div :class="`${['completed'].includes(book.status) ? 'max-h-[calc(100vh-5rem)]' : 'max-h-[calc(100vh-10rem)]'} space-y-2 overflow-y-auto`" v-if="chapters?.length > 0">
           <div v-for="chap in chapters" :key="chap.id" class="flex flex-col justify-between gap-1" :class="[
             'w-full group flex items-start gap-3 p-3 rounded-xl text-left transition-all',
             chap.id === currentChapterId
@@ -315,11 +321,11 @@
             Aucun chapitre trouvé
           </p>
 
-          <p class="text-xs text-slate-400 mt-1">
+          <p class="text-xs text-slate-400 mt-1" v-if="!['completed'].includes(book.status)">
             Ajoutez un chapitre pour commencer
           </p>
         </div>
-        <div class="pt-3 border-t border-slate-300 mt-4">
+        <div class="pt-3 border-t border-slate-300 mt-4" v-if="!['completed'].includes(book.status)">
           <button @click="createChapter"
             class="flex w-full items-center justify-center gap-2 rounded-lg border border-dashed border-slate-300 bg-white px-3 py-2.5 text-xs font-semibold text-slate-600 hover:border-orange-400 hover:text-orange-600 hover:bg-orange-50 transition-all">
             <Icon name="mdi:plus" class="w-5 h-5" />
@@ -440,20 +446,26 @@
     </div>
 
     <div v-if="showPdfModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div class="bg-white dark:bg-dark dark:border-slate-300 dark:border w-[95%] md:max-w-[600px] rounded-xl p-6">
+      <div
+        class="bg-white relative dark:bg-dark dark:border-slate-300 dark:border w-[95%] md:max-w-[600px] rounded-xl p-6">
         <h2 class="text-sm font-semibold mb-4 dark:text-slate-200">
           Importer un PDF
         </h2>
 
-        <div class="overflow-y-auto max-h-[80vh] lg:max-h-[70vh]">
+        <div class="overflow-y-auto max-h-[65vh] md:max-h-[80vh] lg:max-h-[70vh]">
           <input type="file" accept="application/pdf" @change="handlePdfUpload" :disabled="pdfLoading"
             class="text-xs border-slate-300 border w-full p-2 rounded-lg dark:text-slate-200" />
-          <p class="text-[11px] text-slate-400 mt-2 dark:text-slate-200">
-            Nous extrayons automatiquement le contenu associé aux intitulés tels que
-            <strong>Préface</strong>, <strong>Résumé</strong>, <strong>Introduction</strong>
-            ou <strong>Chapitre 1, Chapitre 2, etc.</strong>.
-            Assurez-vous que ces titres apparaissent clairement dans votre document PDF.
+          <p class="text-[11px] text-slate-600 mt-2 dark:text-slate-200">
+            Nous détectons automatiquement les sections dont les titres sont clairement indiqués,
+            tels que <strong>Préface</strong>, <strong>Résumé</strong>, <strong>Introduction</strong>
+            ou encore <strong>Chapitre 1, Chapitre 2, etc.</strong>
+            Veillez à ce que ces intitulés apparaissent de manière explicite dans votre document PDF afin de garantir
+            une extraction optimale.
+            <br />
             Si des chapitres existent déjà sur la plateforme, la numérotation sera ajustée automatiquement.
+            <br />
+            Les chapitres importés seront enregistrés en brouillon par défaut. Après sauvegarde, nous vous recommandons
+            de les relire attentivement afin d’y apporter d’éventuelles corrections.
           </p>
           <!-- Loader -->
           <div v-if="pdfLoading" class="mt-4 text-xs text-orange-600 dark:text-orange-500">
@@ -478,20 +490,56 @@
                 <Icon name="mdi:chevron-right" class="w-5 h-5" />
               </button>
             </div>
-            <div class="border rounded-xl p-4 min-h-[250px] bg-slate-50">
+            <div class="border rounded-xl p-4 min-h-[250px] bg-slate-50 relative">
+
+              <!-- Bouton supprimer -->
+              <button @click="deletePdfChapter(currentPdfIndex)"
+                class="absolute text-[11px] top-2 right-2 text-red-500 hover:text-red-700 flex items-center gap-1">
+                <Icon name="mdi:trash" class="w-4 h-4" />
+                Supprimer
+              </button>
+
               <h3 class="text-sm font-semibold mb-3">
                 {{ currentPdfChapter?.title || 'Titre non détecté' }}
               </h3>
+
               <div class="text-xs text-slate-600 whitespace-pre-line max-h-[300px] overflow-y-auto">
                 {{ currentPdfChapter?.content }}
               </div>
+
             </div>
           </div>
         </div>
 
+        <div class="absolute inset-0 h-full z-10 flex items-center justify-center bg-black/20 rounded-xl"
+          v-if="loadingSave">
+          <div role="status">
+            <svg aria-hidden="true" class="w-8 h-8 text-slate-200 animate-spin fill-blue-600" viewBox="0 0 100 101"
+              fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                fill="currentColor" />
+              <path
+                d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                fill="currentFill" />
+            </svg>
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+
+        <div class="text-xs mt-2 flex flex-col items-center gap-2" v-if="errorSavePdf && errorSavePdf.length > 0">
+          Ce(s) chapitre(s) existe(nt) déjà !
+          <p class="text-red-600 flex flex-wrap gap-1">
+            <span class="" v-for="(error, i) in errorSavePdf" :key="i">{{ error?.title }}</span>
+          </p>
+        </div>
         <div class="flex justify-end gap-2 mt-6">
+          <button @click="saveDatalPdf" v-if="currentPdfChapter"
+            class="text-xs text-orange-500 dark:border-slate-200 dark:border dark:px-4 dark:py-1.5 dark:rounded dark:lg:py-2 lg:px-2 dark:lg:px-6">
+            Enregistrer
+          </button>
           <button @click="closeModalPdf"
-            class="text-xs text-red-500 dark:border-slate-200 dark:border dark:px-4 dark:py-1.5 dark:rounded dark:lg:py-2 dark:lg:px-6">
+            class="text-xs text-red-500 dark:border-slate-200 dark:border dark:px-4 dark:py-1.5 dark:rounded dark:lg:py-2 lg:px-2 dark:lg:px-6">
             Fermer
           </button>
         </div>
@@ -515,7 +563,7 @@ definePageMeta({
 });
 
 const { getBookByUuid } = booksData();
-const { findAllPaginated, createData, updateData, deleteData } = chaptersData();
+const { findAllPaginated, createData, createManyData, updateData, deleteData } = chaptersData();
 const book = ref<BookData | null>(null);
 const chapters = ref<ChapterData[]>([]);
 const chapterDelete = ref<ChapterData | null>(null);
@@ -527,7 +575,9 @@ const chapterTitle = ref<string>("")
 const chapterContent = ref<string>("")
 const error = ref<string | undefined | null>(null);
 const good = ref<string | undefined | null>(null);
+const errorSavePdf = ref<any[] | string | null | undefined>([]);
 const errorSave = ref<string | undefined | null>(null);
+const errorSize = ref<string | undefined | null>(null);
 const backurl = ref<number>(0);
 const STATUS = ref({
   DRAFT: "draft",
@@ -544,11 +594,14 @@ const showMobileChapters = ref(false);
 const showPdfModal = ref<boolean>(false)
 const pdfFile = ref<File | null>(null)
 const pdfLoading = ref<boolean>(false)
-const pdfChapters = ref<ImportedChapter[]>([])
+const loadingSave = ref<boolean>(false)
+const pdfChapters = ref<any[]>([])
 const pdfError = ref<string | null>(null)
 const currentPdfIndex = ref<number>(0)
-const ocrLoading = ref<boolean>(false)
-const ocrProgress = ref<number>(0)
+const ocrProgress = ref<number>(0);
+const selectedImages = ref<File[]>([])
+const ocrLoading = ref(false)
+const ocrProgressList = ref<number[]>([])
 
 const currentPdfChapter = computed(() => {
   return pdfChapters.value[currentPdfIndex.value] || null
@@ -572,6 +625,38 @@ function closeModalPdf() {
   currentPdfIndex.value = 0;
 }
 
+const saveDatalPdf = async () => {
+  errorSavePdf.value = []
+  loadingSave.value = true;
+  const res = await createManyData(pdfChapters.value);
+  if (res.success) {
+    setTimeout(async () => {
+      loadingSave.value = false;
+      showPdfModal.value = false;
+      pdfChapters.value = [];
+      currentPdfIndex.value = 0;
+      await onLoad();
+    }, 1500);
+  } else {
+    loadingSave.value = false;
+    errorSavePdf.value = res.errors;
+  }
+}
+
+function deletePdfChapter(index: number) {
+  pdfChapters.value.splice(index, 1)
+
+  // Ajuster l’index courant si nécessaire
+  if (currentPdfIndex.value >= pdfChapters.value.length) {
+    currentPdfIndex.value = pdfChapters.value.length - 1
+  }
+
+  if (pdfChapters.value.length === 0) {
+    currentPdfIndex.value = 0
+  }
+}
+
+// function pour extraire le contenu d'un pdf
 async function handlePdfUpload(event: Event): Promise<void> {
   if (process.server) return
 
@@ -623,6 +708,7 @@ async function handlePdfUpload(event: Event): Promise<void> {
   }
 }
 
+// Fonction de base pour l'extraction
 function splitChapters(text: string): ImportedChapter[] {
   // Regex qui gère :
   // - préface / preface (avec ou sans accents)
@@ -634,7 +720,7 @@ function splitChapters(text: string): ImportedChapter[] {
   const matches = [...text.matchAll(regex)];
   if (!matches.length) return [];
 
-  const extracted: ImportedChapter[] = [];
+  const extracted: any[] = [];
   let chapterCounter = chapters.value.length + 1; // Compteur pour les chapitres numériques
 
   for (let i = 0; i < matches.length; i++) {
@@ -659,15 +745,68 @@ function splitChapters(text: string): ImportedChapter[] {
       chapterCounter++;
     }
 
-    extracted.push({
-      title,
-      content
-    });
+    if (book.value) {
+      extracted.push({
+        id_book: book.value.id,
+        title,
+        content,
+        status: STATUS.value.DRAFT
+      });
+    } else {
+      extracted.push({
+        title,
+        content,
+        status: STATUS.value.DRAFT
+      });
+    }
   }
 
   return extracted;
 }
 
+function handleImagesUpload(event: Event) {
+  errorSize.value = null;
+  chapterContent.value = "";
+  const input = event.target as HTMLInputElement
+  const files = Array.from(input.files || []).slice(0, 3) // max 3 fichiers
+  if (!files.length) return
+  if (input.files && input.files.length > 3) {
+    return errorSize.value = "Vous avez dépassé le nombre de fichiers autorisés !"
+  } else {
+    selectedImages.value = files
+    startOCR()
+  }
+}
+
+async function startOCR() {
+  ocrLoading.value = true
+  ocrProgressList.value = selectedImages.value.map(() => 0)
+
+  for (let i = 0; i < selectedImages.value.length; i++) {
+    const file = selectedImages.value[i]
+
+    try {
+      const { data } = await Tesseract.recognize(file, 'fra', {
+        logger: (m: any) => {
+          if (m.status === 'recognizing text') {
+            ocrProgressList.value[i] = Math.round(m.progress * 100)
+          }
+        }
+      })
+
+      // Ajouter le texte extrait au chapitre
+      chapterContent.value += cleanExtractedText(data.text) + '\n\n'
+    } catch (error) {
+      console.error(`Erreur OCR image ${i + 1}:`, error)
+    }
+  }
+
+  ocrLoading.value = false
+  view.value = 'preview'
+  isDirty.value = true
+}
+
+// Fonction pour l'extraction d'un texte sur une image
 async function handleImageUpload(event: Event): Promise<void> {
   const input = event.target as HTMLInputElement
   const file: File | undefined = input.files?.[0]
@@ -691,7 +830,7 @@ async function handleImageUpload(event: Event): Promise<void> {
     )
 
     // Injection du texte extrait dans l’éditeur
-    chapterContent.value = cleanExtractedText(data.text);
+    chapterContent.value += cleanExtractedText(data.text);
     view.value = "preview";
 
     isDirty.value = true
@@ -831,7 +970,8 @@ const createChapter = async () => {
     status: STATUS.value.DRAFT
   });
   if (res.success) {
-    await onLoad();
+    localStorage.setItem('chapterId', `${res.data?.id}`);
+    window.location.reload();
   } else {
     error.value = res.error;
   }

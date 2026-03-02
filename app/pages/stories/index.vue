@@ -1,59 +1,56 @@
 <template>
   <div class="bg-[#fffcfccc] dark:bg-dark dark:border-b dark:border-slate-300 pt-20 pb-12 lg:py-24">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-8">
-      <StoryHero />
-      <div class="pt-8 border-slate-200 border-t flex flex-col gap-8">
-        <div class="flex items-center md:items-end justify-between">
-          <div>
-            <h2 class="text-2xl font-display font-medium dark:text-white text-slate-900 tracking-tight">18ans+</h2>
-          </div>
-          <nuxt-link to="/stories/#"
-            class="flex items-center gap-1 text-sm font-medium text-slate-900 hover:text-orange-600 transition-colors dark:text-slate-200 dark:hover:text-orange-500">
-            <span class="hidden sm:block">Voir tout</span>
-            <Icon name="mdi:arrow-right" class="w-5 h-5" />
-          </nuxt-link>
-        </div>
-        <div
-          class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-6 gap-y-10">
-          <HomeBookCard v-for="book in books" :key="book.id" :book="book" />
-        </div>
+    <div :class="`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col ${selectedGroup ? 'gap-4' : 'gap-8'}`">
+      <StoryHero v-if="!selectedGroup" />
+
+      <div v-if="selectedGroup" class="pt-1 lg:pt-0">
+        <button @click="selectedGroup = null" class="text-sm font-medium">
+          <Icon name="mdi:arrow-left" class="w-5 h-5 dark:text-slate-200" />
+        </button>
       </div>
-      <div class="pt-8 border-slate-200 border-t flex flex-col gap-8">
-        <div class="flex items-center md:items-end justify-between">
-          <div>
-            <h2 class="text-2xl font-display font-medium dark:text-white text-slate-900 tracking-tight">16ans+</h2>
+      <template v-for="ageGroup in ageGroups" :key="ageGroup.label">
+        <div v-if="!selectedGroup || selectedGroup === ageGroup.label"
+          :class="`${selectedGroup ? 'pt-4' : 'pt-8 lg:pt-6'} border-slate-200 border-t flex flex-col gap-8`">
+          <div class="flex items-center justify-between">
+            <h2 class="text-2xl font-display font-medium dark:text-white text-slate-900 tracking-tight">
+              {{ ageGroup.label }}
+            </h2>
+
+            <button class="flex items-center gap-1 text-sm font-medium hover:text-orange-600 transition-colors"
+              @click="handleSelect(ageGroup.label)" v-if="!selectedGroup">
+              <span class="hidden sm:block">Voir tout</span>
+              <Icon name="mdi:arrow-right" class="w-5 h-5" />
+            </button>
           </div>
-          <nuxt-link to="/stories/#"
-            class="flex items-center gap-1 text-sm font-medium text-slate-900 hover:text-orange-600 transition-colors dark:text-slate-200 dark:hover:text-orange-500">
-            <span class="hidden sm:block">Voir tout</span>
-            <Icon name="mdi:arrow-right" class="w-5 h-5" />
-          </nuxt-link>
-        </div>
-        <div
-          class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-6 gap-y-10">
-          <HomeBookCard v-for="book in books" :key="book.id" :book="book" />
-        </div>
-      </div>
-      <div class="pt-8 border-slate-200 border-t flex flex-col gap-8">
-        <div class="flex items-center md:items-end justify-between">
-          <div>
-            <h2 class="text-2xl font-display font-medium dark:text-white text-slate-900 tracking-tight">12ans+</h2>
+
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-6 gap-y-10">
+            <HomeBookCard v-for="book in books" :key="book.id" :book="book" />
           </div>
-          <nuxt-link to="/stories/#"
-            class="flex items-center gap-1 text-sm font-medium text-slate-900 hover:text-orange-600 transition-colors dark:text-slate-200 dark:hover:text-orange-500">
-            <span class="hidden sm:block">Voir tout</span>
-            <Icon name="mdi:arrow-right" class="w-5 h-5" />
-          </nuxt-link>
         </div>
-        <div
-          class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-6 gap-y-10">
-          <HomeBookCard v-for="book in books" :key="book.id" :book="book" />
-        </div>
-      </div>
+      </template>
     </div>
   </div>
 </template>
+
 <script lang="ts" setup>
+import { ref } from 'vue';
+
+const selectedGroup = ref<string | null>(null);
+
+const ageGroups = [
+  { label: '18ans+' },
+  { label: '16ans+' },
+  { label: '12ans+' },
+];
+
+const handleSelect = (label: string) => {
+  selectedGroup.value = label
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  })
+}
+
 useSeoMeta({
   title: 'Toutes les histoires',
   description: 'Explorez des histoires africaines originales écrites par des auteurs émergents et passionnés sur Afric Storyline.',

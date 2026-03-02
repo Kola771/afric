@@ -26,7 +26,7 @@
                 <div class="flex flex-col gap-1">
                     <label for="image" class="text-sm text-slate-900 font-medium dark:text-white">Image de couverture
                         :</label>
-                    <input type="file" name="image" id="image" ref="file" required
+                    <input type="file" accept="image/jpeg, image/jpg, image/png, image/jfif" name="image" id="image" ref="file" required
                         class="w-full text-sm outline-none border border-slate-300 dark:border-slate-200 bg-slate-50 rounded-md p-2"
                         @change="onFileChange">
                 </div>
@@ -64,12 +64,12 @@
                     </div>
                 </div>
                 <div>
-                    <label for="step" class="text-sm text-slate-900 font-medium dark:text-white">Limite age
+                    <label for="step" class="text-sm text-slate-900 font-medium dark:text-white">Âge autorisé
                         :</label>
                     <select required id="step"
                         class="w-full text-sm placeholder:text-slate-500 text-slate-800 outline-none border border-slate-300 dark:border-slate-200 dark:bg-slate-50 rounded-md p-2.5"
                         v-model="rating_age">
-                        <option value="" disabled selected>Limite d'age</option>
+                        <option value="" disabled selected>Âge autorisé</option>
                         <option value="12+">12ans+</option>
                         <option value="16+">16ans+</option>
                         <option value="18+">18ans+</option>
@@ -122,7 +122,7 @@ const createBook = async () => {
     message.value = null;
     loading.value = true; // ✅ désactivation début
     try {
-        if (title.value.trim() !== "" && image.value && description.value.trim() !== "" && selectedCategories.value.length > 0) {
+        if (title.value.trim() !== "" && image.value && description.value.trim() !== "" && rating_age.value.trim() !== "" && selectedCategories.value.length > 0) {
             const existing = await existingData({ title: title.value });
             if (!existing.success) {
                 error.value = existing.error;
@@ -130,6 +130,7 @@ const createBook = async () => {
             } else {
                 const formData = new FormData()
                 formData.append('title', title.value)
+                formData.append('rating_age', rating_age.value)
                 formData.append('description', description.value.replace(/\n/g, '<br>'))
                 formData.append('id_user', `${user.value?.id}`)
                 formData.append('image', image.value)

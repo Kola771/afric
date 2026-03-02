@@ -76,8 +76,10 @@ interface BookData {
   uuid: string
   title: string
   description: string
+  rating_age: string
   status: string
   deadline: Date
+  book_pdf?: string|null
   image: string
   book_categories?: any
   created_at?: Date

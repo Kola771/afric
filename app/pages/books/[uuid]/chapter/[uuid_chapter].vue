@@ -72,7 +72,7 @@
                                 <Icon name="mdi:heart" class="w-5 h-5" />
                                 <span class="text-sm font-medium">124 J'aime</span>
                             </button>
-                            <button class="flex items-center gap-2 hover:text-blue-600 transition-colors">
+                            <button class="flex items-center gap-2 hover:text-blue-600 transition-colors" @click="openStats">
                                 <Icon name="mdi:message-text-outline" class="w-5 h-5" />
                                 <span class="text-sm font-medium">45 Com.</span>
                             </button>
@@ -92,43 +92,6 @@
                             <Icon name="mdi:arrow-right" class="w-5 h-5" />
                         </button>
                     </div>
-
-                    <!-- Comment Section Preview -->
-                    <div class="mt-12">
-                        <h4 class="font-display font-medium text-slate-900 dark:text-white mb-6">Commentaires</h4>
-                        <div class="flex flex-col gap-4">
-                            <!-- Comment Item -->
-                            <div :class="`flex gap-4 ${index % 2 == 0 ? 'border-y py-3 border-slate-200' : ''}`"
-                                v-for="index in 3" :key="index">
-                                <div
-                                    class="w-8 h-8 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center text-xs font-bold flex-shrink-0 dark:bg-orange-600 dark:text-white">
-                                    JD</div>
-                                <div>
-                                    <div class="flex items-baseline gap-2">
-                                        <span class="text-[13px] font-semibold text-slate-900 dark:text-white">Jean
-                                            Diallo</span>
-                                        <span class="text-xs text-slate-400 dark:text-slate-200">il y a 2h</span>
-                                    </div>
-                                    <p class="text-[13px] text-slate-600 dark:text-slate-200 mt-1">L'ambiance est
-                                        incroyable ! J'adore le mélange futuriste et traditionnel. Hâte de lire la suite
-                                        🔥</p>
-                                </div>
-                            </div>
-                            <div class="flex w-full md:justify-end">
-                                <button
-                                    class="bg-dark transition-all duration-300 ease-linear dark:border dark:border-slate-300 dark:bg-slate-800 dark:hover:bg-slate-900 hover:bg-primary text-white text-xs w-full md:w-auto md:px-6 p-2.5 rounded-lg">Afficher
-                                    plus</button>
-                            </div>
-                            <!-- Comment Input -->
-                            <div class="relative mt-6">
-                                <textarea
-                                    class="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm focus:outline-none focus:border-slate-400 focus:ring-0 resize-none h-24 dark:bg-dark dark:border-slate-200"
-                                    placeholder="Écrire un commentaire..."></textarea>
-                                <button
-                                    class="absolute bottom-4 right-3 bg-white border border-slate-200 text-xs font-medium px-3 py-1.5 rounded-lg hover:bg-slate-100">Publier</button>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
 
@@ -139,11 +102,73 @@
                     de Lecture</span>
             </div>
         </section>
-        <!-- Scroll To Top Button -->
-        <button v-if="showScrollTop" @click="scrollToTop"
-            class="fixed bottom-6 flex items-center justify-center right-6 z-50 bg-slate-900 text-white p-3 rounded-full shadow-xl hover:bg-slate-800 transition-all duration-300 dark:bg-white dark:text-slate-900">
-            <Icon name="mdi:arrow-up" class="w-5 h-5" />
-        </button>
+
+        <StatsModal :show="showStatsModal" @close="closeStats">
+            <div class="flex flex-col h-full lg:h-full lg:w-full">
+                <!-- En-tête fixe -->
+                <div
+                    class="flex items-center justify-between flex-shrink-0 bg-white dark:bg-slate-800 z-10 border-b border-slate-200 dark:border-slate-700">
+                    <h3 class="text-lg font-medium flex text-slate-900 dark:text-white max-w-2/3">
+                        <span class="truncate">L'éveil des ombre</span>
+                    </h3>
+                    <div class="text-[12px] lg:text-xs flex flex-wrap items-center">
+                        <button @click="showComments"
+                            :class="step === 'comments' ? 'border-orange-600 dark:border-orange-500' : 'border-slate-300 dark:hover:bg-slate-50'"
+                            class="ml-1 p-2 border-b-[1px] flex items-center gap-2 transition-all duration-300 dark:text-white">
+                            <Icon name="mdi:comment-multiple" class="w-4 h-4" /> 45
+                        </button>
+                        <button @click="showLikes"
+                            :class="step === 'likes' ? 'border-orange-600 dark:border-orange-500' : 'border-slate-300 dark:hover:bg-slate-50'"
+                            class="ml-1 p-2 border-b-[1px] flex items-center gap-2 transition-all duration-300 dark:text-white">
+                            <Icon name="mdi:heart" class="w-4 h-4" /> 124
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Contenu scrollable -->
+                <div class="flex-1 overflow-y-auto p-4">
+                    <div v-if="step === 'likes'" class="grid grid-cols-1 gap-4 mt-2">
+                        <div class="flex gap-4" v-for="index in 24" :key="index">
+                            <div
+                                class="w-8 h-8 rounded-full bg-orange-500 text-white flex items-center justify-center text-xs font-bold flex-shrink-0 dark:bg-orange-600 dark:text-white">
+                                A
+                            </div>
+                            <div>
+                                <div class="flex items-center gap-3">
+                                    <div class="flex items-baseline gap-2">
+                                        <span class="text-[13px] font-semibold text-slate-900 dark:text-slate-200">John
+                                            Days</span>
+                                        <span class="text-xs text-slate-400 dark:text-slate-200">il y a 2h</span>
+                                    </div>
+                                    <span
+                                        class="px-3 py-0.5 rounded-full bg-orange-50 border border-orange-100/50 text-orange-800 text-[10px] font-medium">
+                                        Lecteur
+                                    </span>
+                                </div>
+                                <p class="text-xs lg:text-xs text-slate-600 dark:text-slate-200">@j_day</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div v-if="step === 'comments'" class="grid grid-cols-1 gap-4 mt-2">
+                        <div class="flex gap-4" v-for="index in 24" :key="index">
+                            <div
+                                class="w-8 h-8 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center text-xs font-bold flex-shrink-0 dark:bg-orange-600 dark:text-white">
+                                A
+                            </div>
+                            <div>
+                                <div class="flex items-baseline gap-2">
+                                    <span
+                                        class="text-[13px] font-semibold text-slate-900 dark:text-slate-200">Arnaud</span>
+                                    <span class="text-xs text-slate-400 dark:text-slate-200">il y a 5h</span>
+                                </div>
+                                <p class="text-xs text-slate-600 dark:text-slate-200 mt-1">Très intéressant !</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </StatsModal>
     </div>
 </template>
 
@@ -153,26 +178,25 @@ definePageMeta({
     layout: "not-layout",
 });
 
-const showScrollTop = ref(false)
+const showStatsModal = ref(false)
+const step = ref<string>("comments");
 
-const handleScroll = () => {
-    showScrollTop.value = window.scrollY > 400 // position déclencheur (400px)
+const showLikes = () => {
+    step.value = "likes";
 }
 
-const scrollToTop = () => {
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    })
+const showComments = () => {
+    step.value = "comments";
 }
 
-onMounted(() => {
-  window.addEventListener("scroll", handleScroll)
-})
+const openStats = () => {
+    step.value = "comments";
+    showStatsModal.value = true
+}
 
-onUnmounted(() => {
-  window.removeEventListener("scroll", handleScroll)
-})
+const closeStats = () => {
+    showStatsModal.value = false
+}
 
 const back = () => {
     window.history.back();

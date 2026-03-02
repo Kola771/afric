@@ -22,7 +22,7 @@ export function chaptersData() {
         return response?.data;
     }
 
-    async function createData(data: ChapterDto): Promise<{ success: boolean, msg?: string, error?: string | null, status?: number }> {
+    async function createData(data: ChapterDto): Promise<{ data: any, success: boolean, msg?: string, error?: string | null, status?: number }> {
         if (process.client) {
             if (localStorage.getItem('user')) {
                 const token = JSON.parse(localStorage.getItem("user") || '{}').token;
@@ -30,11 +30,26 @@ export function chaptersData() {
                     const response = await axios.post(`/chapters`, { token, ...data });
                     return response?.data;
                 } catch (error: any) {
-                    return { success: false, status: error.response?.status || 500, error: error.message };
+                    return { data: null, success: false, status: error.response?.status || 500, error: error.message };
                 }
             }
         }
-        return { success: false, status: 400, error: "Client-side error" };
+        return { data: null, success: false, status: 400, error: "Client-side error" };
+    }
+
+    async function createManyData(data: ChapterDto[]): Promise<{ success: boolean, msg?: string, errors?: string | any[] | null, status?: number }> {
+        if (process.client) {
+            if (localStorage.getItem('user')) {
+                const token = JSON.parse(localStorage.getItem("user") || '{}').token;
+                try {
+                    const response = await axios.post(`/chapters/create-many`, { token, ...data });
+                    return response?.data;
+                } catch (error: any) {
+                    return { success: false, status: error.response?.status || 500, errors: error.message };
+                }
+            }
+        }
+        return { success: false, status: 400, errors: "Client-side error" };
     }
 
     async function updateData(uuid: string, data: ChapterDto): Promise<{ success: boolean, msg?: string, error?: string | null, status?: number }> {
@@ -74,6 +89,7 @@ export function chaptersData() {
         allChapters,
         findAllPaginated,
         createData,
+        createManyData,
         updateData,
         deleteData
     }
