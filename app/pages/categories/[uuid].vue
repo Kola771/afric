@@ -24,9 +24,9 @@
           <div>
             <h2 class="text-2xl font-display font-medium dark:text-white text-slate-900 tracking-tight">Filtre</h2>
           </div>
-          <div class="flex gap-2">
+          <div class="flex gap-2 text-xs">
             <select v-model="selectedStatus"
-              class="bg-slate-50 dark:bg-slate-800 dark:text-white outline-none px-3 py-1.5 text-sm lg:text-xs rounded-lg border-slate-300 border">
+              class="bg-slate-50 dark:bg-slate-800 dark:text-white outline-none px-3 py-1.5 rounded-lg border-slate-300 border">
               <option value="">Statut</option>
               <option value="ongoing">En cours</option>
               <option value="paused">En pause</option>
@@ -34,7 +34,7 @@
             </select>
 
             <select v-model="selectedAge"
-              class="bg-slate-50 dark:bg-slate-800 dark:text-white outline-none px-3 py-1.5 text-sm lg:text-xs rounded-lg border-slate-300 border">
+              class="bg-slate-50 dark:bg-slate-800 dark:text-white outline-none px-3 py-1.5 rounded-lg border-slate-300 border">
               <option value="">Options</option>
               <option value="12+">12 ans+</option>
               <option value="16+">16 ans+</option>
@@ -50,7 +50,7 @@
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-6 gap-y-10" v-if="filteredBooks.length > 0">
           <HomeCard v-for="book in filteredBooks" :key="book.id" :book="book" />
         </div>
-        <div v-if="books.length === 0" class="flex flex-col items-center justify-center text-center p-6">
+        <div v-if="filteredBooks.length === 0" class="flex flex-col items-center justify-center text-center p-6">
           <Icon name="mdi:books" class="w-12 h-12 text-slate-300 mb-3" />
 
           <p class="text-slate-500 text-sm font-medium">

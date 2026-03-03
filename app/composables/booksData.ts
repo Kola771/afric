@@ -27,26 +27,20 @@ export function booksData() {
         }
     }
 
-    async function findAllPaginatedAuthor(page: number = 1, limit: number = 25, id_user: number): Promise<{  data: BookData[], total: number, totalPages: number, currentPage: number }> {
+    async function findAllPaginatedAuthor(page: number = 1, limit: number = 25, id_user: number): Promise<{ data: BookData[], total: number, totalPages: number, currentPage: number }> {
         if (process.client) {
             if (localStorage.getItem('user')) {
                 const token = JSON.parse(localStorage.getItem("user") || '{}').token;
-                const response = await axios.get(`/books/authors?page=${page}&limit=${limit}&id_user=${id_user}`, {params: {token}});
+                const response = await axios.get(`/books/authors?page=${page}&limit=${limit}&id_user=${id_user}`, { params: { token } });
                 return response?.data;
             }
         }
         return { data: [], total: 0, totalPages: 0, currentPage: 0 };
     }
 
-    async function findAllPaginated(page: number = 1, limit: number = 25, id_category: number): Promise<{  data: BookData[], total: number, totalPages: number, currentPage: number }> {
-        if (process.client) {
-            if (localStorage.getItem('user')) {
-                const token = JSON.parse(localStorage.getItem("user") || '{}').token;
-                const response = await axios.get(`/books/categories?page=${page}&limit=${limit}&id_category=${id_category}`, {params: {token}});
-                return response?.data;
-            }
-        }
-        return { data: [], total: 0, totalPages: 0, currentPage: 0 };
+    async function findAllPaginated(page: number = 1, limit: number = 25, id_category: number): Promise<{ data: BookData[], total: number, totalPages: number, currentPage: number }> {
+        const response = await axios.get(`/books/categories?page=${page}&limit=${limit}&id_category=${id_category}`);
+        return response?.data;
     }
 
     async function existingData(data: any): Promise<{ success: boolean, msg?: string, error?: string | null, status?: number }> {
@@ -54,7 +48,7 @@ export function booksData() {
             if (localStorage.getItem('user')) {
                 const token = JSON.parse(localStorage.getItem("user") || '{}').token;
                 try {
-                    const response = await axios.post(`/books/existing`, {token, ...data});
+                    const response = await axios.post(`/books/existing`, { token, ...data });
                     return response?.data;
                 } catch (error: any) {
                     return { success: false, status: error.response?.status || 500, error: error.message };
