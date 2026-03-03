@@ -1,5 +1,5 @@
 <template>
-    <div class="dark:bg-dark bg-white">
+    <div class="dark:bg-dark bg-white" v-if="book && chapter">
         <section class="relative">
             <!-- Reader Container simulating a new page/view -->
             <div class="max-w-7xl mx-auto relative">
@@ -13,10 +13,8 @@
                         </button>
                         <div class="flex flex-col">
                             <span
-                                class="text-xs text-slate-600 dark:text-slate-200 uppercase tracking-wider font-semibold truncate">Le
-                                Masque d'Or</span>
-                            <span class="text-sm font-medium text-slate-900 dark:text-white truncate">Chapitre 1 :
-                                L'éveil des ombres</span>
+                                class="text-xs text-slate-600 dark:text-slate-200 uppercase tracking-wider font-semibold truncate">{{ book.title }}</span>
+                            <span class="text-sm font-medium text-slate-900 dark:text-white truncate">{{ chapter?.title }}</span>
                         </div>
                     </div>
                     <div class="flex items-center gap-2">
@@ -31,37 +29,9 @@
 
                 <!-- Content Body -->
                 <div class="px-6 sm:px-12 py-10 max-w-prose lg:max-w-4xl mx-auto">
-                    <h2
-                        class="font-display font-semibold text-3xl text-slate-900 dark:text-white mb-8 tracking-tight text-center">
-                        L'éveil des ombres</h2>
-
                     <div
                         :class="['prose prose-slate font-serif text-slate-800 dark:text-slate-200 leading-loose transition-all duration-300', textSizeClass]">
-                        <p
-                            class="first-letter:text-5xl first-letter:font-bold first-letter:text-slate-900 dark:first-letter:text-slate-200 first-letter:mr-3 first-letter:float-left">
-                            La pluie tombait lourdement sur les toits de zinc du quartier Plateau. Il était minuit
-                            passé, et Malik n'arrivait toujours pas à trouver le sommeil. L'objet posé sur sa table de
-                            chevet semblait vibrer, émettant un bourdonnement imperceptible pour le commun des mortels,
-                            mais assourdissant pour lui.
-                        </p>
-                        <p>
-                            Il se leva, ses pieds nus claquant contre le carrelage froid. Dehors, les néons
-                            holographiques des publicités flottaient dans la brume nocturne, baignant la chambre d'une
-                            lueur bleutée intermittente.
-                        </p>
-                        <p>
-                            — Tu ne devrais pas le toucher, murmura une voix derrière lui.
-                        </p>
-                        <p>
-                            Malik se figea. Il vivait seul. Son cœur commença à battre la chamade contre sa poitrine.
-                            Lentement, il se retourna. Dans le coin sombre de la pièce, là où la lumière des néons
-                            n'atteignait pas, une silhouette se dessinait.
-                        </p>
-                        <p>
-                            Ce n'était pas un homme. Ce n'était pas une femme. C'était une ombre, dense et mouvante,
-                            comme faite de fumée solide. Et elle avait des yeux. Deux orbes dorés, fendus comme ceux
-                            d'un félin.
-                        </p>
+                        <p v-html="chapter.content"></p>
                     </div>
 
                     <!-- Interactions -->
@@ -173,7 +143,13 @@
 </template>
 
 <script lang="ts" setup>
-const uuid = useRoute().params.uuid
+const route = useRoute();
+const { getBookByUuid } = booksData();
+const { getChapterByUuid } = chaptersData();
+const { toConnectUser } = authenticate();
+const user = ref<User | null>(null);
+const book = ref<BookData | null>(null);
+const chapter = ref<ChapterData | null>(null);
 definePageMeta({
     layout: "not-layout",
 });
@@ -221,4 +197,15 @@ const textSizeClass = computed(() => {
             return "text-base"
     }
 })
+
+// =============================
+// INIT
+// =============================
+onMounted(async () => {
+    user.value = await toConnectUser();
+    book.value = await getBookByUuid(`${route.params.uuid}`);
+    const {data} = await getChapterByUuid(`${route.params.uuid_chapter}`);
+    chapter.value = data;
+    console.log(route.params.uuid_chapter, chapter.value)
+});
 </script>

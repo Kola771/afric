@@ -73,7 +73,7 @@ interface Role {
 
 interface BookData {
   id: number
-  id_user: string
+  id_user: number
   uuid: string
   title: string
   description: string

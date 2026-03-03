@@ -117,12 +117,12 @@
 
                             <div v-if="sortedChapters.length > 0" class="space-y-2 md:max-h-96 md:overflow-y-auto">
                                 <nuxt-link v-for="(chapter, index) in sortedChapters" :key="chapter.id"
-                                    :to="`/books/book-uuid-${chapter.id}/chapter/${chapter.uuid}`"
+                                    :to="`/books/${book.uuid}/chapter/${chapter.uuid}`"
                                     class="group flex items-center justify-between p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-100 hover:border-slate-300 transition-all hover:shadow-sm">
                                     <span class="flex items-center gap-4">
                                         <span
                                             class="text-slate-500 dark:text-slate-200 font-display font-bold text-xl w-8">{{
-                                                chapter.id }}</span>
+                                                index + 1 }}</span>
                                         <span>
                                             <p
                                                 class="font-medium text-slate-900 dark:text-white group-hover:text-orange-600 transition-colors">
@@ -190,8 +190,8 @@
                             <!-- Avatar -->
                             <img v-if="commentItem.user.photo"
                                 :src="`${config.public.apiBackendUrl}/uploads/users/${commentItem.user.photo}`"
-                                class="w-8 h-8 rounded-full" />
-                            <div v-else class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold"
+                                class="w-7 h-7 rounded-full" />
+                            <div v-else class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold"
                                 :style="`background-color: ${commentItem.user.code_color}`">
                                 {{ commentItem.user.name.charAt(0).toUpperCase() }}
                             </div>
@@ -207,14 +207,17 @@
                                     <p class="text-slate-700 dark:text-slate-200" v-html="commentItem.content"></p>
                                 </div>
 
-                                <div class="flex items-center gap-2 mt-1 text-[11px] text-slate-500 dark:text-slate-200">
+                                <div
+                                    class="flex items-center gap-2 mt-1 text-[11px] text-slate-500 dark:text-slate-200">
                                     <span>{{ formatLocalDate(commentItem.created_at) }}</span>
 
-                                    <button class="hover:underline text-orange-600 dark:text-orange-400"
+                                    <button class="hover:underline text-orange-600 dark:text-orange-400" v-if="user"
                                         @click="toggleReplies(commentItem.id)">
                                         Répondre
                                     </button>
-                                    <button v-if="user && commentItem.user.id === user.id" class="hover:underline text-red-600 dark:text-red-400" @click="handleDeleteComment(commentItem.uuid, commentItem.id)">
+                                    <button v-if="(user && (commentItem.user.id === user.id || user.id === book.id_user))"
+                                        class="hover:underline text-red-600 dark:text-red-400"
+                                        @click="handleDeleteComment(commentItem.uuid, commentItem.id)">
                                         Supprimer
                                     </button>
                                 </div>
@@ -261,15 +264,17 @@
                                         <p class="text-xs font-semibold text-slate-900 dark:text-white">
                                             {{ reply.user.name }}
                                         </p>
-                                        <p class="text-xs text-slate-700 dark:text-slate-200" v-html="reply.content"></p>
+                                        <p class="text-xs text-slate-700 dark:text-slate-200" v-html="reply.content">
+                                        </p>
                                     </div>
 
                                     <div class="text-[10px] flex items-center gap-2 mt-1">
                                         <span class="text-slate-500 dark:text-slate-200 block">
                                             {{ formatLocalDate(reply.created_at) }}
                                         </span>
-                                        <button v-if="user && reply.user.id === user.id" class="hover:underline text-red-600 dark:text-red-400"
-                                            @click="handleDeleteComment(reply.uuid, commentItem.id, reply.id)">
+                                        <button v-if="(user && (reply.user.id === user.id || user.id === book.id_user))"
+                                            class="hover:underline text-red-600 dark:text-red-400"
+                                            @click="handleDeleteComment(reply.uuid, reply.id, commentItem.id)">
                                             Supprimer
                                         </button>
                                     </div>
@@ -305,8 +310,12 @@
                         </button>
                     </form>
 
-                    <p v-else class="text-xs text-slate-500 text-center">
+                    <p v-else class="flex flex-col gap-2 text-xs text-slate-500 text-center">
                         Vous devez être connecté pour commenter
+                        <nuxt-link to="/login"
+                            class="flex items-center justify-center gap-2 bg-primary hover:bg-slate-800 dark:bg-white dark:hover:bg-orange-50 dark:hover:border-orange-100/50 dark:hover:text-orange-800 dark:text-stone-700 text-white px-4 py-2 lg:py-3 rounded-full text-xs xl:text-sm font-medium transition-all shadow-sm hover:shadow-md transform active:scale-95">
+                            <span>Se connecter</span>
+                        </nuxt-link>
                     </p>
                 </div>
 
@@ -420,25 +429,23 @@ const toggleReplies = async (commentId: number) => {
 };
 
 const deleteCommentLocal = (id: number, parent_id?: number) => {
-    console.log(id, parent_id)
-  if (!parent_id) {
-    // Suppression commentaire principal
-    commentsState.list = commentsState.list.filter(c => c.id !== id);
-    commentsState.total -= 1;
-} else {
-    // Suppression reply
-    if (commentsState.replies[parent_id]) {
-        console.log(commentsState.list)
-      commentsState.replies[parent_id] =
-        commentsState.replies[parent_id].filter(r => r.id !== id);
+    if (!parent_id) {
+        // Suppression commentaire principal
+        commentsState.list = commentsState.list.filter(c => c.id !== id);
+        commentsState.total -= 1;
+    } else {
+        // Suppression reply
+        if (commentsState.replies[parent_id]) {
+            commentsState.replies[parent_id] =
+                commentsState.replies[parent_id].filter(r => r.id !== id);
+        }
     }
-  }
 };
 
 const handleDeleteComment = async (uuid: string, id: number, parent_id?: number) => {
-//   await deleteComment(uuid);
+    await deleteComment(uuid);
 
-  deleteCommentLocal(id, parent_id);
+    deleteCommentLocal(id, parent_id);
 };
 
 // =============================
