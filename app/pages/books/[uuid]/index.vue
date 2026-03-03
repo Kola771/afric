@@ -201,9 +201,13 @@
                             <div class="flex-1 text-xs">
 
                                 <div class="bg-slate-50 dark:bg-slate-700 rounded-xl p-2">
-                                    <p class="font-semibold text-slate-900 dark:text-white">
+                                    <nuxt-link :to="`${(commentItem.user && Number(commentItem.user.id) === Number(book.id_user)) ? `/authors/${book.user.uuid}` : ''}`" class="flex justify-between items-center font-semibold text-slate-900 dark:text-white">
                                         {{ commentItem.user.name }}
-                                    </p>
+                                        <span class="font-light text-[10px] flex items-center gap-1"
+                                            v-if="(commentItem.user && Number(commentItem.user.id) === Number(book.id_user))">
+                                            <Icon name="mdi:edit" class="w-3 h-3 text-orange-600 animate-pulse" />Auteur/trice
+                                        </span>
+                                    </nuxt-link>
                                     <p class="text-slate-700 dark:text-slate-200" v-html="commentItem.content"></p>
                                 </div>
 
@@ -215,7 +219,8 @@
                                         @click="toggleReplies(commentItem.id)">
                                         Répondre
                                     </button>
-                                    <button v-if="(user && (commentItem.user.id === user.id || user.id === book.id_user))"
+                                    <button
+                                        v-if="(user && (commentItem.user.id === user.id || user.id === book.id_user))"
                                         class="hover:underline text-red-600 dark:text-red-400"
                                         @click="handleDeleteComment(commentItem.uuid, commentItem.id)">
                                         Supprimer
@@ -261,9 +266,15 @@
 
                                 <div class="flex-1">
                                     <div class="bg-slate-50 dark:bg-slate-700 rounded-xl p-2">
-                                        <p class="text-xs font-semibold text-slate-900 dark:text-white">
+                                        <nuxt-link :to="`${(reply.user && Number(reply.user.id) === Number(book.id_user)) ? `/authors/${book.user.uuid}` : ''}`"
+                                            class="text-xs flex justify-between items-center font-semibold text-slate-900 dark:text-white">
                                             {{ reply.user.name }}
-                                        </p>
+                                            <span class="font-light text-[10px] flex items-center gap-1"
+                                                v-if="(reply.user && Number(reply.user.id) === Number(book.id_user))">
+                                                <Icon name="mdi:edit" class="w-3 h-3 text-orange-600 animate-pulse" />
+                                                Auteur/trice
+                                            </span>
+                                        </nuxt-link>
                                         <p class="text-xs text-slate-700 dark:text-slate-200" v-html="reply.content">
                                         </p>
                                     </div>
