@@ -12,8 +12,18 @@
                         <h2 class="text-2xl font-display font-bold text-slate-900 dark:text-white tracking-tight">Ajout
                             d'un livre</h2>
                     </div>
-                    <p class="text-sm text-slate-500 dark:text-slate-200 mt-1">Ajoutez un nouveau livre à votre
-                        bibliothèque !</p>
+                    <p class="text-sm text-slate-500 dark:text-slate-200 mt-1">
+                        Ajoutez un nouveau livre à votre bibliothèque ! <br />
+                        Merci de respecter les points suivants :
+                    </p>
+
+                    <ul class="text-sm text-slate-500 dark:text-slate-200 mt-2 list-disc pl-5 space-y-1">
+                        <li>Sélectionnez avec soin la ou les catégories correspondantes à votre ouvrage.</li>
+                        <li>Si vous partagez une histoire réelle du continent africain, assurez-vous de l’exactitude des
+                            informations.</li>
+                        <li>Vérifiez que vous disposez des droits nécessaires pour publier et retranscrire ce contenu.
+                        </li>
+                    </ul>
                 </div>
             </div>
             <form class="flex flex-col gap-4" @submit.prevent="createBook">
@@ -26,7 +36,8 @@
                 <div class="flex flex-col gap-1">
                     <label for="image" class="text-sm text-slate-900 font-medium dark:text-white">Image de couverture
                         :</label>
-                    <input type="file" accept="image/jpeg, image/jpg, image/png, image/jfif" name="image" id="image" ref="file" required
+                    <input type="file" accept="image/jpeg, image/jpg, image/png, image/jfif" name="image" id="image"
+                        ref="file" required
                         class="w-full text-sm outline-none border border-slate-300 dark:border-slate-200 bg-slate-50 rounded-md p-2"
                         @change="onFileChange">
                 </div>
@@ -40,7 +51,8 @@
                 <div class="flex flex-col gap-1">
                     <label for="description" class="text-sm text-slate-900 font-medium dark:text-white">Description du
                         livre :</label>
-                    <textarea name="description" id="description" placeholder="Description" v-model="description" required
+                    <textarea name="description" id="description" placeholder="Description" v-model="description"
+                        required
                         class="w-full flex-shrink-0 h-24 lg:h-28 xl:h-32 resize-none text-sm placeholder:text-slate-500 text-slate-800 outline-none border border-slate-300 dark:border-slate-200 dark:bg-slate-50 rounded-md p-2"></textarea>
                 </div>
                 <div>

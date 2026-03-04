@@ -5,8 +5,7 @@
             <img :src="`${config.public.apiBackendUrl}/uploads/books/${props.book?.image}`"
                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 :alt="props.book.title">
-            <div class="absolute top-2 left-2 bg-slate-900/90 text-white px-1.5 py-0.5 rounded text-[10px] font-bold">{{
-                props.book.id }}</div>
+            <div class="absolute top-2 left-2 bg-slate-900/90 text-white px-1.5 py-0.5 rounded text-[10px] font-bold">{{ index + 1 }}</div>
         </div>
         <div class="space-y-1">
             <h3
@@ -33,7 +32,11 @@
                 <div class="flex items-center gap-2 text-[10px] text-slate-400 dark:text-slate-300 font-medium">
                     <span class="flex items-center gap-0.5">
                         <Icon name="mdi:heart" class="text-red-600 dark:text-red-500" />
-                        {{ 0 }} k
+                        {{ formatNumber(props.book.book_reactions) }}
+                    </span>
+                    <span class="flex items-center gap-0.5">
+                        <Icon name="mdi:comments" class="text-blue-600 dark:text-blue-500" />
+                        {{ formatNumber(props.book.book_comments) }}
                     </span>
                     <!-- <span v-if="props.book.category">• {{ props.book.category }}</span> -->
                     <span v-if="props.book.status"
@@ -48,6 +51,7 @@
 const config = useRuntimeConfig();
 const router = useRouter();
 const props = defineProps<{
+    index: number;
     book: BookData
 }>();
 

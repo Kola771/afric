@@ -2,19 +2,23 @@
     <div v-if="book" class="bg-[#fffcfccc] dark:bg-dark dark:border-slate-200 dark:border-b">
 
         <!-- BOOK INFO SECTION -->
-        <section class="max-w-7xl mx-auto pt-12 border-t border-slate-100">
+        <section class="max-w-7xl mx-auto pt-16 lg:pt-12 border-t border-slate-100">
             <div class="p-4 md:p-10 lg:p-12">
                 <div class="grid md:grid-cols-12 gap-6 md:gap-10">
 
                     <!-- LEFT: Cover & Actions -->
-                    <div class="md:col-span-4 lg:col-span-3 md:sticky md:top-24 self-start">
+                    <div class="md:col-span-4 flex flex-col gap-4 items-start lg:col-span-3 md:sticky md:top-24 self-start">
+                        <button @click="back"
+                            class="hover:bg-slate-200 hover:duration-300 hover:ease-in-out dark:bg-slate-800 dark:hover:bg-slate-700 px-3 py-2 rounded-lg border-slate-400 border-[1px] flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors">
+                            <Icon name="mdi:arrow-left" class="w-4 h-4" />
+                        </button>
                         <div
                             class="rounded-xl overflow-hidden shadow-2xl border border-slate-200 rotate-1 hover:rotate-0 transition-transform duration-500">
                             <img v-if="book" :src="`${config.public.apiBackendUrl}/uploads/books/${book.image}`"
                                 class="w-full object-cover aspect-[3/4]" alt="Cover Large">
                         </div>
 
-                        <div class="mt-6 flex flex-col gap-3">
+                        <div class="mt-6 flex flex-col gap-3 w-full">
                             <!-- Read buttons -->
                             <div class="flex flex-col gap-1.5">
                                 <nuxt-link v-if="sortedChapters.length > 0"
@@ -31,18 +35,53 @@
                                 </nuxt-link>
                             </div>
 
-                            <!-- Likes & Comments -->
-                            <div class="grid grid-cols-2 gap-3 text-sm">
-                                <button
-                                    class="w-full bg-white border border-slate-200 text-slate-700 py-3 rounded-xl font-medium hover:bg-slate-50 dark:hover:bg-orange-50 dark:hover:border-orange-100/50 dark:hover:text-orange-800 transition-colors flex items-center justify-center gap-2">
-                                    <Icon name="mdi:heart" class="w-5 h-5" />
-                                    140
-                                </button>
-                                <button @click="openStatsBook"
-                                    class="w-full bg-white border border-slate-200 text-slate-700 py-3 rounded-xl font-medium hover:bg-slate-50 dark:hover:bg-orange-50 dark:hover:border-orange-100/50 dark:hover:text-orange-800 transition-colors flex items-center justify-center gap-2">
-                                    <Icon name="mdi:comment" class="w-5 h-5" />
-                                    {{ book.book_comments }}
-                                </button>
+                            <div class="">
+                                <!-- Likes & Comments -->
+                                <div class="grid grid-cols-2 md:grid-cols-1 xl:grid-cols-2 gap-3 text-sm md:text-xs">
+                                    <div class="relative" ref="reactionWrapper" @mouseenter="handleMouseEnter"
+                                        @mouseleave="handleMouseLeave">
+                                        <!-- Bouton principal -->
+                                        <button @click="toggleLike" @touchstart="startPress" @touchend="cancelPress"
+                                            @touchmove="cancelPress"
+                                            :class="`w-full border border-slate-200 ${(reactionUser && !selectedReaction)
+                                                ? reactionUser.color
+                                                : (selectedReaction ? selectedReaction.color : 'bg-white text-gray-700')
+                                                } py-3 md:py-3.5 lg:py-3 rounded-xl font-medium hover:bg-slate-50 transition-colors flex items-center justify-center gap-2`">
+                                            <span v-if="reactionUser && !selectedReaction && reactionUser?.emoji"
+                                                class="animate-pulse">
+                                                {{ reactionUser?.emoji }}
+                                            </span>
+                                            <span v-else-if="selectedReaction?.emoji" :class="selectedReaction.animation">
+                                                {{ selectedReaction?.emoji }}
+                                            </span>
+                                            <Icon v-else name="mdi:heart-outline" class="w-5 h-5 lg:w-4 lg:h-4" />
+                                            {{ counterReaction }}
+                                            {{ (reactionUser && !selectedReaction) ? reactionUser.label : (selectedReaction
+                                                ? selectedReaction.label : 'J’aime') }}
+                                        </button>
+                                        <!-- Popover -->
+                                        <transition name="fade">
+                                            <div v-if="showReactions"
+                                                class="absolute bottom-full mb-3 left-1/2 -translate-x-1/2 bg-white dark:bg-slate-900 dark:border-slate-300 shadow-xl border border-slate-200 rounded-xl px-3 py-2 flex flex-wrap w-[200px] gap-3 items-center justify-center z-50">
+                                                <!-- Triangle -->
+                                                <div
+                                                    class="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-[8px] border-l-transparent border-r-[8px] border-r-transparent border-t-[8px] border-t-white">
+                                                </div>
+                                                <button v-for="reaction in reactions" :key="reaction.id"
+                                                    @click="selectReaction(reaction)"
+                                                    :class="`${reaction.animation} hover:scale-125 flex-shrink-0 w-8 h-8 hover:-translate-y-1 transition-all duration-200 ${(reactionUser && reactionUser.emoji === reaction.emoji) ? 'border-orange-600 p-1.5 bg-slate-50 dark:bg-slate-300 border-[1px] rounded-full text-sm flex items-center justify-center' : 'text-xl'}`">
+                                                    {{ reaction.emoji }}
+                                                </button>
+                                            </div>
+                                        </transition>
+                                    </div>
+                                    <button @click="openStatsBook"
+                                        class="w-full bg-white border border-slate-200 text-slate-700 py-3 rounded-xl font-medium hover:bg-slate-50 dark:hover:bg-orange-50 dark:hover:border-orange-100/50 dark:hover:text-orange-800 transition-colors flex items-center justify-center gap-2">
+                                        <Icon name="mdi:comment" class="w-5 h-5 lg:w-4 lg:h-4" />
+                                        {{ book.book_comments }}
+                                    </button>
+                                </div>
+                                <p class="text-xs text-slate-500 dark:text-slate-200 text-center mt-2" v-if="reactionUser">Vous avez trouvé ce livre : <strong>{{ reactionUser.label }}</strong></p>
                             </div>
                         </div>
                     </div>
@@ -76,7 +115,7 @@
                                         alt="Profil"
                                         class="w-6 h-6 border-orange-600 border-2 dark:border-orange-500 rounded-full" />
                                     <span v-else
-                                        class="p-1 text-[8px] flex items-center justify-center w-6 h-6 rounded-full"
+                                        class="p-1 text-[8px] font-bold flex items-center justify-center w-6 h-6 rounded-full"
                                         :style="`background-color: ${book.user.code_color}`">
                                         {{ book.user.name.charAt(0).toUpperCase() }}
                                     </span>
@@ -85,12 +124,12 @@
                                     </p>
                                 </nuxt-link>
 
-                                <div class="flex items-center gap-1 truncate">
+                                <div class="hidden md:flex items-center gap-1 text-xs truncate">
                                     <Icon name="mdi:book-multiple" class="w-5 h-5" />
-                                    <span>{{ book.chapters.length }} Chapitres</span>
+                                    <span>{{ formatNumber(book.chapters.length) }} Chapitres</span>
                                 </div>
 
-                                <div class="flex items-center gap-1 truncate">
+                                <div class="hidden md:flex items-center gap-1 text-xs truncate">
                                     <Icon name="mdi:eye" class="w-5 h-5" />
                                     <span>125k Vues</span>
                                 </div>
@@ -105,7 +144,7 @@
                         <!-- Chapters List -->
                         <div class="border-t border-slate-200 pt-6">
                             <div class="flex justify-between items-center mb-4">
-                                <h3 class="font-display font-medium text-slate-900 dark:text-white">Chapitres</h3>
+                                <h3 class="font-display font-medium text-slate-900 dark:text-white">{{ formatNumber(book.chapters.length) }} chapitre(s)</h3>
                                 <button v-if="sortedChapters.length > 0" @click="toggleSort"
                                     class="h-8 px-3 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700 flex items-center gap-2 transition-colors">
                                     <Icon
@@ -125,7 +164,7 @@
                                                 index + 1 }}</span>
                                         <span>
                                             <p
-                                                class="font-medium text-slate-900 dark:text-white group-hover:text-orange-600 transition-colors">
+                                                class="font-medium text-slate-900 dark:text-white group-hover:text-orange-600 dark:group-hover:text-orange-500 transition-colors">
                                                 {{ chapter.title }}</p>
                                             <p class="text-xs text-slate-400 dark:text-slate-200">Publié le {{
                                                 formatLocalDate(chapter.created_at) }}</p>
@@ -172,7 +211,7 @@
                             :class="step === 'likes' ? 'border-orange-600' : 'border-transparent'"
                             class="border-b-2 pb-1 flex items-center gap-2">
                             <Icon name="mdi:heart" class="w-4 h-4" />
-                            140
+                            {{ counterReaction }}
                         </button>
                     </div>
                 </div>
@@ -201,11 +240,14 @@
                             <div class="flex-1 text-xs">
 
                                 <div class="bg-slate-50 dark:bg-slate-700 rounded-xl p-2">
-                                    <nuxt-link :to="`${(commentItem.user && Number(commentItem.user.id) === Number(book.id_user)) ? `/authors/${book.user.uuid}` : ''}`" class="flex justify-between items-center font-semibold text-slate-900 dark:text-white">
+                                    <nuxt-link
+                                        :to="`${(commentItem.user && Number(commentItem.user.id) === Number(book.id_user)) ? `/authors/${book.user.uuid}` : ''}`"
+                                        class="flex justify-between items-center font-semibold text-slate-900 dark:text-white">
                                         {{ commentItem.user.name }}
                                         <span class="font-light text-[10px] flex items-center gap-1"
                                             v-if="(commentItem.user && Number(commentItem.user.id) === Number(book.id_user))">
-                                            <Icon name="mdi:edit" class="w-3 h-3 text-orange-600 animate-pulse" />Auteur/trice
+                                            <Icon name="mdi:edit" class="w-3 h-3 text-orange-600 animate-pulse" />
+                                            Auteur/trice
                                         </span>
                                     </nuxt-link>
                                     <p class="text-slate-700 dark:text-slate-200" v-html="commentItem.content"></p>
@@ -218,6 +260,12 @@
                                     <button class="hover:underline text-orange-600 dark:text-orange-400" v-if="user"
                                         @click="toggleReplies(commentItem.id)">
                                         Répondre
+                                    </button>
+
+                                    <button class="hover:underline text-blue-600 dark:text-blue-400"
+                                        v-if="(user && (commentItem.user.id === user.id))"
+                                        @click="handleUpdateComment(commentItem.uuid, commentItem.id, null, commentItem.content)">
+                                        Modifier
                                     </button>
                                     <button
                                         v-if="(user && (commentItem.user.id === user.id || user.id === book.id_user))"
@@ -241,7 +289,7 @@
 
                         <!-- REPLY FORM -->
                         <div v-if="replyFormId === commentItem.id" class="flex items-end gap-2 ml-11 mt-2 text-xs">
-                            <textarea v-model="replyContent" @input="autoResizeReply" rows="1" autofocus
+                            <textarea v-model="replyContent" id="replyInput" @input="autoResizeReply" rows="1" autofocus
                                 class="w-full border border-slate-200 rounded-lg p-2 resize-none outline-none"
                                 placeholder="Écrire une réponse..."></textarea>
 
@@ -266,7 +314,8 @@
 
                                 <div class="flex-1">
                                     <div class="bg-slate-50 dark:bg-slate-700 rounded-xl p-2">
-                                        <nuxt-link :to="`${(reply.user && Number(reply.user.id) === Number(book.id_user)) ? `/authors/${book.user.uuid}` : ''}`"
+                                        <nuxt-link
+                                            :to="`${(reply.user && Number(reply.user.id) === Number(book.id_user)) ? `/authors/${book.user.uuid}` : ''}`"
                                             class="text-xs flex justify-between items-center font-semibold text-slate-900 dark:text-white">
                                             {{ reply.user.name }}
                                             <span class="font-light text-[10px] flex items-center gap-1"
@@ -283,6 +332,11 @@
                                         <span class="text-slate-500 dark:text-slate-200 block">
                                             {{ formatLocalDate(reply.created_at) }}
                                         </span>
+                                        <button class="hover:underline text-blue-600 dark:text-blue-400"
+                                            v-if="(user && (reply.user.id === user.id))"
+                                            @click="handleUpdateComment(reply.uuid, reply.id, commentItem.id, reply.content)">
+                                            Modifier
+                                        </button>
                                         <button v-if="(user && (reply.user.id === user.id || user.id === book.id_user))"
                                             class="hover:underline text-red-600 dark:text-red-400"
                                             @click="handleDeleteComment(reply.uuid, reply.id, commentItem.id)">
@@ -303,7 +357,7 @@
 
                 <!-- ADD COMMENT -->
                 <div v-if="step === 'comments'" class="border-t border-slate-200 p-4 text-xs">
-                    <form v-if="user" @submit.prevent="() => submitComment()" class="flex items-end gap-2">
+                    <div v-if="user" class="flex items-end gap-2">
                         <img v-if="user.photo" :src="`${config.public.apiBackendUrl}/uploads/users/${user.photo}`"
                             class="w-8 h-8 rounded-full" />
                         <div v-else class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold"
@@ -315,11 +369,16 @@
                             class="flex-1 border border-slate-200 rounded-xl px-4 py-2 resize-none outline-none"
                             placeholder="Ajouter un commentaire..."></textarea>
 
-                        <button v-if="comment.trim().length > 0" type="submit"
+                        <button v-if="!commentUuid && comment.trim().length > 0" @click="submitComment()"
                             class="bg-orange-600 text-white px-4 py-2 rounded-xl">
                             <Icon name="mdi:send" class="w-4 h-4" />
                         </button>
-                    </form>
+
+                        <button v-if="commentUuid && comment.trim().length > 0" @click="updateCommentLocal()"
+                            class="bg-orange-600 text-white px-4 py-2 rounded-xl">
+                            <Icon name="mdi:send" class="w-4 h-4" />
+                        </button>
+                    </div>
 
                     <p v-else class="flex flex-col gap-2 text-xs text-slate-500 text-center">
                         Vous devez être connecté pour commenter
@@ -330,33 +389,223 @@
                     </p>
                 </div>
 
+                <div v-if="step === 'likes'" ref="reactionsWrapper" @scroll="handleScrollReactions"
+                    class="flex-1 overflow-y-auto p-4 space-y-6">
+                    <div class="flex gap-2" v-for="(reaction, index) in reactionsState.list" :key="index">
+                        <div class="relative">
+                            <img v-if="reaction.user.photo"
+                                :src="`${config.public.apiBackendUrl}/uploads/users/${reaction.user.photo}`"
+                                class="w-7 h-7 rounded-full" />
+                            <div v-else class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold"
+                                :style="`background-color: ${reaction.user.code_color}`">
+                                {{ reaction.user.name.charAt(0).toUpperCase() }}
+                            </div>
+                            <span class="text-xs absolute bottom-0 right-0 animate-bounce">{{ reaction.emoji }}</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <div class="flex items-center gap-3">
+                                <div class="flex items-baseline gap-2">
+                                    <span class="text-[13px] font-semibold text-slate-900 dark:text-slate-200">{{
+                                        reaction.user.name }}</span>
+                                </div>
+                                <span
+                                    class="px-3 py-0.5 rounded-full bg-orange-50 border border-orange-100/50 text-orange-800 text-[10px] font-medium">
+                                    {{ reaction.user.role }}
+                                </span>
+                            </div>
+                            <p class="text-[12px] lg:text-xs text-slate-600 dark:text-slate-200">{{ reaction.user.pseudonym
+                            }} trouve ce livre : <span class="font-medium">{{ reaction.label }}</span></p>
+                        </div>
+                    </div>
+
+                    <!-- LOADING -->
+                    <div v-if="reactionsState.loading" class="text-center text-sm text-slate-500">
+                        Chargement...
+                    </div>
+                </div>
             </div>
         </StatsModal>
 
     </div>
 </template>
 
-<script setup lang="ts">
-import { ref, reactive, computed, onMounted, nextTick } from 'vue';
+<style scoped>
+/* 👍 Petit rebond positif */
+@keyframes bounce-like {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
 
+/* ❤️ Battement cœur */
+@keyframes heartbeat {
+  0% { transform: scale(1); }
+  25% { transform: scale(1.25); }
+  40% { transform: scale(1); }
+  60% { transform: scale(1.25); }
+  100% { transform: scale(1); }
+}
+
+/* 🔥 Flammes dynamiques */
+@keyframes flame {
+  0%,100% { transform: scale(1) rotate(-3deg); }
+  50% { transform: scale(1.2) rotate(3deg); }
+}
+
+/* 🤯 Explosion mentale */
+@keyframes explode {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.4) rotate(-10deg); }
+  100% { transform: scale(1) rotate(0); }
+}
+
+/* 😂 Secousse rire */
+@keyframes laugh {
+  0%,100% { transform: rotate(0); }
+  25% { transform: rotate(-10deg); }
+  75% { transform: rotate(10deg); }
+}
+
+/* 😮 Surprise rotation */
+@keyframes surprise {
+  0%,100% { transform: scale(1); }
+  50% { transform: scale(1.3); }
+}
+
+/* 😡 Tremblement */
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  25% { transform: translateX(-3px); }
+  75% { transform: translateX(3px); }
+}
+
+/* 👏 Applaudissement */
+@keyframes clap {
+  0%,100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+/* 🤔 Légère rotation réfléchie */
+@keyframes thinking {
+  0%,100% { transform: rotate(0); }
+  50% { transform: rotate(-12deg); }
+}
+
+/* 😭 Tremblement vertical émotion */
+@keyframes cry {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+/* 😱 Choc violent */
+@keyframes shock {
+  0% { transform: scale(1); }
+  30% { transform: scale(1.5); }
+  100% { transform: scale(1); }
+}
+
+/* 🌟 Brillance */
+@keyframes sparkle {
+  0%,100% { transform: scale(1); }
+  50% { transform: scale(1.3); }
+}
+
+/* 🥶 Frisson */
+@keyframes chill {
+  0%,100% { transform: translateX(0); }
+  25% { transform: translateX(-2px); }
+  75% { transform: translateX(2px); }
+}
+
+
+/* Classes hover */
+.react-like:hover { animation: bounce-like 0.6s ease infinite; }
+.react-love:hover { animation: heartbeat 0.8s ease infinite; }
+.react-fire:hover { animation: flame 0.6s ease infinite; }
+.react-mindblown:hover { animation: explode 0.7s ease infinite; }
+.react-laugh:hover { animation: laugh 0.5s ease infinite; }
+.react-wow:hover { animation: surprise 0.6s ease infinite; }
+.react-angry:hover { animation: shake 0.4s ease infinite; }
+.react-clap:hover { animation: clap 0.6s ease infinite; }
+.react-thinking:hover { animation: thinking 0.7s ease infinite; }
+.react-tear:hover { animation: cry 0.6s ease infinite; }
+.react-shock:hover { animation: shock 0.5s ease infinite; }
+.react-star:hover { animation: sparkle 0.8s ease infinite; }
+.react-goosebumps:hover { animation: chill 0.5s ease infinite; }
+</style>
+
+<script setup lang="ts">
+import { onClickOutside } from '@vueuse/core'
+import { ref, reactive, computed, onMounted, nextTick } from 'vue';
+interface Reaction {
+    id: string
+    label: string
+    emoji: string
+    color: string
+    animation: string
+}
+
+const { getBookByUuid } = booksData();
+const { toConnectUser } = authenticate();
+const { getCommentsByBook, getReplies, createComment, updateComment, deleteComment } = useBookComments();
+const { getReactionsByBook, createReaction, createDefaultReaction, findByUserIdAndBookId } = useBookReactions();
 const config = useRuntimeConfig();
 const route = useRoute();
+const router = useRouter();
+const counterReaction = ref<number>(0);
+const back = () => {
+    window.history.back()
+}
 
 // ---------- STATE ----------
 const showStatsModal = ref(false);
 const step = ref<'comments' | 'likes'>('comments');
-
-const comment = ref('');
+const comment = ref<string>('');
+const commentUuid = ref<string>('');
+const commentId = ref<number>(0);
+const commentReplyId = ref<number | null>(0);
 const textarea = ref<HTMLTextAreaElement | null>(null);
-
+const reactionWrapper = ref<HTMLElement | null>(null)
 const replyFormId = ref<number | null>(null);
 const replyContent = ref<string>('');
-const commentsWrapper = ref<HTMLElement | null>(null);
-
 const sortDirection = ref<'asc' | 'desc'>('asc');
-
 const user = ref<User | null>(null);
 const book = ref<BookData | null>(null);
+const reactionUser = ref<any>(null);
+const showReactions = ref(false);
+const selectedReaction = ref<Reaction | null>(null)
+let pressTimer: NodeJS.Timeout | null = null
+const isMobile = ref(false);
+// ---------- COMMENTS ----------
+const commentsState = reactive({
+    list: [] as any[],
+    replies: {} as Record<number, any[]>,
+    page: 1,
+    total: 0,
+    loading: false,
+});
+// ---------- REACTIONS ----------
+const reactionsState = reactive({
+    list: [] as any[],
+    page: 1,
+    total: 0,
+    loading: false,
+});
+
+const reactions: Reaction[] = [
+  { id: 'like', label: 'J’aime', emoji: '👍', color: 'text-blue-600 bg-blue-50', animation: 'react-like' },
+  { id: 'love', label: 'Coup de cœur', emoji: '❤️', color: 'text-red-600 bg-red-50', animation: 'react-love' },
+  { id: 'fire', label: 'Incroyable', emoji: '🔥', color: 'text-orange-600 bg-orange-50', animation: 'react-fire' },
+  { id: 'mindblown', label: 'Mind blown', emoji: '🤯', color: 'text-purple-600 bg-purple-50', animation: 'react-mindblown' },
+  { id: 'laugh', label: 'Haha', emoji: '😂', color: 'text-amber-600 bg-amber-50', animation: 'react-laugh' },
+  { id: 'wow', label: 'Surprenant', emoji: '😮', color: 'text-yellow-600 bg-yellow-50', animation: 'react-wow' },
+  { id: 'angry', label: 'Frustrant', emoji: '😡', color: 'text-red-600 bg-red-50', animation: 'react-angry' },
+  { id: 'clap', label: 'Bravo', emoji: '👏', color: 'text-green-600 bg-green-50', animation: 'react-clap' },
+  { id: 'thinking', label: 'Intrigant', emoji: '🤔', color: 'text-indigo-500 bg-indigo-50', animation: 'react-thinking' },
+  { id: 'tear', label: 'Bouleversant', emoji: '😭', color: 'text-cyan-600 bg-cyan-50', animation: 'react-tear' },
+  { id: 'shock', label: 'Choquant', emoji: '😱', color: 'text-fuchsia-600 bg-fuchsia-50', animation: 'react-shock' },
+  { id: 'star', label: 'Chef-d’œuvre', emoji: '🌟', color: 'text-yellow-600 bg-yellow-50', animation: 'react-star' },
+  { id: 'goosebumps', label: 'Frissons', emoji: '🥶', color: 'text-blue-700 bg-blue-100', animation: 'react-goosebumps' },
+]
 
 // ---------- CHAPTERS ----------
 const sortedChapters = computed(() => {
@@ -383,18 +632,72 @@ const status = (status: string) => {
     }
 };
 
-// ---------- COMMENTS ----------
-const commentsState = reactive({
-    list: [] as any[],
-    replies: {} as Record<number, any[]>,
-    page: 1,
-    total: 0,
-    loading: false,
-});
+onClickOutside(reactionWrapper, () => {
+    showReactions.value = false
+})
 
-const { getBookByUuid } = booksData();
-const { toConnectUser } = authenticate();
-const { getCommentsByBook, getReplies, createComment, deleteComment } = useBookComments();
+const startPress = () => {
+    if (!isMobile.value) return
+
+    pressTimer = setTimeout(() => {
+        showReactions.value = true
+    }, 400) // durée appui long
+}
+
+const cancelPress = () => {
+    if (pressTimer) {
+        clearTimeout(pressTimer)
+        pressTimer = null
+    }
+}
+
+const handleMouseEnter = () => {
+    if (!isMobile.value) {
+        showReactions.value = true
+    }
+}
+
+const handleMouseLeave = () => {
+    if (!isMobile.value) {
+        showReactions.value = false
+    }
+}
+
+const defaultReaction = {
+    id: 'like',
+    label: 'J’aime',
+    emoji: '👍',
+    color: 'bg-blue-50 text-blue-600'
+}
+
+const toggleLike = async () => {
+    if (book.value && user.value) {
+        const res = await createDefaultReaction({ id_book: book.value.id, id_user: user.value.id, ...defaultReaction });
+        counterReaction.value = res.length
+        reactionUser.value = await findByUserIdAndBookId(user.value.id, book.value.id);
+        if (reactionUser.value) {
+            selectedReaction.value = reactionUser.value;
+        } else {
+            selectedReaction.value = null
+        }
+    } else {
+        router.push('/login');
+    }
+}
+
+const selectReaction = async (reaction: Reaction) => {
+    selectedReaction.value = reaction
+    showReactions.value = false;
+    if (user.value) {
+        if (book.value) {
+            const res = await createReaction({ id_book: book.value.id, id_user: user.value.id, label: reaction.label, emoji: reaction.emoji, color: reaction.color });
+            counterReaction.value = res.length;
+            reactionUser.value = await findByUserIdAndBookId(user.value.id, book.value.id);
+        }
+    } else {
+        router.push('/login');
+    }
+}
 
 // =============================
 // LOAD COMMENTS (PAGINATION)
@@ -414,6 +717,23 @@ const loadComments = async () => {
     commentsState.loading = false;
 };
 
+// =============================
+// LOAD REACTIONS (PAGINATION)
+// =============================
+const loadReactions = async () => {
+    if (!book.value || reactionsState.loading) return;
+
+    reactionsState.loading = true;
+
+    const res = await getReactionsByBook(book.value.id, reactionsState.page);
+
+    if (res?.data?.length) {
+        reactionsState.list.push(...res.data);
+        reactionsState.total = res.total;
+    }
+
+    reactionsState.loading = false;
+};
 
 // =============================
 // LOAD REPLIES (ON DEMAND)
@@ -439,6 +759,43 @@ const toggleReplies = async (commentId: number) => {
     }
 };
 
+
+const updateCommentLocal = async () => {
+    const res = await updateComment(commentUuid.value, comment.value.replace(/\n/g, '<br>'));
+    if (!res.success) return;
+    // Modification commentaire principal
+    if (commentReplyId.value === null) {
+        const commentToUpdate = commentsState.list.find(
+            c => c.id === commentId.value
+        );
+
+        if (commentToUpdate) {
+            commentToUpdate.content = comment.value.replace(/\n/g, '<br>');
+            comment.value = "";
+            commentUuid.value = "";
+            commentReplyId.value = null;
+        }
+
+        return;
+    }
+
+    // Modification reply
+    const replies = commentsState.replies[commentReplyId.value];
+
+    if (!replies) return;
+
+    const replyToUpdate = replies.find(
+        c => c.id === commentId.value
+    );
+
+    if (replyToUpdate) {
+        replyToUpdate.content = comment.value.replace(/\n/g, '<br>');
+        comment.value = "";
+        commentUuid.value = "";
+        commentReplyId.value = null;
+    }
+};
+
 const deleteCommentLocal = (id: number, parent_id?: number) => {
     if (!parent_id) {
         // Suppression commentaire principal
@@ -457,6 +814,14 @@ const handleDeleteComment = async (uuid: string, id: number, parent_id?: number)
     await deleteComment(uuid);
 
     deleteCommentLocal(id, parent_id);
+};
+
+const handleUpdateComment = async (uuid: string, id: number, parent_id?: any, content?: string) => {
+    commentUuid.value = uuid;
+    commentId.value = id;
+    commentReplyId.value = parent_id;
+    comment.value = content ? content.replace(/<br>/g, '\n') : '';
+    textarea.value?.focus();
 };
 
 // =============================
@@ -500,7 +865,6 @@ const submitComment = async (parent_id?: number) => {
     }
 };
 
-
 // =============================
 // INFINITE SCROLL
 // =============================
@@ -518,6 +882,22 @@ const handleScroll = async (e: Event) => {
     }
 };
 
+// =============================
+// INFINITE SCROLL
+// =============================
+const handleScrollReactions = async (e: Event) => {
+    const el = e.target as HTMLElement;
+    if (!el) return;
+
+    if (
+        el.scrollTop + el.clientHeight >= el.scrollHeight - 50 &&
+        !reactionsState.loading &&
+        reactionsState.list.length < reactionsState.total
+    ) {
+        reactionsState.page += 1;
+        await loadReactions();
+    }
+};
 
 // =============================
 // AUTO RESIZE
@@ -534,7 +914,6 @@ const autoResizeReply = (event: Event) => {
     el.style.height = Math.min(el.scrollHeight, 80) + 'px';
 };
 
-
 // =============================
 // MODAL
 // =============================
@@ -547,16 +926,21 @@ const closeStats = () => (showStatsModal.value = false);
 const showLikes = () => (step.value = 'likes');
 const showComments = () => (step.value = 'comments');
 
-
 // =============================
 // INIT
 // =============================
 onMounted(async () => {
+    isMobile.value = window.innerWidth < 768
     user.value = await toConnectUser();
     book.value = await getBookByUuid(`${route.params.uuid}`);
 
     if (book.value) {
+        if (user.value) {
+            reactionUser.value = await findByUserIdAndBookId(user.value.id, book.value.id);
+        }
+        counterReaction.value = Number(book.value.book_reactions);
         await loadComments();
+        await loadReactions();
         useSeoMeta({
             title: `${book.value.title}`
         })

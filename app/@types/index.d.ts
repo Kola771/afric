@@ -84,6 +84,7 @@ interface BookData {
   image: string
   book_categories?: any
   book_comments?: any
+  book_reactions?: any
   chapters?: any
   user?: any
   created_at?: Date

@@ -48,7 +48,7 @@
           </div>
         </div>
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-6 gap-y-10" v-if="filteredBooks.length > 0">
-          <HomeCard v-for="book in filteredBooks" :key="book.id" :book="book" />
+          <HomeCard v-for="(book, index) in filteredBooks" :index="index" :key="book.id" :book="book" />
         </div>
         <div v-if="filteredBooks.length === 0" class="flex flex-col items-center justify-center text-center p-6">
           <Icon name="mdi:books" class="w-12 h-12 text-slate-300 mb-3" />

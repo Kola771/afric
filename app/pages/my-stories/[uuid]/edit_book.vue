@@ -11,10 +11,12 @@
                         </button>
                         <h2 class="text-2xl font-display font-bold text-slate-900 dark:text-white tracking-tight">
                             Modification du livre : "<strong class="text-orange-600 dark:text-orange-500">{{ book.title
-                                }}</strong>"</h2>
+                            }}</strong>"</h2>
                     </div>
-                    <p class="text-sm text-slate-500 dark:text-slate-200 mt-1">Modifiez les informations de votre livre
-                        !</p>
+                    <p class="text-sm text-slate-500 dark:text-slate-200 mt-1">
+                        Vous pouvez modifier les informations de votre livre à tout moment.
+                        Veillez à maintenir des données exactes et cohérentes avec son contenu.
+                    </p>
                 </div>
             </div>
             <form class="flex flex-col gap-4" @submit.prevent="updateBook">
@@ -110,7 +112,9 @@
 
                 <p v-if="status === 'inactive'"
                     class="bg-red-50 font-medium p-2 rounded-lg text-[11px] md:text-xs md:p-3 md:leading-6 text-red-600 dark:text-red-400 mt-1">
-                    ⚠️ Cette histoire est actuellement marquée comme « Inactive ». Vous avez <strong>{{ getDaysFromToday(book.deadline).days }}</strong> jours pour corriger tout contenu potentiellement
+                    ⚠️ Cette histoire est actuellement marquée comme « Inactive ». Vous avez <strong>{{
+                        getDaysFromToday(book.deadline).days }}</strong> jours pour corriger tout contenu
+                    potentiellement
                     problématique.
                     Veuillez notifier vos corrections aux administrateurs via cet e-mail :
                     <strong><a href="mailto:contact@africstoryline.com">contact@africstoryline.com</a></strong>.
