@@ -67,6 +67,72 @@ export function getDaysFromToday(
 }
 
 /**
+ * Retourne une représentation relative du temps écoulé
+ * depuis une date donnée (ex : "maintenant", "5min", "2h", "3j", "1sem").
+ *
+ * Utile pour afficher des timestamps courts dans une interface
+ * (commentaires, réactions, posts, etc.).
+ *
+ * @param date - Date à comparer (string ISO ou objet Date)
+ * @returns Une chaîne représentant le temps écoulé
+ */
+export function formatRelativeDate(date: string | Date): string {
+  const now = new Date();
+  const target = new Date(date);
+
+  const diff = Math.floor((now.getTime() - target.getTime()) / 1000);
+
+  if (diff < 10) return "maintenant";
+
+  const minutes = Math.floor(diff / 60);
+  if (minutes < 60) return `${minutes}min`;
+
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours}h`;
+
+  const days = Math.floor(hours / 24);
+  if (days < 7) return `${days}j`;
+
+  const weeks = Math.floor(days / 7);
+  if (weeks < 4) return `${weeks}sem`;
+
+  const months = Math.floor(days / 30);
+  if (months < 12) return `${months}mois`;
+
+  const years = Math.floor(days / 365);
+  return `${years}an${years > 1 ? "s" : ""}`;
+}
+
+/**
+ * Formate un temps de lecture en format lisible (heure, minute, seconde)
+ * 
+ * Cette fonction convertit un nombre de secondes en une chaîne formatée :
+ * - Exemples :
+ *   45 → "45sec"
+ *   75 → "1min15sec"
+ *   3670 → "1h1min10sec"
+ * 
+ * @param seconds - Temps de lecture en secondes
+ * @returns string - Temps formaté pour l'affichage
+ */
+export const formatReadingTime = (seconds: number) => {
+
+    if (!seconds || seconds <= 0) return "0sec"
+
+    const hours = Math.floor(seconds / 3600)
+    const minutes = Math.floor((seconds % 3600) / 60)
+    const remainingSeconds = seconds % 60
+
+    let result = ""
+
+    if (hours > 0) result += `${hours}h`
+    if (minutes > 0) result += `${minutes}min`
+    if (remainingSeconds > 0) result += `${remainingSeconds}sec`
+
+    return result
+}
+
+/**
  * Vérifie si l'utilisateur a le droit d'accéder à la création de livre et chapitres
  * @param role - rôle de l'utilisateur
  * @returns boolean

@@ -8,13 +8,15 @@
                 <div
                     class="sticky top-0 z-40 bg-white/95 dark:bg-dark dark:shadow-white/20 shadow-lg lg:shadow-none backdrop-blur border-b border-slate-200 px-4 py-3 flex items-center justify-between">
                     <div class="flex items-center gap-4">
-                        <button @click="back">
+                        <nuxt-link :to="`/books/${book.uuid}`">
                             <Icon name="mdi:arrow-left" class="w-5 h-5 dark:text-slate-200" />
-                        </button>
+                        </nuxt-link>
                         <div class="flex flex-col">
                             <span
-                                class="text-xs text-slate-600 dark:text-slate-200 uppercase tracking-wider font-semibold truncate">{{ book.title }}</span>
-                            <span class="text-sm font-medium text-slate-900 dark:text-white truncate">{{ chapter?.title }}</span>
+                                class="text-xs text-slate-600 dark:text-slate-200 uppercase tracking-wider font-semibold truncate">{{
+                                    book.title }}</span>
+                            <span class="text-sm font-medium text-slate-900 dark:text-white truncate">{{ chapter?.title
+                            }}</span>
                         </div>
                     </div>
                     <div class="flex items-center gap-2">
@@ -42,7 +44,8 @@
                                 <Icon name="mdi:heart" class="w-5 h-5" />
                                 <span class="text-sm font-medium">124 J'aime</span>
                             </button>
-                            <button class="flex items-center gap-2 hover:text-blue-600 transition-colors" @click="openStats">
+                            <button class="flex items-center gap-2 hover:text-blue-600 transition-colors"
+                                @click="openStats">
                                 <Icon name="mdi:message-text-outline" class="w-5 h-5" />
                                 <span class="text-sm font-medium">45 Com.</span>
                             </button>
@@ -51,13 +54,19 @@
 
                     <!-- Navigation Buttons -->
                     <div class="grid grid-cols-2 gap-4 mt-8">
-                        <button
-                            class="px-6 py-4 rounded-xl border border-slate-200 text-slate-500 font-medium hover:border-slate-300 hover:bg-slate-50 text-sm flex items-center justify-center gap-2 transition-all opacity-50 cursor-not-allowed dark:bg-slate-800 dark:border-none">
+                        <button @click="goToPrevChapter" :class="[
+                            'px-6 py-4 rounded-xl border text-sm flex items-center justify-center gap-2 transition-all',
+                            prevChapter ? 'hover:border-slate-300 hover:bg-slate-50 opacity-100 cursor-pointer' : 'opacity-50 cursor-not-allowed'
+                        ]">
                             <Icon name="mdi:arrow-left" class="w-5 h-5" />
                             Précédent
                         </button>
-                        <button
-                            class="px-6 py-4 rounded-xl bg-slate-900 text-white font-medium hover:bg-slate-800 text-sm flex items-center justify-center gap-2 transition-all shadow-lg hover:shadow-xl dark:bg-white dark:text-primary dark:hover:bg-slate-100 dark:hover:duration-300 dark:hover:ease-in-out">
+
+                        <!-- Suivant -->
+                        <button @click="goToNextChapter" :class="[
+                            'px-6 py-4 rounded-xl bg-slate-900 text-white text-sm flex items-center justify-center gap-2 transition-all shadow-lg',
+                            nextChapter ? 'hover:bg-slate-800 cursor-pointer' : 'opacity-50 cursor-not-allowed'
+                        ]">
                             Suivant
                             <Icon name="mdi:arrow-right" class="w-5 h-5" />
                         </button>
@@ -139,17 +148,29 @@
                 </div>
             </div>
         </StatsModal>
+
+        <div class="fixed top-[60px] left-0 w-full h-[3px] bg-slate-200 dark:bg-slate-700 z-50">
+            <div class="h-full bg-orange-500 transition-all duration-200" :style="{ width: scrollPercent + '%' }">
+            </div>
+        </div>
     </div>
 </template>
 
 <script lang="ts" setup>
 const route = useRoute();
+const router = useRouter();
 const { getBookByUuid } = booksData();
 const { getChapterByUuid } = chaptersData();
+const { saveRead } = useChapterReads();
 const { toConnectUser } = authenticate();
+const config = useRuntimeConfig();
 const user = ref<User | null>(null);
 const book = ref<BookData | null>(null);
 const chapter = ref<ChapterData | null>(null);
+const chapterReadSent = ref(false);
+const scrollPercent = ref(0)
+const startReadingTime = ref<number | null>(null)
+
 definePageMeta({
     layout: "not-layout",
 });
@@ -198,14 +219,173 @@ const textSizeClass = computed(() => {
     }
 })
 
+// Calculer l'index du chapitre courant
+const currentChapterIndex = computed(() => {
+    if (!book.value || !chapter.value) return -1;
+    return book.value.chapters.findIndex((c: BookData) => c.uuid === chapter.value?.uuid);
+});
+
+// Chapitre précédent
+const prevChapter = computed(() => {
+    const index = currentChapterIndex.value;
+    if (index > 0) return book.value?.chapters[index - 1] || null;
+    return null;
+});
+
+// Chapitre suivant
+const nextChapter = computed(() => {
+    const index = currentChapterIndex.value;
+    if (book.value && index >= 0 && index < book.value.chapters.length - 1) {
+        return book.value.chapters[index + 1];
+    }
+    return null;
+});
+
+// Navigation
+const goToNextChapter = async () => {
+
+    if (!nextChapter.value) return
+
+    await sendReadingStats()
+
+    router.push(`/books/${book.value?.uuid}/chapter/${nextChapter.value.uuid}`)
+}
+
+const goToPrevChapter = async () => {
+
+    if (!prevChapter.value) return
+
+    await sendReadingStats()
+
+    router.push(`/books/${book.value?.uuid}/chapter/${prevChapter.value.uuid}`)
+}
+
+const sendReadingStats = async () => {
+
+    if (chapterReadSent.value) return
+    if (!chapter.value || !startReadingTime.value) return
+
+    const readingTime = Math.floor((Date.now() - startReadingTime.value) / 1000)
+
+    if (readingTime < 5) return
+
+    chapterReadSent.value = true
+
+    try {
+
+        if (!book.value) return;
+        await saveRead({
+            id_book: book.value?.id,
+            id_user: user.value?.id || null,
+            id_chapter: chapter.value.id,
+            reading_time: formatReadingTime(readingTime),
+        })
+
+    } catch (err) {
+
+        console.log("Erreur stats lecture", err)
+
+    }
+
+}
+
+const handleBeforeUnload = () => {
+
+    if (!chapter.value || !startReadingTime.value) return
+
+    const readingTime = Math.floor((Date.now() - startReadingTime.value) / 1000)
+
+    if (readingTime < 5) return
+
+    if (!book.value) return;
+    const payload = JSON.stringify({
+        id_book: book.value?.id,
+        id_user: user.value?.id || null,
+        id_chapter: chapter.value.id,
+        reading_time: formatReadingTime(readingTime),
+    })
+
+    navigator.sendBeacon(
+        `${config?.public?.apiBackendUrl}/chapter_reads`,
+        payload
+    )
+}
+
+const resetReadingStats = () => {
+
+    chapterReadSent.value = false
+    scrollPercent.value = 0
+    startReadingTime.value = Date.now()
+
+}
+
+let ticking = false
+
+const handleScroll = () => {
+
+    if (!ticking) {
+
+        window.requestAnimationFrame(() => {
+
+            const scrollTop = window.scrollY
+            const docHeight = document.documentElement.scrollHeight
+            const winHeight = window.innerHeight
+
+            const percent = (scrollTop / (docHeight - winHeight)) * 100
+
+            scrollPercent.value = Math.min(Math.round(percent), 100)
+
+            ticking = false
+        })
+
+        ticking = true
+    }
+}
+
 // =============================
 // INIT
 // =============================
 onMounted(async () => {
-    user.value = await toConnectUser();
-    book.value = await getBookByUuid(`${route.params.uuid}`);
-    const {data} = await getChapterByUuid(`${route.params.uuid_chapter}`);
-    chapter.value = data;
-    console.log(route.params.uuid_chapter, chapter.value)
-});
+
+    window.scrollTo({ top: 0 })
+
+    user.value = await toConnectUser()
+
+    book.value = await getBookByUuid(`${route.params.uuid}`)
+
+    const { data } = await getChapterByUuid(`${route.params.uuid_chapter}`)
+
+    chapter.value = data
+
+    startReadingTime.value = Date.now()
+
+    window.addEventListener("scroll", handleScroll)
+
+    window.addEventListener("beforeunload", handleBeforeUnload)
+
+})
+
+onUnmounted(async () => {
+
+    await sendReadingStats()
+
+    window.removeEventListener("scroll", handleScroll)
+
+    window.removeEventListener("beforeunload", handleBeforeUnload)
+
+})
+
+watch(() => route.params.uuid_chapter, async () => {
+
+    await sendReadingStats()
+
+    const { data } = await getChapterByUuid(`${route.params.uuid_chapter}`)
+
+    chapter.value = data
+
+    window.scrollTo({ top: 0 })
+
+    resetReadingStats()
+
+})
 </script>

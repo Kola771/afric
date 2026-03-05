@@ -85,6 +85,7 @@ interface BookData {
   book_categories?: any
   book_comments?: any
   book_reactions?: any
+  total_views?: string
   chapters?: any
   user?: any
   created_at?: Date

@@ -7,7 +7,8 @@
                 <div class="grid md:grid-cols-12 gap-6 md:gap-10">
 
                     <!-- LEFT: Cover & Actions -->
-                    <div class="md:col-span-4 flex flex-col gap-4 items-start lg:col-span-3 md:sticky md:top-24 self-start">
+                    <div
+                        class="md:col-span-4 flex flex-col gap-4 items-start lg:col-span-3 md:sticky md:top-24 self-start">
                         <button @click="back"
                             class="hover:bg-slate-200 hover:duration-300 hover:ease-in-out dark:bg-slate-800 dark:hover:bg-slate-700 px-3 py-2 rounded-lg border-slate-400 border-[1px] flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors">
                             <Icon name="mdi:arrow-left" class="w-4 h-4" />
@@ -51,13 +52,15 @@
                                                 class="animate-pulse">
                                                 {{ reactionUser?.emoji }}
                                             </span>
-                                            <span v-else-if="selectedReaction?.emoji" :class="selectedReaction.animation">
+                                            <span v-else-if="selectedReaction?.emoji"
+                                                :class="selectedReaction.animation">
                                                 {{ selectedReaction?.emoji }}
                                             </span>
                                             <Icon v-else name="mdi:heart-outline" class="w-5 h-5 lg:w-4 lg:h-4" />
                                             {{ counterReaction }}
-                                            {{ (reactionUser && !selectedReaction) ? reactionUser.label : (selectedReaction
-                                                ? selectedReaction.label : 'J’aime') }}
+                                            {{ (reactionUser && !selectedReaction) ? reactionUser.label :
+                                                (selectedReaction
+                                                    ? selectedReaction.label : 'J’aime') }}
                                         </button>
                                         <!-- Popover -->
                                         <transition name="fade">
@@ -75,13 +78,29 @@
                                             </div>
                                         </transition>
                                     </div>
-                                    <button @click="openStatsBook"
+                                    <button @click="openStatsBook('comments')"
                                         class="w-full bg-white border border-slate-200 text-slate-700 py-3 rounded-xl font-medium hover:bg-slate-50 dark:hover:bg-orange-50 dark:hover:border-orange-100/50 dark:hover:text-orange-800 transition-colors flex items-center justify-center gap-2">
                                         <Icon name="mdi:comment" class="w-5 h-5 lg:w-4 lg:h-4" />
                                         {{ book.book_comments }}
                                     </button>
                                 </div>
-                                <p class="text-xs text-slate-500 dark:text-slate-200 text-center mt-2" v-if="reactionUser">Vous avez trouvé ce livre : <strong>{{ reactionUser.label }}</strong></p>
+                                <div class="text-xs text-slate-500 dark:text-slate-200 text-center mt-2 cursor-pointer hover:underline"
+                                    @click="openStatsBook('likes')">
+                                    <p v-if="!reactionUser">
+                                        {{ reactionsState.list.length > 0
+                                            ? `${reactionsState.list[0].emoji} ${formatNumber(book.book_reactions)}
+                                        personne${book.book_reactions > 1 ? 's ont' : ' a'} réagi à ce livre`
+                                            : ''
+                                        }}
+                                    </p>
+                                    <p v-else>
+                                        {{ reactionsState.list.length > 0
+                                            ? `${reactionUser.emoji} vous et ${formatNumber(book.book_reactions - 1)}
+                                        autre${book.book_reactions - 1 > 1 ? 's' : ''} personne${book.book_reactions > 2 ? 's' : ''} avez réagi à ce livre`
+                                            : ''
+                                        }}
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -131,7 +150,7 @@
 
                                 <div class="hidden md:flex items-center gap-1 text-xs truncate">
                                     <Icon name="mdi:eye" class="w-5 h-5" />
-                                    <span>125k Vues</span>
+                                    <span>{{formatNumber(Number(book.total_views))}} Vue(s)</span>
                                 </div>
                             </div>
                         </div>
@@ -144,7 +163,8 @@
                         <!-- Chapters List -->
                         <div class="border-t border-slate-200 pt-6">
                             <div class="flex justify-between items-center mb-4">
-                                <h3 class="font-display font-medium text-slate-900 dark:text-white">{{ formatNumber(book.chapters.length) }} chapitre(s)</h3>
+                                <h3 class="font-display font-medium text-slate-900 dark:text-white">{{
+                                    formatNumber(book.chapters.length) }} chapitre(s)</h3>
                                 <button v-if="sortedChapters.length > 0" @click="toggleSort"
                                     class="h-8 px-3 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700 flex items-center gap-2 transition-colors">
                                     <Icon
@@ -166,8 +186,8 @@
                                             <p
                                                 class="font-medium text-slate-900 dark:text-white group-hover:text-orange-600 dark:group-hover:text-orange-500 transition-colors">
                                                 {{ chapter.title }}</p>
-                                            <p class="text-xs text-slate-400 dark:text-slate-200">Publié le {{
-                                                formatLocalDate(chapter.created_at) }}</p>
+                                            <p class="text-xs text-slate-400 dark:text-slate-200">il y a {{
+                                                formatRelativeDate(chapter.created_at) }}</p>
                                         </span>
                                     </span>
                                     <span
@@ -221,7 +241,7 @@
                     class="flex-1 overflow-y-auto p-4 space-y-6">
 
                     <!-- COMMENT LOOP -->
-                    <div v-for="commentItem in commentsState.list" :key="commentItem.id">
+                    <div v-for="commentItem in commentsState.list" :key="commentItem.id" v-if="commentsState.list.length > 0">
 
                         <!-- MAIN COMMENT -->
                         <div class="flex gap-2">
@@ -229,8 +249,9 @@
                             <!-- Avatar -->
                             <img v-if="commentItem.user.photo"
                                 :src="`${config.public.apiBackendUrl}/uploads/users/${commentItem.user.photo}`"
-                                class="w-7 h-7 rounded-full" />
-                            <div v-else class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold"
+                                class="w-6 h-6 rounded-full" />
+                            <div v-else
+                                class="w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold"
                                 :style="`background-color: ${commentItem.user.code_color}`">
                                 {{ commentItem.user.name.charAt(0).toUpperCase() }}
                             </div>
@@ -243,20 +264,23 @@
                                     <nuxt-link
                                         :to="`${(commentItem.user && Number(commentItem.user.id) === Number(book.id_user)) ? `/authors/${book.user.uuid}` : ''}`"
                                         class="flex justify-between items-center font-semibold text-slate-900 dark:text-white">
-                                        {{ commentItem.user.name }}
+                                        <span class="flex items-center gap-1">{{ commentItem.user.name }}
+                                            <span class="text-slate-500 text-[11px] dark:text-slate-200 block">
+                                                {{ formatRelativeDate(commentItem.created_at) }}
+                                            </span>
+                                        </span>
                                         <span class="font-light text-[10px] flex items-center gap-1"
                                             v-if="(commentItem.user && Number(commentItem.user.id) === Number(book.id_user))">
                                             <Icon name="mdi:edit" class="w-3 h-3 text-orange-600 animate-pulse" />
                                             Auteur/trice
                                         </span>
                                     </nuxt-link>
-                                    <p class="text-slate-700 dark:text-slate-200" v-html="commentItem.content"></p>
+                                    <p class="text-slate-700 text-[11px] dark:text-slate-200"
+                                        v-html="commentItem.content"></p>
                                 </div>
 
                                 <div
                                     class="flex items-center gap-2 mt-1 text-[11px] text-slate-500 dark:text-slate-200">
-                                    <span>{{ formatLocalDate(commentItem.created_at) }}</span>
-
                                     <button class="hover:underline text-orange-600 dark:text-orange-400" v-if="user"
                                         @click="toggleReplies(commentItem.id)">
                                         Répondre
@@ -305,9 +329,9 @@
                                 class="flex gap-2">
                                 <img v-if="reply.user.photo"
                                     :src="`${config.public.apiBackendUrl}/uploads/users/${reply.user.photo}`"
-                                    class="w-6 h-6 rounded-full" />
+                                    class="w-5 h-5 rounded-full" />
                                 <div v-else
-                                    class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold"
+                                    class="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold"
                                     :style="`background-color: ${reply.user.code_color}`">
                                     {{ reply.user.name.charAt(0).toUpperCase() }}
                                 </div>
@@ -316,22 +340,24 @@
                                     <div class="bg-slate-50 dark:bg-slate-700 rounded-xl p-2">
                                         <nuxt-link
                                             :to="`${(reply.user && Number(reply.user.id) === Number(book.id_user)) ? `/authors/${book.user.uuid}` : ''}`"
-                                            class="text-xs flex justify-between items-center font-semibold text-slate-900 dark:text-white">
-                                            {{ reply.user.name }}
+                                            class="text-[12px] flex justify-between items-center font-semibold text-slate-900 dark:text-white">
+                                            <span class="flex items-center gap-1">{{ reply.user.name }}
+                                                <span class="text-slate-500 text-[11px] dark:text-slate-200 block">
+                                                    {{ formatRelativeDate(reply.created_at) }}
+                                                </span>
+                                            </span>
                                             <span class="font-light text-[10px] flex items-center gap-1"
                                                 v-if="(reply.user && Number(reply.user.id) === Number(book.id_user))">
                                                 <Icon name="mdi:edit" class="w-3 h-3 text-orange-600 animate-pulse" />
                                                 Auteur/trice
                                             </span>
                                         </nuxt-link>
-                                        <p class="text-xs text-slate-700 dark:text-slate-200" v-html="reply.content">
+                                        <p class="text-[11px] text-slate-700 dark:text-slate-200"
+                                            v-html="reply.content">
                                         </p>
                                     </div>
 
                                     <div class="text-[10px] flex items-center gap-2 mt-1">
-                                        <span class="text-slate-500 dark:text-slate-200 block">
-                                            {{ formatLocalDate(reply.created_at) }}
-                                        </span>
                                         <button class="hover:underline text-blue-600 dark:text-blue-400"
                                             v-if="(user && (reply.user.id === user.id))"
                                             @click="handleUpdateComment(reply.uuid, reply.id, commentItem.id, reply.content)">
@@ -347,6 +373,12 @@
                             </div>
                         </div>
 
+                    </div>
+
+                    <div v-else class="flex flex-col items-center justify-center text-center p-6">
+                        <Icon name="mdi:comment-outline" class="w-12 h-12 text-slate-300 mb-3" />
+                        <p class="text-slate-500 text-sm font-medium">Aucun commentaire disponible</p>
+                        <p class="text-slate-500 text-sm">Soyez le premier à le faire !</p>
                     </div>
 
                     <!-- LOADING -->
@@ -391,7 +423,7 @@
 
                 <div v-if="step === 'likes'" ref="reactionsWrapper" @scroll="handleScrollReactions"
                     class="flex-1 overflow-y-auto p-4 space-y-6">
-                    <div class="flex gap-2" v-for="(reaction, index) in reactionsState.list" :key="index">
+                    <div class="flex gap-2" v-for="(reaction, index) in reactionsState.list" :key="index" v-if="reactionsState.list.length > 0">
                         <div class="relative">
                             <img v-if="reaction.user.photo"
                                 :src="`${config.public.apiBackendUrl}/uploads/users/${reaction.user.photo}`"
@@ -413,9 +445,16 @@
                                     {{ reaction.user.role }}
                                 </span>
                             </div>
-                            <p class="text-[12px] lg:text-xs text-slate-600 dark:text-slate-200">{{ reaction.user.pseudonym
-                            }} trouve ce livre : <span class="font-medium">{{ reaction.label }}</span></p>
+                            <p class="text-[12px] lg:text-xs text-slate-600 dark:text-slate-200">{{
+                                reaction.user.pseudonym
+                                }} a réagi : <span class="font-medium">{{ reaction.label }} {{ reaction.emoji }}</span>
+                            </p>
                         </div>
+                    </div>
+
+                    <div v-else class="flex flex-col items-center justify-center text-center p-6">
+                        <Icon name="mdi:heart-outline" class="w-12 h-12 text-slate-300 mb-3" />
+                        <p class="text-slate-500 text-sm font-medium">Aucune réaction disponible</p>
                     </div>
 
                     <!-- LOADING -->
@@ -432,105 +471,252 @@
 <style scoped>
 /* 👍 Petit rebond positif */
 @keyframes bounce-like {
-  0%,100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-6px);
+    }
 }
 
 /* ❤️ Battement cœur */
 @keyframes heartbeat {
-  0% { transform: scale(1); }
-  25% { transform: scale(1.25); }
-  40% { transform: scale(1); }
-  60% { transform: scale(1.25); }
-  100% { transform: scale(1); }
+    0% {
+        transform: scale(1);
+    }
+
+    25% {
+        transform: scale(1.25);
+    }
+
+    40% {
+        transform: scale(1);
+    }
+
+    60% {
+        transform: scale(1.25);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }
 
 /* 🔥 Flammes dynamiques */
 @keyframes flame {
-  0%,100% { transform: scale(1) rotate(-3deg); }
-  50% { transform: scale(1.2) rotate(3deg); }
+
+    0%,
+    100% {
+        transform: scale(1) rotate(-3deg);
+    }
+
+    50% {
+        transform: scale(1.2) rotate(3deg);
+    }
 }
 
 /* 🤯 Explosion mentale */
 @keyframes explode {
-  0% { transform: scale(1); }
-  40% { transform: scale(1.4) rotate(-10deg); }
-  100% { transform: scale(1) rotate(0); }
+    0% {
+        transform: scale(1);
+    }
+
+    40% {
+        transform: scale(1.4) rotate(-10deg);
+    }
+
+    100% {
+        transform: scale(1) rotate(0);
+    }
 }
 
 /* 😂 Secousse rire */
 @keyframes laugh {
-  0%,100% { transform: rotate(0); }
-  25% { transform: rotate(-10deg); }
-  75% { transform: rotate(10deg); }
+
+    0%,
+    100% {
+        transform: rotate(0);
+    }
+
+    25% {
+        transform: rotate(-10deg);
+    }
+
+    75% {
+        transform: rotate(10deg);
+    }
 }
 
 /* 😮 Surprise rotation */
 @keyframes surprise {
-  0%,100% { transform: scale(1); }
-  50% { transform: scale(1.3); }
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.3);
+    }
 }
 
 /* 😡 Tremblement */
 @keyframes shake {
-  0%,100% { transform: translateX(0); }
-  25% { transform: translateX(-3px); }
-  75% { transform: translateX(3px); }
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-3px);
+    }
+
+    75% {
+        transform: translateX(3px);
+    }
 }
 
 /* 👏 Applaudissement */
 @keyframes clap {
-  0%,100% { transform: scale(1); }
-  50% { transform: scale(1.2); }
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
 }
 
 /* 🤔 Légère rotation réfléchie */
 @keyframes thinking {
-  0%,100% { transform: rotate(0); }
-  50% { transform: rotate(-12deg); }
+
+    0%,
+    100% {
+        transform: rotate(0);
+    }
+
+    50% {
+        transform: rotate(-12deg);
+    }
 }
 
 /* 😭 Tremblement vertical émotion */
 @keyframes cry {
-  0%,100% { transform: translateY(0); }
-  50% { transform: translateY(-4px); }
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-4px);
+    }
 }
 
 /* 😱 Choc violent */
 @keyframes shock {
-  0% { transform: scale(1); }
-  30% { transform: scale(1.5); }
-  100% { transform: scale(1); }
+    0% {
+        transform: scale(1);
+    }
+
+    30% {
+        transform: scale(1.5);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }
 
 /* 🌟 Brillance */
 @keyframes sparkle {
-  0%,100% { transform: scale(1); }
-  50% { transform: scale(1.3); }
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.3);
+    }
 }
 
 /* 🥶 Frisson */
 @keyframes chill {
-  0%,100% { transform: translateX(0); }
-  25% { transform: translateX(-2px); }
-  75% { transform: translateX(2px); }
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-2px);
+    }
+
+    75% {
+        transform: translateX(2px);
+    }
 }
 
 
 /* Classes hover */
-.react-like:hover { animation: bounce-like 0.6s ease infinite; }
-.react-love:hover { animation: heartbeat 0.8s ease infinite; }
-.react-fire:hover { animation: flame 0.6s ease infinite; }
-.react-mindblown:hover { animation: explode 0.7s ease infinite; }
-.react-laugh:hover { animation: laugh 0.5s ease infinite; }
-.react-wow:hover { animation: surprise 0.6s ease infinite; }
-.react-angry:hover { animation: shake 0.4s ease infinite; }
-.react-clap:hover { animation: clap 0.6s ease infinite; }
-.react-thinking:hover { animation: thinking 0.7s ease infinite; }
-.react-tear:hover { animation: cry 0.6s ease infinite; }
-.react-shock:hover { animation: shock 0.5s ease infinite; }
-.react-star:hover { animation: sparkle 0.8s ease infinite; }
-.react-goosebumps:hover { animation: chill 0.5s ease infinite; }
+.react-like:hover {
+    animation: bounce-like 0.6s ease infinite;
+}
+
+.react-love:hover {
+    animation: heartbeat 0.8s ease infinite;
+}
+
+.react-fire:hover {
+    animation: flame 0.6s ease infinite;
+}
+
+.react-mindblown:hover {
+    animation: explode 0.7s ease infinite;
+}
+
+.react-laugh:hover {
+    animation: laugh 0.5s ease infinite;
+}
+
+.react-wow:hover {
+    animation: surprise 0.6s ease infinite;
+}
+
+.react-angry:hover {
+    animation: shake 0.4s ease infinite;
+}
+
+.react-clap:hover {
+    animation: clap 0.6s ease infinite;
+}
+
+.react-thinking:hover {
+    animation: thinking 0.7s ease infinite;
+}
+
+.react-tear:hover {
+    animation: cry 0.6s ease infinite;
+}
+
+.react-shock:hover {
+    animation: shock 0.5s ease infinite;
+}
+
+.react-star:hover {
+    animation: sparkle 0.8s ease infinite;
+}
+
+.react-goosebumps:hover {
+    animation: chill 0.5s ease infinite;
+}
 </style>
 
 <script setup lang="ts">
@@ -592,19 +778,19 @@ const reactionsState = reactive({
 });
 
 const reactions: Reaction[] = [
-  { id: 'like', label: 'J’aime', emoji: '👍', color: 'text-blue-600 bg-blue-50', animation: 'react-like' },
-  { id: 'love', label: 'Coup de cœur', emoji: '❤️', color: 'text-red-600 bg-red-50', animation: 'react-love' },
-  { id: 'fire', label: 'Incroyable', emoji: '🔥', color: 'text-orange-600 bg-orange-50', animation: 'react-fire' },
-  { id: 'mindblown', label: 'Mind blown', emoji: '🤯', color: 'text-purple-600 bg-purple-50', animation: 'react-mindblown' },
-  { id: 'laugh', label: 'Haha', emoji: '😂', color: 'text-amber-600 bg-amber-50', animation: 'react-laugh' },
-  { id: 'wow', label: 'Surprenant', emoji: '😮', color: 'text-yellow-600 bg-yellow-50', animation: 'react-wow' },
-  { id: 'angry', label: 'Frustrant', emoji: '😡', color: 'text-red-600 bg-red-50', animation: 'react-angry' },
-  { id: 'clap', label: 'Bravo', emoji: '👏', color: 'text-green-600 bg-green-50', animation: 'react-clap' },
-  { id: 'thinking', label: 'Intrigant', emoji: '🤔', color: 'text-indigo-500 bg-indigo-50', animation: 'react-thinking' },
-  { id: 'tear', label: 'Bouleversant', emoji: '😭', color: 'text-cyan-600 bg-cyan-50', animation: 'react-tear' },
-  { id: 'shock', label: 'Choquant', emoji: '😱', color: 'text-fuchsia-600 bg-fuchsia-50', animation: 'react-shock' },
-  { id: 'star', label: 'Chef-d’œuvre', emoji: '🌟', color: 'text-yellow-600 bg-yellow-50', animation: 'react-star' },
-  { id: 'goosebumps', label: 'Frissons', emoji: '🥶', color: 'text-blue-700 bg-blue-100', animation: 'react-goosebumps' },
+    { id: 'like', label: 'J’aime', emoji: '👍', color: 'text-blue-600 bg-blue-50', animation: 'react-like' },
+    { id: 'love', label: 'Coup de cœur', emoji: '❤️', color: 'text-red-600 bg-red-50', animation: 'react-love' },
+    { id: 'fire', label: 'Incroyable', emoji: '🔥', color: 'text-orange-600 bg-orange-50', animation: 'react-fire' },
+    { id: 'mindblown', label: 'Mind blown', emoji: '🤯', color: 'text-purple-600 bg-purple-50', animation: 'react-mindblown' },
+    { id: 'laugh', label: 'Haha', emoji: '😂', color: 'text-amber-600 bg-amber-50', animation: 'react-laugh' },
+    { id: 'wow', label: 'Surprenant', emoji: '😮', color: 'text-yellow-600 bg-yellow-50', animation: 'react-wow' },
+    { id: 'angry', label: 'Frustrant', emoji: '😡', color: 'text-red-600 bg-red-50', animation: 'react-angry' },
+    { id: 'clap', label: 'Bravo', emoji: '👏', color: 'text-green-600 bg-green-50', animation: 'react-clap' },
+    { id: 'thinking', label: 'Intrigant', emoji: '🤔', color: 'text-indigo-500 bg-indigo-50', animation: 'react-thinking' },
+    { id: 'tear', label: 'Bouleversant', emoji: '😭', color: 'text-cyan-600 bg-cyan-50', animation: 'react-tear' },
+    { id: 'shock', label: 'Choquant', emoji: '😱', color: 'text-fuchsia-600 bg-fuchsia-50', animation: 'react-shock' },
+    { id: 'star', label: 'Chef-d’œuvre', emoji: '🌟', color: 'text-yellow-600 bg-yellow-50', animation: 'react-star' },
+    { id: 'goosebumps', label: 'Frissons', emoji: '🥶', color: 'text-blue-700 bg-blue-100', animation: 'react-goosebumps' },
 ]
 
 // ---------- CHAPTERS ----------
@@ -673,7 +859,14 @@ const defaultReaction = {
 const toggleLike = async () => {
     if (book.value && user.value) {
         const res = await createDefaultReaction({ id_book: book.value.id, id_user: user.value.id, ...defaultReaction });
-        counterReaction.value = res.length
+        counterReaction.value = res.length;
+        const response = await getReactionsByBook(book.value.id, reactionsState.page);
+
+        if (response?.data?.length) {
+            reactionsState.list = response.data;
+            reactionsState.total = response.total;
+        }
+
         reactionUser.value = await findByUserIdAndBookId(user.value.id, book.value.id);
         if (reactionUser.value) {
             selectedReaction.value = reactionUser.value;
@@ -917,8 +1110,8 @@ const autoResizeReply = (event: Event) => {
 // =============================
 // MODAL
 // =============================
-const openStatsBook = () => {
-    step.value = 'comments';
+const openStatsBook = (show: 'comments' | 'likes') => {
+    step.value = show;
     showStatsModal.value = true;
 };
 
