@@ -38,6 +38,10 @@
                         <Icon name="mdi:comments" class="text-blue-600 dark:text-blue-500" />
                         {{ formatNumber(props.book.book_comments) }}
                     </span>
+                    <span class="flex items-center gap-0.5">
+                        <Icon name="mdi:eye" class="text-cyan-600 dark:text-cyan-500" />
+                        {{ formatNumber(Number(props.book.total_views)) }}
+                    </span>
                     <!-- <span v-if="props.book.category">• {{ props.book.category }}</span> -->
                     <span v-if="props.book.status"
                         class="bg-white text-stone-600 py-1 px-2 rounded-xl dark:bg-transparent dark:text-slate-200 dark:border dark:border-slate-200">•

@@ -2,17 +2,17 @@
     <div v-if="book" class="bg-[#fffcfccc] dark:bg-dark dark:border-slate-200 dark:border-b">
 
         <!-- BOOK INFO SECTION -->
-        <section class="max-w-7xl mx-auto pt-16 lg:pt-12 border-t border-slate-100">
+        <section class="max-w-7xl mx-auto pt-16 lg:pt-8 border-t border-slate-100">
             <div class="p-4 md:p-10 lg:p-12">
+                <button @click="back"
+                    class="mb-4 hover:bg-slate-200 hover:duration-300 hover:ease-in-out dark:bg-slate-800 dark:hover:bg-slate-700 px-3 py-2 rounded-lg border-slate-400 border-[1px] flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors">
+                    <Icon name="mdi:arrow-left" class="w-4 h-4" />
+                </button>
                 <div class="grid md:grid-cols-12 gap-6 md:gap-10">
 
                     <!-- LEFT: Cover & Actions -->
                     <div
                         class="md:col-span-4 flex flex-col gap-4 items-start lg:col-span-3 md:sticky md:top-24 self-start">
-                        <button @click="back"
-                            class="hover:bg-slate-200 hover:duration-300 hover:ease-in-out dark:bg-slate-800 dark:hover:bg-slate-700 px-3 py-2 rounded-lg border-slate-400 border-[1px] flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors">
-                            <Icon name="mdi:arrow-left" class="w-4 h-4" />
-                        </button>
                         <div
                             class="rounded-xl overflow-hidden shadow-2xl border border-slate-200 rotate-1 hover:rotate-0 transition-transform duration-500">
                             <img v-if="book" :src="`${config.public.apiBackendUrl}/uploads/books/${book.image}`"
@@ -145,12 +145,12 @@
 
                                 <div class="hidden md:flex items-center gap-1 text-xs truncate">
                                     <Icon name="mdi:book-multiple" class="w-5 h-5" />
-                                    <span>{{ formatNumber(book.chapters.length) }} Chapitres</span>
+                                    <span>{{ formatNumber(book.chapters.length) }} Chapitre{{ book.chapters.length > 1 ? 's' : '' }}</span>
                                 </div>
 
                                 <div class="hidden md:flex items-center gap-1 text-xs truncate">
                                     <Icon name="mdi:eye" class="w-5 h-5" />
-                                    <span>{{formatNumber(Number(book.total_views))}} Vue(s)</span>
+                                    <span>{{formatNumber(Number(book.total_views))}} Vue{{ Number(book.total_views) > 1 ? 's' : '' }}</span>
                                 </div>
                             </div>
                         </div>
