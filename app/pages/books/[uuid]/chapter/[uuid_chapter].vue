@@ -1,5 +1,5 @@
 <template>
-    <div class="dark:bg-dark bg-white" v-if="book && chapter">
+    <div class="dark:bg-dark bg-white min-h-screen" v-if="book && chapter">
         <section class="relative">
             <!-- Reader Container simulating a new page/view -->
             <div class="max-w-7xl mx-auto relative">
@@ -55,7 +55,7 @@
                     <!-- Navigation Buttons -->
                     <div class="grid grid-cols-2 gap-4 mt-8">
                         <button @click="goToPrevChapter" :class="[
-                            'px-6 py-4 rounded-xl border text-sm flex items-center justify-center gap-2 transition-all',
+                            'px-6 py-4 rounded-xl border text-sm flex items-center justify-center gap-2 transition-all dark:text-slate-200',
                             prevChapter ? 'hover:border-slate-300 hover:bg-slate-50 opacity-100 cursor-pointer' : 'opacity-50 cursor-not-allowed'
                         ]">
                             <Icon name="mdi:arrow-left" class="w-5 h-5" />
@@ -64,8 +64,8 @@
 
                         <!-- Suivant -->
                         <button @click="goToNextChapter" :class="[
-                            'px-6 py-4 rounded-xl bg-slate-900 text-white text-sm flex items-center justify-center gap-2 transition-all shadow-lg',
-                            nextChapter ? 'hover:bg-slate-800 cursor-pointer' : 'opacity-50 cursor-not-allowed'
+                            'px-6 py-4 rounded-xl bg-slate-900 dark:bg-slate-800 text-white text-sm flex items-center justify-center gap-2 transition-all shadow-lg',
+                            nextChapter ? 'hover:bg-slate-800 dark:hover:bg-slate-700 cursor-pointer' : 'opacity-50 cursor-not-allowed'
                         ]">
                             Suivant
                             <Icon name="mdi:arrow-right" class="w-5 h-5" />

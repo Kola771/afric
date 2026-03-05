@@ -2,21 +2,23 @@
     <div class="bg-[#fffcfccc] dark:bg-dark dark:border-slate-200 dark:border-b">
         <div class="max-w-6xl mx-auto space-y-8 px-4 sm:px-6 lg:px-8 pt-24 pb-12" v-if="user">
             <!-- Welcome Section -->
-            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-                <div>
-                    <div class="flex items-center gap-2">
-                        <button @click="back"
-                            class="py-2 rounded-lg flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors">
-                            <Icon name="mdi:arrow-left" class="w-4 h-4" />
-                        </button>
+            <div class="flex flex-col gap-6">
+                <div class="flex items-center gap-2">
+                    <button @click="back"
+                        class="py-2 flex-shrink-0 rounded-lg flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors">
+                        <Icon name="mdi:arrow-left" class="w-6 h-4" />
+                    </button>
+                    <div>
                         <h2 class="text-2xl font-display font-bold text-slate-900 dark:text-white tracking-tight">Ajout
                             d'un livre</h2>
+                        <p class="text-sm text-slate-500 dark:text-slate-200 mt-1">
+                            Ajoutez un nouveau livre à votre bibliothèque !
+                        </p>
                     </div>
-                    <p class="text-sm text-slate-500 dark:text-slate-200 mt-1">
-                        Ajoutez un nouveau livre à votre bibliothèque ! <br />
-                        Merci de respecter les points suivants :
-                    </p>
+                </div>
 
+                <div class="flex flex-col gap-2 bg-white border-slate-300 border-[1px] dark:bg-slate-800 p-4 lg:p-6 rounded-lg">
+                    <h4 class="text-sm font-medium text-slate-700 dark:text-slate-200">Merci de respecter les points suivants :</h4>
                     <ul class="text-sm text-slate-500 dark:text-slate-200 mt-2 list-disc pl-5 space-y-1">
                         <li>Sélectionnez avec soin la ou les catégories correspondantes à votre ouvrage.</li>
                         <li>Si vous partagez une histoire réelle du continent africain, assurez-vous de l’exactitude des

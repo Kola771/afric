@@ -2,12 +2,12 @@
     <div v-if="book" class="bg-[#fffcfccc] dark:bg-dark dark:border-slate-200 dark:border-b">
 
         <!-- BOOK INFO SECTION -->
-        <section class="max-w-7xl mx-auto pt-16 lg:pt-8 border-t border-slate-100">
+        <section class="max-w-7xl mx-auto pt-16 lg:pt-12 border-t border-slate-100">
             <div class="p-4 md:p-10 lg:p-12">
-                <button @click="back"
+                <!-- <button @click="back"
                     class="mb-4 hover:bg-slate-200 hover:duration-300 hover:ease-in-out dark:bg-slate-800 dark:hover:bg-slate-700 px-3 py-2 rounded-lg border-slate-400 border-[1px] flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors">
                     <Icon name="mdi:arrow-left" class="w-4 h-4" />
-                </button>
+                </button> -->
                 <div class="grid md:grid-cols-12 gap-6 md:gap-10">
 
                     <!-- LEFT: Cover & Actions -->
@@ -174,7 +174,7 @@
                                 </button>
                             </div>
 
-                            <div v-if="sortedChapters.length > 0" class="space-y-2 md:max-h-96 md:overflow-y-auto">
+                            <div v-if="sortedChapters.length > 0" class="space-y-2 lg:space-y-3">
                                 <nuxt-link v-for="(chapter, index) in sortedChapters" :key="chapter.id"
                                     :to="`/books/${book.uuid}/chapter/${chapter.uuid}`"
                                     class="group flex items-center justify-between p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-100 hover:border-slate-300 transition-all hover:shadow-sm">
@@ -197,9 +197,9 @@
                                 </nuxt-link>
                             </div>
 
-                            <div v-else class="flex flex-col items-center justify-center text-center p-6">
+                            <div v-else class="flex flex-col items-center justify-center text-center p-6 text-slate-500 dark:text-slate-200">
                                 <Icon name="mdi:book-open-page-variant" class="w-12 h-12 text-slate-300 mb-3" />
-                                <p class="text-slate-500 text-sm font-medium">Aucun chapitre disponible</p>
+                                <p class="text-sm font-medium">Aucun chapitre disponible</p>
                             </div>
                         </div>
 
@@ -375,14 +375,14 @@
 
                     </div>
 
-                    <div v-else class="flex flex-col items-center justify-center text-center p-6">
+                    <div v-else class="flex flex-col items-center justify-center text-center p-6 text-slate-500 dark:text-slate-200">
                         <Icon name="mdi:comment-outline" class="w-12 h-12 text-slate-300 mb-3" />
-                        <p class="text-slate-500 text-sm font-medium">Aucun commentaire disponible</p>
-                        <p class="text-slate-500 text-sm">Soyez le premier à le faire !</p>
+                        <p class="text-sm font-medium">Aucun commentaire disponible</p>
+                        <p class="text-sm">Soyez le premier à le faire !</p>
                     </div>
 
                     <!-- LOADING -->
-                    <div v-if="commentsState.loading" class="text-center text-sm text-slate-500">
+                    <div v-if="commentsState.loading" class="text-center text-sm text-slate-500 dark:text-slate-200">
                         Chargement...
                     </div>
                 </div>
@@ -412,7 +412,7 @@
                         </button>
                     </div>
 
-                    <p v-else class="flex flex-col gap-2 text-xs text-slate-500 text-center">
+                    <p v-else class="flex flex-col gap-2 text-xs text-slate-500 dark:text-slate-200 text-center">
                         Vous devez être connecté pour commenter
                         <nuxt-link to="/login"
                             class="flex items-center justify-center gap-2 bg-primary hover:bg-slate-800 dark:bg-white dark:hover:bg-orange-50 dark:hover:border-orange-100/50 dark:hover:text-orange-800 dark:text-stone-700 text-white px-4 py-2 lg:py-3 rounded-full text-xs xl:text-sm font-medium transition-all shadow-sm hover:shadow-md transform active:scale-95">
@@ -452,13 +452,13 @@
                         </div>
                     </div>
 
-                    <div v-else class="flex flex-col items-center justify-center text-center p-6">
+                    <div v-else class="flex flex-col items-center justify-center text-center p-6 text-slate-500 dark:text-slate-200">
                         <Icon name="mdi:heart-outline" class="w-12 h-12 text-slate-300 mb-3" />
-                        <p class="text-slate-500 text-sm font-medium">Aucune réaction disponible</p>
+                        <p class="text-sm font-medium">Aucune réaction disponible</p>
                     </div>
 
                     <!-- LOADING -->
-                    <div v-if="reactionsState.loading" class="text-center text-sm text-slate-500">
+                    <div v-if="reactionsState.loading" class="text-center text-sm text-slate-500 dark:text-slate-200">
                         Chargement...
                     </div>
                 </div>
