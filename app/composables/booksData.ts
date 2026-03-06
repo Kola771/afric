@@ -43,6 +43,11 @@ export function booksData() {
         return response?.data;
     }
 
+    async function findAllPaginatedByAuthor(page: number = 1, limit: number = 25, id_user: number): Promise<{ data: BookData[], total: number, totalPages: number, currentPage: number }> {
+        const response = await axios.get(`/books/author?page=${page}&limit=${limit}&id_user=${id_user}`);
+        return response?.data;
+    }
+
     async function existingData(data: any): Promise<{ success: boolean, msg?: string, error?: string | null, status?: number }> {
         if (process.client) {
             if (localStorage.getItem('user')) {
@@ -149,6 +154,7 @@ export function booksData() {
         countDistinctBooks,
         existingData,
         findAllPaginatedAuthor,
+        findAllPaginatedByAuthor,
         findAllPaginated,
         allBooksActifs,
         getBookByUuid,

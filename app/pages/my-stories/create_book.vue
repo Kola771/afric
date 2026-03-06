@@ -128,7 +128,7 @@ const onFileChange = (event: any) => {
 }
 
 const back = () => {
-    window.history.back()
+    router.back();
 }
 
 const createBook = async () => {

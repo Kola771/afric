@@ -6,6 +6,7 @@
                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 :alt="props.book.title">
             <div class="absolute top-2 left-2 bg-slate-900/90 text-white px-1.5 py-0.5 rounded text-[10px] font-bold">{{ index + 1 }}</div>
+            <div class="absolute bottom-2 right-2 bg-orange-900/90 dark:bg-orange-700/90 text-white px-1.5 py-0.5 rounded text-[10px] font-bold">{{ props.book.rating_age }}</div>
         </div>
         <div class="space-y-1">
             <h3

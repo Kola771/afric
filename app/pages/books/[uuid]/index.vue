@@ -4,10 +4,6 @@
         <!-- BOOK INFO SECTION -->
         <section class="max-w-7xl mx-auto pt-16 lg:pt-12 border-t border-slate-100">
             <div class="p-4 md:p-10 lg:p-12">
-                <!-- <button @click="back"
-                    class="mb-4 hover:bg-slate-200 hover:duration-300 hover:ease-in-out dark:bg-slate-800 dark:hover:bg-slate-700 px-3 py-2 rounded-lg border-slate-400 border-[1px] flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors">
-                    <Icon name="mdi:arrow-left" class="w-4 h-4" />
-                </button> -->
                 <div class="grid md:grid-cols-12 gap-6 md:gap-10">
 
                     <!-- LEFT: Cover & Actions -->
@@ -187,7 +183,7 @@
                                                 class="font-medium text-slate-900 dark:text-white group-hover:text-orange-600 dark:group-hover:text-orange-500 transition-colors">
                                                 {{ chapter.title }}</p>
                                             <p class="text-xs text-slate-400 dark:text-slate-200">il y a {{
-                                                formatRelativeDate(chapter.created_at) }}</p>
+                                                formatRelativeDate(chapter.updated_at) }}</p>
                                         </span>
                                     </span>
                                     <span
@@ -315,7 +311,7 @@
                         <div v-if="replyFormId === commentItem.id" class="flex items-end gap-2 ml-11 mt-2 text-xs">
                             <textarea v-model="replyContent" id="replyInput" @input="autoResizeReply" rows="1" autofocus
                                 class="w-full border border-slate-200 rounded-lg p-2 resize-none outline-none"
-                                placeholder="Écrire une réponse..."></textarea>
+                                :placeholder="`Répondre en tant que ${user?.name}`"></textarea>
 
                             <button @click="submitComment(commentItem.id)"
                                 class="bg-orange-600 flex items-center justify-center text-white px-3 py-1.5 rounded-lg">
@@ -399,7 +395,7 @@
 
                         <textarea ref="textarea" v-model="comment" @input="autoResize" rows="1"
                             class="flex-1 border border-slate-200 rounded-xl px-4 py-2 resize-none outline-none"
-                            placeholder="Ajouter un commentaire..."></textarea>
+                            :placeholder="`Commenter en tant que ${user?.name}`"></textarea>
 
                         <button v-if="!commentUuid && comment.trim().length > 0" @click="submitComment()"
                             class="bg-orange-600 text-white px-4 py-2 rounded-xl">
@@ -738,9 +734,6 @@ const config = useRuntimeConfig();
 const route = useRoute();
 const router = useRouter();
 const counterReaction = ref<number>(0);
-const back = () => {
-    window.history.back()
-}
 
 // ---------- STATE ----------
 const showStatsModal = ref(false);

@@ -17,7 +17,7 @@ export function authenticate() {
         if (process.client) {
             if (localStorage.getItem('user')) {
                 if (["/register", "/forget-password", "/login"].includes(router.currentRoute?.value?.fullPath)) {
-                    window.history.back();
+                    router.back();
                 }
             }
         }
@@ -27,7 +27,7 @@ export function authenticate() {
         if (process.client) {
             const user = await toConnectUser();
             if (user && !["super-admin", "admin", "support"].includes(user.role.toLowerCase())) {
-                window.history.back();
+                router.back();
             }
         }
     }

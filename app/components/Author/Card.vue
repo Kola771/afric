@@ -1,59 +1,176 @@
 <template>
-    <article
-        class="group border border-slate-200 rounded-2xl flex flex-col bg-slate-50 dark:bg-slate-800 w-full mx-auto cursor-pointer">
-        <div class="flex flex-col" @click="openTheAuthorDetail(props.author.url)">
-            <div class="flex flex-col gap-4 rounded-lg p-2">
-                <div
-                    class="relative flex-shrink-0 overflow-hidden rounded-lg shadow-subtle group-hover:shadow-xl transition-all duration-300 ring-1 ring-slate-900/5">
-                    <img :src="props.author.image"
-                        class="w-full h-24 md:h-36 lg:h-48 group-hover:scale-105 object-cover transition-transform duration-500 group-hover:scale-105"
-                        :alt="props.author.name">
-                    <div
-                        class="absolute top-2 left-2 bg-slate-900/90 text-white px-1.5 py-0.5 rounded text-[10px] font-bold">
-                        {{ props.author.id }}</div>
-                </div>
-                <div class="flex flex-col gap-1.5">
-                    <div>
-                        <h3
-                            class="font-display font-medium text-slate-900 dark:text-slate-200 text-base leading-snug group-hover:text-orange-600 transition-colors line-clamp-1">
-                            {{ props.author.name }}</h3>
-                        <p class="text-xs text-slate-500 dark:text-slate-200 font-medium">Originaire : {{
-                            props.author.country }}</p>
-                    </div>
-                    <p class="hidden line-clamp-3 text-xs text-slate-600 dark:text-slate-300"
-                        v-if="props.author?.bibliography">{{ props.author?.bibliography }}</p>
-                </div>
-            </div>
-            <div class="flex items-center justify-center md:justify-between gap-4 px-2 pb-2">
-                <span class="text-[11px] flex">
-                    <span class="font-semibold text-slate-900 dark:text-slate-200">42</span> <span class="text-slate-400">
-                        <Icon name="mdi:books" class="w-3 h-3" />
-                    </span>
-                </span>
-                <span class="w-px h-3 bg-slate-200"></span>
-                <span class="text-[11px] flex">
-                    <span class="font-semibold text-slate-900 dark:text-slate-200">12k</span> <span class="text-slate-400">
-                        <Icon name="mdi:book-open-page-variant" class="w-3 h-3" />
-                    </span>
-                </span>
-                <span class="w-px h-3 bg-slate-200"></span>
-                <span class="text-[11px] flex">
-                    <span class="font-semibold text-slate-900 dark:text-slate-200">1.1k</span> <span class="text-slate-400">
-                        <Icon name="mdi:eye" class="w-3 h-3" />
-                    </span>
-                </span>
-            </div>
+  <article
+    class="group border border-slate-200 rounded-2xl flex flex-col bg-slate-50 dark:bg-slate-800 w-full mx-auto cursor-pointer"
+  >
+    <div class="flex flex-col" @click="openTheAuthorDetail(props.author.uuid)">
+      <div class="flex flex-col gap-4 rounded-lg p-2">
+        <div
+          class="relative flex-shrink-0 overflow-hidden rounded-lg shadow-subtle group-hover:shadow-xl transition-all duration-300 ring-1 ring-slate-900/5"
+        >
+          <img
+            v-if="props.author.photo"
+            :src="`${config.public.apiBaseUrl}/uploads/users/${props.author.photo}`"
+            class="w-full h-24 md:h-36 lg:h-48 object-cover transition-transform duration-500 group-hover:scale-105"
+            :alt="props.author.name"
+          />
+
+          <span
+            v-else
+            class="p-1 text-md lg:text-2xl font-bold flex items-center justify-center w-full h-24 md:h-36 lg:h-48"
+            :style="`background-color: ${props.author.code_color}`"
+          >
+            {{
+              props.author.name.split(" ").length > 1
+                ? `${props.author.name.charAt(0).toUpperCase()}${props.author.name
+                    .split(" ")[1]
+                    ?.charAt(0)
+                    .toUpperCase()}`
+                : props.author.name.charAt(0).toUpperCase()
+            }}
+          </span>
+
+          <div
+            class="absolute top-2 left-2 bg-slate-900/90 text-white px-1.5 py-0.5 rounded text-[10px] font-bold"
+          >
+            {{ index + 1 }}
+          </div>
+
+          <div
+            class="absolute bottom-2 right-2 bg-slate-900/90 text-white px-1.5 py-0.5 rounded text-[10px] font-bold capitalize"
+          >
+            {{ props.author.rank }}
+          </div>
         </div>
-        <button class="bg-primary dark:bg-transparent dark:border-t-[1px] dark:border-slate-300 text-white p-2 rounded-b-lg text-xs">Suivre</button>
-    </article>
+
+        <div class="flex flex-col gap-1.5">
+          <div>
+            <h3
+              class="font-display font-medium text-slate-900 dark:text-slate-200 text-base leading-snug group-hover:text-orange-600 transition-colors line-clamp-1"
+            >
+              {{ props.author.name }}
+            </h3>
+
+            <p
+              class="text-xs text-slate-500 dark:text-slate-200 font-medium"
+            >
+              Originaire : {{ props.author.country.name }}
+            </p>
+          </div>
+
+          <p
+            class="hidden line-clamp-3 text-xs text-slate-600 dark:text-slate-300"
+            v-if="props.author?.bibliography"
+          >
+            {{ props.author?.bibliography }}
+          </p>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-center md:justify-between gap-4 px-2 pb-2">
+        <span class="text-[10px] flex gap-1">
+          <span class="font-semibold text-slate-900 dark:text-slate-200">
+            {{ formatNumber(props.author.total_followers) }}
+          </span>
+          <span class="text-slate-400">abonné(e)s</span>
+        </span>
+
+        <span class="w-px h-3 bg-slate-200"></span>
+
+        <span class="text-[10px] flex gap-1">
+          <span class="font-semibold text-slate-900 dark:text-slate-200">
+            {{ props.author.books?.length || 0 }}
+          </span>
+          <span class="text-slate-400">livre(s)</span>
+        </span>
+      </div>
+    </div>
+
+    <div
+      class="dark:border-t-[1px] p-2 dark:border-slate-300 w-full grid grid-cols-1 gap-2 text-[10px] font-semibold"
+    >
+      <button
+        v-if="!follow"
+        :disabled="loading"
+        @click.stop="followAuthor(props.author.id)"
+        class="bg-orange-600 hover:bg-orange-700 dark:bg-orange-500 dark:hover:bg-orange-600 transition-all duration-300 text-white p-2 rounded"
+      >
+        Suivre
+      </button>
+
+      <button
+        v-else
+        :disabled="loading"
+        @click.stop="unFollowAuthor(props.author.id)"
+        class="bg-orange-700 hover:bg-orange-800 dark:bg-orange-600 dark:hover:bg-orange-700 transition-all duration-300 text-white p-2 rounded"
+      >
+        Se désabonner
+      </button>
+    </div>
+  </article>
 </template>
+
 <script lang="ts" setup>
+const config = useRuntimeConfig();
 const router = useRouter();
+const { createFollower, deleteFollow } = useFollowers();
+
 const props = defineProps<{
-    author: Author
+  index: number;
+  user: User | null;
+  author: Author;
 }>();
 
-const openTheAuthorDetail = (url: string) => {
-    router.push(url);
-}
+const follow = ref<boolean|any>(false);
+const loading = ref<boolean>(false);
+
+const openTheAuthorDetail = (uuid: string) => {
+  router.push(`/authors/${uuid}`);
+};
+
+onMounted(() => {
+  if (!props.user) return;
+
+  const result = props.author.followers?.some(
+    (f: any) => f.follower_id === props.user?.id
+  );
+
+  follow.value = result;
+});
+
+const followAuthor = async (authorId: number) => {
+  if (!props.user) {
+    router.push("/login");
+    return;
+  }
+
+  loading.value = true;
+
+  try {
+    await createFollower({
+      follower: { id: props.user.id },
+      following: { id: authorId },
+    });
+
+    follow.value = true;
+  } finally {
+    loading.value = false;
+  }
+};
+
+const unFollowAuthor = async (authorId: number) => {
+  if (!props.user) {
+    router.push("/login");
+    return;
+  }
+
+  loading.value = true;
+
+  try {
+    await deleteFollow(props.user.id, authorId);
+
+    follow.value = false;
+  } finally {
+    loading.value = false;
+  }
+};
 </script>

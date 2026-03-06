@@ -163,7 +163,7 @@
             <span v-if="!user?.photo" class="p-1 text-xs flex items-center justify-center w-8 h-8 rounded-full"
               :style="`background-color: ${user?.code_color}`">
               {{ user?.name.split(" ").length > 1 ? `${user?.name.charAt(0).toUpperCase() +
-                user?.name.split("")[1]?.charAt(0).toUpperCase()}` : user?.name.charAt(0).toUpperCase() }}
+                user?.name.split(" ")[1]?.charAt(0).toUpperCase()}` : user?.name.charAt(0).toUpperCase() }}
             </span>
             <div class="flex-1 min-w-0">
               <p class="text-xs font-semibold text-slate-900 dark:text-white truncate">{{ user?.name }}</p>

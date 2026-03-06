@@ -104,7 +104,7 @@ const message = ref<string | null | undefined>(null);
 const router = useRouter();
 
 const back = () => {
-    window.history.back()
+    router.back();
 }
 
 const changeData = async () => {
@@ -114,7 +114,7 @@ const changeData = async () => {
         const payload = {
             name: name.value,
             pseudonym: pseudonym.value,
-            bibliography: bibliography.value,
+            bibliography: bibliography.value.trim().replace('\n', '<br />'),
             email: email.value,
             code_color: code_color.value,
             country: country.value,
@@ -146,7 +146,7 @@ onMounted(async () => {
         });
         name.value = user.value.name;
         pseudonym.value = user.value.pseudonym;
-        bibliography.value = user.value.bibliography;
+        bibliography.value = user.value.bibliography.replace('<br />', '\n');
         email.value = user.value.email;
         code_color.value = user.value.code_color;
         country.value = user.value.id_country;

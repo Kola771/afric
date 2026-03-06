@@ -15,7 +15,7 @@ export function registerForm() {
         const payload = ref<RegisterData>({
             name: full_name.value.trim(),
             country: country.value,
-            bibliography: bibliography.value.trim() ?? null,
+            bibliography: bibliography.value.trim().replace('\n', '<br />') ?? null,
             pseudonym: pseudonym.value.trim(),
             email: email.value.trim() ?? null,
             password: password.value,

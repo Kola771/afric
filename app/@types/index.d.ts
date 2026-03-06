@@ -13,20 +13,28 @@ interface User {
   status: string;
   sanction_date: Date;
   selected?: boolean
+  followers?: any
+  following?: any
+  books?: any
   preferences?: Category[]
 }
 
 interface Author {
-  url: string
   id: number
+  uuid: string
   name: string
-  image: string
-  country: string
+  pseudonym: string
+  photo: string
+  code_color: string
+  rank: string
+  total_followers: number
+  country: Country
+  preference?: any
+  followers?: any[]
+  following?: any[]
+  books: BookData[]
+  status: string
   bibliography?: string
-  chapterCount?: number | string
-  viewCount?: number | string
-  storyCount?: number | string
-  isNew?: boolean
 }
 
 interface Country {
@@ -118,6 +126,7 @@ interface ChapterData {
   content: string
   status: string
   created_at: Date
+  updated_at: Date
   book?: any
   likes?: []
   views?: []

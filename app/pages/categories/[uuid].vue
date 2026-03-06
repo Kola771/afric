@@ -41,7 +41,8 @@
               <option value="18+">18 ans+</option>
             </select>
 
-            <button @click="clearFilters" class="text-white px-3 py-1.5 text-sm rounded-lg border border-slate-300 dark:border-slate-600 bg-orange-600 dark:bg-orange-500 hover:bg-orange-700 dark:hover:bg-orange-400 transition flex items-center justify-center gap-1">
+            <button @click="clearFilters"
+              class="text-white px-3 py-1.5 text-sm rounded-lg border border-slate-300 dark:border-slate-600 bg-orange-600 dark:bg-orange-500 hover:bg-orange-700 dark:hover:bg-orange-400 transition flex items-center justify-center gap-1">
               <Icon name="mdi:refresh" class="w-4 h-4" />
               <span class="hidden md:block">Réinitialiser</span>
             </button>
@@ -69,6 +70,7 @@
 <script lang="ts" setup>
 const config = useRuntimeConfig();
 const route = useRoute();
+const router = useRouter();
 const { getCategoryByUuid } = categoriesData();
 const { findAllPaginated } = booksData();
 const category = ref<Category | null>(null);
@@ -82,7 +84,7 @@ const selectedAge = ref<string>("")
 const loadMoreTrigger = ref<HTMLElement | null>(null)
 
 const back = () => {
-  window.history.back()
+  router.back();
 }
 
 const clearFilters = () => {

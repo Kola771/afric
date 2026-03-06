@@ -1,80 +1,166 @@
 <template>
-    <div class="bg-[#fffcfccc] dark:bg-dark dark:border-b dark:border-slate-300 pt-24 pb-12 lg:pb-16">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center md:items-end justify-between mb-8">
-                <div>
-                    <h2 class="text-2xl font-display font-medium dark:text-white text-slate-900 tracking-tight">Nos différents auteurs</h2>
-                    <p class="text-slate-500 text-sm mt-1 dark:text-slate-200">Découvrez nos auteurs préférés.</p>
-                </div>
-            </div>
-             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-                <AuthorCard v-for="author in authors" :key="author.id" :author="author" />
-            </div>
-        </div>
-    </div>
-</template>
-<script lang="ts" setup>
-  useSeoMeta({
-    title: 'Auteurs',
-    description: 'Découvrez nos auteurs préférés et leurs histoires captivantes.',
-    
-    ogTitle: 'Auteurs',
-    ogDescription: 'Découvrez nos auteurs préférés et leurs histoires captivantes.',
-    ogImage: 'https://africstoryline.com/afric.png',
-    ogUrl: 'https://africstoryline.com/',
-    ogType: 'website',
+  <div class="bg-[#fffcfccc] dark:bg-dark dark:border-b dark:border-slate-300 pt-24 pb-12 lg:pb-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center md:items-end justify-between mb-8">
+        <div>
+          <h2 class="text-2xl font-display font-semibold dark:text-white text-slate-900 tracking-tight">
+            Découvrez nos auteurs
+          </h2>
 
-    twitterCard: 'summary_large_image',
-    twitterTitle: 'Auteurs',
-    twitterDescription: 'Découvrez nos auteurs préférés et leurs histoires captivantes.',
-    twitterImage: 'https://africstoryline.com/afric.png'
-  });
-  
-const authors = ref<Author[]>([
-  {
-    id: 1,
-    name: "Alain Mabanckou",
-    image: "/assets/alain_mabanckou.jpg",
-    country: "Congo",
-    storyCount: 5,
-    chapterCount: 98,
-    viewCount: "30k",
-    url: "/authors/alain-mabanckou",
-    bibliography: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod."
-  },
-  {
-    id: 2,
-    name: "Camara Laye",
-    image: "/assets/camara_laye.webp",
-    country: "Sénégal",
-    storyCount: 3,
-    chapterCount: 45,
-    viewCount: "15k",
-    url: "/authors/camara-laye",
-    isNew: true,
-    bibliography: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod."
-  },
-  {
-    id: 3,
-    name: "Chinua Achebe",
-    image: "/assets/chinua_achebe.webp",
-    country: "Nigeria",
-    storyCount: 7,
-    chapterCount: 120,
-    viewCount: "50k",
-    url: "/authors/chinua-achebe",
-    bibliography: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod."
-  },
-  {
-    id: 4,
-    name: "Wole Soyinka",
-    image: "/assets/wole_soyinka.webp",
-    country: "Nigeria",
-    storyCount: 4,
-    chapterCount: 67,
-    viewCount: "25k",
-    url: "/authors/wole-soyinka",
-    bibliography: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod."
+          <p class="text-slate-500 text-sm mt-1 dark:text-slate-200 max-w-xl">
+            Explorez les profils des auteurs qui donnent vie à nos histoires.
+            Consultez leurs livres, suivez leurs publications et plongez dans leurs univers littéraires.
+          </p>
+
+          <div class="flex items-center gap-4 mt-3 text-xs text-slate-500 dark:text-slate-300">
+            <span class="flex items-center gap-1">
+              <Icon name="mdi:account-edit" class="w-4 h-4" />
+              Auteurs actifs
+            </span>
+
+            <span class="flex items-center gap-1">
+              <Icon name="mdi:book-open-page-variant" class="w-4 h-4" />
+              Histoires originales
+            </span>
+
+            <span class="flex items-center gap-1">
+              <Icon name="mdi:trending-up" class="w-4 h-4" />
+              Classement dynamique
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6" v-if="authors.length > 0">
+        <AuthorCard v-for="(author, index) in authors" :key="author.id" :user="user" :index="index" :author="author"
+          ref="cardRefs" />
+      </div>
+      <!-- Message vide -->
+      <div v-else class="flex flex-col items-center justify-center py-16 text-center">
+        <Icon name="mdi:account-group-outline" class="w-12 h-12 text-slate-300 mb-3" />
+
+        <p class="text-slate-500 text-sm font-medium">
+          Aucun auteur trouvé
+        </p>
+      </div>
+      <!-- LOADING -->
+      <div v-if="loading" class="text-center text-sm text-slate-500 dark:text-slate-200">
+        Chargement...
+      </div>
+    </div>
+  </div>
+</template>
+
+<script lang="ts" setup>
+const { findAuthors } = usersData()
+const { toConnectUser } = authenticate();
+const user = ref<User | null>(null);
+const authors = ref<Author[]>([])
+const loading = ref(false)
+const page = ref(1)
+const limit = ref(25)
+const totalPages = ref(1)
+const cardRefs = ref<any[]>([]);
+const observer = ref<IntersectionObserver | null>(null);
+
+useSeoMeta({
+  title: 'Auteurs',
+  description: 'Découvrez nos auteurs préférés et leurs histoires captivantes.',
+
+  ogTitle: 'Auteurs',
+  ogDescription: 'Découvrez nos auteurs préférés et leurs histoires captivantes.',
+  ogImage: 'https://africstoryline.com/afric.png',
+  ogUrl: 'https://africstoryline.com/',
+  ogType: 'website',
+
+  twitterCard: 'summary_large_image',
+  twitterTitle: 'Auteurs',
+  twitterDescription: 'Découvrez nos auteurs préférés et leurs histoires captivantes.',
+  twitterImage: 'https://africstoryline.com/afric.png'
+});
+
+onMounted(async () => {
+  user.value = await toConnectUser();
+  loading.value = true;
+  const { data, pagination } = await findAuthors();
+  authors.value = data;
+  totalPages.value = pagination.totalPages;
+  loading.value = false;
+})
+
+// ============================
+// Load Authors
+// ============================
+
+const loadAuthors = async () => {
+  if (loading.value) return;
+  if (page.value > totalPages.value) return;
+
+  loading.value = true;
+
+  try {
+    const res = await findAuthors(page.value, limit.value);
+
+    authors.value.push(...res.data);
+
+    totalPages.value = res.pagination.totalPages;
+    page.value++;
+  } finally {
+    loading.value = false;
   }
-]);
+};
+
+// ============================
+// Intersection Observer
+// ============================
+
+const observeLastCard = () => {
+  if (observer.value) observer.value.disconnect();
+
+  nextTick(() => {
+    const cards = cardRefs.value;
+    if (!cards.length) return;
+
+    const lastCard = cards[cards.length - 1]?.cardRef;
+
+    if (!lastCard) return;
+
+    observer.value = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+
+        if (entry?.isIntersecting) {
+          loadAuthors();
+        }
+      },
+      {
+        threshold: 0.8
+      }
+    );
+
+    observer.value.observe(lastCard);
+  });
+};
+
+// ============================
+// Watch DOM rendering
+// ============================
+
+watch(
+  () => authors.value.length,
+  () => {
+    observeLastCard();
+  }
+);
+
+// ============================
+// Mounted
+// ============================
+
+onMounted(async () => {
+  await loadAuthors();
+});
+
+onUnmounted(() => {
+  observer.value?.disconnect();
+});
 </script>

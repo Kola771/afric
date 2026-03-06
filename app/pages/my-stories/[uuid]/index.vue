@@ -45,7 +45,9 @@
           <h2 class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-200">Sommaire</h2>
         </div>
 
-        <div :class="`${['completed'].includes(book.status) ? 'max-h-screen' : 'max-h-[80vh]'} flex-1 overflow-y-auto custom-scroll p-3 space-y-1`" v-if="chapters?.length > 0">
+        <div
+          :class="`${['completed'].includes(book.status) ? 'max-h-screen' : 'max-h-[80vh]'} flex-1 overflow-y-auto custom-scroll p-3 space-y-1`"
+          v-if="chapters?.length > 0">
           <div v-for="chap in chapters" :key="chap.id" class="flex flex-col justify-between gap-1" :class="[
             'w-full group flex items-start gap-3 p-3 rounded-xl text-left transition-all',
             chap.id === currentChapterId
@@ -97,7 +99,15 @@
                 </div>
               </div>
             </button>
-            <div class="w-full flex justify-end">
+            <div class="w-full flex justify-end gap-2">
+              <button @click="saveUpdateChapter(chap, STATUS.COMPLETED)" v-if="chap.status === 'draft'"
+                class="dark:border dark:bg-slate-800 flex items-center gap-2 px-2 py-1 font-medium text-white bg-slate-900 rounded hover:bg-slate-800 transition-all shadow-sm text-[10px]">
+                Publier
+              </button>
+              <button @click="saveUpdateChapter(chap, STATUS.DRAFT)" v-else
+                class="hidden sm:flex items-center gap-2 px-2 py-1 font-medium text-slate-700 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors text-[10px]">
+                Brouillon
+              </button>
               <button class="text-[10px] text-red-400 dark:text-red-500 font-medium flex-shrink-0 text-right"
                 @click="showDelete(chap)">
                 <Icon name="mdi:trash" class="w-4 h-4" />
@@ -117,7 +127,8 @@
           </p>
         </div>
 
-        <div class="p-3 border-t border-slate-100 bg-slate-50/50 dark:bg-dark" v-if="!['completed'].includes(book.status)">
+        <div class="p-3 border-t border-slate-100 bg-slate-50/50 dark:bg-dark"
+          v-if="!['completed'].includes(book.status)">
           <button @click="createChapter"
             class="flex w-full items-center justify-center gap-2 rounded-lg border border-dashed border-slate-300 bg-white px-3 py-2.5 text-xs font-semibold text-slate-600 hover:border-orange-400 hover:text-orange-600 hover:bg-orange-50 transition-all">
             <Icon name="mdi:plus" class="w-5 h-5" />
@@ -254,7 +265,9 @@
             <Icon name="mdi:close" class="w-5 h-5" />
           </button>
         </div>
-        <div :class="`${['completed'].includes(book.status) ? 'max-h-[calc(100vh-5rem)]' : 'max-h-[calc(100vh-10rem)]'} space-y-2 overflow-y-auto`" v-if="chapters?.length > 0">
+        <div
+          :class="`${['completed'].includes(book.status) ? 'max-h-[calc(100vh-5rem)]' : 'max-h-[calc(100vh-10rem)]'} space-y-2 overflow-y-auto`"
+          v-if="chapters?.length > 0">
           <div v-for="chap in chapters" :key="chap.id" class="flex flex-col justify-between gap-1" :class="[
             'w-full group flex items-start gap-3 p-3 rounded-xl text-left transition-all',
             chap.id === currentChapterId
@@ -306,7 +319,15 @@
                 </div>
               </div>
             </button>
-            <div class="w-full flex justify-end">
+            <div class="w-full flex justify-end gap-2">
+              <button @click="saveUpdateChapter(chap, STATUS.COMPLETED)" v-if="chap.status === 'draft'"
+                class="dark:border dark:bg-slate-800 flex items-center gap-2 px-2 py-1 font-medium text-white bg-slate-900 rounded hover:bg-slate-800 transition-all shadow-sm text-[10px]">
+                Publier
+              </button>
+              <button @click="saveUpdateChapter(chap, STATUS.DRAFT)" v-else
+                class="hidden sm:flex items-center gap-2 px-2 py-1 font-medium text-slate-700 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors text-[10px]">
+                Brouillon
+              </button>
               <button class="text-[10px] text-red-400 dark:text-red-500 font-medium flex-shrink-0 text-right"
                 @click="showDelete(chap)">
                 <Icon name="mdi:trash" class="w-4 h-4" />
@@ -552,6 +573,7 @@
 
 <script lang="ts" setup>
 const uuid = useRoute().params.uuid;
+const router = useRouter();
 import Tesseract from 'tesseract.js'
 interface ImportedChapter {
   title: string
@@ -563,8 +585,10 @@ definePageMeta({
 });
 
 const { getBookByUuid } = booksData();
+const { toConnectUser } = authenticate();
 const { findAllPaginated, createData, createManyData, updateData, deleteData } = chaptersData();
 const book = ref<BookData | null>(null);
+const user = ref<User | null>(null);
 const chapters = ref<ChapterData[]>([]);
 const chapterDelete = ref<ChapterData | null>(null);
 const page = ref<number>(1);
@@ -863,7 +887,7 @@ function goBack() {
   if (isDirty.value) {
     showUnsavedModal.value = true
   } else {
-    window.history.back()
+    router.back();
   }
 }
 
@@ -898,10 +922,11 @@ function attemptSwitchChapter(id: number) {
 function closeModal() { showUnsavedModal.value = false; pendingChapterId.value = null }
 function closeModalMessage() {
   if (backurl.value > 0) {
-    window.history.back();
+    router.back();
     backurl.value = 0;
   } else {
-    window.location.reload();
+    router.push(`/my-stories/${uuid}`);
+    router.go(0);
   }
 }
 
@@ -941,8 +966,9 @@ function loadChapter(id: number) {
 }
 
 const onLoad = async () => {
+  user.value = await toConnectUser();
   book.value = await getBookByUuid(`${uuid}`);
-  if (book.value) {
+  if (((user.value && book.value) && (Number(user.value.id) === Number(book.value.id_user)))) {
     const { data, totalPages: tp } = await findAllPaginated(page.value, limit.value, book.value.id);
     totalPages.value = tp;
     chapters.value = data;
@@ -958,6 +984,8 @@ const onLoad = async () => {
         loadChapter(storedChapterId)
       }
     }
+  } else {
+    router.push("/")
   }
 }
 
@@ -971,9 +999,35 @@ const createChapter = async () => {
   });
   if (res.success) {
     localStorage.setItem('chapterId', `${res.data?.id}`);
-    window.location.reload();
+    router.push(`/my-stories/${uuid}`);
+    router.go(0);
   } else {
     error.value = res.error;
+  }
+}
+
+async function saveUpdateChapter(chap: ChapterData, status: string) {
+  errorSave.value = null;
+  showUnsavedModal.value = false;
+  saveContent();
+  const res = await updateData(`${chap.uuid}`, {
+    title: chap.title,
+    content: chap.content,
+    status: status,
+    id_book: Number(book.value?.id),
+    id_user: Number(book.value?.id_user)
+  });
+  if (res.success && book.value) {
+    pendingChapterId.value = chap.id;
+    currentChapterId.value = chap.id;
+    localStorage.setItem('chapterId', `${pendingChapterId.value ?? currentChapterId.value}`);
+    setTimeout(() => {
+      good.value = res.msg;
+    }, 1000);
+  } else {
+    setTimeout(() => {
+      errorSave.value = res.error;
+    }, 1000);
   }
 }
 
@@ -1002,10 +1056,11 @@ async function confirmSwitch(save: boolean, status: string) {
   } else {
     localStorage.setItem('chapterId', `${pendingChapterId.value}`);
     if (backurl.value > 0) {
-      window.history.back();
+      router.back();
       backurl.value = 0;
     } else {
-      window.location.reload();
+      router.push(`/my-stories/${uuid}`);
+      router.go(0);
     }
   }
 }

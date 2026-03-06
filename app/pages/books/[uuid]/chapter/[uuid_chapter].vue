@@ -195,10 +195,6 @@ const closeStats = () => {
     showStatsModal.value = false
 }
 
-const back = () => {
-    window.history.back();
-}
-
 const textSizeLevel = ref(0)
 // 0 = normal
 // 1 = grand

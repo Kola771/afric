@@ -379,7 +379,7 @@ const closeDeleteModal = async () => {
 }
 
 const back = () => {
-    window.history.back();
+    router.back();
 }
 
 const onLoad = async () => {
