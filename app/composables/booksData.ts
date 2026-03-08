@@ -27,6 +27,16 @@ export function booksData() {
         }
     }
 
+    async function findRandom(): Promise<BookData|null> {
+        const response = await axios.get(`/books/random`);
+        return response?.data;
+    }
+
+    async function getFiveRatingAge() {
+        const response = await axios.get(`/books/five-rating-age`);
+        return response?.data;
+    }
+
     async function findAllPaginatedAuthor(page: number = 1, limit: number = 25, id_user: number): Promise<{ data: BookData[], total: number, totalPages: number, currentPage: number }> {
         if (process.client) {
             if (localStorage.getItem('user')) {
@@ -151,8 +161,10 @@ export function booksData() {
 
     return {
         allBooks,
+        getFiveRatingAge,
         countDistinctBooks,
         existingData,
+        findRandom,
         findAllPaginatedAuthor,
         findAllPaginatedByAuthor,
         findAllPaginated,

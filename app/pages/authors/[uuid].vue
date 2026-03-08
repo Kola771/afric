@@ -133,7 +133,7 @@
                         </div>
 
                     </div>
-                    <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-10"
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-6 gap-y-10"
                         v-if="filteredBooks.length > 0">
                         <HomeCard v-for="(book, index) in filteredBooks" :key="book.id" :book="book" :index="index" />
                     </div>
@@ -196,11 +196,15 @@ const onLoad = async () => {
             }
         }
     }
-
 }
 
 const countChapters = (books: BookData[]): number => {
-    return books.reduce((total, book) => total + (book?.chapters?.length ?? 0), 0);
+    return books.reduce((total, book) => {
+        const validChapters =
+            book?.chapters?.filter((chapter: ChapterData) => chapter.status !== 'draft') ?? [];
+
+        return total + validChapters.length;
+    }, 0);
 };
 
 const countViews = (books: BookData[]): number => {
@@ -233,40 +237,40 @@ const clearFilters = () => {
 }
 
 const followAuthor = async (authorId: number) => {
-  if (!user.value) {
-    router.push("/login");
-    return;
-  }
+    if (!user.value) {
+        router.push("/login");
+        return;
+    }
 
-  loading.value = true;
+    loading.value = true;
 
-  try {
-    await createFollower({
-      follower: { id: user.value.id },
-      following: { id: authorId },
-    });
+    try {
+        await createFollower({
+            follower: { id: user.value.id },
+            following: { id: authorId },
+        });
 
-    follow.value = true;
-  } finally {
-    loading.value = false;
-  }
+        follow.value = true;
+    } finally {
+        loading.value = false;
+    }
 };
 
 const unFollowAuthor = async (authorId: number) => {
-  if (!user.value) {
-    router.push("/login");
-    return;
-  }
+    if (!user.value) {
+        router.push("/login");
+        return;
+    }
 
-  loading.value = true;
+    loading.value = true;
 
-  try {
-    await deleteFollow(user.value.id, authorId);
+    try {
+        await deleteFollow(user.value.id, authorId);
 
-    follow.value = false;
-  } finally {
-    loading.value = false;
-  }
+        follow.value = false;
+    } finally {
+        loading.value = false;
+    }
 };
 
 const back = () => {

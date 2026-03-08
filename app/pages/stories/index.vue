@@ -1,30 +1,24 @@
 <template>
   <div class="bg-[#fffcfccc] dark:bg-dark dark:border-b dark:border-slate-300 pt-20 pb-12 lg:py-24">
-    <div :class="`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col ${selectedGroup ? 'gap-4' : 'gap-8'}`">
-      <StoryHero v-if="!selectedGroup" />
+    <div :class="`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-8`">
+      <StoryHero />
 
-      <div v-if="selectedGroup" class="pt-1 lg:pt-0">
-        <button @click="selectedGroup = null" class="text-sm font-medium">
-          <Icon name="mdi:arrow-left" class="w-5 h-5 dark:text-slate-200" />
-        </button>
-      </div>
       <template v-for="ageGroup in ageGroups" :key="ageGroup.label">
-        <div v-if="!selectedGroup || selectedGroup === ageGroup.label"
-          :class="`${selectedGroup ? 'pt-4' : 'pt-8 lg:pt-6'} border-slate-200 border-t flex flex-col gap-8`">
+        <div v-if="books[ageGroup.key]?.length" class="pt-8 lg:pt-6 border-slate-200 border-t flex flex-col gap-8">
           <div class="flex items-center justify-between">
             <h2 class="text-2xl font-display font-medium dark:text-white text-slate-900 tracking-tight">
               {{ ageGroup.label }}
             </h2>
 
-            <button class="flex items-center gap-1 text-sm font-medium hover:text-orange-600 transition-colors"
-              @click="handleSelect(ageGroup.label)" v-if="!selectedGroup">
+            <nuxt-link to="#"
+              class="flex items-center gap-1 text-sm font-medium hover:text-orange-600 transition-colors">
               <span class="hidden sm:block">Voir tout</span>
               <Icon name="mdi:arrow-right" class="w-5 h-5" />
-            </button>
+            </nuxt-link>
           </div>
 
           <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-6 gap-y-10">
-            <HomeBookCard v-for="book in books" :key="book.id" :book="book" />
+            <HomeCard v-for="(book, index) in books[ageGroup.key]" :key="book.id" :index="index" :book="book" />
           </div>
         </div>
       </template>
@@ -34,22 +28,30 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-
-const selectedGroup = ref<string | null>(null);
+const config = useRuntimeConfig();
+const route = useRoute();
+const router = useRouter();
+const { getFiveRatingAge } = booksData();
+const books = ref<Record<string, BookData[]>>({
+  "18ans+": [],
+  "16ans+": [],
+  "12ans+": []
+})
 
 const ageGroups = [
-  { label: '18ans+' },
-  { label: '16ans+' },
-  { label: '12ans+' },
-];
+  { label: '18ans+', key: 'age18' },
+  { label: '16ans+', key: 'age16' },
+  { label: '12ans+', key: 'age12' },
+]
 
-const handleSelect = (label: string) => {
-  selectedGroup.value = label
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
-  })
+const onLoad = async () => {
+  books.value = await getFiveRatingAge();
+  console.log(books.value)
 }
+
+onMounted(async () => {
+  await onLoad();
+})
 
 useSeoMeta({
   title: 'Toutes les histoires',
@@ -66,60 +68,4 @@ useSeoMeta({
   twitterDescription: 'Découvrez toutes les histoires publiées sur notre plateforme.',
   twitterImage: 'https://africstoryline.com/afric.png'
 });
-
-const books = ref<Book[]>([
-  {
-    id: 1,
-    title: "L'Héritage des Sables",
-    author: "Kader Diaby",
-    image: "/assets/img1.jpg",
-    rating: 4.8,
-    category: "Aventure",
-    state: "En cours",
-    rank: "#1",
-    url: "/books/book-uuid-1"
-  },
-  {
-    id: 2,
-    title: "Nairobi by Night",
-    author: "Sarah O.",
-    image: "https://images.unsplash.com/photo-1629196914375-f7e48f477b6d?q=80&w=600&auto=format&fit=crop",
-    rating: 4.6,
-    category: "Polar",
-    state: "Arrêté",
-    rank: "#2",
-    url: "/books/book-uuid-2"
-  },
-  {
-    id: 3,
-    title: "Le Chant du Baobab",
-    author: "Moussa Traoré",
-    image: "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?q=80&w=600&auto=format&fit=crop",
-    rating: 4.9,
-    category: "Conte",
-    state: "En cours",
-    rank: "#3",
-    url: "/books/book-uuid-3"
-  },
-  {
-    id: 4,
-    title: "Projet Sankara",
-    author: "Léa M.",
-    image: "https://images.unsplash.com/photo-1518558997970-4ddc236affcd?q=80&w=600&auto=format&fit=crop",
-    rating: 4.5,
-    category: "Sci-Fi",
-    state: "Terminé",
-    url: "/books/book-uuid-4"
-  },
-  {
-    id: 5,
-    title: "Amour et Hibiscus",
-    author: "Chloé B.",
-    image: "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=600&auto=format&fit=crop",
-    rating: 4.2,
-    category: "Romance",
-    state: "En cours",
-    url: "/books/book-uuid-5"
-  },
-])
 </script>
