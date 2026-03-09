@@ -107,22 +107,24 @@
                                         <img v-if="book.user?.photo"
                                             :src="`${config.public.apiBackendUrl}/uploads/users/${book.user?.photo}`"
                                             alt="Profil"
-                                            class="w-5 h-5 border-orange-600 border-2 dark:border-orange-500 rounded-full" />
+                                            class="w-6 h-6 border-orange-600 border-2 dark:border-orange-500 rounded-full" />
                                         <span v-if="!book.user?.photo"
-                                            class="p-1 text-[8px] flex items-center justify-center w-5 h-5 rounded-full font-medium"
+                                            class="p-1 text-[8px] flex items-center justify-center w-6 h-6 rounded-full font-medium"
                                             :style="`background-color: ${book.user?.code_color}`">
                                             {{ book.user?.name.split(" ").length > 1 ?
                                                 `${book.user?.name.charAt(0).toUpperCase() +
                                                 book.user?.name.split("")[1]?.charAt(0).toUpperCase()}` :
                                                 book.user?.name.charAt(0).toUpperCase() }}
                                         </span>
-                                        <p class="text-[12px] flex">
+                                        <p class="flex">
                                             <span class="truncate">{{
                                                 book.user?.name
                                                 }}</span>
                                         </p>
                                         <span>•</span>
                                         <span>{{ book.book_categories[0]?.name || '' }}</span>
+                                        <span>•</span>
+                                        <span>{{ formatNumber(book.chapters.length) || 0 }} chapitre{{ book.chapters.length > 0 ? 's' : ''}}</span>
                                     </div>
                                 </div>
                             </div>
