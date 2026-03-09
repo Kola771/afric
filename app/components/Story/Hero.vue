@@ -34,7 +34,7 @@
                     <img :src="`${config.public.apiBackendUrl}/uploads/books/${book?.image}`" class="w-full h-full object-cover grayscale-[20%] hover:scale-105 transition-transform duration-700" alt="Hero">
                     <div class="absolute bottom-2 md:bottom-6 left-2 md:left-6 z-10">
                         <div class="bg-white/90 backdrop-blur border border-white/20 p-4 rounded-lg shadow-lg max-w-xs md:max-w-full">
-                            <p class="text-xs text-gray-500">Nouveau chapitre disponible : <strong class="animate-pulse text-orange-600 dark:text-orange-500">{{ book.chapters[0].title }}</strong> • Lu par {{ formatNumber(book.chapters[0].views) }} personnes</p>
+                            <p class="text-xs text-gray-500">Nouveau chapitre disponible : <strong class="animate-pulse text-orange-600 dark:text-orange-500">{{ book.chapters[0].title }}</strong> • Lu par {{ formatNumber(book.chapters[0].readsCount) }} personnes</p>
                         </div>
                     </div>
                 </div>

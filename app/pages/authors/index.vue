@@ -12,7 +12,7 @@
             Consultez leurs livres, suivez leurs publications et plongez dans leurs univers littéraires.
           </p>
 
-          <div class="flex items-center gap-4 mt-3 text-xs text-slate-500 dark:text-slate-300">
+          <div class="flex flex-wrap items-center gap-4 mt-3 text-xs text-slate-500 dark:text-slate-300">
             <span class="flex items-center gap-1">
               <Icon name="mdi:account-edit" class="w-4 h-4" />
               Auteurs actifs
