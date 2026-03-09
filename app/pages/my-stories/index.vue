@@ -229,7 +229,9 @@ useSeoMeta({
 const config = useRuntimeConfig();
 const { findAllPaginatedAuthor } = booksData();
 const { toConnectUser } = authenticate();
+const { getProfile } = usersData();
 const user = ref<User | null>(null);
+const profil = ref<User | null>(null);
 const books = ref<BookData[]>([]);
 const book = ref<BookData | null>(null);
 const page = ref(1);
@@ -384,11 +386,13 @@ const back = () => {
 
 const onLoad = async () => {
     user.value = await toConnectUser();
-    if (user.value) {
-        const { data, totalPages: tp } = await findAllPaginatedAuthor(page.value, limit.value, user.value?.id);
-        books.value = data;
-        totalPages.value = tp;
-        if (!authorizeRoleUser(`${user.value.role.toLocaleLowerCase()}`)) {
+    profil.value = await getProfile();
+    if (user.value && profil.value) {
+        if (authorizeRoleUser(`${profil.value.role.toLocaleLowerCase()}`)) {
+            const { data, totalPages: tp } = await findAllPaginatedAuthor(page.value, limit.value, user.value?.id);
+            books.value = data;
+            totalPages.value = tp;
+        } else {
             router.push("/");
         }
     } else {

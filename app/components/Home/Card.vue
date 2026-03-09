@@ -26,7 +26,7 @@
                             props.book.user?.name.split("")[1]?.charAt(0).toUpperCase()}` :
                         props.book.user?.name.charAt(0).toUpperCase() }}
                     </span>
-                    <p class="text-[12px] group-hover:underline text-slate-500 dark:text-slate-400 flex"><span class="truncate">{{
+                    <p class="text-[12px] text-slate-500 dark:text-slate-400 flex"><span class="truncate">{{
                         props.book.user?.name
                             }}</span></p>
                 </nuxt-link>

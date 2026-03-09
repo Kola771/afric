@@ -10,15 +10,23 @@
               {{ ageGroup.label }}
             </h2>
 
-            <nuxt-link to="#"
-              class="flex items-center gap-1 text-sm font-medium hover:text-orange-600 transition-colors">
+            <nuxt-link :to="`/stories/${ageGroup.key}`"
+              class="flex items-center gap-1 text-sm font-medium hover:text-orange-600 dark:text-slate-200 transition-colors">
               <span class="hidden sm:block">Voir tout</span>
               <Icon name="mdi:arrow-right" class="w-5 h-5" />
             </nuxt-link>
           </div>
 
           <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-6 gap-y-10">
-            <HomeCard v-for="(book, index) in books[ageGroup.key]" :key="book.id" :index="index" :book="book" />
+            <!-- Skeleton -->
+            <template v-if="loading">
+              <HomeCardSkeleton v-for="i in 5" :key="i" />
+            </template>
+
+            <!-- Vraies cartes -->
+            <template v-else>
+              <HomeCard v-for="(book, index) in books[ageGroup.key]" :key="book.id" :index="index" :book="book" />
+            </template>
           </div>
         </div>
       </template>
@@ -28,10 +36,8 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-const config = useRuntimeConfig();
-const route = useRoute();
-const router = useRouter();
 const { getFiveRatingAge } = booksData();
+const loading = ref<boolean>(true)
 const books = ref<Record<string, BookData[]>>({
   "18ans+": [],
   "16ans+": [],
@@ -46,7 +52,7 @@ const ageGroups = [
 
 const onLoad = async () => {
   books.value = await getFiveRatingAge();
-  console.log(books.value)
+  loading.value = false
 }
 
 onMounted(async () => {

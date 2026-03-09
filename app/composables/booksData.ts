@@ -27,6 +27,16 @@ export function booksData() {
         }
     }
 
+    async function findTopBook(): Promise<BookData|null> {
+        const response = await axios.get(`/books/top-book`);
+        return response?.data;
+    }
+
+    async function getFiveTopBooks(): Promise<BookData[]> {
+        const response = await axios.get(`/books/top-five-books`);
+        return response?.data;
+    }
+
     async function findRandom(): Promise<BookData|null> {
         const response = await axios.get(`/books/random`);
         return response?.data;
@@ -55,6 +65,11 @@ export function booksData() {
 
     async function findAllPaginatedByAuthor(page: number = 1, limit: number = 25, id_user: number): Promise<{ data: BookData[], total: number, totalPages: number, currentPage: number }> {
         const response = await axios.get(`/books/author?page=${page}&limit=${limit}&id_user=${id_user}`);
+        return response?.data;
+    }
+
+    async function findAllPaginatedRatingAge(page: number = 1, limit: number = 25, rating_age: string): Promise<{ data: BookData[], total: number, totalPages: number, currentPage: number }> {
+        const response = await axios.get(`/books/rating-age?page=${page}&limit=${limit}&rating_age=${rating_age}`);
         return response?.data;
     }
 
@@ -164,8 +179,11 @@ export function booksData() {
         getFiveRatingAge,
         countDistinctBooks,
         existingData,
+        getFiveTopBooks,
         findRandom,
+        findTopBook,
         findAllPaginatedAuthor,
+        findAllPaginatedRatingAge,
         findAllPaginatedByAuthor,
         findAllPaginated,
         allBooksActifs,

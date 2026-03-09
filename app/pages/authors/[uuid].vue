@@ -135,7 +135,16 @@
                     </div>
                     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-6 gap-y-10"
                         v-if="filteredBooks.length > 0">
-                        <HomeCard v-for="(book, index) in filteredBooks" :key="book.id" :book="book" :index="index" />
+                        <!-- Skeleton -->
+                        <template v-if="loadingSkeleton">
+                            <HomeCardSkeleton v-for="i in 10" :key="i" />
+                        </template>
+
+                        <!-- Vraies cartes -->
+                        <template v-else>
+                            <HomeCard v-for="(book, index) in filteredBooks" :key="book.id" :book="book"
+                                :index="index" />
+                        </template>
                     </div>
                     <!-- Message vide -->
                     <div v-else class="flex flex-col items-center justify-center py-16 text-center">
@@ -167,6 +176,7 @@ const user = ref<User | null>(null);
 const author = ref<Author | null>(null);
 const books = ref<BookData[]>([]);
 const loading = ref<boolean>(false)
+const loadingSkeleton = ref<boolean>(false)
 const follow = ref<boolean | any>(false)
 const page = ref(1)
 const limit = ref(25)
@@ -287,6 +297,7 @@ const loadBooks = async () => {
     if (page.value > totalPages.value) return;
 
     loading.value = true;
+    loadingSkeleton.value = true;
 
     try {
         const res = await findAllPaginatedByAuthor(page.value, limit.value, author.value.id);
@@ -297,6 +308,7 @@ const loadBooks = async () => {
         page.value++;
     } finally {
         loading.value = false;
+        loadingSkeleton.value = false;
     }
 };
 

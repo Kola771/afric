@@ -2,7 +2,7 @@ import axios from "axios";
 
 export function usersData() {
 
-    async function findAuthors(page: number = 1, limit: number = 25): Promise<{ data: Author[], pagination : {total: number, page: number, limit: number, currentPage: number, totalPages: number, hasNextPage: boolean} }> {
+    async function findAuthors(page: number = 1, limit: number = 25): Promise<{ data: Author[], pagination: { total: number, page: number, limit: number, currentPage: number, totalPages: number, hasNextPage: boolean } }> {
         const response = await axios.get(`/users/all-authors?page=${page}&limit=${limit}`);
         return response?.data;
     }
@@ -12,8 +12,24 @@ export function usersData() {
         return response?.data;
     }
 
+    async function getProfile(): Promise<User | null> {
+        if (process?.client) {
+            if (localStorage.getItem("user")) {
+                const token = JSON.parse(localStorage.getItem("user") || '{}').token;
+                const response = await axios.get('/users/profile', {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                return response?.data;
+            }
+        }
+        return null;
+    }
+
     return {
         findAuthors,
         findByUuid,
+        getProfile,
     }
 }

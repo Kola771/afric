@@ -6,7 +6,7 @@
             <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
         </div>
         
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" v-if="user">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" v-if="user && profil">
             <div class="relative -mt-10 sm:-mt-20 lg:-mt-14 dark:text-white mb-6 flex flex-col md:flex-row md:items-end justify-between gap-6">
                 <!-- Avatar & Info -->
                 <div :class="`flex flex-wrap items-end md:items-end gap-3 lg:gap-6`">
@@ -46,7 +46,7 @@
 
                 <!-- Action Buttons -->
                 <div class="flex justify-between gap-3 mb-2 w-full md:w-auto text-xs lg:text-sm">
-                    <nuxt-link to="/my-stories" v-if="authorizeRoleUser(`${user.role.toLocaleLowerCase()}`)" class="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-primary border border-slate-200 rounded-lg font-medium text-white hover:bg-slate-900 hover:border-slate-300 dark:bg-dark dark:hover:bg-primary transition-all shadow-sm">
+                    <nuxt-link to="/my-stories" v-if="authorizeRoleUser(`${profil.role.toLocaleLowerCase()}`)" class="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-primary border border-slate-200 rounded-lg font-medium text-white hover:bg-slate-900 hover:border-slate-300 dark:bg-dark dark:hover:bg-primary transition-all shadow-sm">
                         <Icon name="solar:book-2-bold" class="w-5 h-5" />
                         Mes histoires
                     </nuxt-link>
@@ -108,7 +108,9 @@
 <script setup lang="ts">
 const config = useRuntimeConfig();
 const { toConnectUser } = authenticate();
+const { getProfile } = usersData();
 const user = ref<User | null>(null);
+const profil = ref<User | null>(null);
 const showDeleteModal = ref(false);
 
 const toggleDeleteModal = () => {
@@ -117,5 +119,6 @@ const toggleDeleteModal = () => {
 
 onMounted(async () => {
     user.value = await toConnectUser();
+    profil.value = await getProfile();
 })
 </script>

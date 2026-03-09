@@ -31,8 +31,14 @@
         </div>
       </div>
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6" v-if="authors.length > 0">
-        <AuthorCard v-for="(author, index) in authors" :key="author.id" :user="user" :index="index" :author="author"
-          ref="cardRefs" />
+        <template v-if="loadingAuthor">
+          <AuthorCardSkeleton v-for="i in 6" :key="i" />
+        </template>
+
+        <template v-else>
+          <AuthorCard v-for="(author, index) in authors" :key="author.id" :user="user" :index="index" :author="author"
+            ref="cardRefs" />
+        </template>
       </div>
       <!-- Message vide -->
       <div v-else class="flex flex-col items-center justify-center py-16 text-center">
@@ -55,10 +61,11 @@ const { findAuthors } = usersData()
 const { toConnectUser } = authenticate();
 const user = ref<User | null>(null);
 const authors = ref<Author[]>([])
-const loading = ref(false)
-const page = ref(1)
-const limit = ref(25)
-const totalPages = ref(1)
+const loading = ref<boolean>(false)
+const loadingAuthor = ref<boolean>(false)
+const page = ref<number>(1)
+const limit = ref<number>(25)
+const totalPages = ref<number>(1)
 const cardRefs = ref<any[]>([]);
 const observer = ref<IntersectionObserver | null>(null);
 
@@ -85,6 +92,7 @@ onMounted(async () => {
   authors.value = data;
   totalPages.value = pagination.totalPages;
   loading.value = false;
+  loadingAuthor.value = false;
 })
 
 // ============================
@@ -96,6 +104,7 @@ const loadAuthors = async () => {
   if (page.value > totalPages.value) return;
 
   loading.value = true;
+  loadingAuthor.value = true;
 
   try {
     const res = await findAuthors(page.value, limit.value);
@@ -106,6 +115,7 @@ const loadAuthors = async () => {
     page.value++;
   } finally {
     loading.value = false;
+    loadingAuthor.value = false;
   }
 };
 

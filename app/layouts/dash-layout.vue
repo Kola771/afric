@@ -49,8 +49,11 @@
     title: 'Dashboard',
   });
 const route = useRoute();
+const router = useRouter();
 const view = ref<string>("");
 const { authorizeRolePage } = authenticate();
+const { getProfile } = usersData();
+const profil = ref<User | null>(null);
 
 const checkRouteName = () => {
   switch (route.name) {
@@ -88,6 +91,10 @@ watch(() => route.name, () => {
 })
 
 onMounted(async () => {
+  profil.value = await getProfile();
+  if(profil.value && !authorizeRoleDash(`${profil.value.role}`)) {
+    router.push("/")
+  }
   authorizeRolePage();
   checkRouteName();
 })

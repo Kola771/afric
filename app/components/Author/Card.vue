@@ -36,7 +36,7 @@
           </div>
 
           <div
-            class="absolute bottom-2 right-2 bg-slate-900/90 text-white px-1.5 py-0.5 rounded text-[10px] font-bold capitalize"
+            class="absolute bottom-2 right-2 bg-slate-900/90 text-white px-1.5 py-0.5 rounded text-[10px] font-bold uppercase"
           >
             {{ props.author.rank }}
           </div>

@@ -8,7 +8,15 @@
                 </div>
             </div>
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-10">
-                <CategoryCard v-for="category in categories" :key="category.id" :category="category" />
+                <!-- Skeleton -->
+                <template v-if="loading">
+                    <CategoryCardSkeleton v-for="i in 8" :key="i" />
+                </template>
+                
+                <!-- Vraies cartes -->
+                <template v-else>
+                    <CategoryCard v-for="category in categories" :key="category.id" :category="category" />
+                </template>
             </div>
         </section>
     </div>
@@ -16,8 +24,10 @@
 <script lang="ts" setup>
 const { allCategories } = categoriesData();
 const categories = ref<Category[]>([])
+const loading = ref<boolean>(true)
 onMounted(async () => {
-    categories.value = await allCategories()
+    categories.value = await allCategories();
+    loading.value = false
 })
   useSeoMeta({
     title: 'Catégories',

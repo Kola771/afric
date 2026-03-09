@@ -92,7 +92,8 @@
                                     <p v-else>
                                         {{ reactionsState.list.length > 0
                                             ? `${reactionUser.emoji} vous et ${formatNumber(book.book_reactions - 1)}
-                                        autre${book.book_reactions - 1 > 1 ? 's' : ''} personne${book.book_reactions > 2 ? 's' : ''} avez réagi à ce livre`
+                                        autre${book.book_reactions - 1 > 1 ? 's' : ''} personne${book.book_reactions > 2
+                                                ? 's' : ''} avez réagi à ce livre`
                                             : ''
                                         }}
                                     </p>
@@ -141,12 +142,15 @@
 
                                 <div class="hidden md:flex items-center gap-1 text-xs truncate">
                                     <Icon name="mdi:book-multiple" class="w-5 h-5" />
-                                    <span>{{ formatNumber(book.chapters.length) }} Chapitre{{ book.chapters.length > 1 ? 's' : '' }}</span>
+                                    <span>{{ formatNumber(book.chapters.length) }} Chapitre{{ book.chapters.length > 1 ?
+                                        's' : '' }}</span>
                                 </div>
 
                                 <div class="hidden md:flex items-center gap-1 text-xs truncate">
                                     <Icon name="mdi:eye" class="w-5 h-5" />
-                                    <span>{{formatNumber(Number(book.total_views))}} Vue{{ Number(book.total_views) > 1 ? 's' : '' }}</span>
+                                    <span>{{ formatNumber(Number(book.total_views)) }} Vue{{ Number(book.total_views) >
+                                        1
+                                        ? 's' : '' }}</span>
                                 </div>
                             </div>
                         </div>
@@ -193,7 +197,8 @@
                                 </nuxt-link>
                             </div>
 
-                            <div v-else class="flex flex-col items-center justify-center text-center p-6 text-slate-500 dark:text-slate-200">
+                            <div v-else
+                                class="flex flex-col items-center justify-center text-center p-6 text-slate-500 dark:text-slate-200">
                                 <Icon name="mdi:book-open-page-variant" class="w-12 h-12 text-slate-300 mb-3" />
                                 <p class="text-sm font-medium">Aucun chapitre disponible</p>
                             </div>
@@ -237,7 +242,8 @@
                     class="flex-1 overflow-y-auto p-4 space-y-6">
 
                     <!-- COMMENT LOOP -->
-                    <div v-for="commentItem in commentsState.list" :key="commentItem.id" v-if="commentsState.list.length > 0">
+                    <div v-for="commentItem in commentsState.list" :key="commentItem.id"
+                        v-if="commentsState.list.length > 0">
 
                         <!-- MAIN COMMENT -->
                         <div class="flex gap-2">
@@ -371,7 +377,8 @@
 
                     </div>
 
-                    <div v-else class="flex flex-col items-center justify-center text-center p-6 text-slate-500 dark:text-slate-200">
+                    <div v-else
+                        class="flex flex-col items-center justify-center text-center p-6 text-slate-500 dark:text-slate-200">
                         <Icon name="mdi:comment-outline" class="w-12 h-12 text-slate-300 mb-3" />
                         <p class="text-sm font-medium">Aucun commentaire disponible</p>
                         <p class="text-sm">Soyez le premier à le faire !</p>
@@ -419,7 +426,8 @@
 
                 <div v-if="step === 'likes'" ref="reactionsWrapper" @scroll="handleScrollReactions"
                     class="flex-1 overflow-y-auto p-4 space-y-6">
-                    <div class="flex gap-2" v-for="(reaction, index) in reactionsState.list" :key="index" v-if="reactionsState.list.length > 0">
+                    <div class="flex gap-2" v-for="(reaction, index) in reactionsState.list" :key="index"
+                        v-if="reactionsState.list.length > 0">
                         <div class="relative">
                             <img v-if="reaction.user.photo"
                                 :src="`${config.public.apiBackendUrl}/uploads/users/${reaction.user.photo}`"
@@ -443,12 +451,13 @@
                             </div>
                             <p class="text-[12px] lg:text-xs text-slate-600 dark:text-slate-200">{{
                                 reaction.user.pseudonym
-                                }} a réagi : <span class="font-medium">{{ reaction.label }} {{ reaction.emoji }}</span>
+                            }} a réagi : <span class="font-medium">{{ reaction.label }} {{ reaction.emoji }}</span>
                             </p>
                         </div>
                     </div>
 
-                    <div v-else class="flex flex-col items-center justify-center text-center p-6 text-slate-500 dark:text-slate-200">
+                    <div v-else
+                        class="flex flex-col items-center justify-center text-center p-6 text-slate-500 dark:text-slate-200">
                         <Icon name="mdi:heart-outline" class="w-12 h-12 text-slate-300 mb-3" />
                         <p class="text-sm font-medium">Aucune réaction disponible</p>
                     </div>
@@ -461,6 +470,23 @@
             </div>
         </StatsModal>
 
+    </div>
+
+    <div v-else
+        class="bg-[#fffcfccc] dark:bg-dark dark:border-slate-200 dark:border-b flex flex-col items-center justify-center text-center p-6 text-slate-500 dark:text-slate-200 min-h-screen">
+        <Icon name="mdi:book" class="w-12 h-12 text-slate-300 mb-4 animate-pulse" />
+
+        <p class="text-lg font-semibold mb-1 text-slate-700 dark:text-white">
+            Oops ! Ce livre est introuvable
+        </p>
+        <p class="text-sm mb-4">
+            Merci de revenir à la page précédente
+        </p>
+
+        <button @click="back"
+            class="mt-2 bg-orange-600 dark:bg-orange-500 hover:bg-orange-700 dark:hover:bg-orange-600 transition-colors px-4 py-2 rounded-lg flex items-center justify-center gap-2 text-sm text-white">
+            <Icon name="mdi:arrow-left" class="w-4 h-4" /> Retour
+        </button>
     </div>
 </template>
 
@@ -785,6 +811,10 @@ const reactions: Reaction[] = [
     { id: 'star', label: 'Chef-d’œuvre', emoji: '🌟', color: 'text-yellow-600 bg-yellow-50', animation: 'react-star' },
     { id: 'goosebumps', label: 'Frissons', emoji: '🥶', color: 'text-blue-700 bg-blue-100', animation: 'react-goosebumps' },
 ]
+
+const back = () => {
+    router.back();
+}
 
 // ---------- CHAPTERS ----------
 const sortedChapters = computed(() => {

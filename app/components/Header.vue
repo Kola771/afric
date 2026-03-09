@@ -26,7 +26,7 @@
                 :class="`${route.path === '/stories' ? 'text-primary dark:text-orange-400' : 'dark:text-white'} font-medium hover:text-slate-900 dark:hover:text-gray-400 transition-colors`">Livres</nuxt-link>
               <nuxt-link to="/authors"
                 :class="`${route.path === '/authors' ? 'text-primary dark:text-orange-400' : 'dark:text-white'} font-medium hover:text-slate-900 dark:hover:text-gray-400 transition-colors`">Auteurs</nuxt-link>
-              <nuxt-link to="/my-stories" v-if="user && authorizeRoleUser(`${user?.role}`)"
+              <nuxt-link to="/my-stories" v-if="user && profil && authorizeRoleUser(`${profil?.role}`)"
                 :class="`${route.path === '/my-stories' ? 'text-primary dark:text-orange-400' : 'dark:text-white'} font-medium hover:text-slate-900 dark:hover:text-gray-400 transition-colors`">Mes
                 histoires</nuxt-link>
               <nuxt-link to="/about" v-if="!user"
@@ -79,7 +79,7 @@
                       <Icon name="mdi:account" class="w-4 h-4" />
                       Mon profil
                     </nuxt-link>
-                    <nuxt-link v-if="authorizeRoleDash(`${user.role}`)" @click="showProfileMenu = false" to="/dashboard"
+                    <nuxt-link v-if="profil && authorizeRoleDash(`${profil.role}`)" @click="showProfileMenu = false" to="/dashboard"
                       class="block px-4 py-2 flex items-center gap-2 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
                       <Icon name="mdi:view-dashboard" class="w-4 h-4" />
                       Dashboard
@@ -140,10 +140,10 @@
           <nuxt-link to="/about" v-if="!user" @click="isOpen = !isOpen"
             :class="`${route.path === '/about' ? 'text-primary dark:text-orange-400' : 'text-slate-500 dark:text-white'} block text-sm dark:hover:text-gray-400 font-medium hover:text-primary transition-colors`">A
             propos</nuxt-link>
-          <nuxt-link to="/my-stories" v-if="user && authorizeRoleUser(`${user.role}`)" @click="isOpen = !isOpen"
+          <nuxt-link to="/my-stories" v-if="user && profil && authorizeRoleUser(`${profil.role}`)" @click="isOpen = !isOpen"
             :class="`${route.path === '/my-stories' ? 'text-primary dark:text-orange-400' : 'text-slate-500 dark:text-white'} block text-sm dark:hover:text-gray-400 font-medium hover:text-primary transition-colors`">Mes
             histoires</nuxt-link>
-          <nuxt-link to="/dashboard" v-if="user && authorizeRoleDash(`${user.role}`)" @click="isOpen = !isOpen"
+          <nuxt-link to="/dashboard" v-if="user && profil && authorizeRoleDash(`${profil.role}`)" @click="isOpen = !isOpen"
             :class="`${route.path === '/dashboard' ? 'text-primary dark:text-orange-400' : 'text-slate-500 dark:text-white'} block text-sm dark:hover:text-gray-400 font-medium hover:text-primary transition-colors`">Tableau
             de bord</nuxt-link>
         </div>
@@ -155,8 +155,7 @@
               Connexion
             </nuxt-link>
           </div>
-          <nuxt-link :to="`/profil`" v-if="user"
-            @click="isOpen = !isOpen"
+          <nuxt-link :to="`/profil`" v-if="user" @click="isOpen = !isOpen"
             class="flex items-center gap-3 w-full pb-1 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors text-left">
             <img v-if="user?.photo" :src="`${config.public.apiBackendUrl}/uploads/users/${user?.photo}`" alt="Profil"
               class="w-8 h-8 border-orange-600 border-2 dark:border-orange-500 rounded-full" />
@@ -212,7 +211,9 @@ const isOpen = ref<boolean>(false)
 const showSearch = ref<boolean>(false);
 const showProfileMenu = ref<boolean>(false);
 const { toConnectUser, logout } = authenticate();
+const { getProfile } = usersData();
 const user = ref<User | null>(null);
+const profil = ref<User | null>(null);
 
 const toggleSearch = () => {
   showSearch.value = !showSearch.value
@@ -220,5 +221,6 @@ const toggleSearch = () => {
 
 onMounted(async () => {
   user.value = await toConnectUser();
+  profil.value = await getProfile();
 })
 </script>
