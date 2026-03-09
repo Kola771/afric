@@ -119,12 +119,13 @@
                                         <p class="flex">
                                             <span class="truncate">{{
                                                 book.user?.name
-                                                }}</span>
+                                            }}</span>
                                         </p>
                                         <span>•</span>
                                         <span>{{ book.book_categories[0]?.name || '' }}</span>
                                         <span>•</span>
-                                        <span>{{ formatNumber(book.chapters.length) || 0 }} chapitre{{ book.chapters.length > 0 ? 's' : ''}}</span>
+                                        <span>{{ formatNumber(book.chapters.length) || 0 }} chapitre{{
+                                            book.chapters.length > 0 ? 's' : ''}}</span>
                                     </div>
                                 </div>
                             </div>
@@ -133,17 +134,17 @@
                             <div class="flex items-center justify-between">
                                 <div class="flex gap-1">
                                     <span
-                                        class="flex items-center justify-center gap-0.5 bg-blue-600 dark:bg-blue-500 text-white text-[11px] w-9 h-9 rounded-full border-2 border-white ring-1 ring-slate-100 p-1">
-                                        {{ formatNumber(book.book_comments || 0) }}
-                                        <Icon name="mdi:comments" class="w-2.5 h-2.5" />
-                                    </span>
-                                    <span
-                                        class="flex items-center justify-center gap-0.5 bg-red-600 dark:bg-red-500 text-white text-[11px] w-9 h-9 rounded-full border-2 border-white ring-1 ring-slate-100 p-1">
+                                        class="flex items-center justify-center gap-0.5 bg-red-600 dark:bg-red-500 text-white text-[11px] rounded px-1.5 py-1 dark:border-slate-200 dark:border-[2px]">
                                         {{ formatNumber(book.book_reactions || 0) }}
                                         <Icon name="mdi:heart" class="w-2.5 h-2.5" />
                                     </span>
                                     <span
-                                        class="flex items-center justify-center gap-0.5 bg-cyan-600 dark:bg-cyan-500 text-white text-[11px] w-9 h-9 rounded-full border-2 border-white ring-1 ring-slate-100 p-1">
+                                        class="flex items-center justify-center gap-0.5 bg-blue-600 dark:bg-blue-500 text-white text-[11px] rounded px-1.5 py-1 dark:border-slate-200 dark:border-[2px]">
+                                        {{ formatNumber(book.book_comments || 0) }}
+                                        <Icon name="mdi:comments" class="w-2.5 h-2.5" />
+                                    </span>
+                                    <span
+                                        class="flex items-center justify-center gap-0.5 bg-cyan-600 dark:bg-cyan-500 text-white text-[11px] rounded px-1.5 py-1 dark:border-slate-200 dark:border-[2px]">
                                         {{ formatNumber(Number(book.total_views) || 0) }}
                                         <Icon name="mdi:eye" class="w-2.5 h-2.5" />
                                     </span>
