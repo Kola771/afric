@@ -92,6 +92,7 @@ onMounted(async () => {
   authors.value = data;
   totalPages.value = pagination.totalPages;
   loading.value = false;
+  page.value++;
   loadingAuthor.value = false;
 })
 

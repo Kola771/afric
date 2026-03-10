@@ -103,17 +103,17 @@
                                 <div class="absolute bottom-6 left-6 right-6 text-white">
                                     <h3 class="font-display font-semibold text-2xl tracking-tight mb-2 flex"><span
                                             class="truncate">{{ book.title }}</span></h3>
-                                    <div class="flex items-center gap-3 text-sm text-white/80">
+                                    <div class="flex items-center gap-3 text-[13px] text-white/80">
                                         <img v-if="book.user?.photo"
                                             :src="`${config.public.apiBackendUrl}/uploads/users/${book.user?.photo}`"
                                             alt="Profil"
-                                            class="w-6 h-6 border-orange-600 border-2 dark:border-orange-500 rounded-full" />
+                                            class="w-6 h-6 flex-shrink-0 border-orange-600 border-2 dark:border-orange-500 rounded-full" />
                                         <span v-if="!book.user?.photo"
-                                            class="p-1 text-[8px] flex items-center justify-center w-6 h-6 rounded-full font-medium"
+                                            class="p-1 text-[8px] flex items-center justify-center w-6 h-6 text-slate-900 flex-shrink-0 rounded-full font-medium"
                                             :style="`background-color: ${book.user?.code_color}`">
                                             {{ book.user?.name.split(" ").length > 1 ?
                                                 `${book.user?.name.charAt(0).toUpperCase() +
-                                                book.user?.name.split("")[1]?.charAt(0).toUpperCase()}` :
+                                                book.user?.name.split(" ")[1]?.charAt(0).toUpperCase()}` :
                                                 book.user?.name.charAt(0).toUpperCase() }}
                                         </span>
                                         <p class="flex">

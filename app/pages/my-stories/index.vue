@@ -61,61 +61,70 @@
                         </button>
                     </div>
                 </div>
-                <div v-if="sortedBooks.length > 0"
+                <div
                     class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-10">
-                    <div class="flex flex-col justify-between gap-1 rounded-3xl shadow-sm hover:shadow-md bg-white dark:bg-slate-800 border border-slate-100 hover:border-slate-300 transition-all group-hover:scale-105 hover:shadow-sm pb-2"
-                        v-for="(book, index) in sortedBooks" ref="bookRefs">
-                        <nuxt-link :key="book.id" :to="`/books/${book.uuid}`" class="group flex flex-col">
-                            <img :src="`${config.public.apiBackendUrl}/uploads/books/${book?.image}`"
-                                class="w-full h-40 md:h-36 lg:h-40 rounded-t-3xl object-cover transition-transform duration-500"
-                                :alt="book.title">
-                            <div class="px-2.5 pt-2 flex flex-col gap-1">
-                                <p
-                                    class="font-medium text-slate-900 dark:text-white group-hover:text-orange-600 flex transition-colors">
-                                    <span class="truncate">{{ book.title }}</span>
-                                </p>
-                                <p class="flex flex-wrap items-center gap-3 text-[10px] font-medium text-orange-600">
-                                    <span v-for="category in book.book_categories"
-                                        class="bg-orange-50 border border-orange-100/50 text-orange-600 font-medium animate-fade-in-up px-2 py-1 rounded">{{
-                                            category.name }}</span>
-                                </p>
-                                <p
-                                    class="flex flex-wrap items-center gap-3 my-1 text-[10px] font-medium text-orange-600">
-                                    <span
-                                        :class="`${book.status === 'inactive' ? 'text-red-600 bg-red-50 dark:text-red-600' : (book.status === 'completed' ? 'text-green-600 dark:text-green-500 bg-green-50' : (book.status === 'ongoing' ? 'text-blue-600 dark:text-blue-500 bg-blue-50' : 'bg-slate-100 text-slate-500'))} px-2 py-1 rounded`">{{
-                                            status(book.status)
-                                        }}</span>
-                                </p>
+
+                    <!-- Skeleton -->
+                    <template v-if="loadingSkeleton">
+                        <MyStoryCardSkeleton v-for="i in 4" :key="i" />
+                    </template>
+                    <template v-else>
+                        <div class="flex flex-col justify-between gap-1 rounded shadow-sm hover:shadow-md bg-white dark:bg-slate-800 border border-slate-100 hover:border-slate-300 transition-all group-hover:scale-105 hover:shadow-sm"
+                            v-for="(book, index) in sortedBooks" ref="bookRefs">
+                            <nuxt-link :key="index" :to="`/books/${book.uuid}`" class="group flex flex-col">
+                                <img :src="`${config.public.apiBackendUrl}/uploads/books/${book?.image}`"
+                                    class="w-full h-40 md:h-36 lg:h-40 rounded-t object-cover transition-transform duration-500"
+                                    :alt="book.title">
+                                <div class="px-2.5 pt-2 flex flex-col gap-1">
+                                    <p
+                                        class="font-medium text-slate-900 dark:text-white group-hover:text-orange-600 flex transition-colors">
+                                        <span class="truncate">{{ book.title }}</span>
+                                    </p>
+                                    <p class="line-clamp-2 text-xs text-slate-600 dark:text-slate-300 mb-2"
+                                        v-html="book.description"></p>
+                                    <p
+                                        class="flex flex-wrap items-center gap-1 text-[10px] font-medium text-orange-600">
+                                        <span v-for="category in book.book_categories"
+                                            class="bg-orange-50 border border-orange-100/50 text-orange-600 font-medium animate-fade-in-up px-2 py-1 rounded">{{
+                                                category.name }}</span>
+                                    </p>
+                                    <p
+                                        class="flex flex-wrap items-center gap-3 my-1 text-[10px] font-medium text-orange-600">
+                                        <span
+                                            :class="`${book.status === 'inactive' ? 'text-red-600 bg-red-50 dark:text-red-600' : (book.status === 'completed' ? 'text-green-600 dark:text-green-500 bg-green-50' : (book.status === 'ongoing' ? 'text-blue-600 dark:text-blue-500 bg-blue-50' : 'bg-slate-100 text-slate-500'))} px-2 py-1 rounded`">{{
+                                                status(book.status)
+                                            }}</span>
+                                    </p>
+                                </div>
+                            </nuxt-link>
+                            <div
+                                class="flex justify-between items-center gap-2 px-2.5 py-2 w-full text-[11px] border-t-[1px] dark:text-slate-200 border-slate-200 dark:border-slate-700">
+                                <nuxt-link :to="`/my-stories/${book.uuid}/edit_book`"
+                                    class="flex items-center gap-1 justify-center gap-1 group-hover:translate-x-1 transition-transform">
+                                    <Icon name="mdi:pencil" class="w-3 h-3" />
+                                    Modifier
+                                </nuxt-link>
+                                <nuxt-link :to="`/my-stories/${book.uuid}`"
+                                    class="flex items-center gap-1 justify-center gap-1 group-hover:translate-x-1 transition-transform">
+                                    <Icon name="mdi:book-open-variant-outline" class="w-3 h-3" />
+                                    Chapitres
+                                </nuxt-link>
+                                <button @click="openStats(book, 'comments')"
+                                    class="flex items-center gap-1 justify-center gap-1 group-hover:translate-x-1 transition-transform">
+                                    <Icon name="mdi:graph" class="w-3 h-3" />
+                                    Stats
+                                </button>
+                                <button @click="toggleDeleteModal(book)"
+                                    class="flex items-center gap-1 justify-center text-red-500 gap-1 group-hover:translate-x-1 transition-transform">
+                                    <Icon name="mdi:delete" class="w-3 h-3" />
+                                    Supprimer
+                                </button>
                             </div>
-                        </nuxt-link>
-                        <!-- <div class="hover:text-orange-600 transition-colors px-2.5 py-2 text-xs text-slate-500 dark:text-slate-200 flex flex-wrap gap-2">
-                            <span>{{ book.chapters }} chap,</span> <span class="flex items-center gap-1"><Icon name="mdi:eye" class="w-3 h-3" /> <span>{{ book.views }} vue(s)</span></span>
-                        </div> -->
-                        <div class="grid grid-cols-5 gap-2 px-2.5 pb-1.5 w-full">
-                            <nuxt-link :to="`/my-stories/${book.uuid}/edit_book`"
-                                class="col-span-5 bg-slate-50 dark:bg-transparent dark:text-slate-200 dark:border-slate-200 border-slate-400 border-[1px] p-2 rounded flex items-center gap-1 justify-center text-slate-700 font-medium gap-1 text-xs px-1 group-hover:translate-x-1 transition-transform">
-                                <Icon name="mdi:pencil" class="w-3 h-3" />
-                                Modifier le livre
-                            </nuxt-link>
-                            <nuxt-link :to="`/my-stories/${book.uuid}`"
-                                class="col-span-2 bg-orange-500 p-2 rounded flex items-center gap-1 justify-center text-white font-medium gap-1 text-xs dark:bg-orange-600 px-1 group-hover:translate-x-1 transition-transform">
-                                <Icon name="mdi:book-open-variant-outline" class="w-3 h-3" />
-                                Chapitres
-                            </nuxt-link>
-                            <button @click="openStats(book)"
-                                class="col-span-2 bg-slate-700 p-2 rounded flex items-center gap-1 justify-center text-white font-medium gap-1 text-xs px-1 group-hover:translate-x-1 transition-transform">
-                                <Icon name="mdi:graph" class="w-3 h-3" />
-                                Stats
-                            </button>
-                            <button @click="toggleDeleteModal(book)"
-                                class="bg-red-50 border-red-500 border-[1px] p-2 rounded flex items-center gap-1 justify-center text-red-500 font-medium gap-1 text-xs dark:bg-red-600 dark:text-white dark:border-none px-1 group-hover:translate-x-1 transition-transform">
-                                <Icon name="mdi:delete" class="w-3 h-3" />
-                            </button>
                         </div>
-                    </div>
+                    </template>
                 </div>
                 <!-- Message vide -->
-                <div v-else-if="!loading" class="flex flex-col items-center justify-center py-16 text-center">
+                <div v-if="!loading && !loadingSkeleton && sortedBooks.length === 0" class="flex flex-col items-center justify-center py-16 text-center">
                     <Icon name="mdi:book-off-outline" class="w-12 h-12 text-slate-300 mb-3" />
 
                     <p class="text-slate-500 text-sm font-medium">
@@ -129,71 +138,266 @@
                 <LoadersFirst v-if="loading && books.length > 0" />
             </div>
         </section>
+
         <MyStoryDeleteBook @close-delete-modal="showDeleteModal = false" @close-and-load="closeDeleteModal" :book="book"
             :showDeleteModal="showDeleteModal" v-if="showDeleteModal && book" />
 
-        <StatsModal :show="showStatsModal" @close="closeStats">
-            <div class="flex flex-col h-full lg:h-full lg:w-full">
-                <!-- En-tête fixe -->
+        <!-- STATS MODAL -->
+        <StatsModal :show="showStatsModal" @close="closeStats" v-if="book">
+            <div class="flex flex-col h-full w-full">
+
+                <!-- HEADER -->
                 <div
-                    class="flex items-center justify-between flex-shrink-0 bg-white dark:bg-slate-800 z-10 border-b border-slate-200 dark:border-slate-700">
-                    <h3 class="text-lg font-medium flex text-slate-900 dark:text-white max-w-2/3">
-                        <span class="truncate">{{ currentBookStats?.title }}</span>
+                    class="flex items-center justify-between flex-shrink-0 bg-white dark:bg-slate-800 z-10 border-b border-slate-200 dark:border-slate-700 pb-4">
+                    <h3 class="text-lg font-medium text-slate-900 dark:text-white truncate">
+                        {{ book?.title }}
                     </h3>
-                    <div class="text-[12px] lg:text-xs flex flex-wrap items-center">
-                        <button @click="showComments"
-                            :class="step === 'comments' ? 'border-orange-600 dark:border-orange-500' : 'border-slate-300 dark:hover:bg-slate-50'"
-                            class="ml-1 p-2 border-b-[1px] flex items-center gap-2 transition-all duration-300 dark:text-white">
-                            <Icon name="mdi:comment-multiple" class="w-4 h-4" /> 200
+
+                    <div class="text-xs flex items-center gap-4 dark:text-white">
+                        <button @click="openStats(book, 'comments')"
+                            :class="step === 'comments' ? 'border-orange-600' : 'border-transparent'"
+                            class="border-b-2 pb-1 flex items-center gap-2">
+                            <Icon name="mdi:comment-multiple" class="w-4 h-4" />
+                            {{ book.book_comments }}
                         </button>
-                        <button @click="showLikes"
-                            :class="step === 'likes' ? 'border-orange-600 dark:border-orange-500' : 'border-slate-300 dark:hover:bg-slate-50'"
-                            class="ml-1 p-2 border-b-[1px] flex items-center gap-2 transition-all duration-300 dark:text-white">
-                            <Icon name="mdi:heart" class="w-4 h-4" /> 700
+
+                        <button @click="openStats(book, 'likes')"
+                            :class="step === 'likes' ? 'border-orange-600' : 'border-transparent'"
+                            class="border-b-2 pb-1 flex items-center gap-2">
+                            <Icon name="mdi:heart" class="w-4 h-4" />
+                            {{ counterReaction }}
                         </button>
                     </div>
                 </div>
 
-                <!-- Contenu scrollable -->
-                <div class="flex-1 overflow-y-auto p-4">
-                    <div v-if="step === 'likes'" class="grid grid-cols-1 gap-4 mt-2">
-                        <div class="flex gap-4" v-for="index in 24" :key="index">
-                            <div
-                                class="w-8 h-8 rounded-full bg-orange-500 text-white flex items-center justify-center text-xs font-bold flex-shrink-0 dark:bg-orange-600 dark:text-white">
-                                A
+                <!-- CONTENT -->
+                <div v-if="step === 'comments'" ref="commentsWrapper" @scroll="handleScroll"
+                    class="flex-1 overflow-y-auto p-4 space-y-6">
+
+                    <!-- COMMENT LOOP -->
+                    <div v-for="commentItem in commentsState.list" :key="commentItem.id"
+                        v-if="commentsState.list.length > 0">
+
+                        <!-- MAIN COMMENT -->
+                        <div class="flex gap-2">
+
+                            <!-- Avatar -->
+                            <img v-if="commentItem.user.photo"
+                                :src="`${config.public.apiBackendUrl}/uploads/users/${commentItem.user.photo}`"
+                                class="w-6 h-6 rounded-full" />
+                            <div v-else
+                                class="w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold"
+                                :style="`background-color: ${commentItem.user.code_color}`">
+                                {{ commentItem.user.name.charAt(0).toUpperCase() }}
                             </div>
-                            <div>
-                                <div class="flex items-center gap-3">
-                                    <div class="flex items-baseline gap-2">
-                                        <span class="text-[13px] font-semibold text-slate-900 dark:text-slate-200">John
-                                            Days</span>
-                                        <span class="text-xs text-slate-400 dark:text-slate-200">il y a 2h</span>
-                                    </div>
-                                    <span
-                                        class="px-3 py-0.5 rounded-full bg-orange-50 border border-orange-100/50 text-orange-800 text-[10px] font-medium">
-                                        Lecteur
-                                    </span>
+
+
+                            <!-- Content -->
+                            <div class="flex-1 text-xs">
+
+                                <div class="bg-slate-50 dark:bg-slate-700 rounded-xl p-2">
+                                    <nuxt-link
+                                        :to="`${(commentItem.user && Number(commentItem.user.id) === Number(book.id_user)) ? `/authors/${book.user.uuid}` : ''}`"
+                                        class="flex justify-between items-center font-semibold text-slate-900 dark:text-white">
+                                        <span class="flex items-center gap-1">{{ commentItem.user.name }}
+                                            <span class="text-slate-500 text-[11px] dark:text-slate-200 block">
+                                                {{ formatRelativeDate(commentItem.created_at) }}
+                                            </span>
+                                        </span>
+                                        <span class="font-light text-[10px] flex items-center gap-1"
+                                            v-if="(commentItem.user && Number(commentItem.user.id) === Number(book.id_user))">
+                                            <Icon name="mdi:edit" class="w-3 h-3 text-orange-600 animate-pulse" />
+                                            Auteur/trice
+                                        </span>
+                                    </nuxt-link>
+                                    <p class="text-slate-700 text-[11px] dark:text-slate-200"
+                                        v-html="commentItem.content"></p>
                                 </div>
-                                <p class="text-xs lg:text-xs text-slate-600 dark:text-slate-200">@j_day</p>
+
+                                <div
+                                    class="flex items-center gap-2 mt-1 text-[11px] text-slate-500 dark:text-slate-200">
+                                    <button class="hover:underline text-orange-600 dark:text-orange-400" v-if="user"
+                                        @click="toggleReplies(commentItem.id)">
+                                        Répondre
+                                    </button>
+
+                                    <button class="hover:underline text-blue-600 dark:text-blue-400"
+                                        v-if="(user && (commentItem.user.id === user.id))"
+                                        @click="handleUpdateComment(commentItem.uuid, commentItem.id, null, commentItem.content)">
+                                        Modifier
+                                    </button>
+                                    <button
+                                        v-if="(user && (commentItem.user.id === user.id || user.id === book.id_user))"
+                                        class="hover:underline text-red-600 dark:text-red-400"
+                                        @click="handleDeleteComment(commentItem.uuid, commentItem.id)">
+                                        Supprimer
+                                    </button>
+                                </div>
+
+                                <!-- VOIR REPONSES -->
+                                <div v-if="commentItem.replies_count > 0 && !commentsState.replies[commentItem.id]"
+                                    class="mt-2">
+                                    <button class="text-xs text-slate-500 dark:text-slate-200 hover:underline"
+                                        @click="loadReplies(commentItem.id)">
+                                        Voir {{ commentItem.replies_count }} réponses
+                                    </button>
+                                </div>
+
                             </div>
+                        </div>
+
+                        <!-- REPLY FORM -->
+                        <div v-if="replyFormId === commentItem.id" class="flex items-end gap-2 ml-11 mt-2 text-xs">
+                            <textarea v-model="replyContent" id="replyInput" @input="autoResizeReply" rows="1" autofocus
+                                class="w-full border border-slate-200 rounded-lg p-2 resize-none outline-none"
+                                :placeholder="`Répondre en tant que ${user?.name}`"></textarea>
+
+                            <button @click="submitComment(commentItem.id)"
+                                class="bg-orange-600 flex items-center justify-center text-white px-3 py-1.5 rounded-lg">
+                                <Icon name="mdi:send" class="w-4 h-4" />
+                            </button>
+                        </div>
+
+                        <!-- REPLIES -->
+                        <div v-if="commentsState.replies[commentItem.id]" class="ml-11 mt-3 space-y-3">
+                            <div v-for="reply in commentsState.replies[commentItem.id]" :key="reply.id"
+                                class="flex gap-2">
+                                <img v-if="reply.user.photo"
+                                    :src="`${config.public.apiBackendUrl}/uploads/users/${reply.user.photo}`"
+                                    class="w-5 h-5 rounded-full" />
+                                <div v-else
+                                    class="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold"
+                                    :style="`background-color: ${reply.user.code_color}`">
+                                    {{ reply.user.name.charAt(0).toUpperCase() }}
+                                </div>
+
+                                <div class="flex-1">
+                                    <div class="bg-slate-50 dark:bg-slate-700 rounded-xl p-2">
+                                        <nuxt-link
+                                            :to="`${(reply.user && Number(reply.user.id) === Number(book.id_user)) ? `/authors/${book.user.uuid}` : ''}`"
+                                            class="text-[12px] flex justify-between items-center font-semibold text-slate-900 dark:text-white">
+                                            <span class="flex items-center gap-1">{{ reply.user.name }}
+                                                <span class="text-slate-500 text-[11px] dark:text-slate-200 block">
+                                                    {{ formatRelativeDate(reply.created_at) }}
+                                                </span>
+                                            </span>
+                                            <span class="font-light text-[10px] flex items-center gap-1"
+                                                v-if="(reply.user && Number(reply.user.id) === Number(book.id_user))">
+                                                <Icon name="mdi:edit" class="w-3 h-3 text-orange-600 animate-pulse" />
+                                                Auteur/trice
+                                            </span>
+                                        </nuxt-link>
+                                        <p class="text-[11px] text-slate-700 dark:text-slate-200"
+                                            v-html="reply.content">
+                                        </p>
+                                    </div>
+
+                                    <div class="text-[10px] flex items-center gap-2 mt-1">
+                                        <button class="hover:underline text-blue-600 dark:text-blue-400"
+                                            v-if="(user && (reply.user.id === user.id))"
+                                            @click="handleUpdateComment(reply.uuid, reply.id, commentItem.id, reply.content)">
+                                            Modifier
+                                        </button>
+                                        <button v-if="(user && (reply.user.id === user.id || user.id === book.id_user))"
+                                            class="hover:underline text-red-600 dark:text-red-400"
+                                            @click="handleDeleteComment(reply.uuid, reply.id, commentItem.id)">
+                                            Supprimer
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div v-else
+                        class="flex flex-col items-center justify-center text-center p-6 text-slate-500 dark:text-slate-200">
+                        <Icon name="mdi:comment-outline" class="w-12 h-12 text-slate-300 mb-3" />
+                        <p class="text-sm font-medium">Aucun commentaire disponible</p>
+                        <p class="text-sm">Soyez le premier à le faire !</p>
+                    </div>
+
+                    <!-- LOADING -->
+                    <div v-if="commentsState.loading" class="text-center text-sm text-slate-500 dark:text-slate-200">
+                        Chargement...
+                    </div>
+                </div>
+
+                <!-- ADD COMMENT -->
+                <div v-if="step === 'comments'" class="border-t border-slate-200 p-4 text-xs">
+                    <div v-if="user" class="flex items-end gap-2">
+                        <img v-if="user.photo" :src="`${config.public.apiBackendUrl}/uploads/users/${user.photo}`"
+                            class="w-8 h-8 rounded-full" />
+                        <div v-else class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold"
+                            :style="`background-color: ${user.code_color}`">
+                            {{ user.name.charAt(0).toUpperCase() }}
+                        </div>
+
+                        <textarea ref="textarea" v-model="comment" @input="autoResize" rows="1"
+                            class="flex-1 border border-slate-200 rounded-xl px-4 py-2 resize-none outline-none"
+                            :placeholder="`Commenter en tant que ${user?.name}`"></textarea>
+
+                        <button v-if="!commentUuid && comment.trim().length > 0" @click="submitComment()"
+                            class="bg-orange-600 text-white px-4 py-2 rounded-xl">
+                            <Icon name="mdi:send" class="w-4 h-4" />
+                        </button>
+
+                        <button v-if="commentUuid && comment.trim().length > 0" @click="updateCommentLocal()"
+                            class="bg-orange-600 text-white px-4 py-2 rounded-xl">
+                            <Icon name="mdi:send" class="w-4 h-4" />
+                        </button>
+                    </div>
+
+                    <p v-else class="flex flex-col gap-2 text-xs text-slate-500 dark:text-slate-200 text-center">
+                        Vous devez être connecté pour commenter
+                        <nuxt-link to="/login"
+                            class="flex items-center justify-center gap-2 bg-primary hover:bg-slate-800 dark:bg-white dark:hover:bg-orange-50 dark:hover:border-orange-100/50 dark:hover:text-orange-800 dark:text-stone-700 text-white px-4 py-2 lg:py-3 rounded-full text-xs xl:text-sm font-medium transition-all shadow-sm hover:shadow-md transform active:scale-95">
+                            <span>Se connecter</span>
+                        </nuxt-link>
+                    </p>
+                </div>
+
+                <div v-if="step === 'likes'" ref="reactionsWrapper" @scroll="handleScrollReactions"
+                    class="flex-1 overflow-y-auto p-4 space-y-6">
+                    <div class="flex gap-2" v-for="(reaction, index) in reactionsState.list" :key="index"
+                        v-if="reactionsState.list.length > 0">
+                        <div class="relative">
+                            <img v-if="reaction.user.photo"
+                                :src="`${config.public.apiBackendUrl}/uploads/users/${reaction.user.photo}`"
+                                class="w-7 h-7 rounded-full" />
+                            <div v-else class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold"
+                                :style="`background-color: ${reaction.user.code_color}`">
+                                {{ reaction.user.name.charAt(0).toUpperCase() }}
+                            </div>
+                            <span class="text-xs absolute bottom-0 right-0 animate-bounce">{{ reaction.emoji }}</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <div class="flex items-center gap-3">
+                                <div class="flex items-baseline gap-2">
+                                    <span class="text-[13px] font-semibold text-slate-900 dark:text-slate-200">{{
+                                        reaction.user.name }}</span>
+                                </div>
+                                <span
+                                    class="px-3 py-0.5 rounded-full bg-orange-50 border border-orange-100/50 text-orange-800 text-[10px] font-medium">
+                                    {{ reaction.user.role }}
+                                </span>
+                            </div>
+                            <p class="text-[12px] lg:text-xs text-slate-600 dark:text-slate-200">{{
+                                reaction.user.pseudonym
+                                }} a réagi : <span class="font-medium">{{ reaction.label }} {{ reaction.emoji }}</span>
+                            </p>
                         </div>
                     </div>
 
-                    <div v-if="step === 'comments'" class="grid grid-cols-1 gap-4 mt-2">
-                        <div class="flex gap-4" v-for="index in 24" :key="index">
-                            <div
-                                class="w-8 h-8 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center text-xs font-bold flex-shrink-0 dark:bg-orange-600 dark:text-white">
-                                A
-                            </div>
-                            <div>
-                                <div class="flex items-baseline gap-2">
-                                    <span
-                                        class="text-[13px] font-semibold text-slate-900 dark:text-slate-200">Arnaud</span>
-                                    <span class="text-xs text-slate-400 dark:text-slate-200">il y a 5h</span>
-                                </div>
-                                <p class="text-xs text-slate-600 dark:text-slate-200 mt-1">Très intéressant !</p>
-                            </div>
-                        </div>
+                    <div v-else
+                        class="flex flex-col items-center justify-center text-center p-6 text-slate-500 dark:text-slate-200">
+                        <Icon name="mdi:heart-outline" class="w-12 h-12 text-slate-300 mb-3" />
+                        <p class="text-sm font-medium">Aucune réaction disponible</p>
+                    </div>
+
+                    <!-- LOADING -->
+                    <div v-if="reactionsState.loading" class="text-center text-sm text-slate-500 dark:text-slate-200">
+                        Chargement...
                     </div>
                 </div>
             </div>
@@ -230,6 +434,8 @@ const config = useRuntimeConfig();
 const { findAllPaginatedAuthor } = booksData();
 const { toConnectUser } = authenticate();
 const { getProfile } = usersData();
+const { getCommentsByBook, getReplies, createComment, updateComment, deleteComment } = useBookComments();
+const { getReactionsByBook } = useBookReactions();
 const user = ref<User | null>(null);
 const profil = ref<User | null>(null);
 const books = ref<BookData[]>([]);
@@ -238,6 +444,7 @@ const page = ref(1);
 const limit = ref(25); // 25 livres par page
 const totalPages = ref<number>(1); // nombre total de pages
 const loading = ref(false); // pour éviter les doubles requêtes
+const loadingSkeleton = ref<boolean>(true);
 const lastBook = ref<HTMLElement | null>(null)
 const showDeleteModal = ref(false);
 const router = useRouter();
@@ -251,20 +458,268 @@ const sortKey = ref<keyof BookData | null>(null);
 const sortDirection = ref<SortDirection>(null);
 const showStatsModal = ref(false)
 const currentBookStats = ref<BookData | null>(null)
-const step = ref<string>("comments");
+const step = ref<'comments' | 'likes'>('comments');
+const comment = ref<string>('');
+const commentUuid = ref<string>('');
+const commentId = ref<number>(0);
+const commentReplyId = ref<number | null>(0);
+const textarea = ref<HTMLTextAreaElement | null>(null);
+const reactionWrapper = ref<HTMLElement | null>(null)
+const replyFormId = ref<number | null>(null);
+const replyContent = ref<string>('');
+const counterReaction = ref<number>(0);
+// ---------- COMMENTS ----------
+const commentsState = reactive({
+    list: [] as any[],
+    replies: {} as Record<number, any[]>,
+    page: 1,
+    total: 0,
+    loading: false,
+});
 
-const showLikes = () => {
-    step.value = "likes";
-}
+// ---------- REACTIONS ----------
+const reactionsState = reactive({
+    list: [] as any[],
+    page: 1,
+    total: 0,
+    loading: false,
+});
 
-const showComments = () => {
-    step.value = "comments";
-}
+// =============================
+// LOAD COMMENTS (PAGINATION)
+// =============================
+const loadComments = async () => {
+    if (!book.value || commentsState.loading) return;
 
-const openStats = (book: BookData) => {
-    step.value = "comments";
-    currentBookStats.value = book
+    commentsState.loading = true;
+
+    const res = await getCommentsByBook(book.value.id, commentsState.page);
+
+    if (res?.data?.length) {
+        commentsState.list.push(...res.data);
+        commentsState.total = res.total;
+    }
+
+    commentsState.loading = false;
+};
+
+// =============================
+// LOAD REACTIONS (PAGINATION)
+// =============================
+const loadReactions = async () => {
+    if (!book.value || reactionsState.loading) return;
+
+    reactionsState.loading = true;
+
+    const res = await getReactionsByBook(book.value.id, reactionsState.page);
+
+    if (res?.data?.length) {
+        reactionsState.list.push(...res.data);
+        reactionsState.total = res.total;
+    }
+
+    reactionsState.loading = false;
+};
+
+
+// =============================
+// LOAD REPLIES (ON DEMAND)
+// =============================
+const loadReplies = async (commentId: number) => {
+    if (commentsState.replies[commentId]) return;
+
+    const res = await getReplies(commentId);
+    if (Array.isArray(res)) {
+        commentsState.replies[commentId] = res;
+    }
+};
+
+// =============================
+// TOGGLE REPLIES
+// =============================
+const toggleReplies = async (commentId: number) => {
+    replyFormId.value =
+        replyFormId.value === commentId ? null : commentId;
+
+    if (!commentsState.replies[commentId]) {
+        await loadReplies(commentId);
+    }
+};
+
+const updateCommentLocal = async () => {
+    const res = await updateComment(commentUuid.value, comment.value.replace(/\n/g, '<br>'));
+    if (!res.success) return;
+    // Modification commentaire principal
+    if (commentReplyId.value === null) {
+        const commentToUpdate = commentsState.list.find(
+            c => c.id === commentId.value
+        );
+
+        if (commentToUpdate) {
+            commentToUpdate.content = comment.value.replace(/\n/g, '<br>');
+            comment.value = "";
+            commentUuid.value = "";
+            commentReplyId.value = null;
+        }
+
+        return;
+    }
+
+    // Modification reply
+    const replies = commentsState.replies[commentReplyId.value];
+
+    if (!replies) return;
+
+    const replyToUpdate = replies.find(
+        c => c.id === commentId.value
+    );
+
+    if (replyToUpdate) {
+        replyToUpdate.content = comment.value.replace(/\n/g, '<br>');
+        comment.value = "";
+        commentUuid.value = "";
+        commentReplyId.value = null;
+    }
+};
+
+const deleteCommentLocal = (id: number, parent_id?: number) => {
+    if (!parent_id) {
+        // Suppression commentaire principal
+        commentsState.list = commentsState.list.filter(c => c.id !== id);
+        commentsState.total -= 1;
+    } else {
+        // Suppression reply
+        if (commentsState.replies[parent_id]) {
+            commentsState.replies[parent_id] =
+                commentsState.replies[parent_id].filter(r => r.id !== id);
+        }
+    }
+};
+
+const handleDeleteComment = async (uuid: string, id: number, parent_id?: number) => {
+    await deleteComment(uuid);
+
+    deleteCommentLocal(id, parent_id);
+};
+
+const handleUpdateComment = async (uuid: string, id: number, parent_id?: any, content?: string) => {
+    commentUuid.value = uuid;
+    commentId.value = id;
+    commentReplyId.value = parent_id;
+    comment.value = content ? content.replace(/<br>/g, '\n') : '';
+    textarea.value?.focus();
+};
+
+// =============================
+// SUBMIT COMMENT (MAIN + REPLY)
+// =============================
+const submitComment = async (parent_id?: number) => {
+    if (!book.value || !user.value) return;
+
+    const content = parent_id
+        ? replyContent.value.trim()
+        : comment.value.trim();
+
+    if (!content) return;
+
+    const newComment = await createComment({
+        content: content.replace(/\n/g, '<br>'),
+        id_book: book.value.id,
+        id_user: user.value.id,
+        parent_id,
+    });
+
+    if (!parent_id) {
+        // Ajout instantané en haut (Facebook style)
+        commentsState.list.unshift(newComment);
+        commentsState.total += 1;
+        comment.value = '';
+    } else {
+        if (!commentsState.replies[parent_id]) {
+            commentsState.replies[parent_id] = [];
+        }
+
+        commentsState.replies[parent_id].push(newComment);
+        replyContent.value = '';
+        replyFormId.value = null;
+    }
+
+    await nextTick();
+
+    if (textarea.value) {
+        textarea.value.style.height = 'auto';
+    }
+};
+
+// =============================
+// INFINITE SCROLL
+// =============================
+const handleScroll = async (e: Event) => {
+    const el = e.target as HTMLElement;
+    if (!el) return;
+
+    if (
+        el.scrollTop + el.clientHeight >= el.scrollHeight - 50 &&
+        !commentsState.loading &&
+        commentsState.list.length < commentsState.total
+    ) {
+        commentsState.page += 1;
+        await loadComments();
+    }
+};
+
+// =============================
+// INFINITE SCROLL
+// =============================
+const handleScrollReactions = async (e: Event) => {
+    const el = e.target as HTMLElement;
+    if (!el) return;
+
+    if (
+        el.scrollTop + el.clientHeight >= el.scrollHeight - 50 &&
+        !reactionsState.loading &&
+        reactionsState.list.length < reactionsState.total
+    ) {
+        reactionsState.page += 1;
+        await loadReactions();
+    }
+};
+
+// =============================
+// AUTO RESIZE
+// =============================
+const autoResize = (event: Event) => {
+    const el = event.target as HTMLTextAreaElement;
+    el.style.height = 'auto';
+    el.style.height = Math.min(el.scrollHeight, 80) + 'px';
+};
+
+const autoResizeReply = (event: Event) => {
+    const el = event.target as HTMLTextAreaElement;
+    el.style.height = 'auto';
+    el.style.height = Math.min(el.scrollHeight, 80) + 'px';
+};
+
+const openStats = async (b: BookData, show: 'comments' | 'likes') => {
+    step.value = show;
+    currentBookStats.value = b
+    book.value = b;
     showStatsModal.value = true
+    counterReaction.value = Number(book.value.book_reactions);
+    if (show === "comments") {
+        commentsState.list = [];
+        commentsState.page = 1;
+        commentsState.total = 0;
+        commentsState.loading = false;
+        commentsState.replies = {};
+        await loadComments();
+    } else {
+        reactionsState.list = [];
+        reactionsState.page = 1;
+        reactionsState.total = 0;
+        reactionsState.loading = false;
+        await loadReactions();
+    }
 }
 
 const closeStats = () => {
@@ -385,6 +840,7 @@ const back = () => {
 }
 
 const onLoad = async () => {
+    loadingSkeleton.value = true;
     user.value = await toConnectUser();
     profil.value = await getProfile();
     if (user.value && profil.value) {
@@ -392,6 +848,7 @@ const onLoad = async () => {
             const { data, totalPages: tp } = await findAllPaginatedAuthor(page.value, limit.value, user.value?.id);
             books.value = data;
             totalPages.value = tp;
+            loadingSkeleton.value = false;
         } else {
             router.push("/");
         }

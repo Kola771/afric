@@ -1,5 +1,5 @@
 <template>
-    <div v-if="book" class="bg-[#fffcfccc] dark:bg-dark dark:border-slate-200 dark:border-b">
+    <div v-if="!loading && book" class="bg-[#fffcfccc] dark:bg-dark dark:border-slate-200 dark:border-b">
 
         <!-- BOOK INFO SECTION -->
         <section class="max-w-7xl mx-auto pt-16 lg:pt-12 border-t border-slate-100">
@@ -131,9 +131,12 @@
                                         alt="Profil"
                                         class="w-6 h-6 border-orange-600 border-2 dark:border-orange-500 rounded-full" />
                                     <span v-else
-                                        class="p-1 text-[8px] font-bold flex items-center justify-center w-6 h-6 rounded-full"
+                                        class="p-1 text-[8px] font-bold flex items-center justify-center text-slate-900 w-6 h-6 rounded-full"
                                         :style="`background-color: ${book.user.code_color}`">
-                                        {{ book.user.name.charAt(0).toUpperCase() }}
+                                        {{ book.user?.name.split(" ").length > 1 ?
+                                            `${book.user?.name.charAt(0).toUpperCase() +
+                                            book.user?.name.split(" ")[1]?.charAt(0).toUpperCase()}` :
+                                            book.user?.name.charAt(0).toUpperCase() }}
                                     </span>
                                     <p class="text-slate-900 font-medium dark:text-white flex hover:underline truncate">
                                         {{ book.user.name }}
@@ -451,7 +454,7 @@
                             </div>
                             <p class="text-[12px] lg:text-xs text-slate-600 dark:text-slate-200">{{
                                 reaction.user.pseudonym
-                            }} a réagi : <span class="font-medium">{{ reaction.label }} {{ reaction.emoji }}</span>
+                                }} a réagi : <span class="font-medium">{{ reaction.label }} {{ reaction.emoji }}</span>
                             </p>
                         </div>
                     </div>
@@ -474,19 +477,8 @@
 
     <div v-else
         class="bg-[#fffcfccc] dark:bg-dark dark:border-slate-200 dark:border-b flex flex-col items-center justify-center text-center p-6 text-slate-500 dark:text-slate-200 min-h-screen">
-        <Icon name="mdi:book" class="w-12 h-12 text-slate-300 mb-4 animate-pulse" />
 
-        <p class="text-lg font-semibold mb-1 text-slate-700 dark:text-white">
-            Oops ! Ce livre est introuvable
-        </p>
-        <p class="text-sm mb-4">
-            Merci de revenir à la page précédente
-        </p>
-
-        <button @click="back"
-            class="mt-2 bg-orange-600 dark:bg-orange-500 hover:bg-orange-700 dark:hover:bg-orange-600 transition-colors px-4 py-2 rounded-lg flex items-center justify-center gap-2 text-sm text-white">
-            <Icon name="mdi:arrow-left" class="w-4 h-4" /> Retour
-        </button>
+        <HomeCardSkeleton class="w-full md:w-2/5 lg:w-1/3 xl:w-1/5" />
     </div>
 </template>
 
@@ -762,7 +754,7 @@ const router = useRouter();
 const counterReaction = ref<number>(0);
 
 // ---------- STATE ----------
-const showStatsModal = ref(false);
+const showStatsModal = ref<boolean>(false);
 const step = ref<'comments' | 'likes'>('comments');
 const comment = ref<string>('');
 const commentUuid = ref<string>('');
@@ -776,10 +768,11 @@ const sortDirection = ref<'asc' | 'desc'>('asc');
 const user = ref<User | null>(null);
 const book = ref<BookData | null>(null);
 const reactionUser = ref<any>(null);
-const showReactions = ref(false);
+const showReactions = ref<boolean>(false);
+const loading = ref<boolean>(false);
 const selectedReaction = ref<Reaction | null>(null)
 let pressTimer: NodeJS.Timeout | null = null
-const isMobile = ref(false);
+const isMobile = ref<boolean>(false);
 // ---------- COMMENTS ----------
 const commentsState = reactive({
     list: [] as any[],
@@ -975,7 +968,6 @@ const toggleReplies = async (commentId: number) => {
     }
 };
 
-
 const updateCommentLocal = async () => {
     const res = await updateComment(commentUuid.value, comment.value.replace(/\n/g, '<br>'));
     if (!res.success) return;
@@ -1148,6 +1140,7 @@ const showComments = () => (step.value = 'comments');
 onMounted(async () => {
     isMobile.value = window.innerWidth < 768
     user.value = await toConnectUser();
+    loading.value = true;
     book.value = await getBookByUuid(`${route.params.uuid}`);
 
     if (book.value) {
@@ -1160,6 +1153,9 @@ onMounted(async () => {
         useSeoMeta({
             title: `${book.value.title}`
         })
+        loading.value = false;
+    } else {
+        loading.value = true;
     }
 });
 </script>
