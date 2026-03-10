@@ -31,7 +31,7 @@
                                 book.user?.name.split(" ")[1]?.charAt(0).toUpperCase()}` :
                                 book.user?.name.charAt(0).toUpperCase() }}
                         </span>
-                        <nuxt-link :to="`/authors/${book.user.uuid}`" class="flex hover:underline">
+                        <nuxt-link :to="`/authors/${book.user.uuid}`" class="flex hover:underline dark:text-slate-200">
                             <span class="truncate">{{
                                 book.user?.name
                             }}</span>
