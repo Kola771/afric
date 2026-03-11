@@ -10,7 +10,7 @@
               {{ ageGroup.label }}
             </h2>
 
-            <nuxt-link :to="`/stories/${ageGroup.key}`"
+            <nuxt-link :to="`/stories/${ageGroup.key}`" v-if="(books[ageGroup.key]?.length ?? 0) > 5"
               class="flex items-center gap-1 text-sm font-medium hover:text-orange-600 dark:text-slate-200 transition-colors">
               <span class="hidden sm:block">Voir tout</span>
               <Icon name="mdi:arrow-right" class="w-5 h-5" />
