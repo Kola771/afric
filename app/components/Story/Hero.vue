@@ -75,38 +75,38 @@
             <div class="grid lg:grid-cols-2 gap-8 md:gap-12 items-center">
                 <div class="max-w-2xl space-y-6">
                     <div
-                        class="h-6 w-40 bg-gradient-to-r from-slate-300 dark:from-gray-300 via-gray-300 to-gray-200 animate-[pulse_1.5s_infinite] dark:bg-slate-700 rounded-full">
+                        class="h-6 w-40 bg-gradient-to-r from-slate-300 dark:from-gray-500 via-gray-300 to-gray-200 animate-[pulse_1.5s_infinite] dark:bg-slate-700 rounded-full">
                     </div>
                     <div class="space-y-3">
                         <div
-                            class="h-12 bg-gradient-to-r from-slate-300 dark:from-gray-300 via-gray-300 to-gray-200 animate-[pulse_1.5s_infinite] dark:bg-slate-700 rounded w-3/4">
+                            class="h-12 bg-gradient-to-r from-slate-300 dark:from-gray-500 via-gray-300 to-gray-200 animate-[pulse_1.5s_infinite] dark:bg-slate-700 rounded w-3/4">
                         </div>
                         <div
-                            class="h-12 bg-gradient-to-r from-slate-300 dark:from-gray-300 via-gray-300 to-gray-200 animate-[pulse_1.5s_infinite] dark:bg-slate-700 rounded w-1/2">
+                            class="h-12 bg-gradient-to-r from-slate-300 dark:from-gray-500 via-gray-300 to-gray-200 animate-[pulse_1.5s_infinite] dark:bg-slate-700 rounded w-1/2">
                         </div>
                     </div>
                     <div class="space-y-2">
                         <div
-                            class="h-4 bg-gradient-to-r from-slate-300 dark:from-gray-300 via-gray-300 to-gray-200 animate-[pulse_1.5s_infinite] dark:bg-slate-700 rounded w-full">
+                            class="h-4 bg-gradient-to-r from-slate-300 dark:from-gray-500 via-gray-300 to-gray-200 animate-[pulse_1.5s_infinite] dark:bg-slate-700 rounded w-full">
                         </div>
                         <div
-                            class="h-4 bg-gradient-to-r from-slate-300 dark:from-gray-300 via-gray-300 to-gray-200 animate-[pulse_1.5s_infinite] dark:bg-slate-700 rounded w-5/6">
+                            class="h-4 bg-gradient-to-r from-slate-300 dark:from-gray-500 via-gray-300 to-gray-200 animate-[pulse_1.5s_infinite] dark:bg-slate-700 rounded w-5/6">
                         </div>
                         <div
-                            class="h-4 bg-gradient-to-r from-slate-300 dark:from-gray-300 via-gray-300 to-gray-200 animate-[pulse_1.5s_infinite] dark:bg-slate-700 rounded w-4/6">
+                            class="h-4 bg-gradient-to-r from-slate-300 dark:from-gray-500 via-gray-300 to-gray-200 animate-[pulse_1.5s_infinite] dark:bg-slate-700 rounded w-4/6">
                         </div>
                     </div>
                     <div class="grid grid-cols-2 gap-4 pt-4">
                         <div
-                            class="h-12 bg-gradient-to-r from-slate-300 dark:from-gray-300 via-gray-300 to-gray-200 animate-[pulse_1.5s_infinite] dark:bg-slate-700 rounded-xl">
+                            class="h-12 bg-gradient-to-r from-slate-300 dark:from-gray-500 via-gray-300 to-gray-200 animate-[pulse_1.5s_infinite] dark:bg-slate-700 rounded-xl">
                         </div>
                         <div
-                            class="h-12 bg-gradient-to-r from-slate-300 dark:from-gray-300 via-gray-300 to-gray-200 animate-[pulse_1.5s_infinite] dark:bg-slate-700 rounded-xl">
+                            class="h-12 bg-gradient-to-r from-slate-300 dark:from-gray-500 via-gray-300 to-gray-200 animate-[pulse_1.5s_infinite] dark:bg-slate-700 rounded-xl">
                         </div>
                     </div>
                 </div>
                 <div
-                    class="aspect-[4/3] lg:h-[500px] bg-gradient-to-r from-slate-300 dark:from-gray-300 via-gray-300 to-gray-200 animate-[pulse_1.5s_infinite] dark:bg-slate-700 rounded-xl">
+                    class="aspect-[4/3] lg:h-[500px] bg-gradient-to-r from-slate-300 dark:from-gray-500 via-gray-300 to-gray-200 animate-[pulse_1.5s_infinite] dark:bg-slate-700 rounded-xl">
                 </div>
             </div>
         </section>

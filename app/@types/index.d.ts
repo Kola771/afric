@@ -57,6 +57,7 @@ interface Category {
   status?: string
   deadline?: Date
   booksCount?: number
+  total_views?: number
 }
 
 interface RoleDto {
@@ -128,9 +129,9 @@ interface ChapterData {
   created_at: Date
   updated_at: Date
   book?: any
-  likes?: []
-  views?: []
-  comments?: []
+  chapter_reactions?: any
+  chapter_reads?: any
+  chapter_comments?: any
 }
 
 interface Chapter {

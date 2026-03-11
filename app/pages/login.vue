@@ -205,7 +205,7 @@ const handleLogin = async () => {
             loadingButton.value = "end";
         }, 2000);
         setTimeout(() => {
-            router.push("/")
+            router.back()
         }, 1500);
     } else {
         loadingButton.value = "error";

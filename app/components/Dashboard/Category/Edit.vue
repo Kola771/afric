@@ -34,7 +34,7 @@
             <div class="flex flex-col gap-1">
                 <label for="file" class="text-sm text-slate-900 font-medium dark:text-white">Image de la catégorie
                     :</label>
-                <input type="file" id="file" name="file" ref="file"
+                <input type="file" id="file" name="file" ref="file" accept="image/jpeg, image/jpg, image/png, image/jfif, image/avif"
                     class="bg-white block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-orange-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all"
                     @change="onFileChange" />
             </div>

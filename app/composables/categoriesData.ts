@@ -12,6 +12,11 @@ export function categoriesData() {
         return categories.data;
     }
 
+    async function bestCategories() {
+        const categories = await axios.get(`/categories/best-categories`);
+        return categories.data;
+    }
+
     async function getCategoryByUuid(uuid: string) {
         const category = await axios.get(`/categories/${uuid}`);
         return category.data;
@@ -105,6 +110,7 @@ export function categoriesData() {
 
     return {
         allCategories,
+        bestCategories,
         allCategorieActifs,
         getCategoryByUuid,
         createData,

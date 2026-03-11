@@ -53,7 +53,7 @@
                                                 {{ selectedReaction?.emoji }}
                                             </span>
                                             <Icon v-else name="mdi:heart-outline" class="w-5 h-5 lg:w-4 lg:h-4" />
-                                            {{ counterReaction }}
+                                            {{ formatNumber(counterReaction) }}
                                             {{ (reactionUser && !selectedReaction) ? reactionUser.label :
                                                 (selectedReaction
                                                     ? selectedReaction.label : 'J’aime') }}
@@ -77,7 +77,7 @@
                                     <button @click="openStatsBook('comments')"
                                         class="w-full bg-white border border-slate-200 text-slate-700 py-3 rounded-xl font-medium hover:bg-slate-50 dark:hover:bg-orange-50 dark:hover:border-orange-100/50 dark:hover:text-orange-800 transition-colors flex items-center justify-center gap-2">
                                         <Icon name="mdi:comment" class="w-5 h-5 lg:w-4 lg:h-4" />
-                                        {{ book.book_comments }}
+                                        {{ formatNumber(book.book_comments) }}
                                     </button>
                                 </div>
                                 <div class="text-xs text-slate-500 dark:text-slate-200 text-center mt-2 cursor-pointer hover:underline"
@@ -94,7 +94,7 @@
                                             ? `${reactionUser.emoji} vous et ${formatNumber(book.book_reactions - 1)}
                                         autre${book.book_reactions - 1 > 1 ? 's' : ''} personne${book.book_reactions > 2
                                                 ? 's' : ''} avez réagi à ce livre`
-                                            : ''
+                                            : `${reactionUser.emoji} vous avez réagi à ce chapitre`
                                         }}
                                     </p>
                                 </div>
@@ -168,7 +168,7 @@
                             <div class="flex justify-between items-center mb-4">
                                 <h3 class="font-display font-medium text-slate-900 dark:text-white">{{
                                     formatNumber(book.chapters.length) }} chapitre(s)</h3>
-                                <button v-if="sortedChapters.length > 0" @click="toggleSort"
+                                <button v-if="sortedChapters.length > 0 && user" @click="toggleSort"
                                     class="h-8 px-3 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700 flex items-center gap-2 transition-colors">
                                     <Icon
                                         :name="sortDirection === 'asc' ? 'solar:arrow-up-linear' : 'solar:arrow-down-linear'"
@@ -178,26 +178,54 @@
                             </div>
 
                             <div v-if="sortedChapters.length > 0" class="space-y-2 lg:space-y-3">
-                                <nuxt-link v-for="(chapter, index) in sortedChapters" :key="chapter.id"
-                                    :to="`/books/${book.uuid}/chapter/${chapter.uuid}`"
-                                    class="group flex items-center justify-between p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-100 hover:border-slate-300 transition-all hover:shadow-sm">
-                                    <span class="flex items-center gap-4">
-                                        <span
-                                            class="text-slate-500 dark:text-slate-200 font-display font-bold text-xl w-8">{{
-                                                index + 1 }}</span>
-                                        <span>
-                                            <p
-                                                class="font-medium text-slate-900 dark:text-white group-hover:text-orange-600 dark:group-hover:text-orange-500 transition-colors">
-                                                {{ chapter.title }}</p>
-                                            <p class="text-xs text-slate-400 dark:text-slate-200">il y a {{
-                                                formatRelativeDate(chapter.updated_at) }}</p>
+                                <div v-for="(chapter, index) in sortedChapters" :key="chapter.id">
+                                    <nuxt-link v-if="index < 5 || user"
+                                        :to="`/books/${book.uuid}/chapter/${chapter.uuid}`"
+                                        class="group flex items-center justify-between p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-100 hover:border-slate-300 transition-all hover:shadow-sm"
+                                        :class="{ 'cursor-not-allowed opacity-50': !user && index >= 5 }"
+                                        @click.prevent="handleChapterClick(index, chapter.uuid)">
+                                        <span class="flex items-center gap-4">
+                                            <span
+                                                class="text-slate-500 dark:text-slate-200 font-display font-bold text-xl w-8">{{
+                                                    index + 1 }}</span>
+                                            <span>
+                                                <p
+                                                    class="font-medium text-slate-900 dark:text-white group-hover:text-orange-600 dark:group-hover:text-orange-500 transition-colors">
+                                                    {{ chapter.title }}
+                                                </p>
+                                                <p class="text-xs text-slate-400 dark:text-slate-200">
+                                                    il y a {{ formatRelativeDate(chapter.updated_at) }}, Lu par {{
+                                                        formatNumber(chapter.chapter_reads.length) }} personne{{
+                                                        chapter.chapter_reads.length > 1 ? 's' : '' }}
+                                                </p>
+                                            </span>
                                         </span>
-                                    </span>
-                                    <span
-                                        class="text-slate-500 dark:text-slate-200 group-hover:translate-x-1 transition-transform">
-                                        <Icon name="mdi:arrow-right" class="w-5 h-5" />
-                                    </span>
-                                </nuxt-link>
+                                        <span
+                                            class="text-slate-500 dark:text-slate-200 group-hover:translate-x-1 transition-transform">
+                                            <Icon name="mdi:arrow-right" class="w-5 h-5" />
+                                        </span>
+                                    </nuxt-link>
+
+                                    <!-- Version grisée et bloquée si non connecté et index >= 5 -->
+                                    <div v-else
+                                        class="group flex items-center justify-between p-4 rounded-xl bg-slate-200 dark:bg-slate-700 border border-slate-100 cursor-not-allowed opacity-50"
+                                        @click="connectedModal = true">
+                                        <span class="flex items-center gap-4">
+                                            <span
+                                                class="text-slate-400 dark:text-slate-300 font-display font-bold text-xl w-8">{{
+                                                    index + 1 }}</span>
+                                            <span>
+                                                <p class="font-medium text-slate-500 dark:text-slate-300">{{
+                                                    chapter.title }}</p>
+                                                <p class="text-xs text-slate-400 dark:text-slate-300">Connectez-vous
+                                                    pour lire ce chapitre</p>
+                                            </span>
+                                        </span>
+                                        <span class="text-slate-400 dark:text-slate-300">
+                                            <Icon name="mdi:lock" class="w-5 h-5" />
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
 
                             <div v-else
@@ -211,6 +239,50 @@
                 </div>
             </div>
         </section>
+
+        <div v-if="connectedModal && !user" class="fixed inset-0 z-50">
+            <div class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity"></div>
+            <div
+                class="fixed inset-0 z-10 w-screen overflow-y-auto flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                <div
+                    class="relative transform overflow-hidden rounded-xl bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-md ring-1 ring-black/5">
+
+                    <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                        <div class="sm:flex sm:items-start">
+                            <div
+                                class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-amber-50 sm:mx-0 sm:h-10 sm:w-10 ring-1 ring-amber-100">
+                                <Icon name="mdi:account-alert-outline" class="text-amber-600" width="24"></Icon>
+                            </div>
+                            <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                                <h3 class="text-base font-semibold leading-6 text-slate-900">Connexion requise</h3>
+                                <div class="mt-2">
+                                    <p class="text-sm text-slate-500">
+                                        Vous avez atteint la limite de chapitres accessibles sans compte. Connectez-vous
+                                        pour continuer à lire ce livre et profiter de tous les chapitres.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        class="bg-slate-50 px-4 py-3 sm:flex sm:flex-row sm:justify-end sm:px-6 gap-2 border-t border-slate-100 text-sm lg:text-[13px]">
+                        <button @click="router.push('/login')"
+                            class="inline-flex w-full justify-center rounded-lg bg-slate-900 px-3 py-2 font-semibold text-white shadow-sm hover:bg-slate-800 sm:w-auto transition-colors">
+                            Se connecter
+                        </button>
+                        <button @click="router.push('/register')"
+                            class="mt-2 inline-flex w-full justify-center rounded-lg bg-orange-600 dark:bg-orange-500 text-white px-3 py-2 font-semibold sm:mt-0 sm:w-auto transition-colors">
+                            S'inscrire
+                        </button>
+                        <button @click="connectedModal = false"
+                            class="mt-3 inline-flex w-full justify-center rounded-lg bg-white px-3 lg:px-4 py-2 font-semibold text-slate-600 hover:text-slate-900 sm:mt-0 sm:w-auto transition-colors">
+                            Fermer
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- STATS MODAL -->
         <StatsModal :show="showStatsModal" @close="closeStats">
@@ -228,14 +300,14 @@
                             :class="step === 'comments' ? 'border-orange-600' : 'border-transparent'"
                             class="border-b-2 pb-1 flex items-center gap-2">
                             <Icon name="mdi:comment-multiple" class="w-4 h-4" />
-                            {{ book.book_comments }}
+                            {{ formatNumber(book.book_comments) }}
                         </button>
 
                         <button @click="showLikes"
                             :class="step === 'likes' ? 'border-orange-600' : 'border-transparent'"
                             class="border-b-2 pb-1 flex items-center gap-2">
                             <Icon name="mdi:heart" class="w-4 h-4" />
-                            {{ counterReaction }}
+                            {{ formatNumber(counterReaction) }}
                         </button>
                     </div>
                 </div>
@@ -306,10 +378,10 @@
 
                                 <!-- VOIR REPONSES -->
                                 <div v-if="commentItem.replies_count > 0 && !commentsState.replies[commentItem.id]"
-                                    class="mt-2">
-                                    <button class="text-xs text-slate-500 dark:text-slate-200 hover:underline"
+                                    class="mt-1">
+                                    <button class="text-[11px] text-slate-500 dark:text-slate-200 hover:underline"
                                         @click="loadReplies(commentItem.id)">
-                                        Voir {{ commentItem.replies_count }} réponses
+                                        Voir {{ commentItem.replies_count }} réponse(s)
                                     </button>
                                 </div>
 
@@ -454,7 +526,7 @@
                             </div>
                             <p class="text-[12px] lg:text-xs text-slate-600 dark:text-slate-200">{{
                                 reaction.user.pseudonym
-                                }} a réagi : <span class="font-medium">{{ reaction.label }} {{ reaction.emoji }}</span>
+                            }} a réagi : <span class="font-medium">{{ reaction.label }} {{ reaction.emoji }}</span>
                             </p>
                         </div>
                     </div>
@@ -773,6 +845,7 @@ const loading = ref<boolean>(false);
 const selectedReaction = ref<Reaction | null>(null)
 let pressTimer: NodeJS.Timeout | null = null
 const isMobile = ref<boolean>(false);
+const connectedModal = ref<boolean>(false);
 // ---------- COMMENTS ----------
 const commentsState = reactive({
     list: [] as any[],
@@ -807,6 +880,16 @@ const reactions: Reaction[] = [
 
 const back = () => {
     router.back();
+}
+
+const handleChapterClick = (index: number, uuid: string) => {
+    // Si non connecté et au-delà du 5ème chapitre
+    if (!user.value && index >= 5) {
+        connectedModal.value = true
+        return
+    }
+    // Sinon navigation normale
+    router.push(`/books/${book.value?.uuid}/chapter/${uuid}`)
 }
 
 // ---------- CHAPTERS ----------

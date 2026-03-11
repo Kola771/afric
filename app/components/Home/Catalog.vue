@@ -71,7 +71,6 @@
 }
 </style>
 
-
 <script lang="ts" setup>
 const { allCategorieActifs } = categoriesData();
 const { getFiveTopBooks } = booksData();
