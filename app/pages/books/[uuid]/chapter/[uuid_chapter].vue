@@ -83,7 +83,7 @@
                             <button class="flex items-center gap-2 hover:text-blue-600 transition-colors">
                                 <Icon name="mdi:message-text-outline" class="w-5 h-5" />
                                 <span class="text-sm font-medium">{{ formatNumber(chapter.chapter_reads.length || 0) }}
-                                    Vue(s)</span>
+                                    Vue{{chapter.chapter_reactions.length > 1 ? 's' : '' }}</span>
                             </button>
                             <button class="flex items-center gap-2 hover:text-blue-600 transition-colors"
                                 @click="openStats('comments')">

@@ -196,7 +196,9 @@
                                                 <p class="text-xs text-slate-400 dark:text-slate-200">
                                                     il y a {{ formatRelativeDate(chapter.updated_at) }}, Lu par {{
                                                         formatNumber(chapter.chapter_reads.length) }} personne{{
-                                                        chapter.chapter_reads.length > 1 ? 's' : '' }}
+                                                        chapter.chapter_reads.length > 1 ? 's' : '' }}, {{ formatNumber(chapter.chapter_reactions.length) }} réaction{{
+                                                        chapter.chapter_reactions.length > 1 ? 's' : '' }}, {{ formatNumber(chapter.chapter_comments.length) }} commentaire{{
+                                                        chapter.chapter_comments.length > 1 ? 's' : '' }}
                                                 </p>
                                             </span>
                                         </span>
