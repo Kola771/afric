@@ -5,18 +5,18 @@
       <div
         class="fixed inset-0 z-10 w-screen overflow-y-auto flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
         <div
-          class="relative transform overflow-hidden rounded-xl bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-md ring-1 ring-black/5">
+          class="relative transform overflow-hidden rounded-xl bg-white dark:bg-dark dark:border text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-md ring-1 ring-black/5">
 
-          <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+          <div class="px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
             <div class="sm:flex sm:items-start">
               <div
                 class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-amber-50 sm:mx-0 sm:h-10 sm:w-10 ring-1 ring-amber-100">
                 <Icon name="solar:magnifer-linear" class="text-amber-600" width="24"></Icon>
               </div>
               <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                <h3 class="text-base font-semibold leading-6 text-slate-900">Recherche avancée</h3>
+                <h3 class="text-base font-semibold leading-6 text-slate-900 dark:text-slate-200">Recherche avancée</h3>
                 <div class="mt-2">
-                  <p class="text-sm text-slate-500">
+                  <p class="text-sm text-slate-500 dark:text-slate-400">
                     Recherchez des histoires, auteurs ou catégories et utilisez les filtres pour affiner les résultats.
                   </p>
                 </div>
@@ -81,9 +81,9 @@
             <p class="p-2 rounded text-red-600 bg-red-50 text-center" v-if="error">{{ error }}</p>
           </div>
           <div
-            class="bg-slate-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 gap-2 border-t border-slate-100 text-sm lg:text-[13px]">
+            class="bg-slate-50 dark:bg-dark px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 gap-2 border-t border-slate-100 text-sm lg:text-[13px]">
             <button @click="sendSearch"
-              class="inline-flex w-full justify-center rounded-lg bg-orange-600 dark:bg-orange-500 px-3 py-2 font-semibold text-white shadow-sm hover:bg-orange-700 sm:ml-3 lg:ml-1 sm:w-auto transition-colors">
+              class="inline-flex w-full justify-center rounded-lg bg-orange-600 dark:bg-orange-500 px-3 md:px-6 py-2 font-semibold text-white shadow-sm hover:bg-orange-700 sm:ml-3 lg:ml-1 sm:w-auto transition-colors">
               Rechercher
             </button>
             <button @click="closeModal"

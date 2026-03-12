@@ -5,17 +5,17 @@
       <div
         class="fixed inset-0 z-10 w-screen overflow-y-auto flex min-h-full justify-center text-center sm:items-center">
         <div
-          class="relative transform overflow-hidden md:rounded-xl bg-white text-left shadow-2xl transition-all md:my-8 w-full sm:max-w-md md:max-w-xl lg:max-w-4xl ring-1 ring-black/5 flex flex-col justify-between">
+          class="relative transform overflow-hidden md:rounded-xl bg-white dark:bg-dark dark:md:border text-left shadow-2xl transition-all md:my-8 w-full sm:max-w-md md:max-w-xl lg:max-w-4xl ring-1 ring-black/5 flex flex-col justify-between">
 
-          <div class="bg-white flex flex-col min-h-full">
+          <div class="flex flex-col min-h-full">
             <div class="sm:flex px-4 pb-4 pt-5 sm:p-6 sm:pb-4 sm:items-start relative">
               <div
                 class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-amber-50 sm:mx-0 sm:h-10 sm:w-10 ring-1 ring-amber-100">
                 <Icon name="mdi:data" class="text-amber-600" width="24"></Icon>
               </div>
               <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                <h3 class="text-base font-semibold leading-6 text-slate-900">Résultats de recherche</h3>
-                <div class="mt-2 text-xs text-slate-500 md:mt-1">
+                <h3 class="text-base font-semibold leading-6 text-slate-900 dark:text-slate-200">Résultats de recherche</h3>
+                <div class="mt-2 text-xs text-slate-500 dark:text-slate-400 md:mt-1">
                   <p>
                     Voici les résultats correspondant à votre recherche.
                   </p>
@@ -30,15 +30,15 @@
                 </div>
               </div>
 
-              <button @click="closeModalResult">
-                <Icon name="mdi:close" class="w-6 h-6 text-slate-500 absolute right-3 top-3" />
+              <button @click="closeModalResult" class="absolute right-3 top-3">
+                <Icon name="mdi:close" class="w-6 h-6 text-slate-500" />
               </button>
             </div>
             <div class="text-xs pt-4 border-slate-200 border-t-[1px] mt-4 flex-1 flex flex-col justify-between">
               <div class="grid grid-cols-1 md:grid-cols-2 gap-3 px-4 pb-4 max-h-[58vh] lg:max-h-[60vh] overflow-y-auto"
                 v-if="data?.searchType === 'histoires'">
                 <div v-for="(book, index) in results" :key="index" @click="openPage(`/books/${book.uuid}`)"
-                  class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 transition cursor-pointer">
+                  class="group flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 transition cursor-pointer">
 
                   <!-- Avatar -->
                   <span>
@@ -50,7 +50,7 @@
                   <div class="flex flex-col gap-1 flex-1">
 
                     <span
-                      class="font-medium text-slate-800 hover:text-orange-600 transition">
+                      class="font-medium text-slate-800 dark:text-slate-200 dark:group-hover:text-slate-700 hover:text-orange-600 transition">
                       {{ book?.title }}
                     </span>
 
@@ -78,32 +78,32 @@
                     </p>
 
                     <!-- Stats -->
-                    <div class="flex items-center gap-4 pt-1 text-xs text-slate-500">
+                    <div class="flex items-center gap-4 pt-1 text-xs text-slate-500 dark:text-slate-400">
 
                       <div class="flex items-center gap-1">
                         <Icon name="mdi:eye" size="16" />
-                        <span class="font-medium text-slate-700">
+                        <span class="font-medium text-slate-700 dark:text-slate-400 dark:group-hover:text-slate-600">
                           {{ formatNumber(book?.total_views) }}
                         </span>
                       </div>
 
                       <div class="flex items-center gap-1">
                         <Icon name="mdi:comments" size="16" />
-                        <span class="font-medium text-slate-700">
+                        <span class="font-medium text-slate-700 dark:text-slate-400 dark:group-hover:text-slate-600">
                           {{ formatNumber(book?.book_comments) }}
                         </span>
                       </div>
 
                       <div class="flex items-center gap-1">
                         <Icon name="mdi:heart" size="16" />
-                        <span class="font-medium text-slate-700">
+                        <span class="font-medium text-slate-700 dark:text-slate-400 dark:group-hover:text-slate-600">
                           {{ formatNumber(book?.book_reactions) }}
                         </span>
                       </div>
 
                       <div class="flex items-center gap-1">
                         <Icon name="mdi:user" size="16" />
-                        <span class="font-medium text-slate-700">
+                        <span class="font-medium text-slate-700 dark:text-slate-400 dark:group-hover:text-slate-600">
                           {{ ratingAge(book.rating_age) }}
                         </span>
                       </div>
@@ -117,7 +117,7 @@
               <div class="grid grid-cols-1 md:grid-cols-2 gap-3 px-4 pb-4 max-h-[58vh] lg:max-h-[60vh] overflow-y-auto"
                 v-if="data?.searchType === 'auteurs'">
                 <div v-for="(author, index) in results" :key="index" @click="openPage(`/authors/${author.uuid}`)"
-                  class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 transition cursor-pointer">
+                  class="group flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 transition cursor-pointer">
 
                   <!-- Avatar -->
                   <span>
@@ -139,7 +139,7 @@
                   <div class="flex flex-col gap-1 flex-1">
 
                     <span
-                      class="font-medium text-slate-800 hover:text-orange-600 transition">
+                      class="font-medium text-slate-800 dark:text-slate-200 dark:group-hover:text-slate-700 hover:text-orange-600 transition">
                       {{ author?.name }}
                     </span>
 
@@ -167,19 +167,19 @@
                     </p>
 
                     <!-- Stats -->
-                    <div class="flex items-center gap-4 pt-1 text-xs text-slate-500">
+                    <div class="flex items-center gap-4 pt-1 text-xs text-slate-500 dark:text-slate-400">
 
                       <div class="flex items-center gap-1">
                         <Icon name="mdi:account-group-outline" size="16" />
-                        <span class="font-medium text-slate-700">
-                          {{ formatNumber(author?.total_followers) }}
+                        <span class="font-medium text-slate-700 dark:text-slate-400 dark:group-hover:text-slate-600">
+                          {{ formatNumber(author?.total_followers) }} abonné{{ author?.total_followers > 1 ? 's' : '' }}
                         </span>
                       </div>
 
                       <div class="flex items-center gap-1">
                         <Icon name="mdi:book-open-page-variant-outline" size="16" />
-                        <span class="font-medium text-slate-700">
-                          {{ formatNumber(author?.books?.length || 0) }}
+                        <span class="font-medium text-slate-700 dark:text-slate-400 dark:group-hover:text-slate-600">
+                          {{ formatNumber(author?.books?.length || 0) }} livre{{ author?.books?.length > 1 ? 's' : '' }}
                         </span>
                       </div>
 
@@ -192,7 +192,7 @@
               <div class="grid grid-cols-1 md:grid-cols-2 gap-3 px-4 pb-4 max-h-[58vh] lg:max-h-[60vh] overflow-y-auto"
                 v-if="data?.searchType === 'categories'">
                 <div v-for="(category, index) in results" :key="index" @click="openPage(`/categories/${category.uuid}`)"
-                  class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 transition cursor-pointer">
+                  class="group flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 transition cursor-pointer">
 
                   <!-- Avatar -->
                   <span>
@@ -204,7 +204,7 @@
                   <div class="flex flex-col gap-1 flex-1">
 
                     <span
-                      class="font-medium text-slate-800 hover:text-orange-600 transition">
+                      class="font-medium text-slate-800 dark:text-slate-200 dark:group-hover:text-slate-700 hover:text-orange-600 transition">
                       {{ category?.name }}
                     </span>
 
@@ -217,11 +217,11 @@
                     </p>
 
                     <!-- Stats -->
-                    <div class="flex items-center gap-4 pt-1 text-xs text-slate-500">
+                    <div class="flex items-center gap-4 pt-1 text-xs text-slate-500 dark:text-slate-400">
 
                       <div class="flex items-center gap-1">
                         <Icon name="mdi:book-open-page-variant-outline" size="16" />
-                        <span class="font-medium text-slate-700">
+                        <span class="font-medium text-slate-700 dark:text-slate-400 dark:group-hover:text-slate-600">
                           {{ formatNumber(category?.booksCount) }}
                         </span>
                       </div>
@@ -239,7 +239,7 @@
               </div>
 
               <!-- Pagination -->
-              <div class="flex items-center justify-between px-4 pb-4 text-xs text-slate-500">
+              <div class="flex items-center justify-between px-4 pb-4 text-xs text-slate-500 dark:text-slate-400">
                 <span>
                   Page {{ currentPage }} / {{ total }}
                 </span>
@@ -252,7 +252,7 @@
 
                   <!-- Bouton précédent -->
                   <button v-if="currentPage > 1" @click="previousData"
-                    class="flex items-center gap-1 text-slate-600 hover:text-slate-800 font-medium">
+                    class="flex items-center gap-1 text-slate-600 hover:text-slate-800 dark:text-slate-200 dark:group-hover:text-slate-700 font-medium">
                     <Icon name="mdi:chevron-left" />
                     Précédent
                   </button>
