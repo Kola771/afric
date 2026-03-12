@@ -184,7 +184,7 @@
     </transition>
     <Search @close-modal="toggleSearch" @function-search="functionSearch" v-if="showSearch" />
     <ResultSearch @close-modal-result="toggleResultSearch" @previous-data="previousData" @next-data="nextData" :results="result" :data="datas" :totalDatas="totalDatas"
-      :currentPage="page" :total="total" v-if="showResultSearch" />
+      :currentPage="page" :total="total" :loading="loading" v-if="showResultSearch" />
   </div>
 </template>
 
@@ -216,6 +216,7 @@ const isOpen = ref<boolean>(false)
 const showSearch = ref<boolean>(false);
 const showResultSearch = ref<boolean>(false);
 const showProfileMenu = ref<boolean>(false);
+const loading = ref<boolean>(true);
 const datas = ref<{ searchType: string, search: string, status: string, rating_age: string[] }>({ searchType: "", search: "", status: "", rating_age: [] });
 const result = ref<Author[] | BookData[] | Category[]>([]);
 const page = ref<number>(1);
@@ -260,7 +261,33 @@ const nextData = async () => {
   }
 }
 
+const saveSearchHistory = (data: any) => {
+  const key = "search_history";
+
+  // récupérer l'historique
+  const history = JSON.parse(localStorage.getItem(key) || "[]");
+
+  const newEntry = {
+    ...data,
+    datetime: new Date().toISOString()
+  };
+
+  // ajouter le nouvel élément au début
+  history.unshift(newEntry);
+
+  // si plus de 10 éléments → supprimer le dernier (le plus ancien)
+  if (history.length > 10) {
+    history.pop();
+  }
+
+  // sauvegarder
+  localStorage.setItem(key, JSON.stringify(history));
+};
+
 const onLoad = async () => {
+  showResultSearch.value = true;
+  loading.value = true;
+  saveSearchHistory(datas.value);
   if (datas.value?.searchType === "histoires") {
     const {data, total: t, totalPages: tp} = await findAllPaginatedStatutOrRatingAge({ page: page.value, limit: limit.value, title: datas.value.search, status: datas.value.status, rating_age: datas.value.rating_age });
     result.value = data;
@@ -279,7 +306,7 @@ const onLoad = async () => {
     total.value = tp;
     totalDatas.value = t;
   }
-  showResultSearch.value = true;
+  loading.value = false;
 }
 
 onMounted(async () => {

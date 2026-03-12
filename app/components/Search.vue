@@ -80,6 +80,92 @@
             </div>
             <p class="p-2 rounded text-red-600 bg-red-50 text-center" v-if="error">{{ error }}</p>
           </div>
+
+          <div class="px-4 pb-3 text-xs" v-if="histories.length">
+
+            <!-- bouton -->
+            <button @click="showHistory = !showHistory"
+              class="w-full flex items-center justify-center gap-2 text-slate-600 dark:text-slate-200 dark:hover:text-orange-500 hover:text-orange-600 transition font-medium border border-slate-200 rounded-md py-2 hover:bg-slate-50">
+
+              <Icon name="mdi:history" size="16" />
+              Historique de recherche
+            </button>
+
+            <!-- liste historique -->
+            <div v-if="showHistory && histories.length" class="mt-2 max-h-40 overflow-y-auto flex flex-col gap-1.5">
+
+              <!-- header historique -->
+              <div class="flex items-center justify-between px-1 mb-1">
+
+                <span class="text-[11px] text-slate-400 font-medium">
+                  Recherches récentes
+                </span>
+
+                <button @click="clearHistories"
+                  class="text-[11px] text-red-500 hover:text-red-600 flex items-center gap-1">
+
+                  <Icon name="mdi:trash-can-outline" size="14" />
+                  Tout supprimer
+                </button>
+
+              </div>
+
+              <!-- éléments -->
+              <div v-for="(item, index) in histories" :key="index" @click="useHistory(item)"
+                class="flex items-start justify-between gap-2 p-2 rounded-md border border-slate-100 hover:bg-slate-50 cursor-pointer transition group">
+
+                <!-- infos -->
+                <div class="flex flex-col text-left gap-1 flex-1">
+
+                  <span class="font-medium text-slate-700 dark:text-slate-200 dark:group-hover:text-orange-400 text-sm">
+                    {{ item.search }}
+                  </span>
+
+                  <span class="text-[11px] text-slate-400">
+                    {{ item.searchType }}
+                  </span>
+
+                  <div class="flex flex-wrap gap-1 mt-0.5">
+
+                    <span v-if="item.status"
+                      class="text-[10px] px-1.5 py-0.5 rounded bg-green-50 text-green-700 border border-green-100">
+                      {{ statusLabel(item.status) }}
+                    </span>
+
+                    <span v-if="item.rating_age && item.rating_age.length"
+                      class="text-[10px] px-1.5 py-0.5 rounded bg-orange-50 text-orange-700 border border-orange-100">
+                      {{ item.rating_age.join(', ') }}
+                    </span>
+
+                  </div>
+
+                </div>
+
+                <!-- droite -->
+                <div class="flex flex-col items-end gap-1">
+
+                  <span class="text-[10px] text-slate-400 whitespace-nowrap">
+                    {{ formatRelativeDate(item.datetime) }}
+                  </span>
+
+                  <div class="flex items-center gap-1">
+
+                    <Icon name="mdi:arrow-top-right" size="16" class="text-slate-400" />
+
+                    <!-- supprimer -->
+                    <button @click.stop="removeHistory(index)" class="text-slate-400 hover:text-red-500 transition">
+                      <Icon name="mdi:delete-outline" size="16" />
+                    </button>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
           <div
             class="bg-slate-50 dark:bg-dark px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 gap-2 border-t border-slate-100 text-sm lg:text-[13px]">
             <button @click="sendSearch"
@@ -98,6 +184,7 @@
 </template>
 
 <script setup lang="ts">
+import { formatDate } from '@vueuse/core';
 import { ref, computed } from 'vue'
 
 const emit = defineEmits(['close-modal', 'function-search'])
@@ -108,6 +195,47 @@ const search = ref<string>('');
 const status = ref<string>('');
 const rating_age = ref<string[]>([]);
 const error = ref<string>('');
+const showHistory = ref<boolean>(false);
+const histories = ref(JSON.parse(localStorage.getItem("search_history") || "[]"));
+
+const statusLabel = (status: string) => {
+  switch (status.toLocaleLowerCase()) {
+    case "ongoing":
+      return "En cours"
+    case "completed":
+      return "Terminé"
+    case "paused":
+      return "Pause"
+    case "draft":
+      return "Brouillon"
+    case "inactive":
+      return "Inactif"
+    default:
+      return "Brouillon"
+  }
+}
+
+const useHistory = (item: any) => {
+  searchType.value = item.searchType;
+  search.value = item.search;
+  status.value = item.status || "";
+  rating_age.value = item.rating_age || [];
+
+  showHistory.value = false;
+  sendSearch();
+};
+
+const removeHistory = (index: number | string) => {
+  const i = Number(index);
+  histories.value.splice(i, 1);
+  localStorage.setItem("search_history", JSON.stringify(histories.value));
+};
+
+const clearHistories = () => {
+  histories.value = [];
+  localStorage.removeItem("search_history");
+  showHistory.value = false;
+};
 
 // Affichage conditionnel
 const showBooks = computed(() => searchType.value === 'histoires')

@@ -14,7 +14,8 @@
                 <Icon name="mdi:data" class="text-amber-600" width="24"></Icon>
               </div>
               <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                <h3 class="text-base font-semibold leading-6 text-slate-900 dark:text-slate-200">Résultats de recherche</h3>
+                <h3 class="text-base font-semibold leading-6 text-slate-900 dark:text-slate-200">Résultats de recherche
+                </h3>
                 <div class="mt-2 text-xs text-slate-500 dark:text-slate-400 md:mt-1">
                   <p>
                     Voici les résultats correspondant à votre recherche.
@@ -70,11 +71,7 @@
                     </span>
 
                     <!-- Bio -->
-                    <p v-if="book?.description" class="text-xs text-slate-500 line-clamp-2"
-                      v-html="book.description"></p>
-
-                    <p v-else class="text-xs text-slate-400">
-                      Aucune biographie disponible
+                    <p v-if="book?.description" class="text-xs text-slate-500 line-clamp-2" v-html="book.description">
                     </p>
 
                     <!-- Stats -->
@@ -83,7 +80,7 @@
                       <div class="flex items-center gap-1">
                         <Icon name="mdi:eye" size="16" />
                         <span class="font-medium text-slate-700 dark:text-slate-400 dark:group-hover:text-slate-600">
-                          {{ formatNumber(book?.total_views) }}
+                          {{ formatNumber(Number(book?.total_views)) }}
                         </span>
                       </div>
 
@@ -233,9 +230,36 @@
               </div>
 
               <!-- Aucun résultat -->
-              <div v-if="!results.length" class="flex flex-col items-center justify-center text-slate-400 py-12">
+              <div v-if="!loading && !results.length"
+                class="flex flex-col items-center justify-center text-slate-400 py-12">
                 <Icon name="mdi:magnify-close" size="40" />
                 <p class="mt-2 text-xs">Aucun résultat trouvé</p>
+              </div>
+
+              <div v-if="loading"
+                class="grid grid-cols-1 md:grid-cols-2 gap-3 px-4 pb-4 max-h-[58vh] lg:max-h-[60vh] overflow-y-auto">
+                <div v-for="i in 6" :key="i"
+                  class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 animate-pulse">
+                  <!-- image -->
+                  <div class="w-14 h-14 bg-slate-200 rounded-lg"></div>
+
+                  <div class="flex flex-col gap-2 flex-1">
+
+                    <div class="h-3 w-2/3 bg-slate-200 rounded"></div>
+
+                    <div class="h-3 w-20 bg-slate-200 rounded"></div>
+
+                    <div class="h-3 w-full bg-slate-200 rounded"></div>
+                    <div class="h-3 w-5/6 bg-slate-200 rounded"></div>
+
+                    <div class="flex gap-3 pt-1">
+                      <div class="h-3 w-10 bg-slate-200 rounded"></div>
+                      <div class="h-3 w-10 bg-slate-200 rounded"></div>
+                      <div class="h-3 w-10 bg-slate-200 rounded"></div>
+                    </div>
+
+                  </div>
+                </div>
               </div>
 
               <!-- Pagination -->
@@ -284,41 +308,43 @@ const props = withDefaults(defineProps<{
   totalDatas?: number
   currentPage?: number
   data?: any
+  loading?: boolean
 }>(), {
   results: () => [],
   total: 1,
   totalDatas: 0,
-  currentPage: 1
+  currentPage: 1,
+  loading: false
 });
 
 const status = (status: string) => {
-    switch (status.toLocaleLowerCase()) {
-        case "ongoing":
-            return "En cours"
-        case "completed":
-            return "Terminé"
-        case "paused":
-            return "Pause"
-        case "draft":
-            return "Brouillon"
-        case "inactive":
-            return "Inactif"
-        default:
-            return "Brouillon"
-    }
+  switch (status.toLocaleLowerCase()) {
+    case "ongoing":
+      return "En cours"
+    case "completed":
+      return "Terminé"
+    case "paused":
+      return "Pause"
+    case "draft":
+      return "Brouillon"
+    case "inactive":
+      return "Inactif"
+    default:
+      return "Brouillon"
+  }
 }
 
 const ratingAge = (rating_age: string) => {
-    switch (rating_age.toLocaleLowerCase()) {
-        case "12+":
-            return "12ans+"
-        case "16+":
-            return "16ans+"
-        case "18+":
-            return "18ans+"
-        default:
-            return ""
-    }
+  switch (rating_age.toLocaleLowerCase()) {
+    case "12+":
+      return "12ans+"
+    case "16+":
+      return "16ans+"
+    case "18+":
+      return "18ans+"
+    default:
+      return ""
+  }
 }
 
 const router = useRouter();
