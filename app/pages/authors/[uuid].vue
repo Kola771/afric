@@ -9,7 +9,7 @@
                 class="flex lg:flex-col lg:justify-start justify-center items-center gap-2 lg:sticky lg:top-20 self-start">
                 <div class="group flex flex-col lg:justify-center items-center gap-2 w-full">
                     <div class="flex lg:flex-col lg:justify-center items-center gap-2 w-full">
-                        <img v-if="author.photo" :src="`${config.public.apiBaseUrl}/uploads/users/${author.photo}`"
+                        <img v-if="author.photo" :src="`${config.public.apiBackendUrl}/uploads/users/${author.photo}`"
                             class="w-16 h-16 md:w-24 md:h-24 lg:group-hover:scale-95 hover:duration-300 transition-all lg:w-full lg:h-72 object-cover rounded-full lg:rounded-lg"
                             alt="Image de l'auteur">
                         <span v-if="!author.photo"

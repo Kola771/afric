@@ -7,6 +7,11 @@ export function usersData() {
         return response?.data;
     }
 
+    async function getUsers(data: {page: number, limit: number, name: string}): Promise<{ data: Author[], pagination: { total: number, page: number, limit: number, currentPage: number, totalPages: number, hasNextPage: boolean } }> {
+        const response = await axios.post(`/users/search`, data);
+        return response?.data;
+    }
+
     async function findByUuid(uuid: string): Promise<{ success: boolean, data: Author | null }> {
         const response = await axios.get(`/users/${uuid}`);
         return response?.data;
@@ -29,6 +34,7 @@ export function usersData() {
 
     return {
         findAuthors,
+        getUsers,
         findByUuid,
         getProfile,
     }

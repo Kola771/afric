@@ -79,7 +79,8 @@
                       <Icon name="mdi:account" class="w-4 h-4" />
                       Mon profil
                     </nuxt-link>
-                    <nuxt-link v-if="profil && authorizeRoleDash(`${profil.role}`)" @click="showProfileMenu = false" to="/dashboard"
+                    <nuxt-link v-if="profil && authorizeRoleDash(`${profil.role}`)" @click="showProfileMenu = false"
+                      to="/dashboard"
                       class="block px-4 py-2 flex items-center gap-2 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
                       <Icon name="mdi:view-dashboard" class="w-4 h-4" />
                       Dashboard
@@ -140,10 +141,12 @@
           <nuxt-link to="/about" v-if="!user" @click="isOpen = !isOpen"
             :class="`${route.path === '/about' ? 'text-primary dark:text-orange-400' : 'text-slate-500 dark:text-white'} block text-sm dark:hover:text-gray-400 font-medium hover:text-primary transition-colors`">A
             propos</nuxt-link>
-          <nuxt-link to="/my-stories" v-if="user && profil && authorizeRoleUser(`${profil.role}`)" @click="isOpen = !isOpen"
+          <nuxt-link to="/my-stories" v-if="user && profil && authorizeRoleUser(`${profil.role}`)"
+            @click="isOpen = !isOpen"
             :class="`${route.path === '/my-stories' ? 'text-primary dark:text-orange-400' : 'text-slate-500 dark:text-white'} block text-sm dark:hover:text-gray-400 font-medium hover:text-primary transition-colors`">Mes
             histoires</nuxt-link>
-          <nuxt-link to="/dashboard" v-if="user && profil && authorizeRoleDash(`${profil.role}`)" @click="isOpen = !isOpen"
+          <nuxt-link to="/dashboard" v-if="user && profil && authorizeRoleDash(`${profil.role}`)"
+            @click="isOpen = !isOpen"
             :class="`${route.path === '/dashboard' ? 'text-primary dark:text-orange-400' : 'text-slate-500 dark:text-white'} block text-sm dark:hover:text-gray-400 font-medium hover:text-primary transition-colors`">Tableau
             de bord</nuxt-link>
         </div>
@@ -179,7 +182,9 @@
         </div>
       </div>
     </transition>
-    <Search @close-modal="toggleSearch" :showSearch="showSearch" v-if="showSearch" />
+    <Search @close-modal="toggleSearch" @function-search="functionSearch" v-if="showSearch" />
+    <ResultSearch @close-modal-result="toggleResultSearch" @previous-data="previousData" @next-data="nextData" :results="result" :data="datas" :totalDatas="totalDatas"
+      :currentPage="page" :total="total" v-if="showResultSearch" />
   </div>
 </template>
 
@@ -209,14 +214,72 @@ const config = useRuntimeConfig();
 const route = useRoute()
 const isOpen = ref<boolean>(false)
 const showSearch = ref<boolean>(false);
+const showResultSearch = ref<boolean>(false);
 const showProfileMenu = ref<boolean>(false);
+const datas = ref<{ searchType: string, search: string, status: string, rating_age: string[] }>({ searchType: "", search: "", status: "", rating_age: [] });
+const result = ref<Author[] | BookData[] | Category[]>([]);
+const page = ref<number>(1);
+const total = ref<number>(0);
+const totalDatas = ref<number>(0);
+const limit = ref<number>(25);
 const { toConnectUser, logout } = authenticate();
-const { getProfile } = usersData();
+const { findAllPaginatedStatutOrRatingAge } = booksData();
+const { getProfile, getUsers } = usersData();
+const { getCategoriesByName } = categoriesData();
 const user = ref<User | null>(null);
 const profil = ref<User | null>(null);
 
 const toggleSearch = () => {
   showSearch.value = !showSearch.value
+}
+
+const toggleResultSearch = () => {
+  showResultSearch.value = !showResultSearch.value;
+  result.value = [];
+  page.value = 1;
+  total.value = 0;
+  totalDatas.value = 0;
+}
+
+const functionSearch = async (value: { searchType: string, search: string, status: string, rating_age: string[] }) => {
+  datas.value = value;
+  await onLoad();
+}
+
+const previousData = async () => {
+  page.value--;
+  if(page.value >= 1) {
+    await onLoad();
+  }
+}
+
+const nextData = async () => {
+  page.value++;
+  if(page.value <= total.value) {
+    await onLoad();
+  }
+}
+
+const onLoad = async () => {
+  if (datas.value?.searchType === "histoires") {
+    const {data, total: t, totalPages: tp} = await findAllPaginatedStatutOrRatingAge({ page: page.value, limit: limit.value, title: datas.value.search, status: datas.value.status, rating_age: datas.value.rating_age });
+    result.value = data;
+    total.value = tp;
+    totalDatas.value = t;
+  }
+  if (datas.value?.searchType === "auteurs") {
+    const { data, pagination } = await getUsers({ page: page.value, limit: limit.value, name: datas.value.search });
+    result.value = data;
+    total.value = pagination.totalPages;
+    totalDatas.value = pagination.total;
+  }
+  if (datas.value?.searchType === "categories") {
+    const {data, total: t, totalPages: tp} = await getCategoriesByName(datas.value.search);
+    result.value = data;
+    total.value = tp;
+    totalDatas.value = t;
+  }
+  showResultSearch.value = true;
 }
 
 onMounted(async () => {

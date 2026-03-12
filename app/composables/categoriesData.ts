@@ -22,6 +22,11 @@ export function categoriesData() {
         return category.data;
     }
 
+    async function getCategoriesByName(name: string): Promise<{ data: Category[], total: number, totalPages: number, currentPage: number }> {
+        const categories = await axios.post(`/categories/search`, {search: name});
+        return categories.data;
+    }
+
     async function createData(data: any): Promise<{ success: boolean, msg?: string, error?: string | null, status?: number }> {
         if (process.client) {
             if (localStorage.getItem('user')) {
@@ -110,6 +115,7 @@ export function categoriesData() {
 
     return {
         allCategories,
+        getCategoriesByName,
         bestCategories,
         allCategorieActifs,
         getCategoryByUuid,

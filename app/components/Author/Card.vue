@@ -9,7 +9,7 @@
         >
           <img
             v-if="props.author.photo"
-            :src="`${config.public.apiBaseUrl}/uploads/users/${props.author.photo}`"
+            :src="`${config.public.apiBackendUrl}/uploads/users/${props.author.photo}`"
             class="w-full h-24 md:h-36 lg:h-48 object-cover transition-transform duration-500 group-hover:scale-105"
             :alt="props.author.name"
           />
@@ -59,9 +59,8 @@
 
           <p
             class="hidden line-clamp-3 text-xs text-slate-600 dark:text-slate-300"
-            v-if="props.author?.bibliography"
+            v-html="props.author?.bibliography"
           >
-            {{ props.author?.bibliography }}
           </p>
         </div>
       </div>
@@ -78,7 +77,7 @@
 
         <span class="text-[10px] flex gap-1">
           <span class="font-semibold text-slate-900 dark:text-slate-200">
-            {{ props.author.books?.length || 0 }}
+            {{ formatNumber(props.author.books?.length || 0) }}
           </span>
           <span class="text-slate-400">livre(s)</span>
         </span>
