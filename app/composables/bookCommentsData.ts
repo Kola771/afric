@@ -39,7 +39,11 @@ export function useBookComments() {
             if (process.client) {
                 if (localStorage.getItem('user')) {
                     const token = JSON.parse(localStorage.getItem("user") || '{}').token;
-                    const res = await axios.post(`/book_comments`, data, { params: { token } });
+                    const res = await axios.post(`/book_comments`, data, {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
                     return res?.data;
                 }
             }
@@ -56,7 +60,11 @@ export function useBookComments() {
             if (process.client) {
                 if (localStorage.getItem('user')) {
                     const token = JSON.parse(localStorage.getItem("user") || '{}').token;
-                    const res = await axios.put(`/book_comments/${uuid}`, { content }, { params: { token } });
+                    const res = await axios.put(`/book_comments/${uuid}`, { content }, {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
                     return res?.data;
                 }
             }
@@ -73,7 +81,11 @@ export function useBookComments() {
             if (process.client) {
                 if (localStorage.getItem('user')) {
                     const token = JSON.parse(localStorage.getItem("user") || '{}').token;
-                    const res = await axios.delete(`/book_comments/${uuid}`, { params: { token } });
+                    const res = await axios.delete(`/book_comments/${uuid}`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
                     return res?.data;
                 }
             }

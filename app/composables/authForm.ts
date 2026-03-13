@@ -29,7 +29,11 @@ export function authForm() {
             try {
                 const token = JSON.parse(localStorage.getItem("user") || '{}').token;
                 try {
-                    const response = await axios.put(`/users/change-personal-data/${uuid}`, { token, ...data });
+                    const response = await axios.put(`/users/change-personal-data/${uuid}`, data, {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
                     localStorage.setItem("user", JSON.stringify(response.data.user));
                     return response?.data;
                 } catch (error: any) {

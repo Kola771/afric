@@ -10,7 +10,11 @@ export function useFollowers() {
             if (process.client) {
                 if (localStorage.getItem('user')) {
                     const token = JSON.parse(localStorage.getItem("user") || '{}').token;
-                    const res = await axios.post(`/followers`, data, { params: { token } });
+                    const res = await axios.post(`/followers`, data, {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
                     return res?.data;
                 }
             }
@@ -27,7 +31,11 @@ export function useFollowers() {
             if (process.client) {
                 if (localStorage.getItem('user')) {
                     const token = JSON.parse(localStorage.getItem("user") || '{}').token;
-                    const res = await axios.delete(`/followers/${followingId}/${followerId}`, { params: { token } });
+                    const res = await axios.delete(`/followers/${followingId}/${followerId}`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
                     return res?.data;
                 }
             }

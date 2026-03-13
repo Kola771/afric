@@ -48,7 +48,9 @@ export function authenticate() {
         if (process.client) {
             const token = JSON.parse(localStorage.getItem("user") || '{}').token;
             return await axios.get(`/users/profil}`, {
-                params: { token: token }
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
             });
         }
     }
@@ -60,7 +62,9 @@ export function authenticate() {
                 const userUuid = JSON.parse(localStorage.getItem("user") || '{}').uuid;
                 const token = JSON.parse(localStorage.getItem("user") || '{}').token;
                 return await axios.delete(`/users/user-delete/${userUuid}`, {
-                    params: { token }
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
                 });
             }
         }
@@ -71,12 +75,14 @@ export function authenticate() {
         if (process.client) {
             if (localStorage.getItem('user')) {
                 const token = JSON.parse(localStorage.getItem("user") || '{}').token;
-                    localStorage.removeItem("user");
-                    localStorage.removeItem("register_author");
-                    localStorage.removeItem("register_email");
-                    window.location.href = "/";
+                localStorage.removeItem("user");
+                localStorage.removeItem("register_author");
+                localStorage.removeItem("register_email");
+                window.location.href = "/";
                 return await axios.delete(`/users/logout`, {
-                    params: { token }
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
                 });
             }
         }

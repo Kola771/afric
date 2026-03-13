@@ -32,10 +32,22 @@ export function usersData() {
         return null;
     }
 
+    async function propositionsAuthors() {
+        if (process?.client) {
+            if (localStorage.getItem("user")) {
+                const token = JSON.parse(localStorage.getItem("user") || '{}').token;
+                const response = await axios.post('/users/propositions-authors', {token});
+                return response?.data;
+            }
+        }
+        return null;
+    }
+
     return {
         findAuthors,
         getUsers,
         findByUuid,
         getProfile,
+        propositionsAuthors,
     }
 }

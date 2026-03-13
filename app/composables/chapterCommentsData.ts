@@ -39,7 +39,11 @@ export function useChapterComments() {
             if (process.client) {
                 if (localStorage.getItem('user')) {
                     const token = JSON.parse(localStorage.getItem("user") || '{}').token;
-                    const res = await axios.post(`/chapter_comments`, data, { params: { token } });
+                    const res = await axios.post(`/chapter_comments`, data, {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
                     return res?.data;
                 }
             }
@@ -56,7 +60,11 @@ export function useChapterComments() {
             if (process.client) {
                 if (localStorage.getItem('user')) {
                     const token = JSON.parse(localStorage.getItem("user") || '{}').token;
-                    const res = await axios.put(`/chapter_comments/${uuid}`, { content }, { params: { token } });
+                    const res = await axios.put(`/chapter_comments/${uuid}`, { content }, {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
                     return res?.data;
                 }
             }
@@ -73,7 +81,11 @@ export function useChapterComments() {
             if (process.client) {
                 if (localStorage.getItem('user')) {
                     const token = JSON.parse(localStorage.getItem("user") || '{}').token;
-                    const res = await axios.delete(`/chapter_comments/${uuid}`, { params: { token } });
+                    const res = await axios.delete(`/chapter_comments/${uuid}`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
                     return res?.data;
                 }
             }

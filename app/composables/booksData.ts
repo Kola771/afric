@@ -2,21 +2,25 @@ import axios from "axios";
 
 export function booksData() {
 
+    // Tous les livres
     async function allBooks() {
         const books = await axios.get(`/books`);
         return books.data;
     }
 
+    // Les livres qui ne sont ni en brouillon ou inactif
     async function allBooksActifs() {
         const books = await axios.get(`/books/actifs`);
         return books.data;
     }
 
+    // recherche via uuid
     async function getBookByUuid(uuid: string) {
         const book = await axios.get(`/books/${uuid}`);
         return book.data;
     }
 
+    // nombre de livres valides et disponibles sur la plateforme
     async function countDistinctBooks() {
         try {
             const response = await axios.get(`/books/count`);
@@ -27,42 +31,53 @@ export function booksData() {
         }
     }
 
+    // Le top des livre
     async function findTopBook(): Promise<BookData | null> {
         const response = await axios.get(`/books/top-book`);
         return response?.data;
     }
 
+    // 5 meilleurs livres
     async function getFiveTopBooks(): Promise<BookData[]> {
         const response = await axios.get(`/books/top-five-books`);
         return response?.data;
     }
 
+    // fonction pour ressortir aléatoirement un livre
     async function findRandom(): Promise<BookData | null> {
         const response = await axios.get(`/books/random`);
         return response?.data;
     }
 
+    // Fonction pour ressortir 5 livres de chaque rating_age
     async function getFiveRatingAge() {
         const response = await axios.get(`/books/five-rating-age`);
         return response?.data;
     }
 
+    // Fonction recherche (statut, rating_age, title)
     async function findAllPaginatedStatutOrRatingAge(data: { page: number, limit: number, title: string, status: string, rating_age: string[] }): Promise<{ data: BookData[], total: number, totalPages: number, currentPage: number }> {
         const response = await axios.post(`/books/search`, data);
         return response?.data;
     }
 
+    // livres liés à un auteur
     async function findAllPaginatedAuthor(page: number = 1, limit: number = 25, id_user: number): Promise<{ data: BookData[], total: number, totalPages: number, currentPage: number }> {
         if (process.client) {
             if (localStorage.getItem('user')) {
                 const token = JSON.parse(localStorage.getItem("user") || '{}').token;
-                const response = await axios.get(`/books/authors?page=${page}&limit=${limit}&id_user=${id_user}`, { params: { token } });
+                const response = await axios.get(`/books/authors?page=${page}&limit=${limit}&id_user=${id_user}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
                 return response?.data;
             }
         }
         return { data: [], total: 0, totalPages: 0, currentPage: 0 };
     }
 
+    // livres liés à une catégorie
     async function findAllPaginated(page: number = 1, limit: number = 25, id_category: number): Promise<{ data: BookData[], total: number, totalPages: number, currentPage: number }> {
         const response = await axios.get(`/books/categories?page=${page}&limit=${limit}&id_category=${id_category}`);
         return response?.data;
@@ -73,17 +88,23 @@ export function booksData() {
         return response?.data;
     }
 
+    // livres liés à une catégorie d'âge
     async function findAllPaginatedRatingAge(page: number = 1, limit: number = 25, rating_age: string): Promise<{ data: BookData[], total: number, totalPages: number, currentPage: number }> {
         const response = await axios.get(`/books/rating-age?page=${page}&limit=${limit}&rating_age=${rating_age}`);
         return response?.data;
     }
 
+    // Vérifie si le titre existe déjà pour un livre lié à l'auteur en question
     async function existingData(data: any): Promise<{ success: boolean, msg?: string, error?: string | null, status?: number }> {
         if (process.client) {
             if (localStorage.getItem('user')) {
                 const token = JSON.parse(localStorage.getItem("user") || '{}').token;
                 try {
-                    const response = await axios.post(`/books/existing`, { token, ...data });
+                    const response = await axios.post(`/books/existing`, data, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
                     return response?.data;
                 } catch (error: any) {
                     return { success: false, status: error.response?.status || 500, error: error.message };
@@ -93,6 +114,7 @@ export function booksData() {
         return { success: false, status: 400, error: "Client-side error" };
     }
 
+    // Créé un livre
     async function createData(data: any): Promise<{ success: boolean, msg?: string, error?: string | null, status?: number }> {
         if (process.client) {
             if (localStorage.getItem('user')) {
@@ -112,12 +134,17 @@ export function booksData() {
         return { success: false, status: 400, error: "Client-side error" };
     }
 
+    // Modifie les informations d'un livre
     async function updateData(uuid: string, data: any): Promise<{ success: boolean, msg?: string, error?: string | null, status?: number }> {
         if (process.client) {
             if (localStorage.getItem('user')) {
                 const token = JSON.parse(localStorage.getItem("user") || '{}').token;
                 try {
-                    const response = await axios.put(`/books/${uuid}`, { token, ...data });
+                    const response = await axios.put(`/books/${uuid}`, data, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
                     return response?.data;
                 } catch (error: any) {
                     return { success: false, status: error.response?.status || 500, error: error.message };
@@ -127,6 +154,7 @@ export function booksData() {
         return { success: false, status: 400, error: "Client-side error" };
     }
 
+    // Modifie l'image d'un livre
     async function updateImg(uuid: string, data: any): Promise<{ success: boolean, msg?: string, error?: string | null, status?: number }> {
         if (process.client) {
             if (localStorage.getItem('user')) {
@@ -146,12 +174,17 @@ export function booksData() {
         return { success: false, status: 400, error: "Client-side error" };
     }
 
+    // Rend inactif un livre
     async function inactiveFunction(uuid: string): Promise<{ success: boolean, msg?: string, error?: string | null, status?: number }> {
         if (process.client) {
             if (localStorage.getItem('user')) {
                 const token = JSON.parse(localStorage.getItem("user") || '{}').token;
                 try {
-                    const res = await axios.delete(`/books/inactive/${uuid}`, { params: { token } });
+                    const res = await axios.delete(`/books/inactive/${uuid}`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
                     return res?.data;
                 } catch (error: any) {
                     return { success: false, status: error.response?.status || 500, error: error.message };
@@ -161,13 +194,18 @@ export function booksData() {
         return { success: false, status: 400, error: "Client-side error" };
     }
 
+    // Supprime un livre
     async function deleteData(data: Category[]): Promise<{ success: boolean, msg?: string, error?: string | null, status?: number }> {
         if (process.client) {
             if (localStorage.getItem('user')) {
                 const token = JSON.parse(localStorage.getItem("user") || '{}').token;
                 try {
                     for (let i = 0; i < data.length; i++) {
-                        await axios.delete(`/books/${data[i]?.uuid}`, { params: { token } });
+                        await axios.delete(`/books/${data[i]?.uuid}`, {
+                            headers: {
+                                Authorization: `Bearer ${token}`,
+                            },
+                        });
                     }
                     return { success: true, msg: 'Suppression réussie !', error: null };
                 } catch (error: any) {

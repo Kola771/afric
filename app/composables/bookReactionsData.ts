@@ -34,7 +34,11 @@ export function useBookReactions() {
             if (process.client) {
                 if (localStorage.getItem('user')) {
                     const token = JSON.parse(localStorage.getItem("user") || '{}').token;
-                    const res = await axios.post(`/book_reactions`, data, { params: { token } });
+                    const res = await axios.post(`/book_reactions`, data, {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
                     return res?.data;
                 }
             }
@@ -51,7 +55,11 @@ export function useBookReactions() {
             if (process.client) {
                 if (localStorage.getItem('user')) {
                     const token = JSON.parse(localStorage.getItem("user") || '{}').token;
-                    const res = await axios.post(`/book_reactions/default`, data, { params: { token } });
+                    const res = await axios.post(`/book_reactions/default`, data, {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
                     return res?.data;
                 }
             }
@@ -68,7 +76,11 @@ export function useBookReactions() {
             if (process.client) {
                 if (localStorage.getItem('user')) {
                     const token = JSON.parse(localStorage.getItem("user") || '{}').token;
-                    const res = await axios.put(`/book_reactions/${uuid}`, data, { params: { token } });
+                    const res = await axios.put(`/book_reactions/${uuid}`, data, {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
                     return res?.data;
                 }
             }
@@ -85,7 +97,11 @@ export function useBookReactions() {
             if (process.client) {
                 if (localStorage.getItem('user')) {
                     const token = JSON.parse(localStorage.getItem("user") || '{}').token;
-                    const res = await axios.delete(`/book_reactions/${id}`, { params: { token } });
+                    const res = await axios.delete(`/book_reactions/${id}`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
                     return res?.data;
                 }
             }
