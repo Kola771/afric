@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import Editor from '@tinymce/tinymce-vue'
 
 interface Props {
@@ -12,9 +12,17 @@ const emit = defineEmits<{
 }>()
 
 const content = ref(props.modelValue)
+const loading = ref(true)
 
 watch(content, (val) => {
   emit('update:modelValue', val)
+})
+
+onMounted(() => {
+  // simule le temps de chargement de l'éditeur
+  setTimeout(() => {
+    loading.value = false
+  }, 800)
 })
 
 const editorInit = {
@@ -29,24 +37,39 @@ const editorInit = {
     'forecolor backcolor | link media table mergetags | addcomment showcomments | ' +
     'spellcheckdialog a11ycheck typography uploadcare | align lineheight | checklist numlist bullist indent outdent | ' +
     'emoticons charmap | removeformat',
-  fontsize_formats: '8pt 10pt 12pt 14pt 16pt 18pt 20pt 24pt 32pt 48pt',
-  content_style: `
-    body { font-family: Times New Roman, Arial, sans-serif; font-size: 14px; }
-    table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
-    th, td { border: 1px solid #ccc; padding: 6px; }
-    th { background: #f3f4f6; }
-  `,
-  setup: (editor: any) => {
-    editor.on('Change', () => {
-      content.value = editor.getContent()
-    })
-  }
 }
-
 </script>
 
 <template>
+  <!-- Skeleton -->
+  <div v-if="loading" class="border rounded-lg p-3 bg-white">
+    
+    <!-- fake toolbar -->
+    <div class="flex gap-2 mb-3 animate-pulse">
+      <div class="h-6 w-10 bg-slate-200 rounded"></div>
+      <div class="h-6 w-10 bg-slate-200 rounded"></div>
+      <div class="h-6 w-16 bg-slate-200 rounded"></div>
+      <div class="h-6 w-12 bg-slate-200 rounded"></div>
+      <div class="h-6 w-8 bg-slate-200 rounded"></div>
+      <div class="h-6 w-8 bg-slate-200 rounded"></div>
+    </div>
+
+    <!-- fake editor area -->
+    <div class="animate-pulse space-y-3">
+      <div class="h-4 bg-slate-200 rounded w-5/6"></div>
+      <div class="h-4 bg-slate-200 rounded w-full"></div>
+      <div class="h-4 bg-slate-200 rounded w-4/6"></div>
+      <div class="h-4 bg-slate-200 rounded w-3/6"></div>
+      <div class="h-4 bg-slate-200 rounded w-5/6"></div>
+      <div class="h-4 bg-slate-200 rounded w-full"></div>
+      <div class="h-4 bg-slate-200 rounded w-4/6"></div>
+    </div>
+
+  </div>
+
+  <!-- Editor -->
   <Editor
+    v-else
     api-key="y9u2astqlyiz8degmcalms6g9688ef45uk5715dtq8hu3jjs"
     v-model="content"
     :init="editorInit"

@@ -21,7 +21,24 @@ export function useChapterReads() {
         }
     }
 
+    // retourne les chapitres récemment lus par le lecteur
+    async function getChapterRead(): Promise<ChapterReadData[] | []> {
+        if (process.client) {
+            if (localStorage.getItem('user')) {
+                const token = JSON.parse(localStorage.getItem("user") || '{}').token;
+                const response = await axios.get(`/chapter_reads/recently`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                return response?.data;
+            }
+        }
+        return [];
+    }
+
     return {
         saveRead,
+        getChapterRead,
     }
 }

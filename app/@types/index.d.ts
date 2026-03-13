@@ -134,6 +134,12 @@ interface ChapterData {
   chapter_comments?: any
 }
 
+interface ChapterReadData {
+  chapter: ChapterData
+  reading_time: string
+  created_at: Date
+}
+
 interface Chapter {
   id: number
   number: string

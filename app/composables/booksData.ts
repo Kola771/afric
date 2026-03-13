@@ -61,6 +61,38 @@ export function booksData() {
         return response?.data;
     }
 
+    // proposition de livres à l'utilisateur connecté sur son profil
+    async function propositionsBooks(): Promise<BookData[] | []> {
+        if (process.client) {
+            if (localStorage.getItem('user')) {
+                const token = JSON.parse(localStorage.getItem("user") || '{}').token;
+                const response = await axios.get(`/books/propositions-books`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                return response?.data;
+            }
+        }
+        return [];
+    }
+
+    // fonction pour récupérer les 5 récents livres où le lecteur a réagi
+    async function getBooksReactionsByIdUser(): Promise<BookData[] | []> {
+        if (process.client) {
+            if (localStorage.getItem('user')) {
+                const token = JSON.parse(localStorage.getItem("user") || '{}').token;
+                const response = await axios.get(`/books/books-reactions-by-id-user`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                return response?.data;
+            }
+        }
+        return [];
+    }
+
     // livres liés à un auteur
     async function findAllPaginatedAuthor(page: number = 1, limit: number = 25, id_user: number): Promise<{ data: BookData[], total: number, totalPages: number, currentPage: number }> {
         if (process.client) {
@@ -222,6 +254,8 @@ export function booksData() {
         getFiveRatingAge,
         findAllPaginatedStatutOrRatingAge,
         countDistinctBooks,
+        propositionsBooks,
+        getBooksReactionsByIdUser,
         existingData,
         getFiveTopBooks,
         findRandom,
