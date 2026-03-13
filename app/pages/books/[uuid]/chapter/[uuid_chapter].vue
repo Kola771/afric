@@ -81,7 +81,7 @@
                                 </div>
                             </div>
                             <button class="flex items-center gap-2 hover:text-blue-600 transition-colors">
-                                <Icon name="mdi:message-text-outline" class="w-5 h-5" />
+                                <Icon name="mdi:eye" class="w-5 h-5" />
                                 <span class="text-sm font-medium">{{ formatNumber(chapter.chapter_reads.length || 0) }}
                                     Vue{{chapter.chapter_reactions.length > 1 ? 's' : '' }}</span>
                             </button>

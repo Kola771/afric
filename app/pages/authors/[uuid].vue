@@ -81,7 +81,7 @@
                             </span>
                         </div>
                     </div>
-                    <div class="w-full">
+                    <div class="w-full" v-if="user && (Number(user.id) !== Number(author.id))">
                         <button v-if="!follow" :disabled="loading" @click.stop="followAuthor(author.id)"
                             class="bg-orange-700 hover:bg-orange-800 transition-all duration-300 ease-linear dark:border dark:border-slate-300 dark:bg-slate-800 dark:hover:bg-slate-900 hover:bg-primary text-white text-xs w-full p-2.5 rounded-lg">
                             Suivre

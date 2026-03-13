@@ -1,43 +1,33 @@
 <template>
   <article
-    class="group border border-slate-200 rounded-2xl flex flex-col bg-slate-50 dark:bg-slate-800 w-full mx-auto cursor-pointer"
-  >
-    <div class="flex flex-col" @click="openTheAuthorDetail(props.author.uuid)">
+    class="group border border-slate-200 rounded-2xl flex flex-col h-full bg-slate-50 dark:bg-slate-800 w-full mx-auto cursor-pointer">
+    <div class="flex flex-col flex-1" @click="openTheAuthorDetail(props.author.uuid)">
       <div class="flex flex-col gap-4 rounded-lg p-2">
         <div
-          class="relative flex-shrink-0 overflow-hidden rounded-lg shadow-subtle group-hover:shadow-xl transition-all duration-300 ring-1 ring-slate-900/5"
-        >
-          <img
-            v-if="props.author.photo"
-            :src="`${config.public.apiBackendUrl}/uploads/users/${props.author.photo}`"
+          class="relative flex-shrink-0 overflow-hidden rounded-lg shadow-subtle group-hover:shadow-xl transition-all duration-300 ring-1 ring-slate-900/5">
+          <img v-if="props.author.photo" :src="`${config.public.apiBackendUrl}/uploads/users/${props.author.photo}`"
             class="w-full h-24 md:h-36 lg:h-48 object-cover transition-transform duration-500 group-hover:scale-105"
-            :alt="props.author.name"
-          />
+            :alt="props.author.name" />
 
-          <span
-            v-else
+          <span v-else
             class="p-1 text-md lg:text-2xl font-bold flex items-center justify-center w-full h-24 md:h-36 lg:h-48"
-            :style="`background-color: ${props.author.code_color}`"
-          >
+            :style="`background-color: ${props.author.code_color}`">
             {{
               props.author.name.split(" ").length > 1
                 ? `${props.author.name.charAt(0).toUpperCase()}${props.author.name
-                    .split(" ")[1]
-                    ?.charAt(0)
-                    .toUpperCase()}`
+                  .split(" ")[1]
+                  ?.charAt(0)
+                  .toUpperCase()}`
                 : props.author.name.charAt(0).toUpperCase()
             }}
           </span>
 
-          <div
-            class="absolute top-2 left-2 bg-slate-900/90 text-white px-1.5 py-0.5 rounded text-[10px] font-bold"
-          >
+          <div class="absolute top-2 left-2 bg-slate-900/90 text-white px-1.5 py-0.5 rounded text-[10px] font-bold">
             {{ index + 1 }}
           </div>
 
           <div
-            class="absolute bottom-2 right-2 bg-slate-900/90 text-white px-1.5 py-0.5 rounded text-[10px] font-bold uppercase"
-          >
+            class="absolute bottom-2 right-2 bg-slate-900/90 text-white px-1.5 py-0.5 rounded text-[10px] font-bold uppercase">
             {{ props.author.rank }}
           </div>
         </div>
@@ -45,22 +35,16 @@
         <div class="flex flex-col gap-1.5">
           <div>
             <h3
-              class="font-display font-medium text-slate-900 dark:text-slate-200 text-base leading-snug group-hover:text-orange-600 transition-colors line-clamp-1"
-            >
+              class="font-display font-medium text-slate-900 dark:text-slate-200 text-base leading-snug group-hover:text-orange-600 transition-colors line-clamp-1">
               {{ props.author.name }}
             </h3>
 
-            <p
-              class="text-xs text-slate-500 dark:text-slate-200 font-medium"
-            >
+            <p class="text-xs text-slate-500 dark:text-slate-200 font-medium">
               Originaire : {{ props.author.country.name }}
             </p>
           </div>
 
-          <p
-            class="hidden line-clamp-3 text-xs text-slate-600 dark:text-slate-300"
-            v-html="props.author?.bibliography"
-          >
+          <p class="hidden line-clamp-3 text-xs text-slate-600 dark:text-slate-300" v-html="props.author?.bibliography">
           </p>
         </div>
       </div>
@@ -84,26 +68,24 @@
       </div>
     </div>
 
-    <div
-      class="dark:border-t-[1px] p-2 dark:border-slate-300 w-full grid grid-cols-1 gap-2 text-[10px] font-semibold"
-    >
-      <button
-        v-if="!follow"
-        :disabled="loading"
-        @click.stop="followAuthor(props.author.id)"
-        class="bg-orange-600 hover:bg-orange-700 dark:bg-orange-500 dark:hover:bg-orange-600 transition-all duration-300 text-white p-2 rounded"
-      >
-        Suivre
-      </button>
+    <div class="dark:border-t-[1px] p-2 dark:border-slate-300 w-full grid grid-cols-1 gap-2 text-[10px] font-semibold">
+      <template v-if="user && Number(user.id) !== Number(author.id)">
+        <button v-if="!follow" :disabled="loading" @click.stop="followAuthor(props.author.id)"
+          class="bg-orange-600 hover:bg-orange-700 text-white p-2 rounded">
+          Suivre
+        </button>
 
-      <button
-        v-else
-        :disabled="loading"
-        @click.stop="unFollowAuthor(props.author.id)"
-        class="bg-orange-700 hover:bg-orange-800 dark:bg-orange-600 dark:hover:bg-orange-700 transition-all duration-300 text-white p-2 rounded"
-      >
-        Se désabonner
-      </button>
+        <button v-else :disabled="loading" @click.stop="unFollowAuthor(props.author.id)"
+          class="bg-orange-700 hover:bg-orange-800 text-white p-2 rounded">
+          Se désabonner
+        </button>
+      </template>
+      <template v-else>
+        <nuxt-link :to="`/authors/${author.uuid}`"
+          class="bg-slate-600 hover:bg-slate-700 text-white p-2 text-center rounded">
+          Détails
+        </nuxt-link>
+      </template>
     </div>
   </article>
 </template>
@@ -119,7 +101,7 @@ const props = defineProps<{
   author: Author;
 }>();
 
-const follow = ref<boolean|any>(false);
+const follow = ref<boolean | any>(false);
 const loading = ref<boolean>(false);
 
 const openTheAuthorDetail = (uuid: string) => {
