@@ -20,6 +20,12 @@ export function booksData() {
         return book.data;
     }
 
+    // recherche via uuid
+    async function getActiveBookByUuid(uuid: string) {
+        const book = await axios.get(`/books/active/${uuid}`);
+        return book.data;
+    }
+
     // nombre de livres valides et disponibles sur la plateforme
     async function countDistinctBooks() {
         try {
@@ -266,6 +272,7 @@ export function booksData() {
         findAllPaginated,
         allBooksActifs,
         getBookByUuid,
+        getActiveBookByUuid,
         createData,
         updateData,
         updateImg,

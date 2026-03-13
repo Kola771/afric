@@ -578,7 +578,7 @@ definePageMeta({
   ssr: false
 });
 
-const { getBookByUuid } = booksData();
+const { getActiveBookByUuid } = booksData();
 const { toConnectUser } = authenticate();
 const { findAllPaginated, createData, createManyData, updateData, deleteData } = chaptersData();
 const book = ref<BookData | null>(null);
@@ -961,7 +961,7 @@ function loadChapter(id: number) {
 
 const onLoad = async () => {
   user.value = await toConnectUser();
-  book.value = await getBookByUuid(`${uuid}`);
+  book.value = await getActiveBookByUuid(`${uuid}`);
   if (((user.value && book.value) && (Number(user.value.id) === Number(book.value.id_user)))) {
     const { data, totalPages: tp } = await findAllPaginated(page.value, limit.value, book.value.id);
     totalPages.value = tp;
@@ -979,7 +979,7 @@ const onLoad = async () => {
       }
     }
   } else {
-    router.push("/")
+    // router.push("/")
   }
 }
 
