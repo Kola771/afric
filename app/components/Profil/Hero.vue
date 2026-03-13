@@ -199,7 +199,7 @@ const countViews = (books: BookData[]): number => {
 
 onMounted(async () => {
     user.value = await toConnectUser();
-    if (user.value) {
+    if (user.value && user.value.role.toLocaleLowerCase() !== "lecteur") {
         const { data } = await findByUuid(`${user.value.uuid}`);
         author.value = data;
     }

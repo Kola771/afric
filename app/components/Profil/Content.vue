@@ -1,5 +1,9 @@
 <template>
-    <div class="max-w-7xl z-10 mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div class="max-w-7xl z-10 mx-auto px-4 sm:px-6 lg:px-8 py-10 grid grid-cols-1 gap-10" v-if="user">
+        <div class="bg-red-50 text-red-500 flex flex-col items-start gap-2 text-xs p-2 rounded-lg font-medium border-red-100 border" v-if="user?.preferences && user.preferences.length === 0">
+            Choisissez vos préférences afin de personnaliser votre expérience de lecture.
+            <nuxt-link to="/profil/personal" class="bg-red-600 hover:bg-red-700 transition-all duration-300 hover:ease-linear text-white px-5 py-2 rounded-lg"> Choisir mes préférences</nuxt-link>
+        </div>
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
 
             <!-- LEFT COLUMN (Main Content) -->
@@ -167,6 +171,8 @@
 <script lang="ts" setup>
 const config = useRuntimeConfig();
 const router = useRouter();
+const { toConnectUser } = authenticate();
+const user = ref<User | null>(null);
 const authors = ref<Author[]>([]);
 const books = ref<BookData[]>([]);
 const bookReactions = ref<BookData[]>([]);
@@ -199,6 +205,7 @@ const onLoadBookReactions = async () => {
 }
 
 const onLoad = async () => {
+    user.value = await toConnectUser();
     await onLoadChapterRead();
     const { data } = await propositionsAuthors();
     const res = await propositionsBooks();

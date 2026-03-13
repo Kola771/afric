@@ -104,8 +104,10 @@
 <script lang="ts" setup>
 const { allCategorieActifs } = categoriesData();
 const { existingData, createData } = booksData();
+const { getProfile } = usersData();
 const { toConnectUser } = authenticate();
 const user = ref<User | null>(null);
+const profil = ref<User | null>(null);
 const title = ref<string>("");
 const description = ref<string>("");
 const rating_age = ref<string>("");
@@ -174,12 +176,16 @@ const createBook = async () => {
 onMounted(async () => {
     categories.value = await allCategorieActifs();
     user.value = await toConnectUser();
+    profil.value = await getProfile();
     if (!user.value) {
         router.push("/login");
-    } else {
+    } 
+    if((user.value && profil.value) && authorizeRoleUser(`${profil.value.role.toLocaleLowerCase()}`)) {
         useSeoMeta({
             title: `Ajout d'un livre`,
         });
+    } else {
+        router.back();
     }
 })
 </script>

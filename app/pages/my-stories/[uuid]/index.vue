@@ -46,73 +46,82 @@
         </div>
 
         <div
-          :class="`${['completed'].includes(book.status) ? 'max-h-screen' : 'max-h-[80vh]'} flex-1 overflow-y-auto custom-scroll p-3 space-y-1`"
-          v-if="chapters?.length > 0">
-          <div v-for="chap in chapters" :key="chap.id" class="flex flex-col justify-between gap-1" :class="[
-            'w-full group flex items-start gap-3 p-3 rounded-xl text-left transition-all',
-            chap.id === currentChapterId
-              ? 'bg-slate-50 dark:bg-slate-100 border border-slate-200'
-              : 'border border-slate-300 dark:hover:bg-slate-100 dark:border-slate-200 hover:border-slate-200 hover:bg-slate-50'
-          ]">
-            <button @click="attemptSwitchChapter(chap.id)"
-              class="w-full group flex items-start gap-3 text-left transition-all">
-              <div :class="['mt-0.5 shrink-0', chap.id === currentChapterId ? 'text-orange-600' : 'text-slate-400']">
-                <Icon :name="chap.id === currentChapterId ? 'mdi:book-open-variant' : 'mdi:book-open-variant-outline'"
-                  class="w-5 h-5" />
-              </div>
-              <div class="min-w-0 flex-1">
-                <div class="flex justify-between items-center mb-0.5">
-                  <span
-                    :class="['text-xs font-medium truncate', chap.id === currentChapterId ? 'text-slate-900' : 'text-slate-700 dark:text-white group-hover:text-slate-900']">{{
-                      chap.title }}</span>
-                  <span
-                    :class="['text-[10px] font-semibold px-1.5 py-0.5 rounded border', chap.status.toLocaleLowerCase() === 'completed' ? 'bg-green-50 text-green-600 border-green-100' : 'bg-slate-100 text-slate-500 border-slate-200']">{{
-                      showStatus(`${chap.status}`) }}</span>
+          :class="`${['completed'].includes(book.status) ? 'max-h-screen' : 'max-h-[80vh]'} flex-1 overflow-y-auto custom-scroll p-3 space-y-1`">
+          <!-- Skeleton -->
+          <template v-if="loadingSkeleton">
+            <MyStoryChapterSkeleton v-for="index in 5" :key="index" />
+          </template>
+          <template v-else>
+            <div v-for="chap in chapters" :key="chap.id" class="flex flex-col justify-between gap-1" :class="[
+              'w-full group flex items-start gap-3 p-3 rounded-xl text-left transition-all',
+              chap.id === currentChapterId
+                ? 'bg-slate-50 dark:bg-slate-100 border border-slate-200'
+                : 'border border-slate-300 dark:hover:bg-slate-100 dark:border-slate-200 hover:border-slate-200 hover:bg-slate-50'
+            ]">
+              <button @click="attemptSwitchChapter(chap.id)"
+                class="w-full group flex items-start gap-3 text-left transition-all">
+                <div :class="['mt-0.5 shrink-0', chap.id === currentChapterId ? 'text-orange-600' : 'text-slate-400']">
+                  <Icon :name="chap.id === currentChapterId ? 'mdi:book-open-variant' : 'mdi:book-open-variant-outline'"
+                    class="w-5 h-5" />
                 </div>
-                <div class="flex justify-between items-center gap-2">
-                  <p
-                    :class="['text-xs truncate font-serif line-clamp-1', chap.id === currentChapterId ? 'text-slate-500' : 'text-slate-400']">
-                    {{ formatLocalDate(`${chap.created_at}`) }}</p>
-                  <div class="flex items-center gap-1">
-                    <div class="text-xs">
-                      <span class="font-semibold text-slate-900 dark:text-slate-400">{{ formatNumber(chap.chapter_reactions || 0) }}</span>
-                      <span class="text-slate-400 dark:text-slate-600">
-                        <Icon name="mdi:heart" class="w-4 h-4" />
-                      </span>
-                    </div>
-                    <div class="text-xs">
-                      <span class="font-semibold text-slate-900 dark:text-slate-400">{{ formatNumber(chap.chapter_reads || 0) }}</span>
-                      <span class="text-slate-400 dark:text-slate-600">
-                        <Icon name="mdi:eye" class="w-4 h-4" />
-                      </span>
-                    </div>
-                    <div class="w-px h-3 bg-slate-200"></div>
-                    <div class="text-xs">
-                      <span class="font-semibold text-slate-900 dark:text-slate-400">{{ formatNumber(chap.chapter_comments || 0) }}</span> <span class="text-slate-400 dark:text-slate-600">
-                        <Icon name="mdi:comments" class="w-4 h-4" />
-                      </span>
+                <div class="min-w-0 flex-1">
+                  <div class="flex justify-between items-center mb-0.5">
+                    <span
+                      :class="['text-xs font-medium truncate', chap.id === currentChapterId ? 'text-slate-900' : 'text-slate-700 dark:text-white group-hover:text-slate-900']">{{
+                        chap.title }}</span>
+                    <span
+                      :class="['text-[10px] font-semibold px-1.5 py-0.5 rounded border', chap.status.toLocaleLowerCase() === 'completed' ? 'bg-green-50 text-green-600 border-green-100' : 'bg-slate-100 text-slate-500 border-slate-200']">{{
+                        showStatus(`${chap.status}`) }}</span>
+                  </div>
+                  <div class="flex justify-between items-center gap-2">
+                    <p
+                      :class="['text-xs truncate font-serif line-clamp-1', chap.id === currentChapterId ? 'text-slate-500' : 'text-slate-400']">
+                      {{ formatLocalDate(`${chap.created_at}`) }}</p>
+                    <div class="flex items-center gap-1">
+                      <div class="text-xs">
+                        <span class="font-semibold text-slate-900 dark:text-slate-400">{{
+                          formatNumber(chap.chapter_reactions || 0) }}</span>
+                        <span class="text-slate-400 dark:text-slate-600">
+                          <Icon name="mdi:heart" class="w-4 h-4" />
+                        </span>
+                      </div>
+                      <div class="text-xs">
+                        <span class="font-semibold text-slate-900 dark:text-slate-400">{{
+                          formatNumber(chap.chapter_reads || 0) }}</span>
+                        <span class="text-slate-400 dark:text-slate-600">
+                          <Icon name="mdi:eye" class="w-4 h-4" />
+                        </span>
+                      </div>
+                      <div class="w-px h-3 bg-slate-200"></div>
+                      <div class="text-xs">
+                        <span class="font-semibold text-slate-900 dark:text-slate-400">{{
+                          formatNumber(chap.chapter_comments || 0) }}</span> <span
+                          class="text-slate-400 dark:text-slate-600">
+                          <Icon name="mdi:comments" class="w-4 h-4" />
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
+              </button>
+              <div class="w-full flex justify-end gap-2">
+                <button @click="saveUpdateChapter(chap, STATUS.COMPLETED)" v-if="chap.status === 'draft'"
+                  class="dark:border dark:bg-slate-800 flex items-center gap-2 px-2 py-1 font-medium text-white bg-slate-900 rounded hover:bg-slate-800 transition-all shadow-sm text-[10px]">
+                  Publier
+                </button>
+                <button @click="saveUpdateChapter(chap, STATUS.DRAFT)" v-else
+                  class="hidden sm:flex items-center gap-2 px-2 py-1 font-medium text-slate-700 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors text-[10px]">
+                  Brouillon
+                </button>
+                <button class="text-[10px] text-red-400 dark:text-red-500 font-medium flex-shrink-0 text-right"
+                  @click="showDelete(chap)">
+                  <Icon name="mdi:trash" class="w-4 h-4" />
+                </button>
               </div>
-            </button>
-            <div class="w-full flex justify-end gap-2">
-              <button @click="saveUpdateChapter(chap, STATUS.COMPLETED)" v-if="chap.status === 'draft'"
-                class="dark:border dark:bg-slate-800 flex items-center gap-2 px-2 py-1 font-medium text-white bg-slate-900 rounded hover:bg-slate-800 transition-all shadow-sm text-[10px]">
-                Publier
-              </button>
-              <button @click="saveUpdateChapter(chap, STATUS.DRAFT)" v-else
-                class="hidden sm:flex items-center gap-2 px-2 py-1 font-medium text-slate-700 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors text-[10px]">
-                Brouillon
-              </button>
-              <button class="text-[10px] text-red-400 dark:text-red-500 font-medium flex-shrink-0 text-right"
-                @click="showDelete(chap)">
-                <Icon name="mdi:trash" class="w-4 h-4" />
-              </button>
             </div>
-          </div>
+          </template>
         </div>
-        <div v-else class="flex flex-col items-center justify-center py-16 text-center h-screen">
+        <div v-if="!loadingSkeleton && !chapters.length" class="flex flex-col items-center justify-center py-16 text-center h-screen">
           <Icon name="mdi:book-outline" class="w-12 h-12 text-slate-300 mb-3" />
 
           <p class="text-slate-500 text-sm font-medium">
@@ -206,7 +215,8 @@
                 <div v-for="(progress, idx) in ocrProgressList" :key="'bar' + idx"
                   class="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
                   <div class="bg-orange-500 h-2 transition-all duration-300 ease-out"
-                    :style="{ width: progress + '%' }"></div>
+                    :style="{ width: progress + '%' }">
+                  </div>
                 </div>
               </div>
             </div>
@@ -263,73 +273,85 @@
           </button>
         </div>
         <div
-          :class="`${['completed'].includes(book.status) ? 'max-h-[calc(100vh-5rem)]' : 'max-h-[calc(100vh-10rem)]'} space-y-2 overflow-y-auto`"
-          v-if="chapters?.length > 0">
-          <div v-for="chap in chapters" :key="chap.id" class="flex flex-col justify-between gap-1" :class="[
-            'w-full group flex items-start gap-3 p-3 rounded-xl text-left transition-all',
-            chap.id === currentChapterId
-              ? 'bg-slate-50 dark:bg-slate-100 border border-slate-200'
-              : 'border border-slate-300 dark:hover:bg-slate-100 dark:border-slate-200 hover:border-slate-200 hover:bg-slate-50'
-          ]">
-            <button @click="attemptSwitchChapter(chap.id)"
-              class="max-w-full group flex items-start gap-3 text-left transition-all">
-              <div :class="['mt-0.5 shrink-0', chap.id === currentChapterId ? 'text-orange-600' : 'text-slate-400']">
-                <Icon :name="chap.id === currentChapterId ? 'mdi:book-open-variant' : 'mdi:book-open-variant-outline'"
-                  class="w-5 h-5" />
-              </div>
-              <div class="min-w-0 flex-1">
-                <div class="flex justify-between items-center mb-0.5">
-                  <span
-                    :class="['text-xs font-medium truncate w-2/3', chap.id === currentChapterId ? 'text-slate-900' : 'text-slate-700 dark:text-white group-hover:text-slate-900']">{{
-                      chap.title }}</span>
-                  <span
-                    :class="['text-[10px] font-semibold px-1.5 py-0.5 rounded border', chap.status.toLocaleLowerCase() === 'completed' ? 'bg-green-50 text-green-600 border-green-100' : 'bg-slate-100 text-slate-500 border-slate-200']">{{
-                      showStatus(`${chap.status}`) }}</span>
+          :class="`${['completed'].includes(book.status) ? 'max-h-[calc(100vh-5rem)]' : 'max-h-[calc(100vh-10rem)]'} space-y-2 overflow-y-auto`">
+          <!-- Skeleton -->
+          <template v-if="loadingSkeleton">
+            <MyStoryChapterSkeleton v-for="index in 5" :key="index" />
+          </template>
+          <template v-else>
+            <div v-for="chap in chapters" :key="chap.id" class="flex flex-col justify-between gap-1" :class="[
+              'w-full group flex items-start gap-3 p-3 rounded-xl text-left transition-all',
+              chap.id === currentChapterId
+                ? 'bg-slate-50 dark:bg-slate-100 border border-slate-200'
+                : 'border border-slate-300 dark:hover:bg-slate-100 dark:border-slate-200 hover:border-slate-200 hover:bg-slate-50'
+            ]">
+              <button @click="attemptSwitchChapter(chap.id)"
+                class="max-w-full group flex items-start gap-3 text-left transition-all">
+                <div :class="['mt-0.5 shrink-0', chap.id === currentChapterId ? 'text-orange-600' : 'text-slate-400']">
+                  <Icon :name="chap.id === currentChapterId ? 'mdi:book-open-variant' : 'mdi:book-open-variant-outline'"
+                    class="w-5 h-5" />
                 </div>
-                <div class="flex justify-between items-center gap-2">
-                  <p
-                    :class="['text-xs truncate font-serif line-clamp-1', chap.id === currentChapterId ? 'text-slate-500' : 'text-slate-400']">
-                    {{ formatLocalDate(`${chap.created_at}`) }}</p>
-                  <div class="flex items-center gap-1">
-                    <div class="text-xs">
-                      <span class="font-semibold text-slate-900 dark:text-slate-400">{{ formatNumber(chap.chapter_reactions || 0) }}</span>
-                      <span class="text-slate-400 dark:text-slate-600">
-                        <Icon name="mdi:heart" class="w-4 h-4" />
-                      </span>
-                    </div>
-                    <div class="text-xs">
-                      <span class="font-semibold text-slate-900 dark:text-slate-400">{{ formatNumber(chap.chapter_reads || 0) }}</span>
-                      <span class="text-slate-400 dark:text-slate-600">
-                        <Icon name="mdi:eye" class="w-4 h-4" />
-                      </span>
-                    </div>
-                    <div class="w-px h-3 bg-slate-200"></div>
-                    <div class="text-xs">
-                      <span class="font-semibold text-slate-900 dark:text-slate-400">{{ formatNumber(chap.chapter_comments || 0) }}</span> <span class="text-slate-400 dark:text-slate-600">
-                        <Icon name="mdi:comments" class="w-4 h-4" />
-                      </span>
+                <div class="min-w-0 flex-1">
+                  <div class="flex justify-between items-center mb-0.5">
+                    <span
+                      :class="['text-xs font-medium truncate w-2/3', chap.id === currentChapterId ? 'text-slate-900' : 'text-slate-700 dark:text-white group-hover:text-slate-900']">{{
+                        chap.title }}</span>
+                    <span
+                      :class="['text-[10px] font-semibold px-1.5 py-0.5 rounded border', chap.status.toLocaleLowerCase() === 'completed' ? 'bg-green-50 text-green-600 border-green-100' : 'bg-slate-100 text-slate-500 border-slate-200']">{{
+                        showStatus(`${chap.status}`) }}</span>
+                  </div>
+                  <div class="flex justify-between items-center gap-2">
+                    <p
+                      :class="['text-xs truncate font-serif line-clamp-1', chap.id === currentChapterId ? 'text-slate-500' : 'text-slate-400']">
+                      {{ formatLocalDate(`${chap.created_at}`) }}</p>
+                    <div class="flex items-center gap-1">
+                      <div class="text-xs">
+                        <span class="font-semibold text-slate-900 dark:text-slate-400">{{
+                          formatNumber(chap.chapter_reactions
+                            || 0) }}</span>
+                        <span class="text-slate-400 dark:text-slate-600">
+                          <Icon name="mdi:heart" class="w-4 h-4" />
+                        </span>
+                      </div>
+                      <div class="text-xs">
+                        <span class="font-semibold text-slate-900 dark:text-slate-400">{{
+                          formatNumber(chap.chapter_reads
+                            ||
+                          0) }}</span>
+                        <span class="text-slate-400 dark:text-slate-600">
+                          <Icon name="mdi:eye" class="w-4 h-4" />
+                        </span>
+                      </div>
+                      <div class="w-px h-3 bg-slate-200"></div>
+                      <div class="text-xs">
+                        <span class="font-semibold text-slate-900 dark:text-slate-400">{{
+                          formatNumber(chap.chapter_comments
+                            || 0) }}</span> <span class="text-slate-400 dark:text-slate-600">
+                          <Icon name="mdi:comments" class="w-4 h-4" />
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
+              </button>
+              <div class="w-full flex justify-end gap-2">
+                <button @click="saveUpdateChapter(chap, STATUS.COMPLETED)" v-if="chap.status === 'draft'"
+                  class="dark:border dark:bg-slate-800 flex items-center gap-2 px-2 py-1 font-medium text-white bg-slate-900 rounded hover:bg-slate-800 transition-all shadow-sm text-[10px]">
+                  Publier
+                </button>
+                <button @click="saveUpdateChapter(chap, STATUS.DRAFT)" v-else
+                  class="hidden sm:flex items-center gap-2 px-2 py-1 font-medium text-slate-700 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors text-[10px]">
+                  Brouillon
+                </button>
+                <button class="text-[10px] text-red-400 dark:text-red-500 font-medium flex-shrink-0 text-right"
+                  @click="showDelete(chap)">
+                  <Icon name="mdi:trash" class="w-4 h-4" />
+                </button>
               </div>
-            </button>
-            <div class="w-full flex justify-end gap-2">
-              <button @click="saveUpdateChapter(chap, STATUS.COMPLETED)" v-if="chap.status === 'draft'"
-                class="dark:border dark:bg-slate-800 flex items-center gap-2 px-2 py-1 font-medium text-white bg-slate-900 rounded hover:bg-slate-800 transition-all shadow-sm text-[10px]">
-                Publier
-              </button>
-              <button @click="saveUpdateChapter(chap, STATUS.DRAFT)" v-else
-                class="hidden sm:flex items-center gap-2 px-2 py-1 font-medium text-slate-700 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors text-[10px]">
-                Brouillon
-              </button>
-              <button class="text-[10px] text-red-400 dark:text-red-500 font-medium flex-shrink-0 text-right"
-                @click="showDelete(chap)">
-                <Icon name="mdi:trash" class="w-4 h-4" />
-              </button>
             </div>
-          </div>
+          </template>
         </div>
-        <div v-else class="flex flex-col items-center justify-center py-16 text-center">
+        <div v-if="!loadingSkeleton && !chapters.length" class="flex flex-col items-center justify-center py-16 text-center">
           <Icon name="mdi:book-outline" class="w-12 h-12 text-slate-300 mb-3" />
 
           <p class="text-slate-500 text-sm font-medium">
@@ -561,7 +583,6 @@
       </div>
     </div>
 
-
   </div>
 </template>
 
@@ -580,9 +601,11 @@ definePageMeta({
 
 const { getActiveBookByUuid } = booksData();
 const { toConnectUser } = authenticate();
+const { getProfile } = usersData();
 const { findAllPaginated, createData, createManyData, updateData, deleteData } = chaptersData();
 const book = ref<BookData | null>(null);
 const user = ref<User | null>(null);
+const profil = ref<User | null>(null);
 const chapters = ref<ChapterData[]>([]);
 const chapterDelete = ref<ChapterData | null>(null);
 const page = ref<number>(1);
@@ -602,13 +625,14 @@ const STATUS = ref({
   COMPLETED: "completed"
 });
 const view = ref<'edit' | 'preview'>('edit')
-const saving = ref(false)
+const saving = ref<boolean>(false)
+const loadingSkeleton = ref<boolean>(true)
 const currentChapterId = ref(1)
 const pendingChapterId = ref<number | null>(null)
 const showUnsavedModal = ref<boolean>(false)
 const showDeleteModal = ref<boolean>(false)
-let isDirty = ref(false)
-const showMobileChapters = ref(false);
+let isDirty = ref<boolean>(false)
+const showMobileChapters = ref<boolean>(false);
 const showPdfModal = ref<boolean>(false)
 const pdfFile = ref<File | null>(null)
 const pdfLoading = ref<boolean>(false)
@@ -618,7 +642,7 @@ const pdfError = ref<string | null>(null)
 const currentPdfIndex = ref<number>(0)
 const ocrProgress = ref<number>(0);
 const selectedImages = ref<File[]>([])
-const ocrLoading = ref(false)
+const ocrLoading = ref<boolean>(false)
 const ocrProgressList = ref<number[]>([])
 
 const currentPdfChapter = computed(() => {
@@ -961,8 +985,9 @@ function loadChapter(id: number) {
 
 const onLoad = async () => {
   user.value = await toConnectUser();
+  profil.value = await getProfile();
   book.value = await getActiveBookByUuid(`${uuid}`);
-  if (((user.value && book.value) && (Number(user.value.id) === Number(book.value.id_user)))) {
+  if (((user.value && book.value && profil.value) && authorizeRoleUser(`${profil.value.role.toLocaleLowerCase()}`) && (Number(profil.value.id) === Number(book.value.id_user)))) {
     const { data, totalPages: tp } = await findAllPaginated(page.value, limit.value, book.value.id);
     totalPages.value = tp;
     chapters.value = data;
@@ -979,8 +1004,9 @@ const onLoad = async () => {
       }
     }
   } else {
-    // router.push("/")
+    router.push("/")
   }
+  loadingSkeleton.value = false;
 }
 
 const createChapter = async () => {

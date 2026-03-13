@@ -136,9 +136,11 @@
 <script lang="ts" setup>
 const config = useRuntimeConfig();
 const { allCategorieActifs } = categoriesData();
-const { getBookByUuid, updateData, updateImg } = booksData();
+const { getActiveBookByUuid, updateData, updateImg } = booksData();
 const { toConnectUser } = authenticate();
+const { getProfile } = usersData();
 const user = ref<User | null>(null);
+const profil = ref<User | null>(null);
 const book = ref<BookData | null>(null);
 const title = ref<string>("");
 const status = ref<string>("");
@@ -202,20 +204,24 @@ const updateBook = async () => {
 onMounted(async () => {
     categories.value = await allCategorieActifs();
     user.value = await toConnectUser();
-    book.value = await getBookByUuid(`${uuid}`);
+    profil.value = await getProfile();
+    book.value = await getActiveBookByUuid(`${uuid}`);
     if (book.value) {
+        if (!user.value) {
+            router.push("/login");
+        }
+        if ((user.value && profil.value) && authorizeRoleUser(`${profil.value.role.toLocaleLowerCase()}`) && Number(profil.value.id) === Number(book.value.id_user)) {
+            useSeoMeta({
+                title: `Modification du livre : ${book.value?.title}`,
+            });
+        } else {
+            router.back();
+        }
         title.value = book.value.title;
         description.value = book.value.description.replace('<br>', '\n');
         status.value = book.value.status;
         rating_age.value = book.value.rating_age;
         selectedCategories.value = book.value.book_categories.map((category: Category) => category.id);
-    }
-    if (!user.value) {
-        router.push("/login");
-    } else {
-        useSeoMeta({
-            title: `Modification du livre : ${book.value?.title}`,
-        });
     }
 })
 </script>
