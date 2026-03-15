@@ -4,14 +4,40 @@ export function rolesData() {
 
     // Tous les rôles
     async function allRoles() {
-        const roles = await axios.get(`/roles`);
-        return roles.data;
+        if (process.client) {
+            if (localStorage.getItem('user')) {
+                try {
+                    const token = JSON.parse(localStorage.getItem("user") || '{}').token;
+                    const roles = await axios.get(`/roles`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
+                    return roles.data;
+                } catch (error: any) {
+                    return { success: false, status: error.response?.status || 500, error: error.message };
+                }
+            }
+        }
     }
 
     // recherche via uuid
     async function getRoleByUuid(uuid: string) {
-        const role = await axios.get(`/roles/${uuid}`);
-        return role.data;
+        if (process.client) {
+            if (localStorage.getItem('user')) {
+                const token = JSON.parse(localStorage.getItem("user") || '{}').token;
+                try {
+                    const role = await axios.get(`/roles/${uuid}`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
+                    return role.data;
+                } catch (error: any) {
+                    return { success: false, status: error.response?.status || 500, error: error.message };
+                }
+            }
+        }
     }
 
     // Création d'un rôle
@@ -20,7 +46,11 @@ export function rolesData() {
             if (localStorage.getItem('user')) {
                 const token = JSON.parse(localStorage.getItem("user") || '{}').token;
                 try {
-                    const response = await axios.post(`/roles`, { token, ...data });
+                    const response = await axios.post(`/roles`, data, {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        }
+                    });
                     return response?.data;
                 } catch (error: any) {
                     return { success: false, status: error.response?.status || 500, error: error.message };

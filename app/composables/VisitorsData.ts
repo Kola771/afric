@@ -2,6 +2,7 @@ import axios from "axios";
 
 export function visitorsData() {
 
+    // 
     async function getVisit(): Promise<{ success: boolean, msg?: string, error?: string | null, status?: number }> {
         try {
             const today = new Date().toISOString().split("T")[0];
@@ -27,9 +28,32 @@ export function visitorsData() {
         }
     }
 
+    // 
     async function findAll() {
         try {
             const response = await axios.get(`/visitors`);
+
+            return response?.data;
+        } catch (error: any) {
+            return { success: false, status: error.response?.status || 500, error: error.message };
+        }
+    }
+
+    // 
+    async function countDistinctIpsLast7Days() {
+        try {
+            const response = await axios.get(`/visitors/recently`);
+
+            return response?.data;
+        } catch (error: any) {
+            return { success: false, status: error.response?.status || 500, error: error.message };
+        }
+    }
+
+    // 
+    async function getVisitorsPercentageByCountry() {
+        try {
+            const response = await axios.get(`/visitors/percentage-by-country`);
 
             return response?.data;
         } catch (error: any) {
@@ -41,5 +65,7 @@ export function visitorsData() {
     return {
         getVisit,
         findAll,
+        countDistinctIpsLast7Days,
+        getVisitorsPercentageByCountry,
     }
 }

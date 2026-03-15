@@ -37,8 +37,25 @@ export function useChapterReads() {
         return [];
     }
 
+    // retourne le nombre de lecture par semaine
+    async function getReadsByWeek(data: {start: string, end: string}): Promise<any> {
+        if (process.client) {
+            if (localStorage.getItem('user')) {
+                const token = JSON.parse(localStorage.getItem("user") || '{}').token;
+                const response = await axios.post(`/chapter_reads/reads-by-week`, data, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                return response?.data;
+            }
+        }
+        return [];
+    }
+
     return {
         saveRead,
         getChapterRead,
+        getReadsByWeek,
     }
 }

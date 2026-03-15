@@ -36,6 +36,38 @@ export function usersData() {
         return null;
     }
 
+    // Retourne le nombre total d'utilisateurs actifs
+    async function countUserActifs() {
+        if (process?.client) {
+            if (localStorage.getItem("user")) {
+                const token = JSON.parse(localStorage.getItem("user") || '{}').token;
+                const response = await axios.get('/users/actifs', {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                return response?.data;
+            }
+        }
+        return null;
+    }
+
+    // Retourne le nombre total d'auteurs actifs
+    async function countAuthorsActifs() {
+        if (process?.client) {
+            if (localStorage.getItem("user")) {
+                const token = JSON.parse(localStorage.getItem("user") || '{}').token;
+                const response = await axios.get('/users/author-actifs', {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                return response?.data;
+            }
+        }
+        return null;
+    }
+
     // Propose des auteurs ayant ou non les certaines préférences en commum avec le lecteur
     async function propositionsAuthors() {
         if (process?.client) {
@@ -58,5 +90,7 @@ export function usersData() {
         findByUuid,
         getProfile,
         propositionsAuthors,
+        countUserActifs,
+        countAuthorsActifs,
     }
 }
