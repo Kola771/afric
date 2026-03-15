@@ -101,6 +101,15 @@
                             <th class="font-semibold py-3 px-6 whitespace-nowrap">Statut</th>
                         </tr>
                     </thead>
+                    <tbody v-if="books.length === 0 && !loading" class="text-xs">
+                        <tr class="border-b border-slate-50 whitespace-nowrap">
+
+                            <!-- Book -->
+                            <td class="py-3 px-6" v-for="i in 5" :key="i">
+                                Pas de données
+                            </td>
+                        </tr>
+                    </tbody>
                     <tbody v-if="loading" class="text-sm">
                         <tr v-for="i in 5" :key="i" class="border-b border-slate-50">
 
@@ -144,7 +153,7 @@
                         </tr>
                     </tbody>
 
-                    <tbody v-else class="text-sm">
+                    <tbody v-if="!loading && books.length !== 0" class="text-sm">
                         <tr class="group hover:bg-slate-50 transition-colors border-b border-slate-50"
                             v-for="(book, index) in books" :key="index">
                             <td class="py-3 px-6">

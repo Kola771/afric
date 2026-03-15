@@ -83,6 +83,22 @@ export function booksData() {
         return [];
     }
 
+    // retourne tous les livres par bond de 25 sans prise en compte de leur status
+    async function findAllBooksPaginated(page: number = 1, limit: number = 25): Promise<{ data: BookData[], total: number, totalPages: number, currentPage: number }> {
+        if (process.client) {
+            if (localStorage.getItem('user')) {
+                const token = JSON.parse(localStorage.getItem("user") || '{}').token;
+                const response = await axios.get(`/books/all`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                return response?.data;
+            }
+        }
+        return { data: [], total: 0, totalPages: 0, currentPage: 0 };
+    }
+
     // fonction pour récupérer les 5 récents livres où le lecteur a réagi
     async function getBooksReactionsByIdUser(): Promise<BookData[] | []> {
         if (process.client) {
@@ -261,6 +277,7 @@ export function booksData() {
         findAllPaginatedStatutOrRatingAge,
         countDistinctBooks,
         propositionsBooks,
+        findAllBooksPaginated,
         getBooksReactionsByIdUser,
         existingData,
         getFiveTopBooks,

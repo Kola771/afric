@@ -1,14 +1,17 @@
 <template>
     <div class="max-w-6xl mx-auto space-y-6">
-                
+
         <!-- Page Header -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-                <h1 class="text-xl font-display font-bold text-slate-900 dark:text-white tracking-tight">Gestion des Histoires</h1>
-                <p class="text-sm text-slate-500 dark:text-slate-200 mt-1">Gérez les histoires, leurs permissions et suivez leurs performances.</p>
+                <h1 class="text-xl font-display font-bold text-slate-900 dark:text-white tracking-tight">Gestion des
+                    Histoires</h1>
+                <p class="text-sm text-slate-500 dark:text-slate-200 mt-1">Gérez les histoires, leurs permissions et
+                    suivez leurs performances.</p>
             </div>
             <div class="flex gap-3">
-                    <button class="h-9 px-4 rounded-lg bg-white dark:bg-slate-100 border border-slate-200 text-xs font-medium text-slate-700 hover:bg-slate-50 shadow-sm transition-colors flex items-center gap-2">
+                <button
+                    class="h-9 px-4 rounded-lg bg-white dark:bg-slate-100 border border-slate-200 text-xs font-medium text-slate-700 hover:bg-slate-50 shadow-sm transition-colors flex items-center gap-2">
                     <Icon name="solar:export-linear" class="w-5 h-5" />
                     Exporter
                 </button>
@@ -61,24 +64,36 @@
         </div>
 
         <!-- Filters & Toolbar -->
-        <div class="flex flex-col md:flex-row gap-4 justify-between items-start md:items-center bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
+        <div
+            class="flex flex-col md:flex-row gap-4 justify-between items-start md:items-center bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
             <!-- Tabs -->
             <div class="flex bg-slate-100 p-1 rounded-lg overflow-x-auto max-w-full">
-                <button class="px-3 py-1.5 text-xs font-medium bg-white dark:bg-slate-50 text-slate-900 shadow-sm rounded-md transition-all whitespace-nowrap">Tous</button>
-                <button class="px-3 py-1.5 text-xs font-medium text-slate-500 hover:text-slate-700 transition-all whitespace-nowrap">Terminées</button>
-                <button class="px-3 py-1.5 text-xs font-medium text-slate-500 hover:text-slate-700 transition-all whitespace-nowrap">En cours</button>
-                <button class="px-3 py-1.5 text-xs font-medium text-slate-500 hover:text-slate-700 transition-all whitespace-nowrap">En pause</button>
-                <button class="px-3 py-1.5 text-xs font-medium text-slate-500 hover:text-slate-700 transition-all whitespace-nowrap">Brouillon</button>
-                <button class="px-3 py-1.5 text-xs font-medium text-slate-500 hover:text-slate-700 transition-all whitespace-nowrap">Inactive</button>
+                <button
+                    class="px-3 py-1.5 text-xs font-medium bg-white dark:bg-slate-50 text-slate-900 shadow-sm rounded-md transition-all whitespace-nowrap">Tous</button>
+                <button
+                    class="px-3 py-1.5 text-xs font-medium text-slate-500 hover:text-slate-700 transition-all whitespace-nowrap">Terminées</button>
+                <button
+                    class="px-3 py-1.5 text-xs font-medium text-slate-500 hover:text-slate-700 transition-all whitespace-nowrap">En
+                    cours</button>
+                <button
+                    class="px-3 py-1.5 text-xs font-medium text-slate-500 hover:text-slate-700 transition-all whitespace-nowrap">En
+                    pause</button>
+                <button
+                    class="px-3 py-1.5 text-xs font-medium text-slate-500 hover:text-slate-700 transition-all whitespace-nowrap">Brouillon</button>
+                <button
+                    class="px-3 py-1.5 text-xs font-medium text-slate-500 hover:text-slate-700 transition-all whitespace-nowrap">Inactive</button>
             </div>
 
             <!-- Actions -->
             <div class="flex items-center gap-3 w-full md:w-auto">
                 <div class="relative flex-1 md:flex-none">
-                    <Icon name="solar:magnifer-linear" class="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />
-                    <input type="search" placeholder="Rechercher une histoire..." class="h-8 pl-8 pr-3 w-full md:w-48 rounded-lg bg-slate-50 border border-slate-200 text-xs focus:outline-none focus:ring-1 focus:ring-slate-300 transition-colors">
+                    <Icon name="solar:magnifer-linear"
+                        class="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />
+                    <input type="search" placeholder="Rechercher une histoire..."
+                        class="h-8 pl-8 pr-3 w-full md:w-48 rounded-lg bg-slate-50 border border-slate-200 text-xs focus:outline-none focus:ring-1 focus:ring-slate-300 transition-colors">
                 </div>
-                <button class="h-8 px-3 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 flex items-center gap-2 transition-colors">
+                <button
+                    class="h-8 px-3 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 flex items-center gap-2 transition-colors">
                     <Icon name="solar:sort-vertical-linear" class="w-5 h-5" />
                     <span class="text-xs font-medium hidden sm:inline">Trier</span>
                 </button>
@@ -86,7 +101,7 @@
         </div>
 
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-            <div class="overflow-x-auto">
+            <div class="overflow-x-auto custom">
                 <table class="w-full text-left border-collapse">
                     <thead>
                         <tr class="text-xs text-slate-400 dark:text-slate-700 border-b border-slate-100 bg-slate-50/50">
@@ -98,157 +113,235 @@
                             <th class="font-semibold py-3 px-6 whitespace-nowrap text-right">Actions</th>
                         </tr>
                     </thead>
-                    <tbody class="text-sm">
-                        <tr class="group hover:bg-slate-50 transition-colors border-b border-slate-50">
-                            <td class="py-3 px-6">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-8 h-10 bg-slate-200 rounded object-cover overflow-hidden">
-                                        <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&q=80&w=100" class="w-full h-full object-cover opacity-80">
-                                    </div>
-                                    <span class="font-medium text-slate-900 group-hover:text-orange-600 transition-colors">Les Larmes du Soleil</span>
-                                </div>
-                            </td>
-                            <td class="py-3 px-6 text-sm text-slate-600"><nuxt-link class="hover:underline hover:text-orange-600 dark:hover:text-orange-500 hover:duration-300 hover:ease-linear" to="/dashboard/authors/author-uuid-1">Amadou Bah</nuxt-link></td>
-                            <td class="py-3 px-6 whitespace-nowrap">
-                                <span class="inline-flex items-center px-2 py-1 rounded text-[10px] font-medium bg-slate-100 text-slate-600 border border-slate-200">
-                                    Roman
-                                </span>
-                                <span class="inline-flex items-center px-2 py-1 rounded text-[10px] font-medium bg-slate-100 text-slate-600 border border-slate-200">
-                                    Thriller
-                                </span>
-                                <span class="inline-flex items-center px-2 py-1 rounded text-[10px] font-medium bg-slate-100 text-slate-600 border border-slate-200">
-                                    Policier
-                                </span>
-                            </td>
-                            <td class="py-3 px-6">
-                                <nuxt-link to="/dashboard/stories/story-uuid-14/detail-like-comment" class="flex items-center gap-4">
-                                    <span class="text-xs">
-                                        <span class="font-semibold text-slate-900 dark:text-slate-700">42</span> <span class="text-slate-400"><Icon name="mdi:heart" class="w-4 h-4" /></span>
-                                    </span>
-                                    <span class="w-px h-3 bg-slate-200"></span>
-                                    <span class="text-xs">
-                                        <span class="font-semibold text-slate-900 dark:text-slate-700">12k</span> <span class="text-slate-400"><Icon name="mdi:eye" class="w-4 h-4" /></span>
-                                    </span>
-                                    <span class="w-px h-3 bg-slate-200"></span>
-                                    <span class="text-xs">
-                                        <span class="font-semibold text-slate-900 dark:text-slate-700">1.1k</span> <span class="text-slate-400"><Icon name="mdi:comments" class="w-4 h-4" /></span>
-                                    </span>
-                                </nuxt-link>
-                            </td>
-                            <td class="py-3 px-6 whitespace-nowrap">
-                                <span class="inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-[10px] font-medium bg-green-50 text-green-700 border border-green-100">
-                                    <span class="w-1 h-1 rounded-full bg-green-600"></span>
-                                    Terminée
-                                </span>
-                            </td>
-                            <td class="py-3 px-6 text-right">
-                                <nuxt-link to="/dashboard/stories/story-uuid-1" class="text-slate-400 hover:text-slate-900 transition-colors"><Icon name="mdi:eye" width="16" /></nuxt-link>
-                                <button @click="toggleDeleteModal" class="ml-2 text-red-600 hover:text-red-700 transition-colors"><Icon name="mdi:trash" width="16" /></button>
+                    <tbody v-if="books.length === 0 && !loading" class="text-xs">
+                        <tr class="border-b border-slate-50 whitespace-nowrap">
+
+                            <!-- Book -->
+                            <td class="py-3 px-6" v-for="i in 6" :key="i">
+                                Pas de données
                             </td>
                         </tr>
-                        <tr class="group hover:bg-slate-50 transition-colors border-b border-slate-50">
+                    </tbody>
+                    <tbody v-if="loading" class="text-sm">
+                        <tr v-for="i in 5" :key="i" class="border-b border-slate-50">
+
+                            <!-- Book -->
                             <td class="py-3 px-6">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-8 h-10 bg-slate-200 rounded object-cover overflow-hidden">
-                                            <img src="https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&q=80&w=100" class="w-full h-full object-cover opacity-80">
-                                    </div>
-                                    <span class="font-medium text-slate-900 group-hover:text-orange-600 transition-colors">L'Héritage Perdu</span>
+                                <div class="flex items-center gap-3 animate-pulse">
+                                    <div class="w-8 h-10 bg-slate-200 dark:bg-slate-300 rounded"></div>
+                                    <div class="h-3 w-32 bg-slate-200 dark:bg-slate-300 rounded"></div>
                                 </div>
                             </td>
-                            <td class="py-3 px-6 text-slate-600"><nuxt-link class="hover:underline hover:text-orange-600 dark:hover:text-orange-500 hover:duration-300 hover:ease-linear" to="/dashboard/authors/author-uuid-2">Sarah Koné</nuxt-link></td>
-                            <td class="py-3 px-6 whitespace-nowrap">
-                                <span class="inline-flex items-center px-2 py-1 rounded text-[10px] font-medium bg-slate-100 text-slate-600 border border-slate-200">
-                                    Drame
-                                </span>
-                                <span class="inline-flex items-center px-2 py-1 rounded text-[10px] font-medium bg-slate-100 text-slate-600 border border-slate-200">
-                                    Comédie
-                                </span>
-                            </td>
+
+                            <!-- Author -->
                             <td class="py-3 px-6">
-                                <nuxt-link to="/dashboard/stories/story-uuid-14/detail-like-comment" class="flex items-center gap-4">
-                                    <span class="text-xs">
-                                        <span class="font-semibold text-slate-900 dark:text-slate-700">71</span> <span class="text-slate-400"><Icon name="mdi:heart" class="w-4 h-4" /></span>
-                                    </span>
-                                    <span class="w-px h-3 bg-slate-200"></span>
-                                    <span class="text-xs">
-                                        <span class="font-semibold text-slate-900 dark:text-slate-700">10k</span> <span class="text-slate-400"><Icon name="mdi:eye" class="w-4 h-4" /></span>
-                                    </span>
-                                    <span class="w-px h-3 bg-slate-200"></span>
-                                    <span class="text-xs">
-                                        <span class="font-semibold text-slate-900 dark:text-slate-700">1.02k</span> <span class="text-slate-400"><Icon name="mdi:comments" class="w-4 h-4" /></span>
-                                    </span>
-                                </nuxt-link>
+                                <div class="h-3 w-24 bg-slate-200 dark:bg-slate-300 rounded animate-pulse"></div>
                             </td>
-                            <td class="py-3 px-6 whitespace-nowrap">
-                                <span class="inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-[10px] font-medium bg-amber-50 text-amber-700 border border-amber-100">
-                                    <span class="w-1 h-1 rounded-full bg-amber-600"></span>
-                                    En pause
-                                </span>
+
+                            <!-- Categories -->
+                            <td class="py-3 px-6 space-x-2">
+                                <div class="flex gap-2 animate-pulse">
+                                    <div class="h-4 w-16 bg-slate-200 dark:bg-slate-300 rounded"></div>
+                                    <div class="h-4 w-12 bg-slate-200 dark:bg-slate-300 rounded"></div>
+                                </div>
                             </td>
-                            <td class="py-3 px-6 text-right">
-                                <nuxt-link to="/dashboard/stories/story-uuid-1" class="text-slate-400 hover:text-slate-900 transition-colors"><Icon name="mdi:eye" width="16" /></nuxt-link>
-                                <button @click="toggleDeleteModal" class="ml-2 text-red-600 hover:text-red-700 transition-colors"><Icon name="mdi:trash" width="16" /></button>
+
+                            <!-- Stats -->
+                            <td class="py-3 px-6">
+                                <div class="flex items-center gap-4 animate-pulse">
+                                    <div class="h-3 w-10 bg-slate-200 dark:bg-slate-300 rounded"></div>
+                                    <div class="w-px h-3 bg-slate-200 dark:bg-slate-300"></div>
+                                    <div class="h-3 w-10 bg-slate-200 dark:bg-slate-300 rounded"></div>
+                                    <div class="w-px h-3 bg-slate-200 dark:bg-slate-300"></div>
+                                    <div class="h-3 w-10 bg-slate-200 dark:bg-slate-300 rounded"></div>
+                                </div>
                             </td>
+
+                            <!-- Status -->
+                            <td class="py-3 px-6">
+                                <div class="h-5 w-16 bg-slate-200 dark:bg-slate-300 rounded-full animate-pulse"></div>
+                            </td>
+
                         </tr>
-                        <tr class="group hover:bg-slate-50 transition-colors">
+                    </tbody>
+
+                    <tbody v-if="!loading && books.length !== 0" class="text-sm">
+                        <tr class="group hover:bg-slate-50 transition-colors border-b border-slate-50"
+                            v-for="(book, index) in books" :key="index">
                             <td class="py-3 px-6">
                                 <div class="flex items-center gap-3">
-                                    <div class="w-8 h-10 bg-slate-200 rounded object-cover overflow-hidden">
-                                            <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&q=80&w=100" class="w-full h-full object-cover opacity-80">
+                                    <div
+                                        class="w-8 h-10 flex-shrink-0 bg-slate-200 rounded object-cover overflow-hidden">
+                                        <img :src="`${config.public.apiBackendUrl}/uploads/books/${book?.image}`"
+                                            class="w-full h-full object-cover opacity-80" :alt="book.title">
                                     </div>
-                                    <span class="font-medium text-slate-900 group-hover:text-orange-600 transition-colors">Chroniques d'Abidjan</span>
+                                    <nuxt-link :to="`/dashboard/stories/${book.uuid}`"
+                                        class="font-medium text-slate-900 group-hover:text-orange-600 transition-colors underline whitespace-nowrap">{{
+                                            book.title }}</nuxt-link>
                                 </div>
                             </td>
-                            <td class="py-3 px-6 text-slate-600"><nuxt-link class="hover:underline hover:text-orange-600 dark:hover:text-orange-500 hover:duration-300 hover:ease-linear" to="/dashboard/authors/author-uuid-3">Marc Ouedraogo</nuxt-link></td>
-                            <td class="py-3 px-6 whitespace-nowrap">
-                                <span class="inline-flex items-center px-2 py-1 rounded text-[10px] font-medium bg-slate-100 text-slate-600 border border-slate-200">
-                                    Tragédie
+                            <td class="py-3 px-6 text-slate-600"><nuxt-link
+                                    class="hover:underline hover:text-orange-600 dark:hover:text-orange-500 hover:duration-300 hover:ease-linear whitespace-nowrap"
+                                    :to="`/dashboard/authors/${book.user?.uuid}`">{{ book.user?.name }}</nuxt-link></td>
+                            <td class="py-3 px-6 space-x-1 whitespace-nowrap">
+                                <span
+                                    class="inline-flex items-center px-2 py-1 rounded text-[10px] font-medium bg-slate-100 text-slate-600 border border-slate-200"
+                                    v-for="(category, i) in book.book_categories">
+                                    {{ category?.name }}
                                 </span>
                             </td>
-                            <td class="py-3 px-6">
-                                <nuxt-link to="/dashboard/stories/story-uuid-14/detail-like-comment" class="flex items-center gap-4">
-                                    <span class="text-xs">
-                                        <span class="font-semibold text-slate-900 dark:text-slate-700">420</span> <span class="text-slate-400"><Icon name="mdi:heart" class="w-4 h-4" /></span>
-                                    </span>
-                                    <span class="w-px h-3 bg-slate-200"></span>
-                                    <span class="text-xs">
-                                        <span class="font-semibold text-slate-900 dark:text-slate-700">2k</span> <span class="text-slate-400"><Icon name="mdi:eye" class="w-4 h-4" /></span>
-                                    </span>
-                                    <span class="w-px h-3 bg-slate-200"></span>
-                                    <span class="text-xs">
-                                        <span class="font-semibold text-slate-900 dark:text-slate-700">1k</span> <span class="text-slate-400"><Icon name="mdi:comments" class="w-4 h-4" /></span>
-                                    </span>
-                                </nuxt-link>
+                            <td class="py-3 px-6 whitespace-nowrap">
+                                <div class="flex items-center gap-4">
+                                    <div class="text-xs">
+                                        <span class="font-semibold text-slate-900">{{ formatNumber(book?.book_reactions)
+                                        }}</span> <span class="text-slate-400 text-[10px]">réactions
+                                        </span>
+                                    </div>
+                                    <div class="w-px h-3 bg-slate-200"></div>
+                                    <div class="text-xs">
+                                        <span class="font-semibold text-slate-900">{{
+                                            formatNumber(Number(book?.total_views)) }}</span> <span
+                                            class="text-slate-400 text-[10px]">vues
+                                        </span>
+                                    </div>
+                                    <div class="w-px h-3 bg-slate-200"></div>
+                                    <div class="text-xs">
+                                        <span class="font-semibold text-slate-900">{{ formatNumber(book?.book_comments)
+                                        }}</span> <span class="text-slate-400 text-[10px]">commentaires
+                                        </span>
+                                    </div>
+                                </div>
                             </td>
                             <td class="py-3 px-6 whitespace-nowrap">
-                                <span class="inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-[10px] font-medium bg-green-50 text-green-700 border border-green-100">
-                                    <span class="w-1 h-1 rounded-full bg-green-600"></span>
-                                    Terminée
+                                <span
+                                    :class="`${book.status === 'inactive' ? 'text-red-600 bg-red-50 dark:text-red-600' : (book.status === 'completed' ? 'text-green-600 dark:text-green-500 bg-green-50' : (book.status === 'ongoing' ? 'text-blue-600 dark:text-blue-500 bg-blue-50' : 'bg-slate-100 text-slate-500'))} inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-[10px] font-medium`">
+                                    <span class="w-1 h-1 rounded-full bg-slate-600"></span>
+                                    {{ status(book.status) }}
                                 </span>
                             </td>
-                            <td class="py-3 px-6 text-right">
-                                <nuxt-link to="/dashboard/stories/story-uuid-1" class="text-slate-400 hover:text-slate-900 transition-colors"><Icon name="mdi:eye" width="16" /></nuxt-link>
-                                <button @click="toggleDeleteModal" class="ml-2 text-red-600 hover:text-red-700 transition-colors"><Icon name="mdi:trash" width="16" /></button>
+                            <td class="py-3 px-6 flex items-center gap-2 justify-end">
+                                <select
+                                    class="ml-2 text-xs bg-slate-50 border border-slate-200 rounded-md px-2 py-1 text-slate-600 outline-none">
+                                    <option value="" disabled selected>Changez le statut</option>
+                                    <option value="draft">Brouillon</option>
+                                    <option value="ongoing">En cours</option>
+                                    <option value="paused">En pause</option>
+                                    <option value="completed">Terminée</option>
+                                    <option value="inactif">Inactive</option>
+                                </select>
+                                <button @click="toggleDeleteModal"
+                                    class="ml-1 p-1 rounded-md hover:bg-slate-100 text-red-600 hover:text-red-700 transition-colors">
+                                    <Icon name="mdi:trash" width="16" />
+                                </button>
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            
+
             <div class="flex items-center justify-between p-4 border-t border-slate-100">
-                <span class="text-xs text-slate-500">Affichage de <span class="font-medium text-slate-900">1-4</span> sur <span class="font-medium text-slate-900">400</span> histoires</span>
+                <span class="text-xs text-slate-500">Page <span class="font-medium text-slate-900">{{ page }} / {{ total }}</span>
+                    </span>
                 <div class="flex gap-2">
-                    <button class="px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-medium text-slate-500 hover:bg-slate-50 disabled:opacity-50" :disabled="true">Précédent</button>
-                    <button class="px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-medium text-slate-900 hover:bg-slate-50">Suivant</button>
+                    <button @click="prevPage" :disabled="page === 1"
+                        class="px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-medium text-slate-500 hover:bg-slate-50 disabled:opacity-50">
+                        Précédent
+                    </button>
+                    <button @click="nextPage" :disabled="page === total"
+                        class="px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-medium text-slate-900 hover:bg-slate-50 disabled:opacity-50">
+                        Suivant
+                    </button>
                 </div>
             </div>
         </div>
-        <DashboardStoryDelete @close-delete-modal="toggleDeleteModal" :showDeleteModal="showDeleteModal" v-if="showDeleteModal" />
+        <DashboardStoryDelete @close-delete-modal="toggleDeleteModal" :showDeleteModal="showDeleteModal"
+            v-if="showDeleteModal" />
     </div>
 </template>
+
+<style>
+.custom::-webkit-scrollbar {
+    height: 6px;
+}
+
+.custom::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.custom::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 20px;
+}
+
+/* Firefox */
+.custom {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
+}
+</style>
+
 <script setup lang="ts">
+const config = useRuntimeConfig();
+const { toConnectUser } = authenticate();
+const { getProfile } = usersData();
+const { findAllBooksPaginated } = booksData();
+const user = ref<User | null>(null);
+const profil = ref<User | null>(null);
+const books = ref<BookData[]>([]);
+const loading = ref(true)
+const page = ref(1)
+const limit = ref(25)
+const total = ref(0)
+const position = ref(0)
 const showDeleteModal = ref(false);
 const toggleDeleteModal = () => {
     showDeleteModal.value = !showDeleteModal.value
 }
+
+const status = (status: string) => {
+    switch (status.toLocaleLowerCase()) {
+        case "ongoing":
+            return "En cours"
+        case "completed":
+            return "Terminé"
+        case "paused":
+            return "Pause"
+        case "draft":
+            return "Brouillon"
+        case "inactive":
+            return "Inactif"
+        default:
+            return "Brouillon"
+    }
+}
+
+const nextPage = async () => {
+    if (page.value >= total.value) return
+    page.value++
+    await onLoad()
+}
+
+const prevPage = async () => {
+    if (page.value <= 1) return
+    page.value--
+    await onLoad()
+}
+
+const onLoad = async () => {
+    loading.value = true;
+
+    const { data, totalPages, currentPage } = await findAllBooksPaginated(page.value, limit.value);
+
+    books.value = data;
+    total.value = totalPages;
+    position.value = currentPage;
+
+    loading.value = false;
+}
+
+onMounted(async () => {
+    user.value = await toConnectUser();
+    profil.value = await getProfile();
+    await onLoad();
+})
 </script>
