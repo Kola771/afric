@@ -10,7 +10,7 @@
                     <Icon name="solar:book-2-bold" class="w-5 h-5" />
                 </div>
                 <span class="font-display font-bold text-slate-900 dark:text-white tracking-tight text-sm">Afric
-                    Storyline</span>
+                    <span class="text-orange-600">Storyline</span></span>
             </div>
         </div>
 

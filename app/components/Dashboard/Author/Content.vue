@@ -128,6 +128,7 @@
                             <th class="font-medium py-3 px-6 whitespace-nowrap">Adresse électronique</th>
                             <th class="font-medium py-3 px-6 whitespace-nowrap">Origine</th>
                             <th class="font-medium py-3 px-6 whitespace-nowrap">Followers</th>
+                            <th class="font-medium py-3 px-6 whitespace-nowrap">Livres</th>
                             <th class="font-medium py-3 px-6 whitespace-nowrap">Statut</th>
                             <th class="font-medium py-3 px-6 whitespace-nowrap">Rank</th>
                             <th class="font-medium py-3 px-6 whitespace-nowrap">Date d'inscription</th>
@@ -138,14 +139,14 @@
                         <tr class="border-b border-slate-50 whitespace-nowrap">
 
                             <!-- Book -->
-                            <td class="py-3 px-6" v-for="i in 8" :key="i">
+                            <td class="py-3 px-6" v-for="i in 9" :key="i">
                                 Pas de données
                             </td>
                         </tr>
                     </tbody>
                     <tbody v-if="loading" class="text-xs">
                         <tr v-for="i in 5" :key="i" class="border-b border-slate-50">
-                            <td class="py-3 px-6" v-for="y in 8" :key="y">
+                            <td class="py-3 px-6" v-for="y in 9" :key="y">
                                 <div class="h-2 w-16 bg-slate-200 dark:bg-slate-300 rounded animate-pulse"></div>
                             </td>
 
@@ -182,13 +183,16 @@
                             </td>
                             <td class="py-3 px-6 whitespace-nowrap">
                                 <span class="text-xs font-medium text-slate-600">{{ author.email?.trim() ?? "---"
-                                    }}</span>
+                                }}</span>
                             </td>
                             <td class="py-3 px-6 whitespace-nowrap">
                                 <span class="text-xs font-medium text-slate-600">{{ author.country.name }}</span>
                             </td>
                             <td class="py-3 px-6 text-center whitespace-nowrap">
                                 {{ formatNumber(author.total_followers) }}
+                            </td>
+                            <td class="py-3 px-6 text-center whitespace-nowrap">
+                                {{ formatNumber(author.books.length) }}
                             </td>
                             <td class="py-3 px-6 text-center whitespace-nowrap">
                                 {{ author.status }}
@@ -237,7 +241,7 @@
             <!-- Pagination -->
             <div class="flex items-center justify-between p-4 border-t border-slate-100">
                 <span class="text-xs text-slate-500">Page <span class="font-medium text-slate-900">{{ page }} / {{ total
-                }}</span> - {{ filteredAuthors.length }} données</span>
+                        }}</span> - {{ filteredAuthors.length }} données</span>
                 <div class="flex gap-2">
                     <button @click="prevPage" :disabled="page === 1"
                         class="px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-medium text-slate-500 hover:bg-slate-50 disabled:opacity-50">
@@ -362,7 +366,7 @@ const exportAuthors = () => {
 
     const link = document.createElement("a")
     link.href = url
-    link.download = "utilisateurs.csv"
+    link.download = "auteurs.csv"
     link.click()
 
     URL.revokeObjectURL(url)

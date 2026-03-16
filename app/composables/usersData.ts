@@ -55,6 +55,50 @@ export function usersData() {
         };
     }
 
+    // 
+    async function getAllUsers(page: number, limit: number): Promise<{
+        data: User[], pagination: {
+            total: number, page: number, limit: number, currentPage: number, totalPages: number, hasNextPage: boolean,
+            countAllUsers: number,
+            countAllSuperAdmins: number,
+            countAllAdmins: number,
+            countAllSupports: number,
+            countAllAuthors: number,
+            countAllReaders: number,
+            countAllUsersActifs: number,
+            countAllUsersInactifs: number,
+            countAllUsersBanned: number,
+            countAllSuspended: number,
+        }
+    }> {
+        if (process?.client) {
+            if (localStorage.getItem("user")) {
+                const token = JSON.parse(localStorage.getItem("user") || '{}').token;
+                const response = await axios.get(`/users/global?page=${page}&limit=${limit}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                return response?.data;
+            }
+        }
+        return {
+            data: [], pagination: {
+                total: 0, page: 0, limit: 0, currentPage: 0, totalPages: 0, hasNextPage: false,
+                countAllUsers: 0,
+                countAllSuperAdmins: 0,
+                countAllAdmins: 0,
+                countAllSupports: 0,
+                countAllAuthors: 0,
+                countAllReaders: 0,
+                countAllUsersActifs: 0,
+                countAllUsersInactifs: 0,
+                countAllUsersBanned: 0,
+                countAllSuspended: 0,
+            }
+        };
+    }
+
     // Recherche via uuid
     async function findByUuid(uuid: string): Promise<{ success: boolean, data: Author | null }> {
         const response = await axios.get(`/users/${uuid}`);
@@ -131,6 +175,7 @@ export function usersData() {
         findByUuid,
         getProfile,
         getAuthors,
+        getAllUsers,
         propositionsAuthors,
         countUserActifs,
         countAuthorsActifs,
