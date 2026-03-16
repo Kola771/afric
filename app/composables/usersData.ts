@@ -14,6 +14,47 @@ export function usersData() {
         return response?.data;
     }
 
+    // 
+    async function getAuthors(page: number, limit: number): Promise<{
+        data: Author[], pagination: {
+            total: number, page: number, limit: number, currentPage: number, totalPages: number, hasNextPage: boolean,
+            countAllAuthors: number,
+            countAllActifs: number,
+            countAllInactifs: number,
+            countAllBannis: number,
+            countAllSuspendus: number,
+            countAllCertifies: number,
+            countAllBest: number,
+            countAllTop: number,
+            countAllStandard: number
+        }
+    }> {
+        if (process?.client) {
+            if (localStorage.getItem("user")) {
+                const token = JSON.parse(localStorage.getItem("user") || '{}').token;
+                const response = await axios.get(`/users/authors?page=${page}&limit=${limit}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                return response?.data;
+            }
+        }
+        return {
+            data: [], pagination: {
+                total: 0, page: 0, limit: 0, currentPage: 0, totalPages: 0, hasNextPage: false, countAllActifs: 0,
+                countAllAuthors: 0,
+                countAllInactifs: 0,
+                countAllBannis: 0,
+                countAllSuspendus: 0,
+                countAllCertifies: 0,
+                countAllBest: 0,
+                countAllTop: 0,
+                countAllStandard: 0
+            }
+        };
+    }
+
     // Recherche via uuid
     async function findByUuid(uuid: string): Promise<{ success: boolean, data: Author | null }> {
         const response = await axios.get(`/users/${uuid}`);
@@ -89,6 +130,7 @@ export function usersData() {
         getUsers,
         findByUuid,
         getProfile,
+        getAuthors,
         propositionsAuthors,
         countUserActifs,
         countAuthorsActifs,

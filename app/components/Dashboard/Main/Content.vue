@@ -79,7 +79,7 @@
             <DashboardMainReadsByWeek />
 
             <!-- Top Countries / Categories -->
-             <DashboardMainVisitorsPercentageByCountry :visitorsPercentageByCountry="visitorsPercentageByCountry" />
+            <DashboardMainVisitorsPercentageByCountry :visitorsPercentageByCountry="visitorsPercentageByCountry" />
         </div>
 
         <!-- Top five books -->
@@ -98,14 +98,16 @@
                             <th class="font-semibold py-3 px-6 whitespace-nowrap">Auteur</th>
                             <th class="font-semibold py-3 px-6 whitespace-nowrap">Catégorie</th>
                             <th class="font-semibold py-3 px-6 whitespace-nowrap">Performance</th>
+                            <th class="font-semibold py-3 px-6 whitespace-nowrap">Âge autorisé</th>
                             <th class="font-semibold py-3 px-6 whitespace-nowrap">Statut</th>
+                            <th class="font-semibold py-3 px-6 whitespace-nowrap">...</th>
                         </tr>
                     </thead>
                     <tbody v-if="books.length === 0 && !loading" class="text-xs">
                         <tr class="border-b border-slate-50 whitespace-nowrap">
 
                             <!-- Book -->
-                            <td class="py-3 px-6" v-for="i in 5" :key="i">
+                            <td class="py-3 px-6" v-for="i in 7" :key="i">
                                 Pas de données
                             </td>
                         </tr>
@@ -150,11 +152,21 @@
                                 <div class="h-5 w-16 bg-slate-200 dark:bg-slate-300 rounded-full animate-pulse"></div>
                             </td>
 
+                            <!-- Rating age -->
+                            <td class="py-3 px-6">
+                                <div class="h-5 w-16 bg-slate-200 dark:bg-slate-300 rounded-full animate-pulse"></div>
+                            </td>
+
+                            <!-- ... -->
+                            <td class="py-3 px-6">
+                                <div class="h-5 w-16 bg-slate-200 dark:bg-slate-300 rounded-full animate-pulse"></div>
+                            </td>
+
                         </tr>
                     </tbody>
 
                     <tbody v-if="!loading && books.length !== 0" class="text-sm">
-                        <tr class="group hover:bg-slate-50 transition-colors border-b border-slate-50"
+                        <tr class="group hover:bg-slate-50 transition-colors border-b border-slate-50 text-xs"
                             v-for="(book, index) in books" :key="index">
                             <td class="py-3 px-6">
                                 <div class="flex items-center gap-3">
@@ -164,7 +176,8 @@
                                             class="w-full h-full object-cover opacity-80" :alt="book.title">
                                     </div>
                                     <nuxt-link :to="`/dashboard/stories/${book.uuid}`"
-                                        class="font-medium text-slate-900 group-hover:text-orange-600 transition-colors underline whitespace-nowrap">{{ book.title }}</nuxt-link>
+                                        class="font-medium text-slate-900 group-hover:text-orange-600 transition-colors underline whitespace-nowrap">{{
+                                        book.title }}</nuxt-link>
                                 </div>
                             </td>
                             <td class="py-3 px-6 text-slate-600"><nuxt-link
@@ -181,7 +194,7 @@
                                 <div class="flex items-center gap-4">
                                     <div class="text-xs">
                                         <span class="font-semibold text-slate-900">{{ formatNumber(book?.book_reactions)
-                                            }}</span> <span class="text-slate-400 text-[10px]">réactions
+                                        }}</span> <span class="text-slate-400 text-[10px]">réactions
                                         </span>
                                     </div>
                                     <div class="w-px h-3 bg-slate-200"></div>
@@ -194,10 +207,13 @@
                                     <div class="w-px h-3 bg-slate-200"></div>
                                     <div class="text-xs">
                                         <span class="font-semibold text-slate-900">{{ formatNumber(book?.book_comments)
-                                            }}</span> <span class="text-slate-400 text-[10px]">commentaires
+                                        }}</span> <span class="text-slate-400 text-[10px]">commentaires
                                         </span>
                                     </div>
                                 </div>
+                            </td>
+                            <td class="py-3 px-6 text-center whitespace-nowrap">
+                                {{ book.rating_age }}
                             </td>
                             <td class="py-3 px-6 whitespace-nowrap">
                                 <span
@@ -205,6 +221,12 @@
                                     <span class="w-1 h-1 rounded-full bg-slate-600"></span>
                                     {{ status(book.status) }}
                                 </span>
+                            </td>
+                            <td class="py-3 px-6 text-right whitespace-nowrap">
+                                <nuxt-link :to="`/books/${book.uuid}`" target="_blank"
+                                    v-if="!['draft', 'inactive'].includes(book.status)"
+                                    class="mr-2 text-amber-600 hover:text-amber-700 transition-colors text-xs underline">Rendu
+                                    en ligne</nuxt-link>
                             </td>
                         </tr>
                     </tbody>

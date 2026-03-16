@@ -92,6 +92,12 @@
                             Se désabonner
                         </button>
                     </div>
+                    <div class="w-full" v-if="!user">
+                        <button @click.stop="followAuthor(author.id)"
+                            class="bg-orange-700 hover:bg-orange-800 transition-all duration-300 ease-linear dark:border dark:border-slate-300 dark:bg-slate-800 dark:hover:bg-slate-900 hover:bg-primary text-white text-xs w-full p-2.5 rounded-lg">
+                            Suivre
+                        </button>
+                    </div>
                 </div>
             </div>
             <div class="border-t border-slate-200 lg:border-none lg:pt-0 pt-6 mt-6 lg:mt-0 lg:col-span-3 2xl:pr-0">

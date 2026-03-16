@@ -1,5 +1,6 @@
 <template>
-  <div class="lg:col-span-2 bg-white dark:bg-slate-100 rounded-xl border border-slate-200 shadow-sm p-6 flex flex-col justify-between">
+  <div
+    class="lg:col-span-2 bg-white dark:bg-slate-100 rounded-xl border border-slate-200 shadow-sm p-6 flex flex-col justify-between">
 
     <!-- Header -->
     <div class="flex items-center justify-between mb-6">
@@ -14,12 +15,12 @@
 
     <!-- Chart -->
     <div class="flex items-end justify-between h-48 gap-2 pt-4">
-      <div v-for="(value, index) in chartData" :key="index" class="flex flex-col items-center gap-2 w-full max-w-[24px]">
+      <div v-for="(value, index) in chartData" :key="index"
+        class="flex flex-col items-center gap-2 w-full max-w-[24px]">
 
         <!-- Barre -->
         <div class="relative w-full h-40 bg-slate-100 rounded-t-sm overflow-hidden group">
-          <div
-            class="absolute bottom-0 left-0 w-full bg-orange-500 rounded-t-sm transition-all duration-300"
+          <div class="absolute bottom-0 left-0 w-full bg-orange-500 rounded-t-sm transition-all duration-300"
             :style="{ height: getHeight(value) }">
           </div>
           <!-- Valeur au-dessus (apparait au hover) -->
@@ -57,31 +58,28 @@ const apiData = ref<ApiResponse[]>([])
 
 const getWeeksOfMonth = () => {
   const list: Week[] = []
+
   const today = new Date()
   const month = props.month ?? today.getMonth()
   const year = props.year ?? today.getFullYear()
 
-  // Premier jour du mois
   let current = new Date(year, month, 1)
 
-  // Si le 1er n’est pas lundi, avancer jusqu’au premier lundi du mois
-  const dayOfWeek = (current.getDay() + 6) % 7 // lundi=0
-  if (dayOfWeek !== 0) {
-    current.setDate(current.getDate() + (7 - dayOfWeek))
+  // Trouver le premier lundi du mois
+  const day = (current.getDay() + 6) % 7
+  if (day !== 0) {
+    current.setDate(current.getDate() + (7 - day))
   }
 
   while (current <= today) {
-    const monday = new Date(current)
-    const sunday = new Date(monday)
-    sunday.setDate(monday.getDate() + 6)
-
-    // Si la semaine dépasse aujourd’hui, on ajuste la fin
-    const endDate = sunday > today ? today : sunday
+    const start = new Date(current)
+    const end = new Date(start)
+    end.setDate(start.getDate() + 6)
 
     list.push({
-      label: `${monday.getDate()} - ${endDate.getDate()} ${monday.toLocaleString('fr', { month: 'short' })}`,
-      start: monday.toISOString(),
-      end: endDate.toISOString(),
+      label: `${start.getDate()} - ${end.getDate()} ${start.toLocaleString('fr', { month: 'short' })}`,
+      start: start.toISOString(),
+      end: end.toISOString(),
     })
 
     current.setDate(current.getDate() + 7)

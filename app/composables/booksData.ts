@@ -84,7 +84,15 @@ export function booksData() {
     }
 
     // retourne tous les livres par bond de 25 sans prise en compte de leur status
-    async function findAllBooksPaginated(page: number = 1, limit: number = 25): Promise<{ data: BookData[], total: number, totalPages: number, currentPage: number }> {
+    async function findAllBooksPaginated(page: number = 1, limit: number = 25): Promise<{
+        data: BookData[], total: number, totalPages: number, currentPage: number,
+        countAll: number,
+        countCompleted: number,
+        countOngoing: number,
+        countPaused: number,
+        countDraft: number,
+        countInactive: number
+    }> {
         if (process.client) {
             if (localStorage.getItem('user')) {
                 const token = JSON.parse(localStorage.getItem("user") || '{}').token;
@@ -96,7 +104,23 @@ export function booksData() {
                 return response?.data;
             }
         }
-        return { data: [], total: 0, totalPages: 0, currentPage: 0 };
+        return { data: [], total: 0, totalPages: 0, currentPage: 0, countAll: 0, countCompleted: 0, countOngoing: 0, countPaused: 0, countDraft: 0, countInactive: 0 };
+    }
+
+    // 
+    async function findBookByUuid(uuid: string): Promise<BookData | null> {
+        if (process.client) {
+            if (localStorage.getItem('user')) {
+                const token = JSON.parse(localStorage.getItem("user") || '{}').token;
+                const response = await axios.get(`/books/book/${uuid}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                return response?.data;
+            }
+        }
+        return null;
     }
 
     // fonction pour récupérer les 5 récents livres où le lecteur a réagi
@@ -116,7 +140,15 @@ export function booksData() {
     }
 
     // livres liés à un auteur
-    async function findAllPaginatedAuthor(page: number = 1, limit: number = 25, id_user: number): Promise<{ data: BookData[], total: number, totalPages: number, currentPage: number }> {
+    async function findAllPaginatedAuthor(page: number = 1, limit: number = 25, id_user: number): Promise<{
+        data: BookData[], total: number, totalPages: number, currentPage: number,
+        countAll: number,
+        countCompleted: number,
+        countOngoing: number,
+        countPaused: number,
+        countDraft: number,
+        countInactive: number
+    }> {
         if (process.client) {
             if (localStorage.getItem('user')) {
                 const token = JSON.parse(localStorage.getItem("user") || '{}').token;
@@ -128,7 +160,7 @@ export function booksData() {
                 return response?.data;
             }
         }
-        return { data: [], total: 0, totalPages: 0, currentPage: 0 };
+        return { data: [], total: 0, totalPages: 0, currentPage: 0, countAll: 0, countCompleted: 0, countOngoing: 0, countPaused: 0, countDraft: 0, countInactive: 0 };
     }
 
     // livres liés à une catégorie
@@ -155,10 +187,10 @@ export function booksData() {
                 const token = JSON.parse(localStorage.getItem("user") || '{}').token;
                 try {
                     const response = await axios.post(`/books/existing`, data, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
                     return response?.data;
                 } catch (error: any) {
                     return { success: false, status: error.response?.status || 500, error: error.message };
@@ -195,10 +227,10 @@ export function booksData() {
                 const token = JSON.parse(localStorage.getItem("user") || '{}').token;
                 try {
                     const response = await axios.put(`/books/${uuid}`, data, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
                     return response?.data;
                 } catch (error: any) {
                     return { success: false, status: error.response?.status || 500, error: error.message };
@@ -290,6 +322,7 @@ export function booksData() {
         allBooksActifs,
         getBookByUuid,
         getActiveBookByUuid,
+        findBookByUuid,
         createData,
         updateData,
         updateImg,

@@ -70,7 +70,7 @@
 
     <div class="dark:border-t-[1px] p-2 dark:border-slate-300 w-full grid grid-cols-1 gap-2 text-[10px] font-semibold">
       <template v-if="user && Number(user.id) !== Number(author.id)">
-        <button v-if="!follow" :disabled="loading" @click.stop="followAuthor(props.author.id)"
+        <button v-if="!follow || user && Number(user.id) !== Number(author.id)" :disabled="loading" @click.stop="followAuthor(props.author.id)"
           class="bg-orange-600 hover:bg-orange-700 text-white p-2 rounded">
           Suivre
         </button>
@@ -83,7 +83,7 @@
       <template v-else>
         <nuxt-link :to="`/authors/${author.uuid}`"
           class="bg-slate-600 hover:bg-slate-700 text-white p-2 text-center rounded">
-          Détails
+          Voir {{user && Number(user.id) === Number(author.id) ? "mes" : "ses"}} informations
         </nuxt-link>
       </template>
     </div>

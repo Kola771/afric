@@ -25,10 +25,12 @@ interface Author {
   name: string
   pseudonym: string
   photo: string
+  email?: string
   code_color: string
   rank: string
   total_followers: number
   country: Country
+  created_at?: any
   preference?: any
   followers?: any[]
   following?: any[]
