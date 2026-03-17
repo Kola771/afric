@@ -47,7 +47,7 @@
         <div
             class="flex flex-col md:flex-row gap-4 justify-between items-start md:items-center bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
             <!-- Tabs -->
-            <div class="flex bg-slate-100 p-1 rounded-lg overflow-x-auto max-w-full custom">
+            <div class="flex bg-slate-100 p-1 rounded-lg overflow-x-auto max-w-lg custom">
                 <button v-for="month in months" :key="month" @click="onLoadDataMonth(month)" :class="[
                     'px-3 py-1.5 text-xs font-medium rounded-md whitespace-nowrap transition-all',
                     selectedMonth === month
@@ -59,17 +59,27 @@
             </div>
 
             <!-- Actions -->
-            <div class="flex items-center gap-3 w-full md:w-auto">
+            <div class="flex flex-col lg:flex-row items-center gap-3 w-full md:w-auto">
                 <select v-model="selectedYear"
                     class="w-full text-xs bg-slate-50 border border-slate-200 rounded-md px-2 py-1 text-slate-600 outline-none">
                     <option disabled value="">Sélectionnez une année</option>
                     <option v-for="year in years" :key="year" :value="year">{{ year }}</option>
                 </select>
-                <button
-                    class="h-8 px-3 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 flex items-center gap-2 transition-colors">
-                    <Icon name="solar:sort-vertical-linear" class="w-5 h-5" />
-                    <span class="text-xs font-medium hidden sm:inline">Trier</span>
-                </button>
+                <div class="w-full md:w-auto flex gap-2 ">
+                    <div class="relative flex-1 md:flex-none">
+                        <Icon name="solar:magnifer-linear"
+                            class="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />
+                        <input type="search" placeholder="Rechercher la ville ou le pays..." v-model="search"
+                            class="h-8 pl-8 pr-3 w-full md:w-48 rounded-lg bg-slate-50 border border-slate-200 text-xs focus:outline-none focus:ring-1 focus:ring-slate-300 transition-colors">
+                    </div>
+                    <button @click="sortAsc = !sortAsc"
+                        class="h-8 px-3 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 flex items-center gap-2 transition-colors">
+                        <Icon name="solar:sort-vertical-linear" class="w-5 h-5" />
+                        <span class="text-xs font-medium hidden sm:inline">
+                            Trier {{ sortAsc ? "A-Z" : "" }}
+                        </span>
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -80,8 +90,8 @@
                     <thead>
                         <tr class="text-xs text-slate-500 dark:text-slate-700 border-b border-slate-100 bg-slate-50/50">
                             <th class="font-medium py-3 px-6">IP</th>
-                            <th class="font-medium py-3 px-6">La région / état</th>
-                            <th class="font-medium py-3 px-6">Provenance</th>
+                            <th class="font-medium py-3 px-6">Ville</th>
+                            <th class="font-medium py-3 px-6">Pays</th>
                             <th class="font-medium py-3 px-6">Date de venue</th>
                         </tr>
                     </thead>
@@ -164,7 +174,6 @@ const loading = ref<boolean>(true);
 const page = ref<number>(1);
 const limit = ref<number>(25);
 const total = ref<number>(0);
-const position = ref<number>(0);
 const visitorsToday = ref<number>(0);
 const visitorsMonth = ref<number>(0);
 const visitorsYear = ref<number>(0);
@@ -232,12 +241,12 @@ const filteredVisitors = computed(() => {
         const q = search.value.toLowerCase()
         data = data.filter(visitor =>
             visitor.city.toLowerCase().includes(q) ||
-            visitor.country?.toLowerCase().includes(q)
+            visitor.origin?.toLowerCase().includes(q)
         )
     }
 
     if (sortAsc.value) {
-        data.sort((a, b) => a.title.localeCompare(b.title))
+        data.sort((a, b) => a.origin.localeCompare(b.origin))
     }
 
     return data
@@ -273,7 +282,12 @@ const onLoad = async () => {
     visitorsToday.value = today;
     visitorsMonth.value = thisMonth;
     visitorsYear.value = thisYear;
-    const res = await getVisitorsByYear(page.value, limit.value, selectedYear.value);
+    let res;
+    if(selectedMonth.value !== "Tous") {
+        res = await getVisitorsByMonth(page.value, limit.value, selectedYear.value, allMonths.indexOf(selectedMonth.value) + 1);
+    } else {
+        res = await getVisitorsByYear(page.value, limit.value, selectedYear.value);
+    }
     visitors.value = res.data;
     loading.value = false;
 }
