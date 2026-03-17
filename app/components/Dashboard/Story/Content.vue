@@ -398,15 +398,25 @@ const status = (status: string) => {
 }
 
 const nextPage = async () => {
-    if (page.value >= total.value) return
+    loading.value = true;
+    if (page.value >= total.value) {
+        loading.value = false;
+        return;
+    }
     page.value++
     await onLoad()
+    loading.value = false;
 }
 
 const prevPage = async () => {
-    if (page.value <= 1) return
+    loading.value = true;
+    if (page.value <= 1) {
+        loading.value = false;
+        return;
+    }
     page.value--
     await onLoad()
+    loading.value = false;
 }
 
 const onLoad = async () => {

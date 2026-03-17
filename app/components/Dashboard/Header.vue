@@ -53,7 +53,7 @@
             <div class="space-y-1">
                 <p class="px-3 text-[10px] font-bold text-slate-400 dark:text-slate-200 uppercase tracking-widest mb-2">
                     Communauté</p>
-                <nuxt-link to="/dashboard/users" v-if="profil && ['super-admin', 'admin'].includes(profil.role)"
+                <nuxt-link to="/dashboard/users"
                     :class="`flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg ${route.name === 'dashboard-users' ? 'bg-slate-100 text-slate-900' : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 hover:bg-slate-50'} group transition-colors`">
                     <Icon name="solar:users-group-rounded-linear"
                         class="w-5 h-5 group-hover:text-slate-900 transition-colors" />

@@ -215,13 +215,13 @@
                             <td class="py-3 px-6 text-xs text-slate-500 whitespace-nowrap">
                                 {{ formatLocalDate(author.created_at) }}</td>
                             <td class="py-3 px-6 text-right whitespace-nowrap">
-                                <select v-if="profil && !['support', 'auteur', 'lecteur'].includes(profil.role)"
+                                <select
                                     class="mr-2 text-[10px] bg-slate-50 border border-slate-200 rounded-md px-2 py-1 text-slate-600 outline-none">
                                     <option value="" disabled selected>Changez le statut</option>
                                     <option value="actif">Actif</option>
                                     <option value="banni">Banni</option>
                                     <option value="suspendu">Suspendu</option>
-                                    <option value="inactif">Inactif</option>
+                                    <option value="inactif" v-if="profil && !['support', 'auteur', 'lecteur'].includes(profil.role)">Inactif</option>
                                 </select>
                                 <nuxt-link :to="`/dashboard/authors/${author.uuid}`"
                                     class="p-1 rounded-md hover:bg-slate-100 text-slate-400 hover:text-slate-900 transition-colors">
@@ -373,15 +373,25 @@ const exportAuthors = () => {
 }
 
 const nextPage = async () => {
-    if (page.value >= total.value) return
+    loading.value = true;
+    if (page.value >= total.value) {
+        loading.value = false;
+        return;
+    }
     page.value++
     await onLoad()
+    loading.value = false;
 }
 
 const prevPage = async () => {
-    if (page.value <= 1) return
+    loading.value = true;
+    if (page.value <= 1) {
+        loading.value = false;
+        return;
+    }
     page.value--
     await onLoad()
+    loading.value = false;
 }
 
 const onLoad = async () => {

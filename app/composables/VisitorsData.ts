@@ -61,11 +61,47 @@ export function visitorsData() {
         }
     }
 
+    // 
+    async function getVisitorsStatsCurrent() {
+        try {
+            const response = await axios.get(`/visitors/stats-current`);
+
+            return response?.data;
+        } catch (error: any) {
+            return { success: false, status: error.response?.status || 500, error: error.message };
+        }
+    }
+
+    // 
+    async function getVisitorsByYear(page: number, limit: number, year: number) {
+        try {
+            const response = await axios.get(`/visitors/by-year?page=${page}&limit=${limit}&year=${year}`);
+
+            return response?.data;
+        } catch (error: any) {
+            return { success: false, status: error.response?.status || 500, error: error.message };
+        }
+    }
+
+    // 
+    async function getVisitorsByMonth(page: number, limit: number, year: number, month: number) {
+        try {
+            const response = await axios.get(`/visitors/by-month?page=${page}&limit=${limit}&year=${year}&month=${month}`);
+
+            return response?.data;
+        } catch (error: any) {
+            return { success: false, status: error.response?.status || 500, error: error.message };
+        }
+    }
+
 
     return {
         getVisit,
         findAll,
         countDistinctIpsLast7Days,
         getVisitorsPercentageByCountry,
+        getVisitorsStatsCurrent,
+        getVisitorsByYear,
+        getVisitorsByMonth,
     }
 }

@@ -163,7 +163,8 @@
                     </tbody>
 
                     <tbody v-if="!loading && filteredUsers.length !== 0" class="text-xs">
-                        <tr class="group hover:bg-slate-50 transition-colors" :class="u.role === 'super-admin' ? 'bg-slate-100': ''" v-for="(u, index) in filteredUsers"
+                        <tr class="group hover:bg-slate-50 transition-colors"
+                            :class="u.role === 'super-admin' ? 'bg-slate-100' : ''" v-for="(u, index) in filteredUsers"
                             :key="index">
                             <td class="py-3 px-6 whitespace-nowrap">
                                 <div class="flex items-center gap-3">
@@ -192,7 +193,7 @@
                             </td>
                             <td class="py-3 px-6 whitespace-nowrap">
                                 <span class="text-xs font-medium text-slate-600">{{ u.email?.trim() ?? "---"
-                                    }}</span>
+                                }}</span>
                             </td>
                             <td class="py-3 px-6 whitespace-nowrap">
                                 <span class="text-xs font-medium text-slate-600">{{ u.country }}</span>
@@ -207,22 +208,25 @@
                                 {{ formatLocalDate(u?.sanction_date) }}
                             </td>
                             <td class="py-3 px-6 text-right whitespace-nowrap">
-                                <select v-if="profil && !['support', 'auteur', 'lecteur'].includes(profil.role)"
+                                <select
                                     class="mr-2 text-[10px] bg-slate-50 border border-slate-200 rounded-md px-2 py-1 text-slate-600 outline-none">
                                     <option value="" disabled selected>Changez le rôle</option>
-                                    <option value="super-admin" v-if="profil.role === 'super-admin'">Super-admin</option>
-                                    <option value="admin">Admin</option>
+                                    <option value="super-admin" v-if="profil && profil.role === 'super-admin'">
+                                        Super-admin</option>
+                                    <option value="admin"
+                                        v-if="profil && !['support', 'auteur', 'lecteur'].includes(profil.role)">Admin
+                                    </option>
                                     <option value="support">Support</option>
                                     <option value="auteur">Auteur</option>
                                     <option value="lecteur">Lecteur</option>
                                 </select>
-                                <select v-if="profil && !['support', 'auteur', 'lecteur'].includes(profil.role)"
+                                <select
                                     class="mr-2 text-[10px] bg-slate-50 border border-slate-200 rounded-md px-2 py-1 text-slate-600 outline-none">
                                     <option value="" disabled selected>Changez le statut</option>
                                     <option value="actif">Actif</option>
                                     <option value="banni">Banni</option>
                                     <option value="suspendu">Suspendu</option>
-                                    <option value="inactif">Inactif</option>
+                                    <option value="inactif" v-if="profil && !['support', 'auteur', 'lecteur'].includes(profil.role)">Inactif</option>
                                 </select>
                                 <nuxt-link :to="`/dashboard/authors/${u.uuid}`" v-if="!u.role.includes('lecteur')"
                                     class="p-1 rounded-md hover:bg-slate-100 text-slate-400 hover:text-slate-900 transition-colors">
@@ -242,7 +246,7 @@
             <!-- Pagination -->
             <div class="flex items-center justify-between p-4 border-t border-slate-100">
                 <span class="text-xs text-slate-500">Page <span class="font-medium text-slate-900">{{ page }} / {{ total
-                }}</span> - {{ filteredUsers.length }} données</span>
+                        }}</span> - {{ filteredUsers.length }} données</span>
                 <div class="flex gap-2">
                     <button @click="prevPage" :disabled="page === 1"
                         class="px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-medium text-slate-500 hover:bg-slate-50 disabled:opacity-50">
@@ -259,6 +263,28 @@
             v-if="showDeleteModal" />
     </div>
 </template>
+
+<style>
+.custom::-webkit-scrollbar {
+    height: 6px;
+}
+
+.custom::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.custom::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 20px;
+}
+
+/* Firefox */
+.custom {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
+}
+</style>
+
 <script setup lang="ts">
 const config = useRuntimeConfig();
 const { toConnectUser } = authenticate();
@@ -287,7 +313,7 @@ const search = ref<string>("");
 const activeFilter = ref<string>("all");
 const sortAsc = ref<boolean>(false);
 
-const filters = [
+const filters = ref([
     { label: "Tous", value: "all" },
     { label: "Super-admin", value: "super-admin" },
     { label: "admin", value: "admin" },
@@ -298,7 +324,7 @@ const filters = [
     { label: "Inactif", value: "inactif" },
     { label: "Suspendu", value: "suspendu" },
     { label: "Banni", value: "banni" },
-]
+])
 
 const filteredUsers = computed(() => {
     let data = [...users.value]
@@ -355,16 +381,27 @@ const exportUsers = () => {
 }
 
 const nextPage = async () => {
-    if (page.value >= total.value) return
+    loading.value = true;
+    if (page.value >= total.value) {
+        loading.value = false;
+        return;
+    }
     page.value++
     await onLoad()
+    loading.value = false;
 }
 
 const prevPage = async () => {
-    if (page.value <= 1) return
+    loading.value = true;
+    if (page.value <= 1) {
+        loading.value = false;
+        return;
+    }
     page.value--
     await onLoad()
+    loading.value = false;
 }
+
 
 const onLoad = async () => {
     loading.value = true;
@@ -391,7 +428,32 @@ const onLoad = async () => {
 onMounted(async () => {
     user.value = await toConnectUser();
     profil.value = await getProfile();
-    if(profil.value && ["auteur", "support"].includes(profil.value.role)) router.push("/dashboard")
+    if (profil.value && ["auteur", "lecteur"].includes(profil.value.role)) router.push("/dashboard");
+    if (profil.value?.role === 'support') {
+        filters.value = [
+            { label: "Tous", value: "all" },
+            { label: "Support", value: "support" },
+            { label: "Auteur", value: "auteur" },
+            { label: "Lecteur", value: "lecteur" },
+            { label: "Actif", value: "actif" },
+            { label: "Inactif", value: "inactif" },
+            { label: "Suspendu", value: "suspendu" },
+            { label: "Banni", value: "banni" },
+        ]
+    }
+    if (profil.value?.role === 'admin') {
+        filters.value = [
+            { label: "Tous", value: "all" },
+            { label: "Admin", value: "admin" },
+            { label: "Support", value: "support" },
+            { label: "Auteur", value: "auteur" },
+            { label: "Lecteur", value: "lecteur" },
+            { label: "Actif", value: "actif" },
+            { label: "Inactif", value: "inactif" },
+            { label: "Suspendu", value: "suspendu" },
+            { label: "Banni", value: "banni" },
+        ]
+    }
     await onLoad();
 })
 
