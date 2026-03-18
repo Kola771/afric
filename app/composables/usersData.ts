@@ -169,6 +169,22 @@ export function usersData() {
         return null;
     }
 
+    // Supprime le compte de l'utilisateur
+    async function deleteAccount(uuid: string) {
+        if (process?.client) {
+            if (localStorage.getItem("user")) {
+                const token = JSON.parse(localStorage.getItem("user") || '{}').token;
+                const response = await axios.delete(`/users/delete-account/${uuid}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                return response?.data;
+            }
+        }
+        return null;
+    }
+
     return {
         findAuthors,
         getUsers,
@@ -179,5 +195,6 @@ export function usersData() {
         propositionsAuthors,
         countUserActifs,
         countAuthorsActifs,
+        deleteAccount,
     }
 }

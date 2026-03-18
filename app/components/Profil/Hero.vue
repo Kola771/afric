@@ -126,8 +126,7 @@
                 </div>
             </div>
         </div>
-        <ProfilDeleteUser @close-delete-modal="toggleDeleteModal" :showDeleteModal="showDeleteModal"
-            v-if="showDeleteModal" />
+        <ProfilDeleteUser @close-delete-modal="toggleDeleteModal" :showDeleteModal="showDeleteModal" :profil="profil" v-if="showDeleteModal && profil" />
     </div>
 </template>
 
