@@ -24,6 +24,14 @@ export function useFollowers() {
     }
 
     // -------------------
+    // Liste des followers
+    // -------------------
+    async function getUsersByFollowerId(id_user: number, page: number, limit: number) {
+        const res = await axios.get(`/followers/all/${id_user}?page=${page}&limit=${limit}`);
+        return res?.data;
+    }
+
+    // -------------------
     // Supprimer un follower
     // -------------------
     async function deleteFollow(followingId: number, followerId: number) {
@@ -46,6 +54,7 @@ export function useFollowers() {
 
     return {
         createFollower,
-        deleteFollow
+        deleteFollow,
+        getUsersByFollowerId
     }
 }

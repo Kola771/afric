@@ -28,11 +28,11 @@
                                     Originaire : {{ author.country?.name }}</p>
                             </div>
                             <div class="text-[11px] flex flex-wrap items-center gap-2 lg:hidden">
-                                <div>
+                                <nuxt-link :to="`/authors/${author.uuid}/followers`">
                                     <span class="font-semibold text-slate-900 dark:text-slate-200">{{
                                         formatNumber(author.total_followers) }}</span>
-                                    <span class="text-slate-400"> follower(s)</span>
-                                </div>
+                                    <span class="text-slate-400"> abonné(s)</span>
+                                </nuxt-link>
                                 <div>
                                     <span class="font-semibold text-slate-900 dark:text-slate-200">{{
                                         formatNumber(author.books.length) }}</span>
@@ -52,12 +52,12 @@
                         </div>
                         <div
                             class="lg:rounded-lg lg:bg-slate-50 dark:lg:bg-slate-800 lg:p-3 lg:mt-1 lg:flex lg:justify-between lg:items-center gap-2 text-slate-200 dark:text-slate-200 hidden w-full">
-                            <span class="text-xs">
+                            <nuxt-link :to="`/authors/${author.uuid}/followers`">
                                 <span class="font-semibold text-slate-900 dark:text-slate-200">{{
                                     formatNumber(author.total_followers) }}</span> <span class="text-slate-400">
                                     <Icon name="mdi:users" class="w-4 h-4" />
                                 </span>
-                            </span>
+                            </nuxt-link>
                             <span class="w-px h-3 bg-slate-200"></span>
                             <span class="text-xs">
                                 <span class="font-semibold text-slate-900 dark:text-slate-200">{{
@@ -227,11 +227,6 @@ const countViews = (books: BookData[]): number => {
     return books.reduce((total, book) => total + (Number(book?.total_views) ?? 0), 0);
 };
 
-onMounted(async () => {
-    await onLoad();
-    await loadBooks();
-})
-
 const filteredBooks = computed(() => {
     return books.value.filter((book) => {
 
@@ -366,8 +361,9 @@ watch(
 // ============================
 
 onMounted(async () => {
+    await onLoad();
     await loadBooks();
-});
+})
 
 onUnmounted(() => {
     observer.value?.disconnect();

@@ -44,7 +44,7 @@
                         <div>
                             <span class="font-semibold text-slate-900 dark:text-slate-200">{{
                                 formatNumber(author.total_followers) }}</span>
-                            <span class="text-slate-700 dark:text-slate-400"> follower(s)</span>
+                            <span class="text-slate-700 dark:text-slate-400"> abonné(s)</span>
                         </div>
                         <div>
                             <span class="font-semibold text-slate-900 dark:text-slate-200">{{
@@ -72,7 +72,7 @@
                         <div>
                             <span class="font-semibold text-slate-900 dark:text-slate-200">{{
                                 formatNumber(author.total_followers) }}</span>
-                            <span class="text-slate-700 dark:text-slate-400"> follower(s)</span>
+                            <span class="text-slate-700 dark:text-slate-400"> abonné(s)</span>
                         </div>
                         <div>
                             <span class="font-semibold text-slate-900 dark:text-slate-200">{{
