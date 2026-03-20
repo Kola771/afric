@@ -69,7 +69,7 @@
 import { ref } from 'vue'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { ExclamationTriangleIcon } from '@heroicons/vue/24/outline'
-const { deleteAccount } = usersData();
+const { deleteAccount, deletePersonNotLector } = usersData();
 const props = defineProps<{
   profil: User
 }>();
@@ -100,6 +100,20 @@ const executeAction = async () => {
       }, 3000);
     } else {
       error.value = res.msg_error;
+    }
+    action.value = false;
+  } else {
+    const res = await deletePersonNotLector(`${props.profil.uuid}`, {status: 'inactif'});
+    if (res.success) {
+      message.value = "Votre compte est inactif !";
+      setTimeout(() => {
+        localStorage.removeItem("user");
+        localStorage.removeItem("register_author");
+        localStorage.removeItem("register_email");
+        window.location.href = "/login";
+      }, 3000);
+    } else {
+      error.value = res.error;
     }
     action.value = false;
   }

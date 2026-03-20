@@ -185,6 +185,22 @@ export function usersData() {
         return null;
     }
 
+    // 
+    async function deletePersonNotLector(uuid: string, data: {status: string}) {
+        if (process?.client) {
+            if (localStorage.getItem("user")) {
+                const token = JSON.parse(localStorage.getItem("user") || '{}').token;
+                const response = await axios.put(`/users/delete-person-not-lector/${uuid}`, data, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                return response?.data;
+            }
+        }
+        return null;
+    }
+
     return {
         findAuthors,
         getUsers,
@@ -196,5 +212,6 @@ export function usersData() {
         countUserActifs,
         countAuthorsActifs,
         deleteAccount,
+        deletePersonNotLector,
     }
 }

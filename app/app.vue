@@ -32,7 +32,10 @@ html {
 </style>
 
 <script lang="ts" setup>
-const showScrollTop = ref(false)
+const { getProfile } = usersData();
+const showScrollTop = ref<boolean>(false);
+const profil = ref<User | null>(null);
+const router = useRouter();
 
 const handleScroll = () => {
   showScrollTop.value = window.scrollY > 400 // position déclencheur (400px)
@@ -56,7 +59,11 @@ const { getVisit } = visitorsData();
 
 onMounted(async () => {
   try {
+    profil.value = await getProfile();
     await getVisit();
+    if (profil.value && profil.value.status === 'inactif') {
+      router.push("/authorization");
+    }
   } catch (err) {
     console.error("Erreur IP:", err);
   }
