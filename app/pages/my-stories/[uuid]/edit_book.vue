@@ -217,6 +217,9 @@ onMounted(async () => {
         } else {
             router.back();
         }
+        if (profil.value && profil.value.status === 'inactif') {
+            router.push("/authorization");
+        }
         title.value = book.value.title;
         description.value = book.value.description.replace('<br>', '\n');
         status.value = book.value.status;

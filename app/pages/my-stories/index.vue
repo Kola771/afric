@@ -61,8 +61,7 @@
                         </button>
                     </div>
                 </div>
-                <div
-                    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-10">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-10">
 
                     <!-- Skeleton -->
                     <template v-if="loadingSkeleton">
@@ -124,7 +123,8 @@
                     </template>
                 </div>
                 <!-- Message vide -->
-                <div v-if="!loading && !loadingSkeleton && sortedBooks.length === 0" class="flex flex-col items-center justify-center py-16 text-center">
+                <div v-if="!loading && !loadingSkeleton && sortedBooks.length === 0"
+                    class="flex flex-col items-center justify-center py-16 text-center">
                     <Icon name="mdi:book-off-outline" class="w-12 h-12 text-slate-300 mb-3" />
 
                     <p class="text-slate-500 text-sm font-medium">
@@ -384,7 +384,7 @@
                             </div>
                             <p class="text-[12px] lg:text-xs text-slate-600 dark:text-slate-200">{{
                                 reaction.user.pseudonym
-                                }} a réagi : <span class="font-medium">{{ reaction.label }} {{ reaction.emoji }}</span>
+                            }} a réagi : <span class="font-medium">{{ reaction.label }} {{ reaction.emoji }}</span>
                             </p>
                         </div>
                     </div>
@@ -844,6 +844,9 @@ const onLoad = async () => {
     user.value = await toConnectUser();
     profil.value = await getProfile();
     if (user.value && profil.value) {
+        if (profil.value && profil.value.status === 'inactif') {
+            router.push("/authorization");
+        }
         if (authorizeRoleUser(`${profil.value.role.toLocaleLowerCase()}`)) {
             const { data, totalPages: tp } = await findAllPaginatedAuthor(page.value, limit.value, user.value?.id);
             books.value = data;

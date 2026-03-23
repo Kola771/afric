@@ -121,7 +121,8 @@
             </div>
           </template>
         </div>
-        <div v-if="!loadingSkeleton && !chapters.length" class="flex flex-col items-center justify-center py-16 text-center h-screen">
+        <div v-if="!loadingSkeleton && !chapters.length"
+          class="flex flex-col items-center justify-center py-16 text-center h-screen">
           <Icon name="mdi:book-outline" class="w-12 h-12 text-slate-300 mb-3" />
 
           <p class="text-slate-500 text-sm font-medium">
@@ -317,7 +318,7 @@
                         <span class="font-semibold text-slate-900 dark:text-slate-400">{{
                           formatNumber(chap.chapter_reads
                             ||
-                          0) }}</span>
+                            0) }}</span>
                         <span class="text-slate-400 dark:text-slate-600">
                           <Icon name="mdi:eye" class="w-4 h-4" />
                         </span>
@@ -351,7 +352,8 @@
             </div>
           </template>
         </div>
-        <div v-if="!loadingSkeleton && !chapters.length" class="flex flex-col items-center justify-center py-16 text-center">
+        <div v-if="!loadingSkeleton && !chapters.length"
+          class="flex flex-col items-center justify-center py-16 text-center">
           <Icon name="mdi:book-outline" class="w-12 h-12 text-slate-300 mb-3" />
 
           <p class="text-slate-500 text-sm font-medium">
@@ -988,6 +990,9 @@ const onLoad = async () => {
   profil.value = await getProfile();
   book.value = await getActiveBookByUuid(`${uuid}`);
   if (((user.value && book.value && profil.value) && authorizeRoleUser(`${profil.value.role.toLocaleLowerCase()}`) && (Number(profil.value.id) === Number(book.value.id_user)))) {
+    if (profil.value && profil.value.status === 'inactif') {
+      router.push("/authorization");
+    }
     const { data, totalPages: tp } = await findAllPaginated(page.value, limit.value, book.value.id);
     totalPages.value = tp;
     chapters.value = data;

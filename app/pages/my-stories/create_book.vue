@@ -187,5 +187,8 @@ onMounted(async () => {
     } else {
         router.back();
     }
+    if (profil.value && profil.value.status === 'inactif') {
+        router.push("/authorization");
+    }
 })
 </script>
