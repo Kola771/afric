@@ -47,7 +47,8 @@
                 <div v-if="message" class="text-xs text-center font-medium text-green-500 mb-4">{{ message }}</div>
 
                 <div class="dark:bg-slate-800 bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                  <button type="button"
+                  <button type="button" :disabled="disabled"
+                    :class="disabled ? 'cursor-not-allowed bg-orange-300' : 'cursor-pointer'"
                     class="inline-flex w-full justify-center rounded-md bg-orange-600 px-3 lg:px-6 py-2 text-sm font-semibold text-white shadow-xs hover:bg-orange-500 sm:ml-3 sm:w-auto"
                     @click="functionChangeStatus">Appliquer le changement</button>
                   <button type="button"
@@ -74,6 +75,7 @@ const props = defineProps<{
 const reason = ref<string>("");
 const error = ref<any>(null);
 const message = ref<any>(null);
+const disabled = ref<boolean>(false);
 
 const status = (status: string) => {
   switch (status.toLocaleLowerCase()) {
@@ -93,8 +95,11 @@ const status = (status: string) => {
 }
 
 const open = ref(true)
-const emit = defineEmits(['close-change-modal']);
+const emit = defineEmits(['close-change-modal', 'on-load']);
 const closeModal = () => {
+  error.value = null;
+  message.value = null;
+  reason.value = "";
   emit('close-change-modal');
   open.value = false;
 }
@@ -102,22 +107,32 @@ const closeModal = () => {
 const functionChangeStatus = async () => {
   error.value = null;
   message.value = null;
+  disabled.value = true;
   if (reason.value.trim() !== "") {
-    console.log(reason.value, props.book);
     const response = await updateStatus(props.book.uuid, {
       status: props.statut,
+      prevStatus: status(props.book.status),
+      statusValue: status(props.statut),
       reason: reason.value,
       name: props.book.user.name,
       title: props.book.title
     });
-    console.log(response);
+    
     if (response.success) {
-      message.value = "Statut modifié avec succès !";
+      message.value = response.msg;
+
+      setTimeout(() => {
+        open.value = false;
+        emit('close-change-modal');
+        emit('on-load');
+      }, 2000);
     } else {
       error.value = response.error;
+      disabled.value = false;
     }
   } else {
     error.value = "Veuillez nous donner la raison de ce changement !";
+    disabled.value = false;
   }
 }
 </script>

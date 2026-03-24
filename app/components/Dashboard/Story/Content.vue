@@ -107,6 +107,7 @@
                             <th class="font-semibold py-3 px-6 whitespace-nowrap">Catégorie</th>
                             <th class="font-semibold py-3 px-6 whitespace-nowrap">Performance</th>
                             <th class="font-semibold py-3 px-6 whitespace-nowrap">Statut</th>
+                            <th class="font-semibold py-3 px-6 whitespace-nowrap">Deadline</th>
                             <th class="font-semibold py-3 px-6 whitespace-nowrap">Âge autorisé</th>
                             <th class="font-semibold py-3 px-6 whitespace-nowrap text-right">Actions</th>
                         </tr>
@@ -115,7 +116,7 @@
                         <tr class="border-b border-slate-50 whitespace-nowrap">
 
                             <!-- Book -->
-                            <td class="py-3 px-6" v-for="i in 7" :key="i">
+                            <td class="py-3 px-6" v-for="i in 8" :key="i">
                                 Pas de données
                             </td>
                         </tr>
@@ -165,6 +166,10 @@
                                 <div class="h-5 w-16 bg-slate-200 dark:bg-slate-300 rounded-full animate-pulse"></div>
                             </td>
 
+                            <td class="py-3 px-6">
+                                <div class="h-5 w-16 bg-slate-200 dark:bg-slate-300 rounded-full animate-pulse"></div>
+                            </td>
+
                             <!-- Actions -->
                             <td class="py-3 px-6">
                                 <div class="h-5 w-16 bg-slate-200 dark:bg-slate-300 rounded-full animate-pulse"></div>
@@ -202,7 +207,7 @@
                                 <div class="flex items-center gap-4">
                                     <div class="text-xs">
                                         <span class="font-semibold text-slate-900">{{ formatNumber(book?.book_reactions)
-                                            }}</span> <span class="text-slate-400 text-[10px]">réactions
+                                        }}</span> <span class="text-slate-400 text-[10px]">réactions
                                         </span>
                                     </div>
                                     <div class="w-px h-3 bg-slate-200"></div>
@@ -215,7 +220,7 @@
                                     <div class="w-px h-3 bg-slate-200"></div>
                                     <div class="text-xs">
                                         <span class="font-semibold text-slate-900">{{ formatNumber(book?.book_comments)
-                                            }}</span> <span class="text-slate-400 text-[10px]">commentaires
+                                        }}</span> <span class="text-slate-400 text-[10px]">commentaires
                                         </span>
                                     </div>
                                 </div>
@@ -227,17 +232,21 @@
                                     {{ status(book.status) }}
                                 </span>
                             </td>
+                            <td class="py-3 px-6 text-center whitespace-nowrap text-red-600 font-medium animate-pulse">
+                                {{ book.status === "inactive" ? formatLocalDate(book.deadline || '') : '' }}
+                            </td>
                             <td class="py-3 px-6 text-center whitespace-nowrap">
                                 {{ book.rating_age }}
                             </td>
                             <td class="py-3 px-6 text-right whitespace-nowrap">
-                                <select v-if="profil && !['support', 'auteur', 'lecteur'].includes(profil.role)" :value="book.status" @change="(e) => changeValStatus(e, book)"
+                                <select v-if="profil && !['support', 'auteur', 'lecteur'].includes(profil.role)"
+                                    :value="book.status" @change="(e) => changeValStatus(e, book)"
                                     class="mr-2 text-[10px] bg-slate-50 border border-slate-200 rounded-md px-2 py-1 text-slate-600 outline-none">
                                     <option value="" disabled selected>Changez le statut</option>
                                     <option value="draft">Brouillon</option>
                                     <option value="ongoing">En cours</option>
                                     <option value="paused">En pause</option>
-                                    <option value="inactif">Inactive</option>
+                                    <option value="inactive">Inactive</option>
                                 </select>
                                 <nuxt-link :to="`/books/${book.uuid}`" target="_blank"
                                     v-if="!['draft', 'inactive'].includes(book.status)"
@@ -256,7 +265,7 @@
 
             <div class="flex items-center justify-between p-4 border-t border-slate-100">
                 <span class="text-xs text-slate-500">Page <span class="font-medium text-slate-900">{{ page }} / {{ total
-                        }}</span> - {{ filteredBooks.length }} données</span>
+                }}</span> - {{ filteredBooks.length }} données</span>
                 <div class="flex gap-2">
                     <button @click="prevPage" :disabled="page === 1"
                         class="px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-medium text-slate-500 hover:bg-slate-50 disabled:opacity-50">
@@ -269,8 +278,11 @@
                 </div>
             </div>
         </div>
-        <DashboardStoryDelete @close-delete-modal="toggleDeleteModal" :showDeleteModal="showDeleteModal" v-if="showDeleteModal" />
-        <DashboardStoryChangeStatus @close-change-modal="toggleChangeModal" :showChangeStatusModal="showChangeStatusModal" :book="book" :statut="statut" v-if="showChangeStatusModal && book" />
+        <DashboardStoryDelete @close-delete-modal="toggleDeleteModal" :showDeleteModal="showDeleteModal"
+            v-if="showDeleteModal" />
+        <DashboardStoryChangeStatus @close-change-modal="toggleChangeModal" @on-load="onLoad"
+            :showChangeStatusModal="showChangeStatusModal" :book="book" :statut="statut"
+            v-if="showChangeStatusModal && book" />
     </div>
 </template>
 
@@ -303,7 +315,7 @@ const { findAllBooksPaginated } = booksData();
 const user = ref<User | null>(null);
 const profil = ref<User | null>(null);
 const books = ref<BookData[]>([]);
-const book = ref<BookData|null>(null);
+const book = ref<BookData | null>(null);
 const statut = ref<string>("");
 const loading = ref<boolean>(true);
 const page = ref<number>(1);

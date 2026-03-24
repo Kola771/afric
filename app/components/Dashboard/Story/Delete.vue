@@ -18,7 +18,7 @@
                     <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                       <DialogTitle as="h3" class="text-base font-semibold text-gray-900 dark:text-white">Supprimer cette histoire "<strong class="text-orange-600 dark:text-orange-500">L'histoire de Koulou</strong>"</DialogTitle>
                       <div class="mt-2">
-                        <p class="text-sm text-gray-500 dark:text-slate-200">Êtes-vous sûr de vouloir supprimer cette histoire ? Elle sera supprimée définitivement 30 jours plus tard après avoir effectué cette action.</p>
+                        <p class="text-sm text-gray-500 dark:text-slate-200">Êtes-vous sûr de vouloir supprimer cette histoire ? Elle sera supprimée définitivement 10 jours plus tard après avoir effectué cette action.</p>
                       </div>
                     </div>
                   </div>
