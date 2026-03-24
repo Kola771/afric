@@ -601,7 +601,7 @@ definePageMeta({
   ssr: false
 });
 
-const { getActiveBookByUuid } = booksData();
+const { findBookByUuid } = booksData();
 const { toConnectUser } = authenticate();
 const { getProfile } = usersData();
 const { findAllPaginated, createData, createManyData, updateData, deleteData } = chaptersData();
@@ -988,7 +988,7 @@ function loadChapter(id: number) {
 const onLoad = async () => {
   user.value = await toConnectUser();
   profil.value = await getProfile();
-  book.value = await getActiveBookByUuid(`${uuid}`);
+  book.value = await findBookByUuid(`${uuid}`);
   if (((user.value && book.value && profil.value) && authorizeRoleUser(`${profil.value.role.toLocaleLowerCase()}`) && (Number(profil.value.id) === Number(book.value.id_user)))) {
     if (profil.value && profil.value.status === 'inactif') {
       router.push("/authorization");
@@ -1009,7 +1009,7 @@ const onLoad = async () => {
       }
     }
   } else {
-    router.push("/")
+    // router.push("/")
   }
   loadingSkeleton.value = false;
 }

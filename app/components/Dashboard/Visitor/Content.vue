@@ -21,21 +21,21 @@
         <!-- Stats Grid -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             <div class="bg-white dark:bg-slate-100 p-4 rounded-xl border border-slate-200 shadow-sm">
-                <p class="text-xs font-medium text-slate-500 mb-1">Total Journalier</p>
+                <p class="text-xs font-medium text-slate-500 mb-1">Total Journalier des visiteurs</p>
                 <div class="flex items-end justify-between">
                     <p class="text-2xl font-display font-bold text-slate-900">{{ formatNumber(visitorsToday) }}</p>
                     <Icon name="solar:calendar-linear" class="text-slate-300" width="24" />
                 </div>
             </div>
             <div class="bg-white dark:bg-slate-100 p-4 rounded-xl border border-slate-200 shadow-sm">
-                <p class="text-xs font-medium text-slate-500 mb-1">Total Mensuel</p>
+                <p class="text-xs font-medium text-slate-500 mb-1">Total Mensuel des visiteurs</p>
                 <div class="flex items-end justify-between">
                     <p class="text-2xl font-display font-bold text-slate-900">{{ formatNumber(visitorsMonth) }}</p>
                     <Icon name="solar:calendar-linear" class="text-slate-300" width="24" />
                 </div>
             </div>
             <div class="bg-white dark:bg-slate-100 p-4 rounded-xl border border-slate-200 shadow-sm">
-                <p class="text-xs font-medium text-slate-500 mb-1">Total Annuel</p>
+                <p class="text-xs font-medium text-slate-500 mb-1">Total annuel des visiteurs</p>
                 <div class="flex items-end justify-between">
                     <p class="text-2xl font-display font-bold text-slate-900">{{ formatNumber(visitorsYear) }}</p>
                     <Icon name="solar:calendar-linear" class="text-slate-300" width="24" />
@@ -85,14 +85,14 @@
 
         <!-- Authors Table -->
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-            <div class="overflow-x-auto">
+            <div class="overflow-y-auto overflow-x-auto custom max-h-[500px]">
                 <table class="w-full text-left border-collapse">
-                    <thead>
+                    <thead class="sticky top-0 z-10 bg-slate-50">
                         <tr class="text-xs text-slate-500 dark:text-slate-700 border-b border-slate-100 bg-slate-50/50">
-                            <th class="font-medium py-3 px-6">IP</th>
-                            <th class="font-medium py-3 px-6">Ville</th>
-                            <th class="font-medium py-3 px-6">Pays</th>
-                            <th class="font-medium py-3 px-6">Date de venue</th>
+                            <th class="font-medium whitespace-nowrap py-3 px-6">IP</th>
+                            <th class="font-medium whitespace-nowrap py-3 px-6">Ville</th>
+                            <th class="font-medium whitespace-nowrap py-3 px-6">Pays</th>
+                            <th class="font-medium whitespace-nowrap py-3 px-6">Date de venue</th>
                         </tr>
                     </thead>
                     <tbody v-if="filteredVisitors.length === 0 && !loading" class="text-xs">
@@ -113,10 +113,11 @@
                     <tbody v-if="!loading && filteredVisitors.length !== 0" class="text-sm">
                         <tr class="group hover:bg-slate-50 transition-colors"
                             v-for="(visitor, index) in filteredVisitors" :key="index">
-                            <td class="py-3 px-6 text-xs text-slate-400">{{ visitor.visitor_id }}</td>
-                            <td class="py-3 px-6 text-xs text-slate-400">{{ visitor.city }}</td>
-                            <td class="py-3 px-6 text-xs text-slate-400">{{ visitor.origin }}</td>
-                            <td class="py-3 px-6 text-xs text-slate-500">{{ formatLocalDate(visitor.visit_date) }}</td>
+                            <td class="py-3 whitespace-nowrap px-6 text-xs text-slate-400">{{ visitor.visitor_id }}</td>
+                            <td class="py-3 whitespace-nowrap px-6 text-xs text-slate-400">{{ visitor.city }}</td>
+                            <td class="py-3 whitespace-nowrap px-6 text-xs text-slate-400">{{ visitor.origin }}</td>
+                            <td class="py-3 whitespace-nowrap px-6 text-xs text-slate-500">{{
+                                formatLocalDate(visitor.visit_date) }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -124,7 +125,7 @@
 
             <div class="flex items-center justify-between p-4 border-t border-slate-100">
                 <span class="text-xs text-slate-500">Page <span class="font-medium text-slate-900">{{ page }} / {{ total
-                }}</span> - {{ filteredVisitors.length }} données</span>
+                        }}</span> - {{ filteredVisitors.length }} données</span>
                 <div class="flex gap-2">
                     <button @click="prevPage" :disabled="page === 1"
                         class="px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-medium text-slate-500 hover:bg-slate-50 disabled:opacity-50">
@@ -214,9 +215,11 @@ const onLoadDataMonth = async (selected: string) => {
     if (selected === "Tous") {
         const res = await getVisitorsByYear(page.value, limit.value, selectedYear.value);
         visitors.value = res.data;
+        total.value = res.pagination.totalPages;
     } else {
         const res = await getVisitorsByMonth(page.value, limit.value, selectedYear.value, allMonths.indexOf(selected) + 1);
         visitors.value = res.data;
+        total.value = res.pagination.totalPages;
     }
     loading.value = false;
 }
@@ -227,6 +230,7 @@ watch(selectedYear, async () => {
     selectedMonth.value = "Tous"; // reset mois
     const res = await getVisitorsByYear(page.value, limit.value, selectedYear.value);
     visitors.value = res.data;
+    total.value = res.pagination.totalPages;
     loading.value = false;
 });
 
@@ -283,11 +287,12 @@ const onLoad = async () => {
     visitorsMonth.value = thisMonth;
     visitorsYear.value = thisYear;
     let res;
-    if(selectedMonth.value !== "Tous") {
+    if (selectedMonth.value !== "Tous") {
         res = await getVisitorsByMonth(page.value, limit.value, selectedYear.value, allMonths.indexOf(selectedMonth.value) + 1);
     } else {
         res = await getVisitorsByYear(page.value, limit.value, selectedYear.value);
     }
+    total.value = res.pagination.totalPages;
     visitors.value = res.data;
     loading.value = false;
 }

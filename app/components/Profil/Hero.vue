@@ -41,11 +41,11 @@
                             </template>
                         </p>
                     <div class="text-[13px] flex-wrap items-center gap-2 hidden lg:flex" v-if="author">
-                        <div>
+                        <nuxt-link :to="`/authors/${author.uuid}/followers`" class="hover:underline">
                             <span class="font-semibold text-slate-900 dark:text-slate-200">{{
                                 formatNumber(author.total_followers) }}</span>
                             <span class="text-slate-700 dark:text-slate-400"> abonné(s)</span>
-                        </div>
+                        </nuxt-link>
                         <div>
                             <span class="font-semibold text-slate-900 dark:text-slate-200">{{
                                 formatNumber(author.books.length) }}</span>
@@ -69,11 +69,11 @@
                         </template>
                     </p>
                     <div class="text-[11px] flex flex-wrap items-center gap-2 lg:hidden" v-if="author">
-                        <div>
+                        <nuxt-link :to="`/authors/${author.uuid}/followers`" class="hover:underline">
                             <span class="font-semibold text-slate-900 dark:text-slate-200">{{
                                 formatNumber(author.total_followers) }}</span>
                             <span class="text-slate-700 dark:text-slate-400"> abonné(s)</span>
-                        </div>
+                        </nuxt-link>
                         <div>
                             <span class="font-semibold text-slate-900 dark:text-slate-200">{{
                                 formatNumber(author.books.length) }}</span>

@@ -67,7 +67,8 @@
                         </div>
                     </div>
                 </div>
-                <div v-if="!loadingSkeleton && !filteredFollowers.length" class="text-center text-slate-500 py-10">
+                <div v-if="!loadingSkeleton && !filteredFollowers.length" class="text-center text-sm flex flex-col justify-center items-center text-slate-500 py-10">
+                    <Icon name="mdi:users" class="w-24 h-24 text-slate-400 dark:text-slate-200" />
                     Aucun abonné trouvé
                 </div>
             </div>

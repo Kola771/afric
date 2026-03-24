@@ -90,7 +90,7 @@
         </div>
 
         <!-- User Profile (Bottom) -->
-        <div class="p-4 border-t border-slate-100" v-if="user">
+        <div class="p-4 flex flex-col gap-2 border-t border-slate-100" v-if="user">
             <nuxt-link to="/dashboard/account"
                 class="flex items-center gap-3 w-full p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors text-left">
                 <img v-if="user?.photo" :src="`${config.public.apiBackendUrl}/uploads/users/${user?.photo}`"
@@ -106,15 +106,18 @@
                 </div>
                 <Icon name="solar:alt-arrow-right-linear" class="w-5 h-5 text-slate-400" />
             </nuxt-link>
+            <button v-if="user" @click="logout()"
+                class="flex items-center justify-center gap-2 text-sm text-center bg-red-600 text-white py-2 md:px-6 px-4 rounded-lg dark:border-gray-600 dark:border-[1px]">
+                <Icon name="mdi:logout" class="w-5 h-5" />
+                Déconnexion
+            </button>
         </div>
     </aside>
 </template>
 <script setup lang="ts">
-import { profile } from 'node:console';
-
 const config = useRuntimeConfig();
 const route = useRoute();
-const { toConnectUser } = authenticate();
+const { toConnectUser, logout } = authenticate();
 const { findAllBooksPaginated } = booksData();
 const { getProfile } = usersData();
 const countAll = ref<number>(0);

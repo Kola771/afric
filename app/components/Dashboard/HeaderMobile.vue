@@ -31,7 +31,8 @@
                                 Histoires
                             </div>
                             <span
-                                class="px-1.5 py-0.5 rounded-md bg-orange-50 text-orange-600 text-[10px] font-semibold">{{ formatNumber(countAll) }}</span>
+                                class="px-1.5 py-0.5 rounded-md bg-orange-50 text-orange-600 text-[10px] font-semibold">{{
+                                formatNumber(countAll) }}</span>
                         </nuxt-link>
                         <nuxt-link to="/dashboard/categories"
                             :class="`flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg ${route.name === 'dashboard-categories' ? 'bg-slate-100 text-slate-900' : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 hover:bg-slate-50'} group transition-colors`">
@@ -85,7 +86,7 @@
                 </div>
 
                 <!-- User Profile (Bottom) -->
-                <div class="p-4 border-t border-slate-100" v-if="user">
+                <div class="p-4 flex flex-col gap-2 border-t border-slate-100" v-if="user">
                     <nuxt-link to="/dashboard/account"
                         class="flex items-center gap-3 w-full p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors text-left">
                         <img v-if="user?.photo" :src="`${config.public.apiBackendUrl}/uploads/users/${user?.photo}`"
@@ -105,6 +106,11 @@
                         </div>
                         <Icon name="solar:alt-arrow-right-linear" class="w-5 h-5 text-slate-400" />
                     </nuxt-link>
+                    <button v-if="user" @click="logout()"
+                        class="flex items-center justify-center gap-2 text-sm text-center bg-red-600 text-white py-2 md:px-6 px-4 rounded-lg dark:border-gray-600 dark:border-[1px]">
+                        <Icon name="mdi:logout" class="w-5 h-5" />
+                        Déconnexion
+                    </button>
                 </div>
             </div>
         </aside>
@@ -114,7 +120,7 @@
 const config = useRuntimeConfig();
 const route = useRoute();
 const emit = defineEmits(['close-modal']);
-const { toConnectUser } = authenticate();
+const { toConnectUser, logout } = authenticate();
 const { findAllBooksPaginated } = booksData();
 const countAll = ref<number>(0);
 const user = ref<User | null>(null);
