@@ -28,7 +28,8 @@
                       </DialogTitle>
                       <div class="mt-2">
                         <p class="text-sm text-gray-500 dark:text-slate-200">
-                          Passage de <strong>{{ user.status }}</strong> à <strong class="text-amber-400">{{ statut }}</strong>
+                          Passage de <strong>{{ user.status }}</strong> à <strong class="text-amber-400">{{ statut
+                            }}</strong>
                         </p>
                       </div>
                     </div>
@@ -66,7 +67,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
-const { updateStatus } = booksData();
+const { changeStatusUser } = usersData();
 const props = defineProps<{
   user: User;
   statut: string
@@ -93,10 +94,8 @@ const functionChangeStatus = async () => {
   message.value = null;
   disabled.value = true;
   if (reason.value.trim() !== "") {
-    const response = await updateStatus(props.user.uuid, {
+    const response = await changeStatusUser(props.user.uuid, {
       status: props.statut,
-      prevStatus: props.user.status,
-      statusValue: props.statut,
       reason: reason.value,
       name: props.user.name
     });

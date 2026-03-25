@@ -214,7 +214,7 @@
                                     <option :value="role.id" v-for="(role, y) in filteredRoles" :key="y">
                                         {{ role.name }}</option>
                                 </select>
-                                <select
+                                <select :value="u.status" @change="(e) => changeValStatus(e, u)"
                                     class="mr-2 text-[10px] bg-slate-50 border border-slate-200 rounded-md px-2 py-1 text-slate-600 outline-none">
                                     <option value="" disabled selected>Changez le statut</option>
                                     <option value="actif">Actif</option>
@@ -226,7 +226,7 @@
                                     class="p-1 rounded-md hover:bg-slate-100 text-slate-400 hover:text-slate-900 transition-colors">
                                     <Icon name="mdi:eye" width="16" />
                                 </nuxt-link>
-                                <button @click="toggleDeleteModal"
+                                <button @click="showModalDelete(u)"
                                     v-if="profil && !['support', 'auteur', 'lecteur'].includes(profil.role)"
                                     class="ml-1 p-1 rounded-md hover:bg-slate-100 text-red-600 hover:text-red-700 transition-colors">
                                     <Icon name="mdi:trash" width="16" />
@@ -253,8 +253,8 @@
                 </div>
             </div>
         </div>
-        <DashboardUserDelete @close-delete-modal="toggleDeleteModal" :showDeleteModal="showDeleteModal"
-            v-if="showDeleteModal" />
+        <DashboardUserDelete @close-delete-modal="toggleDeleteModal" @on-load="onLoad" :showDeleteModal="showDeleteModal" :user="userSelected" v-if="showDeleteModal && userSelected" />
+        <DashboardUserChangeStatus @close-change-modal="toggleChangeModal" @on-load="onLoad" :showChangeStatusModal="showChangeStatusModal" :user="userSelected" :statut="statut" v-if="showChangeStatusModal && userSelected" />
     </div>
 </template>
 
@@ -286,10 +286,12 @@ const { getProfile, getAllUsers } = usersData();
 const { allWithoutInactifRoles } = rolesData();
 const router = useRouter();
 const user = ref<User | null>(null);
+const userSelected = ref<User | null>(null);
 const profil = ref<User | null>(null);
 const users = ref<User[]>([]);
 const roles = ref<any[]>([]);
 const loading = ref<boolean>(true);
+const statut = ref<string>("");
 const page = ref<number>(1);
 const limit = ref<number>(25);
 const total = ref<number>(0);
@@ -304,7 +306,8 @@ const countAllUsersActifs = ref<number>(0);
 const countAllUsersInactifs = ref<number>(0);
 const countAllSuspended = ref<number>(0);
 const countAllUsersBanned = ref<number>(0);
-const showDeleteModal = ref(false);
+const showDeleteModal = ref<boolean>(false);
+const showChangeStatusModal = ref<boolean>(false);
 const search = ref<string>("");
 const activeFilter = ref<string>("all");
 const sortAsc = ref<boolean>(false);
@@ -321,6 +324,12 @@ const filters = ref([
     { label: "Suspendu", value: "suspendu" },
     { label: "Banni", value: "banni" },
 ])
+
+const changeValStatus = (e: any, u: User) => {
+    statut.value = e.target.value;
+    userSelected.value = u;
+    showChangeStatusModal.value = !showChangeStatusModal.value;
+}
 
 const filteredRoles = computed(() => {
     let data = [...roles.value]
@@ -371,6 +380,19 @@ const filteredUsers = computed(() => {
 
     return data
 })
+
+const showModalDelete = (u: User) => {
+    userSelected.value = u;
+    showDeleteModal.value = !showDeleteModal.value;
+}
+
+const toggleDeleteModal = () => {
+    showDeleteModal.value = !showDeleteModal.value;
+}
+
+const toggleChangeModal = () => {
+    showChangeStatusModal.value = !showChangeStatusModal.value
+}
 
 const exportUsers = () => {
     const rows = filteredUsers.value.map(user => ({
@@ -478,8 +500,4 @@ onMounted(async () => {
     }
     await onLoad();
 })
-
-const toggleDeleteModal = () => {
-    showDeleteModal.value = !showDeleteModal.value
-}
 </script>
