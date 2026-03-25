@@ -163,6 +163,24 @@ export function booksData() {
         return { data: [], total: 0, totalPages: 0, currentPage: 0, countAll: 0, countCompleted: 0, countOngoing: 0, countPaused: 0, countDraft: 0, countInactive: 0 };
     }
 
+    // livres liés à une catégorie sans filtre de statut
+    async function findAllPaginatedCategory(page: number = 1, limit: number = 25, id_category: number): Promise<{
+        data: BookData[], total: number, totalPages: number, currentPage: number
+    }> {
+        if (process.client) {
+            if (localStorage.getItem('user')) {
+                const token = JSON.parse(localStorage.getItem("user") || '{}').token;
+                const response = await axios.get(`/books/paginate-categories?page=${page}&limit=${limit}&id_category=${id_category}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                return response?.data;
+            }
+        }
+        return { data: [], total: 0, totalPages: 0, currentPage: 0 };
+    }
+
     // livres liés à une catégorie
     async function findAllPaginated(page: number = 1, limit: number = 25, id_category: number): Promise<{ data: BookData[], total: number, totalPages: number, currentPage: number }> {
         const response = await axios.get(`/books/categories?page=${page}&limit=${limit}&id_category=${id_category}`);
@@ -325,6 +343,7 @@ export function booksData() {
         allBooks,
         getFiveRatingAge,
         findAllPaginatedStatutOrRatingAge,
+        findAllPaginatedCategory,
         countDistinctBooks,
         propositionsBooks,
         findAllBooksPaginated,

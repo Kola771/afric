@@ -71,10 +71,10 @@
                 <button @click="toggleSort('name')"
                     class="h-8 px-3 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 flex items-center gap-2 transition-colors">
                     <Icon :name="sortKey === 'name'
-                            ? sortDirection === 'asc'
-                                ? 'solar:arrow-up-linear'
-                                : 'solar:arrow-down-linear'
-                            : 'solar:sort-vertical-linear'
+                        ? sortDirection === 'asc'
+                            ? 'solar:arrow-up-linear'
+                            : 'solar:arrow-down-linear'
+                        : 'solar:sort-vertical-linear'
                         " class="w-5 h-5" />
                     <span class="text-xs font-medium hidden sm:inline">Trier</span>
                 </button>
@@ -109,12 +109,12 @@
                                     </div>
                                     <span
                                         class="font-medium text-slate-900 group-hover:text-orange-600 transition-colors">{{
-                                        category.name }}</span>
+                                            category.name }}</span>
                                 </div>
                             </td>
                             <td class="py-3 px-6 text-slate-600 text-xs"><nuxt-link
                                     class="flex items-center gap-2 hover:underline hover:text-orange-600 dark:hover:text-orange-500 hover:duration-300 hover:ease-linear"
-                                    to="/dashboard/categories/category-uuid-1/stories">
+                                    :to="`/dashboard/categories/${category.uuid}/stories`">
                                     <Icon name="mdi:book-open-page-variant" class="w-4 h-4" /> {{ category.booksCount }}
                                 </nuxt-link></td>
                             <td class="py-3 px-6 whitespace-nowrap">
@@ -126,10 +126,9 @@
                                 </span>
                             </td>
                             <td class="py-3 px-6 whitespace-nowrap">
-                                <span
-                                    :class="`inline-flex items-center gap-1.5 text-[10px] font-medium ${category.status === 'actif' ? ' text-green-700' : 'text-red-700'} `">
-                                    <span
-                                        :class="`w-1 h-1 rounded-full ${category.status === 'actif' ? 'bg-green-600' : 'bg-red-600'}`"></span>
+                                <span :class="`inline-flex items-center gap-1.5 text-[10px] font-medium text-red-700`"
+                                    v-if="category.status === 'inactif'">
+                                    <span :class="`w-1 h-1 rounded-full bg-red-600`"></span>
                                     {{ formatLocalDate(category.deadline || '') }}
                                 </span>
                             </td>

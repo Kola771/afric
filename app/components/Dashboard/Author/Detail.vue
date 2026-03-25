@@ -13,11 +13,11 @@
                                 <Icon name="mdi:arrow-left" class="w-4 h-4" />
                             </button>
                             <span>Histoires de <strong class="text-orange-600 dark:text-orange-500">{{ author.name
-                            }}</strong></span>
+                                    }}</strong></span>
                         </h2>
                         <p class="mt-1 text-sm text-slate-500 dark:text-slate-200">Originaire du/de : {{
                             author.country.name
-                        }}</p>
+                            }}</p>
                     </div>
                     <div class="flex gap-3">
                         <button @click="exportBooks"
@@ -214,20 +214,20 @@
                                         <div class="text-xs">
                                             <span class="font-semibold text-slate-900">{{
                                                 formatNumber(book?.book_reactions)
-                                            }}</span> <span class="text-slate-400 text-[10px]">réactions
+                                                }}</span> <span class="text-slate-400 text-[10px]">réactions
                                             </span>
                                         </div>
                                         <div class="text-xs">
                                             <span class="font-semibold text-slate-900">{{
                                                 formatNumber(Number(book?.total_views))
-                                            }}</span> <span class="text-slate-400 text-[10px]">vues
+                                                }}</span> <span class="text-slate-400 text-[10px]">vues
                                             </span>
                                         </div>
                                         <div class="w-px h-3 bg-slate-200"></div>
                                         <div class="text-xs">
                                             <span class="font-semibold text-slate-900">{{
                                                 formatNumber(book?.book_comments)
-                                            }}</span> <span class="text-slate-400 text-[10px]">commentaires
+                                                }}</span> <span class="text-slate-400 text-[10px]">commentaires
                                             </span>
                                         </div>
                                     </div>
@@ -239,9 +239,13 @@
                                         {{ status(book.status) }}
                                     </span>
                                 </td>
-                                <td
-                                    class="py-3 px-6 text-center whitespace-nowrap text-red-600 font-medium animate-pulse">
-                                    {{ book.status === "inactive" ? formatLocalDate(book.deadline || '') : '' }}
+                                <td class="py-3 px-6 text-center whitespace-nowrap">
+                                    <span
+                                        :class="`inline-flex items-center gap-1.5 text-[10px] font-medium text-red-700`"
+                                        v-if="book.status === 'inactive'">
+                                        <span :class="`w-1 h-1 rounded-full bg-red-600`"></span>
+                                        {{ formatLocalDate(book.deadline || '') }}
+                                    </span>
                                 </td>
                                 <td class="py-3 px-6 text-center whitespace-nowrap">
                                     {{ book.rating_age }}

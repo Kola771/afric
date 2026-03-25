@@ -207,7 +207,7 @@
                                 <div class="flex items-center gap-4">
                                     <div class="text-xs">
                                         <span class="font-semibold text-slate-900">{{ formatNumber(book?.book_reactions)
-                                        }}</span> <span class="text-slate-400 text-[10px]">réactions
+                                            }}</span> <span class="text-slate-400 text-[10px]">réactions
                                         </span>
                                     </div>
                                     <div class="w-px h-3 bg-slate-200"></div>
@@ -220,7 +220,7 @@
                                     <div class="w-px h-3 bg-slate-200"></div>
                                     <div class="text-xs">
                                         <span class="font-semibold text-slate-900">{{ formatNumber(book?.book_comments)
-                                        }}</span> <span class="text-slate-400 text-[10px]">commentaires
+                                            }}</span> <span class="text-slate-400 text-[10px]">commentaires
                                         </span>
                                     </div>
                                 </div>
@@ -232,8 +232,12 @@
                                     {{ status(book.status) }}
                                 </span>
                             </td>
-                            <td class="py-3 px-6 text-center whitespace-nowrap text-red-600 font-medium animate-pulse">
-                                {{ book.status === "inactive" ? formatLocalDate(book.deadline || '') : '' }}
+                            <td class="py-3 px-6 text-center whitespace-nowrap">
+                                <span :class="`inline-flex items-center gap-1.5 text-[10px] font-medium text-red-700`"
+                                    v-if="book.status === 'inactive'">
+                                    <span :class="`w-1 h-1 rounded-full bg-red-600`"></span>
+                                    {{ formatLocalDate(book.deadline || '') }}
+                                </span>
                             </td>
                             <td class="py-3 px-6 text-center whitespace-nowrap">
                                 {{ book.rating_age }}
@@ -265,7 +269,7 @@
 
             <div class="flex items-center justify-between p-4 border-t border-slate-100">
                 <span class="text-xs text-slate-500">Page <span class="font-medium text-slate-900">{{ page }} / {{ total
-                }}</span> - {{ filteredBooks.length }} données</span>
+                        }}</span> - {{ filteredBooks.length }} données</span>
                 <div class="flex gap-2">
                     <button @click="prevPage" :disabled="page === 1"
                         class="px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-medium text-slate-500 hover:bg-slate-50 disabled:opacity-50">
@@ -278,8 +282,11 @@
                 </div>
             </div>
         </div>
-        <DashboardStoryDelete @close-delete-modal="toggleDeleteModal" @on-load="onLoad" :showDeleteModal="showDeleteModal" :book="book" v-if="showDeleteModal && book" />
-        <DashboardStoryChangeStatus @close-change-modal="toggleChangeModal" @on-load="onLoad" :showChangeStatusModal="showChangeStatusModal" :book="book" :statut="statut" v-if="showChangeStatusModal && book" />
+        <DashboardStoryDelete @close-delete-modal="toggleDeleteModal" @on-load="onLoad"
+            :showDeleteModal="showDeleteModal" :book="book" v-if="showDeleteModal && book" />
+        <DashboardStoryChangeStatus @close-change-modal="toggleChangeModal" @on-load="onLoad"
+            :showChangeStatusModal="showChangeStatusModal" :book="book" :statut="statut"
+            v-if="showChangeStatusModal && book" />
     </div>
 </template>
 
