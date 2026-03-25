@@ -377,6 +377,7 @@ const exportBooks = () => {
         reactions: book.book_reactions ?? 0,
         commentaires: book.book_comments ?? 0,
         statut: status(book.status),
+        deadline: book.status === "inactive" ? formatLocalDate(book.deadline) : "",
         age: book.rating_age,
     }))
 

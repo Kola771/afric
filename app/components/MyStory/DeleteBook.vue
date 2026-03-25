@@ -32,10 +32,13 @@
                       </div>
                     </div>
                     <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left" v-else>
-                      <DialogTitle as="h3" class="text-base font-semibold text-red-600 dark:text-red-400">"<strong>{{ props.book.title }}</strong>" est inactif !
+                      <DialogTitle as="h3" class="text-base font-semibold text-red-600 dark:text-red-400">"<strong>{{ props.book.title }}</strong>" est déjà inactif !
                       </DialogTitle>
                       <div class="mt-2">
-                        <p class="text-sm text-gray-500 dark:text-slate-200">Ce livre sera supprimé dans quelques jours...(<strong>{{ days }}</strong>jrs)</p>
+                        <p class="text-sm text-gray-500 dark:text-slate-200">Ce livre sera supprimé dans quelques jours...(<strong>{{ days }}</strong>jrs).
+                        
+                        Ce délai vous permet de revenir sur votre décision en nous contactant à l’adresse suivante :
+                          <strong><a href="mailto:contact@africstoryline.com">contact@africstoryline.com</a></strong>.</p>
                       </div>
                     </div>
                   </div>

@@ -21,6 +21,25 @@ export function rolesData() {
         }
     }
 
+    // Tous les rôles dont le statut est différent d'inactif
+    async function allWithoutInactifRoles() {
+        if (process.client) {
+            if (localStorage.getItem('user')) {
+                try {
+                    const token = JSON.parse(localStorage.getItem("user") || '{}').token;
+                    const roles = await axios.get(`/roles/roles-without-inactif`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
+                    return roles.data;
+                } catch (error: any) {
+                    return { success: false, status: error.response?.status || 500, error: error.message };
+                }
+            }
+        }
+    }
+
     // recherche via uuid
     async function getRoleByUuid(uuid: string) {
         if (process.client) {
@@ -125,6 +144,7 @@ export function rolesData() {
 
     return {
         getRoleByUuid,
+        allWithoutInactifRoles,
         allRoles,
         createData,
         updateData,

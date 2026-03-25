@@ -118,6 +118,7 @@
                                 <th class="font-semibold py-3 px-6 whitespace-nowrap">Catégorie</th>
                                 <th class="font-semibold py-3 px-6 whitespace-nowrap">Performance</th>
                                 <th class="font-semibold py-3 px-6 whitespace-nowrap">Statut</th>
+                                <th class="font-semibold py-3 px-6 whitespace-nowrap">Deadline</th>
                                 <th class="font-semibold py-3 px-6 whitespace-nowrap">Âge autorisé</th>
                                 <th class="font-semibold py-3 px-6 whitespace-nowrap text-right">Actions</th>
                             </tr>
@@ -126,7 +127,7 @@
                             <tr class="border-b border-slate-50 whitespace-nowrap">
 
                                 <!-- Book -->
-                                <td class="py-3 px-6" v-for="i in 6" :key="i">
+                                <td class="py-3 px-6" v-for="i in 7" :key="i">
                                     Pas de données
                                 </td>
                             </tr>
@@ -167,6 +168,11 @@
                                 </td>
 
                                 <!-- Status -->
+                                <td class="py-3 px-6">
+                                    <div class="h-5 w-16 bg-slate-200 dark:bg-slate-300 rounded-full animate-pulse">
+                                    </div>
+                                </td>
+
                                 <td class="py-3 px-6">
                                     <div class="h-5 w-16 bg-slate-200 dark:bg-slate-300 rounded-full animate-pulse">
                                     </div>
@@ -233,11 +239,16 @@
                                         {{ status(book.status) }}
                                     </span>
                                 </td>
+                                <td
+                                    class="py-3 px-6 text-center whitespace-nowrap text-red-600 font-medium animate-pulse">
+                                    {{ book.status === "inactive" ? formatLocalDate(book.deadline || '') : '' }}
+                                </td>
                                 <td class="py-3 px-6 text-center whitespace-nowrap">
                                     {{ book.rating_age }}
                                 </td>
                                 <td class="py-3 px-6 text-right whitespace-nowrap">
                                     <select v-if="profil && !['support', 'auteur', 'lecteur'].includes(profil.role)"
+                                        :value="book.status" @change="(e) => changeValStatus(e, book)"
                                         class="mr-2 text-[10px] bg-slate-50 border border-slate-200 rounded-md px-2 py-1 text-slate-600 outline-none">
                                         <option value="" disabled selected>Changez le statut</option>
                                         <option value="draft">Brouillon</option>
@@ -249,7 +260,8 @@
                                         v-if="!['draft', 'inactive'].includes(book.status)"
                                         class="mr-2 text-amber-600 hover:text-amber-700 transition-colors text-xs underline">Rendu
                                         en ligne</nuxt-link>
-                                    <button @click="toggleDeleteModal" v-if="profil && !['support', 'auteur', 'lecteur'].includes(profil.role)"
+                                    <button @click="showModalDelete(book)"
+                                        v-if="profil && !['support', 'auteur', 'lecteur'].includes(profil.role)"
                                         class="p-1 rounded-md hover:bg-slate-100 text-red-600 hover:text-red-700 transition-colors">
                                         <Icon name="mdi:trash" width="16" />
                                     </button>
@@ -261,8 +273,7 @@
 
                 <div class="flex items-center justify-between p-4 border-t border-slate-100">
                     <span class="text-xs text-slate-500">Page <span class="font-medium text-slate-900">{{ page }} / {{
-                        total
-                            }}</span> - {{ filteredBooks.length }} données</span>
+                        total }}</span> - {{ filteredBooks.length }} données</span>
                     <div class="flex gap-2">
                         <button @click="prevPage" :disabled="page === 1"
                             class="px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-medium text-slate-500 hover:bg-slate-50 disabled:opacity-50">
@@ -276,8 +287,11 @@
                 </div>
             </div>
 
-            <DashboardAuthorDeleteDetail @close-delete-modal="toggleDeleteModal" :showDeleteModal="showDeleteModal"
-                v-if="showDeleteModal" />
+            <DashboardStoryDelete @close-delete-modal="toggleDeleteModal" @on-load="onLoad"
+                :showDeleteModal="showDeleteModal" :book="book" v-if="showDeleteModal && book" />
+            <DashboardStoryChangeStatus @close-change-modal="toggleChangeModal" @on-load="onLoad"
+                :showChangeStatusModal="showChangeStatusModal" :book="book" :statut="statut"
+                v-if="showChangeStatusModal && book" />
         </div>
 
         <div class="text-center text-sm text-gray-600 dark:text-gray-400 mt-10" v-if="!loading && !author">Cet auteur
@@ -285,7 +299,8 @@
             pas !</div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" v-if="loading && !author">
-            <div class="bg-white dark:bg-slate-100 p-4 rounded-xl border border-slate-200 shadow-sm animate-pulse" v-for="index in 6">
+            <div class="bg-white dark:bg-slate-100 p-4 rounded-xl border border-slate-200 shadow-sm animate-pulse"
+                v-for="index in 6">
 
                 <!-- Label -->
                 <div class="h-3 w-24 bg-slate-200 dark:bg-slate-300 rounded mb-2"></div>
@@ -337,6 +352,8 @@ const user = ref<User | null>(null);
 const author = ref<Author | null>(null);
 const profil = ref<User | null>(null);
 const books = ref<BookData[]>([]);
+const book = ref<BookData | null>(null);
+const statut = ref<string>("");
 const loading = ref<boolean>(true);
 const page = ref<number>(1);
 const limit = ref<number>(25);
@@ -349,6 +366,7 @@ const countPaused = ref<number>(0);
 const countDraft = ref<number>(0);
 const countInactive = ref<number>(0);
 const showDeleteModal = ref(false);
+const showChangeStatusModal = ref<boolean>(false);
 const search = ref<string>("");
 const activeFilter = ref<string>("all");
 const sortAsc = ref<boolean>(false);
@@ -361,6 +379,12 @@ const filters = [
     { label: "Brouillon", value: "draft" },
     { label: "Inactive", value: "inactive" }
 ]
+
+const changeValStatus = (e: any, b: BookData) => {
+    statut.value = e.target.value;
+    book.value = b;
+    showChangeStatusModal.value = !showChangeStatusModal.value;
+}
 
 const filteredBooks = computed(() => {
     let data = [...books.value]
@@ -392,6 +416,7 @@ const exportBooks = () => {
         reactions: book.book_reactions ?? 0,
         commentaires: book.book_comments ?? 0,
         statut: status(book.status),
+        deadline: book.status === "inactive" ? formatLocalDate(book.deadline) : "",
         age: book.rating_age,
     }))
 
@@ -417,8 +442,17 @@ const back = () => {
     router.back();
 }
 
+const showModalDelete = (b: BookData) => {
+    book.value = b;
+    showDeleteModal.value = !showDeleteModal.value;
+}
+
 const toggleDeleteModal = () => {
-    showDeleteModal.value = !showDeleteModal.value
+    showDeleteModal.value = !showDeleteModal.value;
+}
+
+const toggleChangeModal = () => {
+    showChangeStatusModal.value = !showChangeStatusModal.value
 }
 
 const status = (status: string) => {

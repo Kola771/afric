@@ -211,14 +211,8 @@
                                 <select
                                     class="mr-2 text-[10px] bg-slate-50 border border-slate-200 rounded-md px-2 py-1 text-slate-600 outline-none">
                                     <option value="" disabled selected>Changez le rôle</option>
-                                    <option value="super-admin" v-if="profil && profil.role === 'super-admin'">
-                                        Super-admin</option>
-                                    <option value="admin"
-                                        v-if="profil && !['support', 'auteur', 'lecteur'].includes(profil.role)">Admin
-                                    </option>
-                                    <option value="support">Support</option>
-                                    <option value="auteur">Auteur</option>
-                                    <option value="lecteur">Lecteur</option>
+                                    <option :value="role.id" v-for="(role, y) in filteredRoles" :key="y">
+                                        {{ role.name }}</option>
                                 </select>
                                 <select
                                     class="mr-2 text-[10px] bg-slate-50 border border-slate-200 rounded-md px-2 py-1 text-slate-600 outline-none">
@@ -289,10 +283,12 @@
 const config = useRuntimeConfig();
 const { toConnectUser } = authenticate();
 const { getProfile, getAllUsers } = usersData();
+const { allWithoutInactifRoles } = rolesData();
 const router = useRouter();
 const user = ref<User | null>(null);
 const profil = ref<User | null>(null);
 const users = ref<User[]>([]);
+const roles = ref<any[]>([]);
 const loading = ref<boolean>(true);
 const page = ref<number>(1);
 const limit = ref<number>(25);
@@ -325,6 +321,31 @@ const filters = ref([
     { label: "Suspendu", value: "suspendu" },
     { label: "Banni", value: "banni" },
 ])
+
+const filteredRoles = computed(() => {
+    let data = [...roles.value]
+
+    if (!profil.value) return []
+
+    // super-admin → voit tout
+    if (profil.value.role === 'super-admin') {
+        return data
+    }
+
+    // admin → ne voit pas super-admin
+    if (profil.value.role === 'admin') {
+        data = data.filter(role => role.name !== 'super-admin')
+    }
+
+    // autres → accès limité
+    if (['support', 'auteur', 'lecteur'].includes(profil.value.role)) {
+        data = data.filter(role =>
+            ['support', 'auteur', 'lecteur'].includes(role.name)
+        )
+    }
+
+    return data
+})
 
 const filteredUsers = computed(() => {
     let data = [...users.value]
@@ -405,6 +426,7 @@ const prevPage = async () => {
 
 const onLoad = async () => {
     loading.value = true;
+    roles.value = await allWithoutInactifRoles();
 
     const { data, pagination: { totalPages, currentPage, countAllUsers: cAA, countAllSuperAdmins: cA, countAllAdmins: cAB, countAllSupports: cAS, countAllAuthors: cAI, countAllReaders: cC, countAllUsersActifs: cB, countAllUsersInactifs: cT, countAllSuspended: cS, countAllUsersBanned: cAUB } } = await getAllUsers(page.value, limit.value);
 
