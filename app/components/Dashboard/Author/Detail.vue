@@ -254,7 +254,7 @@
                                         <option value="draft">Brouillon</option>
                                         <option value="ongoing">En cours</option>
                                         <option value="paused">En pause</option>
-                                        <option value="inactif">Inactive</option>
+                                        <option value="inactive">Inactive</option>
                                     </select>
                                     <nuxt-link :to="`/books/${book.uuid}`" target="_blank"
                                         v-if="!['draft', 'inactive'].includes(book.status)"
