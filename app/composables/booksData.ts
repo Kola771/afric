@@ -301,19 +301,17 @@ export function booksData() {
     }
 
     // Supprime un livre
-    async function deleteData(data: Category[]): Promise<{ success: boolean, msg?: string, error?: string | null, status?: number }> {
+    async function deleteData(uuid: string): Promise<{ success: boolean, msg?: string, error?: string | null, status?: number }> {
         if (process.client) {
             if (localStorage.getItem('user')) {
                 const token = JSON.parse(localStorage.getItem("user") || '{}').token;
                 try {
-                    for (let i = 0; i < data.length; i++) {
-                        await axios.delete(`/books/${data[i]?.uuid}`, {
-                            headers: {
-                                Authorization: `Bearer ${token}`,
-                            },
-                        });
-                    }
-                    return { success: true, msg: 'Suppression réussie !', error: null };
+                    const response = await axios.delete(`/books/${uuid}`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
+                    return response.data;
                 } catch (error: any) {
                     return { success: false, status: error.response?.status || 500, error: error.message };
                 }

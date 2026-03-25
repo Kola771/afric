@@ -252,7 +252,7 @@
                                     v-if="!['draft', 'inactive'].includes(book.status)"
                                     class="mr-2 text-amber-600 hover:text-amber-700 transition-colors text-xs underline">Rendu
                                     en ligne</nuxt-link>
-                                <button @click="toggleDeleteModal"
+                                <button @click="showModalDelete(book)"
                                     v-if="profil && !['support', 'auteur', 'lecteur'].includes(profil.role)"
                                     class="p-1 rounded-md hover:bg-slate-100 text-red-600 hover:text-red-700 transition-colors">
                                     <Icon name="mdi:trash" width="16" />
@@ -278,11 +278,8 @@
                 </div>
             </div>
         </div>
-        <DashboardStoryDelete @close-delete-modal="toggleDeleteModal" :showDeleteModal="showDeleteModal"
-            v-if="showDeleteModal" />
-        <DashboardStoryChangeStatus @close-change-modal="toggleChangeModal" @on-load="onLoad"
-            :showChangeStatusModal="showChangeStatusModal" :book="book" :statut="statut"
-            v-if="showChangeStatusModal && book" />
+        <DashboardStoryDelete @close-delete-modal="toggleDeleteModal" @on-load="onLoad" :showDeleteModal="showDeleteModal" :book="book" v-if="showDeleteModal && book" />
+        <DashboardStoryChangeStatus @close-change-modal="toggleChangeModal" @on-load="onLoad" :showChangeStatusModal="showChangeStatusModal" :book="book" :statut="statut" v-if="showChangeStatusModal && book" />
     </div>
 </template>
 
@@ -401,8 +398,13 @@ const exportBooks = () => {
     URL.revokeObjectURL(url)
 }
 
+const showModalDelete = (b: BookData) => {
+    book.value = b;
+    showDeleteModal.value = !showDeleteModal.value;
+}
+
 const toggleDeleteModal = () => {
-    showDeleteModal.value = !showDeleteModal.value
+    showDeleteModal.value = !showDeleteModal.value;
 }
 
 const toggleChangeModal = () => {

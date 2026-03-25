@@ -72,6 +72,9 @@ const props = defineProps<{
   book: BookData;
   statut: string
 }>();
+
+const emit = defineEmits(['close-change-modal', 'on-load']);
+const open = ref<boolean>(true);
 const reason = ref<string>("");
 const error = ref<any>(null);
 const message = ref<any>(null);
@@ -94,14 +97,13 @@ const status = (status: string) => {
   }
 }
 
-const open = ref(true)
-const emit = defineEmits(['close-change-modal', 'on-load']);
 const closeModal = () => {
   error.value = null;
   message.value = null;
   reason.value = "";
   emit('close-change-modal');
   open.value = false;
+  disabled.value = false;
 }
 
 const functionChangeStatus = async () => {
@@ -117,7 +119,7 @@ const functionChangeStatus = async () => {
       name: props.book.user.name,
       title: props.book.title
     });
-    
+
     if (response.success) {
       message.value = response.msg;
 
