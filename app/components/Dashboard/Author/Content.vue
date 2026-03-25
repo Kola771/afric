@@ -231,7 +231,7 @@
                                     class="p-1 rounded-md hover:bg-slate-100 text-slate-400 hover:text-slate-900 transition-colors">
                                     <Icon name="mdi:eye" width="16" />
                                 </nuxt-link>
-                                <button @click="toggleDeleteModal"
+                                <button @click="showModalDelete(author)"
                                     v-if="profil && !['support', 'auteur', 'lecteur'].includes(profil.role)"
                                     class="ml-1 p-1 rounded-md hover:bg-slate-100 text-red-600 hover:text-red-700 transition-colors">
                                     <Icon name="mdi:trash" width="16" />
@@ -258,7 +258,7 @@
                 </div>
             </div>
         </div>
-        <DashboardAuthorDelete @close-delete-modal="toggleDeleteModal" :showDeleteModal="showDeleteModal" v-if="showDeleteModal" />
+        <DashboardAuthorDelete @close-delete-modal="toggleDeleteModal" @on-load="onLoad" :showDeleteModal="showDeleteModal" :author="author" v-if="showDeleteModal && author" />
         <DashboardAuthorChangeStatus @close-change-modal="toggleChangeModal" @on-load="onLoad" :showChangeStatusModal="showChangeStatusModal" :author="author" :statut="statut" v-if="showChangeStatusModal && author" />
     </div>
 </template>

@@ -185,6 +185,22 @@ export function usersData() {
         return null;
     }
 
+    // Suppression total du compte par les admins
+    async function completeRemoval(uuid: string) {
+        if (process?.client) {
+            if (localStorage.getItem("user")) {
+                const token = JSON.parse(localStorage.getItem("user") || '{}').token;
+                const response = await axios.delete(`/users/complete-removal/${uuid}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                return response?.data;
+            }
+        }
+        return null;
+    }
+
     // 
     async function deletePersonNotLector(uuid: string, data: { status: string }) {
         if (process?.client) {
@@ -232,6 +248,7 @@ export function usersData() {
         countUserActifs,
         countAuthorsActifs,
         deleteAccount,
+        completeRemoval,
         deletePersonNotLector,
         changeStatusUser,
     }
