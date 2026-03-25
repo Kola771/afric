@@ -132,6 +132,7 @@
                             <th class="font-medium py-3 px-6 whitespace-nowrap">Statut</th>
                             <th class="font-medium py-3 px-6 whitespace-nowrap">Rank</th>
                             <th class="font-medium py-3 px-6 whitespace-nowrap">Date d'inscription</th>
+                            <th class="font-medium py-3 px-6 whitespace-nowrap">Deadline</th>
                             <th class="font-medium py-3 px-6 text-right whitespace-nowrap">Actions</th>
                         </tr>
                     </thead>
@@ -139,14 +140,14 @@
                         <tr class="border-b border-slate-50 whitespace-nowrap">
 
                             <!-- Book -->
-                            <td class="py-3 px-6" v-for="i in 9" :key="i">
+                            <td class="py-3 px-6" v-for="i in 10" :key="i">
                                 Pas de données
                             </td>
                         </tr>
                     </tbody>
                     <tbody v-if="loading" class="text-xs">
                         <tr v-for="i in 5" :key="i" class="border-b border-slate-50">
-                            <td class="py-3 px-6" v-for="y in 9" :key="y">
+                            <td class="py-3 px-6" v-for="y in 10" :key="y">
                                 <div class="h-2 w-16 bg-slate-200 dark:bg-slate-300 rounded animate-pulse"></div>
                             </td>
 
@@ -194,7 +195,7 @@
                             <td class="py-3 px-6 text-center whitespace-nowrap">
                                 {{ formatNumber(author.books.length) }}
                             </td>
-                            <td class="py-3 px-6 text-center whitespace-nowrap">
+                            <td class="py-3 px-6 text-center whitespace-nowrap capitalize" :class="author.status !== 'actif' ? 'text-red-600 font-medium' : ''">
                                 {{ author.status }}
                             </td>
                             <td class="py-3 px-6 whitespace-nowrap">
@@ -214,8 +215,11 @@
                             </td>
                             <td class="py-3 px-6 text-xs text-slate-500 whitespace-nowrap">
                                 {{ formatLocalDate(author.created_at) }}</td>
+                            <td class="py-3 px-6 text-center whitespace-nowrap text-red-600 font-medium animate-pulse">
+                                {{ author.status !== "actif" ? formatLocalDate(author.sanction_date || '') : '' }}
+                            </td>
                             <td class="py-3 px-6 text-right whitespace-nowrap">
-                                <select
+                                <select :value="author.status" @change="(e) => changeValStatus(e, author)"
                                     class="mr-2 text-[10px] bg-slate-50 border border-slate-200 rounded-md px-2 py-1 text-slate-600 outline-none">
                                     <option value="" disabled selected>Changez le statut</option>
                                     <option value="actif">Actif</option>
@@ -254,8 +258,8 @@
                 </div>
             </div>
         </div>
-        <DashboardAuthorDelete @close-delete-modal="toggleDeleteModal" :showDeleteModal="showDeleteModal"
-            v-if="showDeleteModal" />
+        <DashboardAuthorDelete @close-delete-modal="toggleDeleteModal" :showDeleteModal="showDeleteModal" v-if="showDeleteModal" />
+        <DashboardAuthorChangeStatus @close-change-modal="toggleChangeModal" @on-load="onLoad" :showChangeStatusModal="showChangeStatusModal" :author="author" :statut="statut" v-if="showChangeStatusModal && author" />
     </div>
 </template>
 
@@ -287,6 +291,8 @@ const { getProfile, getAuthors } = usersData();
 const user = ref<User | null>(null);
 const profil = ref<User | null>(null);
 const authors = ref<Author[]>([]);
+const author = ref<Author|null>(null);
+const statut = ref<string>("");
 const loading = ref<boolean>(true);
 const page = ref<number>(1);
 const limit = ref<number>(25);
@@ -301,7 +307,8 @@ const countAllCertifies = ref<number>(0);
 const countAllBest = ref<number>(0);
 const countAllTop = ref<number>(0);
 const countAllStandard = ref<number>(0);
-const showDeleteModal = ref(false);
+const showDeleteModal = ref<boolean>(false);
+const showChangeStatusModal = ref<boolean>(false);
 const search = ref<string>("");
 const activeFilter = ref<string>("all");
 const sortAsc = ref<boolean>(false);
@@ -317,6 +324,12 @@ const filters = [
     { label: "Suspendu", value: "suspendu" },
     { label: "Banni", value: "banni" },
 ]
+
+const changeValStatus = (e: any, a: Author) => {
+    statut.value = e.target.value;
+    author.value = a;
+    showChangeStatusModal.value = !showChangeStatusModal.value;
+}
 
 const filteredAuthors = computed(() => {
     let data = [...authors.value]
@@ -372,6 +385,19 @@ const exportAuthors = () => {
     URL.revokeObjectURL(url)
 }
 
+const showModalDelete = (a: Author) => {
+    author.value = a;
+    showDeleteModal.value = !showDeleteModal.value;
+}
+
+const toggleDeleteModal = () => {
+    showDeleteModal.value = !showDeleteModal.value;
+}
+
+const toggleChangeModal = () => {
+    showChangeStatusModal.value = !showChangeStatusModal.value
+}
+
 const nextPage = async () => {
     loading.value = true;
     if (page.value >= total.value) {
@@ -420,8 +446,4 @@ onMounted(async () => {
     profil.value = await getProfile();
     await onLoad();
 })
-
-const toggleDeleteModal = () => {
-    showDeleteModal.value = !showDeleteModal.value
-}
 </script>

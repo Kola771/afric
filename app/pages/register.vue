@@ -308,7 +308,7 @@ const registerFunction = async () => {
         }, 2000);
         setTimeout(() => {
             router.back()
-        }, 1500);
+        }, 3000);
     } else {
         loading.value = "error";
         error.value = res.error;
