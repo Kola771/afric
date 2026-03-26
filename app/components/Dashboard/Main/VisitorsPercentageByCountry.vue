@@ -1,16 +1,16 @@
 <template>
-    <div class="bg-white dark:bg-slate-100 rounded-xl border border-slate-200 shadow-sm p-6 flex flex-col">
-        <h3 class="text-base font-semibold text-slate-900 mb-4">Top Pays Lecteurs</h3>
+    <div class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 rounded-xl border border-slate-200 shadow-sm p-6 flex flex-col">
+        <h3 class="text-base font-semibold text-slate-900 dark:text-slate-200 mb-4">Top Pays Lecteurs</h3>
         <div class="flex-1 space-y-4 lg:max-h-56 lg:overflow-y-auto">
 
             <div v-for="(country, index) in displayedCountries" :key="country.origin" class="space-y-1">
 
                 <div class="flex items-center justify-between">
-                    <span class="text-sm font-medium text-slate-700">
+                    <span class="text-sm font-medium text-slate-700 dark:text-slate-400">
                         {{ country.origin }}
                     </span>
 
-                    <span class="text-sm font-semibold text-slate-900">
+                    <span class="text-sm font-semibold text-slate-900 dark:text-slate-200">
                         {{ country.percentage }}%
                     </span>
                 </div>
@@ -23,7 +23,7 @@
 
         </div>
         <button v-if="visitorsPercentageByCountry.length > 3" @click="showAll = !showAll"
-            class="w-full mt-4 py-2 text-xs font-medium text-slate-500 hover:text-slate-900 border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors">
+            class="w-full mt-4 py-2 text-xs font-medium text-slate-500 dark:text-slate-300 hover:text-slate-900 border border-slate-200 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
             {{ showAll ? "Voir moins" : "Voir tous les pays" }}
         </button>
     </div>

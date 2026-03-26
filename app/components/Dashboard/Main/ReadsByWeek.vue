@@ -1,10 +1,10 @@
 <template>
   <div
-    class="lg:col-span-2 bg-white dark:bg-slate-100 rounded-xl border border-slate-200 shadow-sm p-6 flex flex-col justify-between">
+    class="lg:col-span-2 bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 rounded-xl border border-slate-200 shadow-sm p-6 flex flex-col justify-between">
 
     <!-- Header -->
     <div class="flex items-center justify-between mb-6">
-      <h3 class="text-base font-semibold text-slate-900">Trafic de lecture</h3>
+      <h3 class="text-base font-semibold text-slate-900 dark:text-slate-200">Trafic de lecture</h3>
       <select v-model="selectedWeek" @change="loadData"
         class="text-xs bg-slate-50 border border-slate-200 rounded-md px-2 py-1 text-slate-600 outline-none">
         <option v-for="week in weeks" :key="week.start" :value="week">

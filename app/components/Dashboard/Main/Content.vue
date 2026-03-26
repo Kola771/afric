@@ -15,7 +15,7 @@
                     Filtres
                 </button> -->
                 <nuxt-link target="_blank" to="/my-stories"
-                    class="h-9 px-4 rounded-lg dark:bg-slate-800 dark:border bg-slate-900 text-xs font-medium text-white hover:bg-slate-800 shadow-sm transition-colors flex items-center gap-2">
+                    class="h-9 dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 px-4 rounded-lg dark:bg-slate-800 dark:border bg-slate-900 text-xs font-medium text-white hover:bg-slate-800 shadow-sm transition-colors flex items-center gap-2">
                     <Icon name="solar:add-circle-linear" class="w-5 h-5" />
                     Mes histoires
                 </nuxt-link>
@@ -26,50 +26,50 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <!-- Stat Card 1 -->
             <div
-                class="bg-white dark:bg-slate-100 p-5 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+                class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-5 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
                 <div class="flex justify-between items-start mb-4">
                     <div class="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600">
                         <Icon name="solar:users-group-rounded-linear" class="w-5 h-5" />
                     </div>
                 </div>
-                <p class="text-sm font-medium text-slate-500">Utilisateurs Totaux</p>
-                <p class="text-2xl font-display font-bold text-slate-900 mt-1">{{ formatNumber(userActifs) }}</p>
+                <p class="text-sm font-medium text-slate-500 dark:text-slate-300">Utilisateurs Totaux</p>
+                <p class="text-2xl font-display font-bold text-slate-900 dark:text-slate-200 mt-1">{{ formatNumber(userActifs) }}</p>
             </div>
 
             <!-- Stat Card 2 -->
             <div
-                class="bg-white dark:bg-slate-100 p-5 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+                class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-5 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
                 <div class="flex justify-between items-start mb-4">
                     <div class="w-10 h-10 rounded-lg bg-orange-50 flex items-center justify-center text-orange-600">
                         <Icon name="solar:documents-minimalistic-linear" class="w-5 h-5" />
                     </div>
                 </div>
-                <p class="text-sm font-medium text-slate-500">Histoires Publiées</p>
-                <p class="text-2xl font-display font-bold text-slate-900 mt-1">{{ formatNumber(booksPublish) }}</p>
+                <p class="text-sm font-medium text-slate-500 dark:text-slate-300">Histoires Publiées</p>
+                <p class="text-2xl font-display font-bold text-slate-900 dark:text-slate-200 mt-1">{{ formatNumber(booksPublish) }}</p>
             </div>
 
             <!-- Stat Card 3 -->
             <div
-                class="bg-white dark:bg-slate-100 p-5 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+                class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-5 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
                 <div class="flex justify-between items-start mb-4">
                     <div class="w-10 h-10 rounded-lg bg-purple-50 flex items-center justify-center text-purple-600">
                         <Icon name="solar:eye-linear" class="w-5 h-5" />
                     </div>
                 </div>
-                <p class="text-sm font-medium text-slate-500">Visiteurs (7j)</p>
-                <p class="text-2xl font-display font-bold text-slate-900 mt-1">{{ formatNumber(visitors) }}</p>
+                <p class="text-sm font-medium text-slate-500 dark:text-slate-300">Visiteurs (7j)</p>
+                <p class="text-2xl font-display font-bold text-slate-900 dark:text-slate-200 mt-1">{{ formatNumber(visitors) }}</p>
             </div>
 
             <!-- Stat Card 4 -->
             <div
-                class="bg-white dark:bg-slate-100 p-5 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+                class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-5 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
                 <div class="flex justify-between items-start mb-4">
                     <div class="w-10 h-10 rounded-lg bg-amber-50 flex items-center justify-center text-amber-600">
                         <Icon name="solar:star-linear" class="w-5 h-5" />
                     </div>
                 </div>
-                <p class="text-sm font-medium text-slate-500">Auteurs Actifs</p>
-                <p class="text-2xl font-display font-bold text-slate-900 mt-1">{{ formatNumber(authorActifs) }}</p>
+                <p class="text-sm font-medium text-slate-500 dark:text-slate-300">Auteurs Actifs</p>
+                <p class="text-2xl font-display font-bold text-slate-900 dark:text-slate-200 mt-1">{{ formatNumber(authorActifs) }}</p>
             </div>
         </div>
 
@@ -83,17 +83,17 @@
         </div>
 
         <!-- Top five books -->
-        <div class="bg-white dark:bg-slate-100 rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 rounded-xl border border-slate-200 shadow-sm overflow-hidden">
             <div class="p-6 border-b border-slate-100 flex items-center justify-between">
-                <h3 class="text-base font-semibold text-slate-900">Top 5 des livres populaires</h3>
+                <h3 class="text-base font-semibold text-slate-900 dark:text-slate-200">Top 5 des livres populaires</h3>
                 <nuxt-link to="/dashboard/stories"
-                    class="text-xs font-medium text-orange-600 hover:text-orange-700 hover:underline">Tout
+                    class="text-xs font-medium text-orange-600 dark:text-orange-500 hover:text-orange-700 hover:underline">Tout
                     voir</nuxt-link>
             </div>
             <div class="overflow-x-auto custom">
                 <table class="w-full text-left border-collapse">
                     <thead>
-                        <tr class="text-xs text-slate-400 dark:text-slate-700 border-b border-slate-100 bg-slate-50/50">
+                        <tr class="text-xs text-slate-400 dark:text-slate-300 border-b border-slate-100 bg-slate-50/50 dark:bg-slate-800">
                             <th class="font-semibold py-3 px-6 whitespace-nowrap">Titre du livre</th>
                             <th class="font-semibold py-3 px-6 whitespace-nowrap">Auteur</th>
                             <th class="font-semibold py-3 px-6 whitespace-nowrap">Catégorie</th>
@@ -166,7 +166,7 @@
                     </tbody>
 
                     <tbody v-if="!loading && books.length !== 0" class="text-sm">
-                        <tr class="group hover:bg-slate-50 transition-colors border-b border-slate-50 text-xs"
+                        <tr class="group hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors border-b border-slate-50 text-xs"
                             v-for="(book, index) in books" :key="index">
                             <td class="py-3 px-6">
                                 <div class="flex items-center gap-3">
@@ -176,11 +176,11 @@
                                             class="w-full h-full object-cover opacity-80" :alt="book.title">
                                     </div>
                                     <nuxt-link :to="`/dashboard/stories/${book.uuid}`"
-                                        class="font-medium text-slate-900 group-hover:text-orange-600 transition-colors underline whitespace-nowrap">{{
+                                        class="font-medium text-slate-900 dark:text-slate-200 group-hover:text-orange-600 transition-colors underline whitespace-nowrap">{{
                                         book.title }}</nuxt-link>
                                 </div>
                             </td>
-                            <td class="py-3 px-6 text-slate-600"><nuxt-link
+                            <td class="py-3 px-6 text-slate-600 dark:text-slate-200"><nuxt-link
                                     class="hover:underline hover:text-orange-600 dark:hover:text-orange-500 hover:duration-300 hover:ease-linear whitespace-nowrap"
                                     :to="`/dashboard/authors/${book.user?.uuid}`">{{ book.user?.name }}</nuxt-link></td>
                             <td class="py-3 px-6 space-x-1 whitespace-nowrap">
@@ -193,26 +193,26 @@
                             <td class="py-3 px-6 whitespace-nowrap">
                                 <div class="flex items-center gap-4">
                                     <div class="text-xs">
-                                        <span class="font-semibold text-slate-900">{{ formatNumber(book?.book_reactions)
+                                        <span class="font-semibold text-slate-900 dark:text-slate-200">{{ formatNumber(book?.book_reactions)
                                         }}</span> <span class="text-slate-400 text-[10px]">réactions
                                         </span>
                                     </div>
                                     <div class="w-px h-3 bg-slate-200"></div>
                                     <div class="text-xs">
-                                        <span class="font-semibold text-slate-900">{{
+                                        <span class="font-semibold text-slate-900 dark:text-slate-200">{{
                                             formatNumber(Number(book?.total_views)) }}</span> <span
                                             class="text-slate-400 text-[10px]">vues
                                         </span>
                                     </div>
                                     <div class="w-px h-3 bg-slate-200"></div>
                                     <div class="text-xs">
-                                        <span class="font-semibold text-slate-900">{{ formatNumber(book?.book_comments)
+                                        <span class="font-semibold text-slate-900 dark:text-slate-200">{{ formatNumber(book?.book_comments)
                                         }}</span> <span class="text-slate-400 text-[10px]">commentaires
                                         </span>
                                     </div>
                                 </div>
                             </td>
-                            <td class="py-3 px-6 text-center whitespace-nowrap">
+                            <td class="py-3 px-6 text-center whitespace-nowrap dark:text-slate-200">
                                 {{ book.rating_age }}
                             </td>
                             <td class="py-3 px-6 whitespace-nowrap">
@@ -225,7 +225,7 @@
                             <td class="py-3 px-6 text-right whitespace-nowrap">
                                 <nuxt-link :to="`/books/${book.uuid}`" target="_blank"
                                     v-if="!['draft', 'inactive'].includes(book.status)"
-                                    class="mr-2 text-amber-600 hover:text-amber-700 transition-colors text-xs underline">Rendu
+                                    class="mr-2 text-amber-600 dark:text-amber-500 hover:text-amber-700 transition-colors text-xs underline">Rendu
                                     en ligne</nuxt-link>
                             </td>
                         </tr>
