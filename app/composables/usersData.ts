@@ -279,6 +279,36 @@ export function usersData() {
         return { success: false, status: 400, error: "Client-side error" };
     }
 
+    // envoie un code de validation à 6 chiffres dans la boîte mail de l'utilisateur
+    async function sendCodeValidation(data: any): Promise<{ success: boolean, data?: any, msg?: string, error?: string | null, status?: number }> {
+        try {
+            const response = await axios.put(`/users/send-code-validation/`, data);
+            return response?.data;
+        } catch (error: any) {
+            return { success: false, status: error.response?.status || 500, error: error.message };
+        }
+    }
+
+    // Vérification du code de validation de l'utilisateur
+    async function verifyCodeValidation(data: any): Promise<{ success: boolean, data?: any, msg?: string, error?: string | null, status?: number }> {
+        try {
+            const response = await axios.put(`/users/verify-code-validation/`, data);
+            return response?.data;
+        } catch (error: any) {
+            return { success: false, status: error.response?.status || 500, error: error.message };
+        }
+    }
+
+    // eModification du mot de passe de l'utilisateur
+    async function changePassword(data: any): Promise<{ success: boolean, data?: any, msg?: string, error?: string | null, status?: number }> {
+        try {
+            const response = await axios.put(`/users/change-password/`, data);
+            return response?.data;
+        } catch (error: any) {
+            return { success: false, status: error.response?.status || 500, error: error.message };
+        }
+    }
+
     return {
         findAuthors,
         getUsers,
@@ -295,5 +325,8 @@ export function usersData() {
         changeStatusUser,
         changeRoleUser,
         updateImg,
+        sendCodeValidation,
+        verifyCodeValidation,
+        changePassword,
     }
 }

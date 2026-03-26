@@ -35,7 +35,7 @@
                             <Icon name="solar:magnifer-linear"
                                 class="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />
                             <input type="search" id="search" v-model="search" placeholder="Rechercher un livre..."
-                                class="h-10 pl-8 pr-3 w-full rounded-lg bg-slate-50 border border-slate-200 text-xs focus:outline-none focus:ring-1 focus:ring-slate-300 transition-colors">
+                                class="h-10 pl-8 pr-3 w-full rounded-lg bg-slate-50 border border-slate-200 text-xs lg:text-sm dark:bg-transparent focus:outline-none focus:ring-1 focus:ring-slate-300 transition-colors">
                         </div>
 
                         <button @click="clearFilters"

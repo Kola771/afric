@@ -20,7 +20,7 @@
 
                         <input type="search" v-model="searchQuery" @input="executeSearch"
                             placeholder="Rechercher un abonné..."
-                            class="h-10 pl-8 pr-3 w-full rounded-lg bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:ring-1 focus:ring-slate-300 transition-colors" />
+                            class="h-10 pl-8 pr-3 w-full rounded-lg bg-slate-50 dark:bg-transparent border border-slate-200 text-sm focus:outline-none focus:ring-1 focus:ring-slate-300 transition-colors" />
                     </div>
 
                 </div>
@@ -29,17 +29,17 @@
                     <div v-for="i in 4" :key="i" v-if="loadingSkeleton"
                         class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 animate-pulse">
                         <!-- Avatar skeleton -->
-                        <div class="w-12 h-12 md:w-14 md:h-14 rounded-lg bg-slate-200"></div>
+                        <div class="w-12 h-12 md:w-14 md:h-14 rounded-lg bg-slate-200 dark:border-slate-700"></div>
 
                         <!-- Text skeleton -->
                         <div class="flex flex-col gap-2 w-full">
-                            <div class="h-3 w-3/4 bg-slate-200 rounded"></div>
-                            <div class="h-3 w-1/2 bg-slate-200 rounded"></div>
+                            <div class="h-3 w-3/4 bg-slate-200 dark:border-slate-700 rounded"></div>
+                            <div class="h-3 w-1/2 bg-slate-200 dark:border-slate-700 rounded"></div>
                         </div>
                     </div>
                     <div v-else v-for="(follower, index) in filteredFollowers" :key="index"
                         :ref="el => cardRefs[index] = { cardRef: el }"
-                        class="group flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 transition cursor-pointer">
+                        class="group flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 dark:hover:bg-slate-700 dark:bg-transparent transition cursor-pointer">
                         <!-- Avatar -->
                         <span>
                             <img v-if="follower.photo"
@@ -57,11 +57,11 @@
                         </span>
                         <div class="flex flex-col gap-1">
                             <span
-                                class="font-medium text-sm text-slate-800 dark:text-slate-200 dark:group-hover:text-slate-700 hover:text-orange-600 transition">
+                                class="font-medium text-sm text-slate-800 dark:text-slate-200 dark:group-hover:text-slate-200 hover:text-orange-600 transition">
                                 {{ follower?.name }}
                             </span>
                             <span
-                                class="font-medium text-xs text-slate-600 dark:text-slate-400 dark:group-hover:text-slate-700 hover:text-orange-600 transition">
+                                class="font-medium text-xs text-slate-600 dark:text-slate-400 dark:group-hover:text-slate-200 hover:text-orange-600 transition">
                                 {{ follower?.pseudonym }}
                             </span>
                         </div>
