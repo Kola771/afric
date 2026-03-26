@@ -31,14 +31,14 @@
                     <label for="title" class="text-sm text-slate-900 font-medium dark:text-white">Titre du livre
                         :</label>
                     <input type="text" id="title" v-model="title"
-                        class="block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-orange-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all" />
+                        class="block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200" />
                 </div>
                 <div class="flex flex-col gap-1">
                     <label for="image" class="text-sm text-slate-900 font-medium dark:text-white">Image de couverture
                         :</label>
                     <input type="file" accept="image/jpeg, image/jpg, image/png, image/jfif" name="image" id="image"
                         ref="file"
-                        class="w-full text-sm outline-none border border-slate-300 dark:border-slate-200 bg-slate-50 rounded-md p-2"
+                        class="w-full text-sm outline-none border border-slate-300 dark:border-slate-200 bg-slate-50 rounded-md p-2 dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200"
                         @change="onFileChange">
                 </div>
                 <div class="flex flex-col gap-1" v-if="preview">
@@ -53,7 +53,7 @@
                         livre :</label>
                     <textarea name="description" id="description" placeholder="Description" v-model="description"
                         required
-                        class="w-full flex-shrink-0 h-24 lg:h-28 xl:h-32 resize-none text-sm placeholder:text-slate-500 text-slate-800 outline-none border border-slate-300 dark:border-slate-200 dark:bg-slate-50 rounded-md p-2"></textarea>
+                        class="w-full flex-shrink-0 h-24 lg:h-28 xl:h-32 resize-none text-sm placeholder:text-slate-500 text-slate-800 outline-none border border-slate-300 dark:border-slate-200 dark:bg-slate-50 rounded-md p-2 dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200"></textarea>
                 </div>
                 <div>
                     <label class="block text-sm font-medium leading-6 text-slate-900 dark:text-white mb-1">
@@ -69,7 +69,7 @@
                             peer-checked:border-orange-500 
                             peer-checked:text-orange-600 
                             peer-checked:bg-orange-50 
-                            hover:bg-slate-50 flex items-center gap-1.5">
+                            hover:bg-slate-50 flex items-center gap-1.5 dark:bg-transparent dark:text-slate-200">
                                 <span>{{ category.name }}</span>
                             </div>
                         </label>
@@ -79,7 +79,7 @@
                     <label for="step" class="text-sm text-slate-900 font-medium dark:text-white">Âge autorisé
                         :</label>
                     <select required id="step"
-                        class="w-full text-sm placeholder:text-slate-500 text-slate-800 outline-none border border-slate-300 dark:border-slate-200 dark:bg-slate-50 rounded-md p-2.5"
+                        class="w-full text-sm placeholder:text-slate-500 text-slate-800 outline-none border border-slate-300 dark:border-slate-200 dark:bg-slate-50 rounded-md p-2.5 dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-400"
                         v-model="rating_age">
                         <option value="" disabled selected>Âge autorisé'age</option>
                         <option value="12+">12ans+</option>
@@ -87,11 +87,11 @@
                         <option value="18+">18ans+</option>
                     </select>
                 </div>
-                <div class="flex flex-wrap gap-2" v-if="!['completed', 'inactive'].includes(status)">
+                <div class="flex flex-wrap gap-2" v-if="!['completed', 'inactive'].includes(book.status)">
                     <label for="step" class="text-sm text-slate-900 font-medium dark:text-white">État de l'histoire
                         :</label>
                     <select required id="step"
-                        class="w-full text-sm placeholder:text-slate-500 text-slate-800 outline-none border border-slate-300 dark:border-slate-200 dark:bg-slate-50 rounded-md p-2.5"
+                        class="w-full text-sm placeholder:text-slate-500 text-slate-800 outline-none border border-slate-300 dark:border-slate-200 dark:bg-slate-50 rounded-md p-2.5 dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-400"
                         v-model="status">
                         <option value="" disabled selected>Statut de l'histoire</option>
                         <option value="draft">Brouillon</option>
@@ -124,7 +124,7 @@
                 <div v-if="error" class="text-xs text-center font-medium text-red-500 mt-2">{{ error }}</div>
                 <div v-if="message" class="text-xs text-center font-medium text-green-500 mt-2">{{ message }}</div>
 
-                <div class="mt-2 flex flex-col md:flex-row md:justify-end" v-if="status !== 'completed'">
+                <div class="mt-2 flex flex-col md:flex-row md:justify-end" v-if="book.status !== 'completed'">
                     <button
                         class="px-4 py-2.5 bg-orange-600 dark:bg-orange-500 dark:hover:bg-orange-600 text-white text-sm rounded-md hover:bg-orange-700 transition-colors">Enregistrer
                         les modifications</button>

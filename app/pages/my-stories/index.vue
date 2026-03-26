@@ -2,23 +2,25 @@
     <div class="bg-[#fffcfccc] dark:bg-dark dark:border-slate-200 dark:border-b pt-12 pb-12">
         <section class="max-w-7xl mx-auto px-6 pt-12 border-t border-slate-100 lg:gap-10">
             <div
-                class="flex flex-col gap-4 md:items-center md:flex-row md:justify-between bg-slate-50 dark:bg-slate-800 border px-3 py-4 lg:p-3 rounded-lg">
-                <div class="flex flex-col gap-1 items-start">
+                class="flex flex-col gap-4 lg:gap-1 md:items-center md:justify-between bg-slate-50 dark:bg-slate-800 border dark:border-slate-400 px-3 py-4 lg:p-3 rounded-lg">
+                <div class="flex flex-col gap-1 items-start md:w-full">
                     <button @click="back"
                         class="p-1 border rounded-lg flex items-center justify-center hover:bg-slate-100 text-slate-500 dark:text-slate-200 dark:hover:text-slate-300 dark:hover:bg-slate-700 transition-colors">
                         <Icon name="mdi:arrow-left" class="w-5 h-5" />
                     </button>
-                    <p class="text-[14px] text-slate-500 dark:text-slate-200 max-w-xs">
+                    <p class="text-[14px] text-slate-500 dark:text-slate-200">
                         Par défaut, toute histoire créée a pour statut
                         <span class="font-medium text-orange-600 dark:text-orange-500">Brouillon</span>
                         et n'est pas accessible aux lecteurs en ligne.
                     </p>
                 </div>
-                <nuxt-link to="/my-stories/create_book"
-                    class="flex items-center gap-2 bg-primary text-white dark:border hover:bg-slate-700 hover:ease-in-out hover:duration-300 rounded-full py-3 text-[13px] justify-center border-slate-200 border md:px-6 md:py-2.5">
-                    <Icon name="mdi:plus" class="w-5 h-5" />
-                    Ajouter une histoire
-                </nuxt-link>
+                <div class="w-full lg:flex lg:justify-end">
+                    <nuxt-link to="/my-stories/create_book"
+                        class="flex items-center gap-2 bg-primary text-white dark:border hover:bg-slate-700 hover:ease-in-out hover:duration-300 rounded-lg py-3 text-[13px] justify-center border-slate-200 border md:px-6 md:py-2.5">
+                        <Icon name="mdi:plus" class="w-5 h-5" />
+                        Ajouter une histoire
+                    </nuxt-link>
+                </div>
             </div>
             <div class="border-t border-slate-200 mt-8 lg:mt-7 pt-6 lg:pt-5">
                 <h3
@@ -26,7 +28,7 @@
                     <Icon name="mdi:book-multiple-outline" class="w-5 h-5" /> Mes histoires
                 </h3>
                 <div
-                    class="flex flex-col md:flex-row gap-4 justify-between items-start md:items-center bg-slate-50 dark:bg-slate-800 p-3 rounded-xl border border-slate-200 shadow-sm mb-4">
+                    class="flex flex-col md:flex-row gap-4 justify-between items-start md:items-center bg-slate-50 dark:bg-slate-800 p-3 rounded-xl border border-slate-200 dark:border-slate-400 shadow-sm mb-4">
                     <!-- Tabs -->
                     <div class="flex bg-slate-100 dark:bg-transparent p-1 rounded-lg overflow-x-auto max-w-full custom">
                         <button v-for="tab in ['all', 'draft', 'completed', 'ongoing', 'paused', 'inactive']" :key="tab"
@@ -47,17 +49,17 @@
                                 class="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />
                             <input type="search" v-model="searchQuery" @keydown.enter="onSearchEnter"
                                 placeholder="Rechercher une histoire..."
-                                class="h-8 pl-8 pr-3 w-full md:w-48 rounded-lg bg-slate-50 border border-slate-200 text-xs focus:outline-none focus:ring-1 focus:ring-slate-300 transition-colors">
+                                class="h-8 pl-8 pr-3 dark:bg-transparent w-full md:w-48 rounded-lg bg-slate-50 border border-slate-200 text-xs focus:outline-none focus:ring-1 focus:ring-slate-300 transition-colors">
                         </div>
                         <button @click="toggleSort('title')"
-                            class="h-8 px-3 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700 flex items-center gap-2 transition-colors">
+                            class="h-8 px-3 rounded-lg border border-slate-200 text-slate-600 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 flex items-center gap-2 transition-colors">
                             <Icon :name="sortKey === 'title'
                                 ? sortDirection === 'asc'
                                     ? 'solar:arrow-up-linear'
                                     : 'solar:arrow-down-linear'
                                 : 'solar:sort-vertical-linear'
                                 " class="w-5 h-5" />
-                            <span class="text-xs font-medium hidden sm:inline dark:text-slate-200">Trier</span>
+                            <span class="text-xs font-medium hidden sm:inline">Trier</span>
                         </button>
                     </div>
                 </div>
@@ -68,7 +70,7 @@
                         <MyStoryCardSkeleton v-for="i in 4" :key="i" />
                     </template>
                     <template v-else>
-                        <div class="flex flex-col justify-between gap-1 rounded shadow-sm hover:shadow-md bg-white dark:bg-slate-800 border border-slate-100 hover:border-slate-300 transition-all group-hover:scale-105 hover:shadow-sm"
+                        <div class="flex flex-col justify-between gap-1 rounded shadow-sm hover:shadow-md bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-400 hover:border-slate-300 transition-all group-hover:scale-105 hover:shadow-sm"
                             v-for="(book, index) in sortedBooks" ref="bookRefs">
                             <nuxt-link :key="index" :to="`/books/${book.uuid}`" class="group flex flex-col">
                                 <img :src="`${config.public.apiBackendUrl}/uploads/books/${book?.image}`"
@@ -97,7 +99,7 @@
                                 </div>
                             </nuxt-link>
                             <div
-                                class="flex justify-between items-center gap-2 px-2.5 py-2 w-full text-[11px] border-t-[1px] dark:text-slate-200 border-slate-200 dark:border-slate-700">
+                                class="flex justify-between items-center gap-2 px-2.5 py-2 w-full text-[11px] border-t-[1px] dark:text-slate-200 border-slate-200 dark:border-slate-500">
                                 <nuxt-link :to="`/my-stories/${book.uuid}/edit_book`"
                                     class="flex items-center gap-1 justify-center gap-1 group-hover:translate-x-1 transition-transform">
                                     <Icon name="mdi:pencil" class="w-3 h-3" />

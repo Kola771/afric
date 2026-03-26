@@ -23,7 +23,7 @@
                     </div>
                     <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                       <DialogTitle as="h3" class="text-base font-semibold text-gray-900 dark:text-white">Changez votre
-                        image de profil</DialogTitle>
+                        photo de profil</DialogTitle>
                     </div>
                   </div>
                   <div class="flex flex-col gap-1 mt-4" v-if="preview">

@@ -2,14 +2,15 @@
   <div id="popular">
     <section class="border-b border-slate-200 bg-white dark:bg-dark sticky top-16 z-10 shadow-sm">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-slate-600 dark:text-primary">
-        <div class="flex items-center gap-1 py-4 overflow-x-auto custom">
+        <div class="flex items-center gap-2 py-4 overflow-x-auto custom">
           <button
-            class="flex-shrink-0 px-4 py-1.5 rounded-full bg-slate-900 text-white text-xs font-medium transition-transform hover:scale-105 dark:border-gray-600 dark:border-[1px]">Pour
+            class="flex-shrink-0 px-4 py-1.5 rounded bg-slate-900 text-white text-xs font-medium transition-transform hover:scale-105 dark:border-gray-600 dark:border-[1px]">Pour
             vous</button>
-          <div class="w-px h-4 bg-slate-200 mx-2"></div>
-          <nuxt-link v-for="(category, index) in categories" :key="index" :to="`/categories/${category.uuid}`"
-            class="flex-shrink-0 px-4 py-1.5 rounded-full bg-white border border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-xs font-medium transition-all whitespace-nowrap dark:hover:bg-orange-50 dark:hover:border-orange-100/50 dark:hover:text-orange-800">{{
-              category.name }}</nuxt-link>
+          <div class="flex items-center gap-2">
+            <nuxt-link v-for="(category, index) in categories" :key="index" :to="`/categories/${category.uuid}`"
+              class="flex-shrink-0 px-4 py-1.5 rounded bg-white border border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-xs font-medium transition-all whitespace-nowrap dark:hover:bg-orange-50 dark:hover:border-orange-100/50 dark:hover:text-orange-800">{{
+                category.name }}</nuxt-link>
+          </div>
         </div>
       </div>
     </section>

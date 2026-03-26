@@ -16,13 +16,13 @@
                     <label for="fullname" class="text-sm text-slate-900 font-medium dark:text-white">Nom complet
                         :</label>
                     <input type="text" id="fullname" v-model="name"
-                        class="block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-orange-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all" />
+                        class="block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200" />
                 </div>
                 <div class="flex flex-col gap-1">
                     <label for="username" class="text-sm text-slate-900 font-medium dark:text-white">Pseudonyme
                         :</label>
                     <input type="text" id="username" v-model="pseudonym"
-                        class="block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-orange-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all" />
+                        class="block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200" />
                 </div>
             </div>
             <div class="grid grod-cols-1 gap-4 lg:grid-cols-4">
@@ -30,12 +30,12 @@
                     <label for="email" class="text-sm text-slate-900 font-medium dark:text-white">Adresse
                         électronique :</label>
                     <input type="email" id="email" v-model="email"
-                        class="block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-orange-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all" />
+                        class="block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200" />
                 </div>
                 <div class="flex flex-col gap-1">
                     <label for="color" class="text-sm text-slate-900 font-medium dark:text-white">Couleur :</label>
                     <input type="color" id="color" v-model="code_color"
-                        class="block w-full h-14 lg:h-10 rounded-lg border-0 p-2.5 lg:p-1.5 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-orange-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all" />
+                        class="block w-full h-14 lg:h-10 rounded-lg border-0 p-2.5 lg:p-1.5 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200" />
                 </div>
             </div>
             <div class="flex flex-col gap-1">
@@ -43,13 +43,13 @@
                     class="text-sm text-slate-900 font-medium dark:text-white flex items-center justify-between">Bibliographie
                     : <span class="font-normal text-slate-500 dark:text-slate-200 text-xs">(Optionnel)</span></label>
                 <textarea id="bio" name="bio" rows="3" v-model="bibliography"
-                    class="block w-full rounded-lg border-0 py-2.5 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-orange-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all pl-3 resize-none"
+                    class="block w-full rounded-lg border-0 py-2.5 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200 pl-3 resize-none"
                     placeholder="Ma bibliographie..."></textarea>
             </div>
             <div class="flex flex-col gap-1">
                 <label for="country" class="text-sm text-slate-900 font-medium dark:text-white">Pays d'origine :</label>
                 <select required id="country" name="country" v-model="country"
-                    class="mt-1 block w-full rounded-lg border-0 py-2.5 lg:p-3 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-orange-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all">
+                    class="mt-1 block w-full rounded-lg border-0 py-2.5 lg:p-3 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-400">
                     <option value="" disabled selected>Pays d'origine</option>
                     <option v-for="(country, index) in countries" :key="index" :value="country.id">{{ country.name }}
                     </option>
@@ -86,19 +86,19 @@
                         <label for="whatsapp" class="text-sm text-slate-900 font-medium dark:text-white">Lien
                             whatsapp :</label>
                         <input type="text" id="whatsapp" v-model="whatsapp" placeholder="https://wa..."
-                            class="block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-orange-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all" />
+                            class="block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200" />
                     </div>
                     <div class="flex flex-col gap-1">
                         <label for="facebook" class="text-sm text-slate-900 font-medium dark:text-white">Lien
                             facebook :</label>
                         <input type="text" id="facebook" v-model="facebook" placeholder="https://fa..."
-                            class="block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-orange-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all" />
+                            class="block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200" />
                     </div>
                     <div class="flex flex-col gap-1">
                         <label for="other" class="text-sm text-slate-900 font-medium dark:text-white">Autre lien
                             :</label>
                         <input type="text" id="other" v-model="other" placeholder="https://..."
-                            class="block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-orange-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all" />
+                            class="block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200" />
                     </div>
                 </div>
             </div>

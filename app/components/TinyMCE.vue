@@ -42,7 +42,7 @@ const editorInit = {
 
 <template>
   <!-- Skeleton -->
-  <div v-if="loading" class="border rounded-lg p-3 bg-white">
+  <div v-if="loading" class="border rounded-lg p-3 bg-white dark:bg-transparent dark:border-slate-300 dark:border-[1px]">
     
     <!-- fake toolbar -->
     <div class="flex gap-2 mb-3 animate-pulse">

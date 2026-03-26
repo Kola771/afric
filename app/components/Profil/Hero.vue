@@ -94,7 +94,7 @@
                 </div>
 
                 <!-- Action Buttons -->
-                <div class="flex justify-between gap-3 mb-2 w-full md:w-auto text-xs lg:text-sm">
+                <div class="flex flex-shrink-0 justify-between gap-3 mb-2 w-full md:w-auto text-xs lg:text-sm">
                     <nuxt-link to="/my-stories" v-if="authorizeRoleUser(`${profil.role.toLocaleLowerCase()}`)"
                         class="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-primary border border-slate-200 rounded-lg font-medium text-white hover:bg-slate-900 hover:border-slate-300 dark:bg-dark dark:hover:bg-primary transition-all shadow-sm">
                         <Icon name="solar:book-2-bold" class="w-5 h-5" />

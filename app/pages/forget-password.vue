@@ -40,7 +40,7 @@
                             <label for="email" class="block text-xs font-medium leading-6 text-slate-900 dark:text-white">Adresse email</label>
                             <div class="mt-1 relative group">
                                 <input v-model="email" id="email" name="email" type="email" autocomplete="email" required 
-                                    class="text-sm block w-full rounded-lg border-0 py-2.5 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 outline-none dark:focus:ring-orange-500 focus:ring-orange-600 sm:text-sm sm:leading-6 transition-all pl-10 peer"
+                                    class="text-sm block w-full rounded-lg border-0 py-2.5 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 sm:text-sm sm:leading-6 transition-all dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200 pl-10 peer"
                                     placeholder="exemple@email.com">
                                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 peer-focus:text-orange-600 transition-colors">
                                     <Icon name="mdi:email-outline" class="w-6 h-6 lg:w-5 lg:h-5" />
@@ -80,7 +80,7 @@
                             maxlength="1"
                             inputmode="numeric"
                             pattern="[0-9]*"
-                            :class="`dark:border-orange-500 w-12 h-14 text-center text-lg font-semibold rounded-lg border border-slate-300 focus:border-orange-600 focus:ring-2 focus:ring-orange-600 outline-none transition`"
+                            :class="`dark:border-slate-500 w-12 h-14 text-center text-lg font-semibold rounded-lg border border-slate-300 focus:border-orange-600 focus:ring-2 focus:ring-orange-600 dark:focus:ring-slate-600 outline-none transition dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200`"
                             @input="handleInput(index)"
                             @keydown.backspace="handleBackspace(index)"
                         />
@@ -137,7 +137,7 @@
                                     type="password"
                                     autofocus="true"
                                     placeholder="**********"
-                                    class="block w-full rounded-lg py-2.5 border border-slate-300 focus:ring-2 dark:focus:ring-orange-500 focus:ring-orange-600 outline-none text-sm pl-3 pr-10"
+                                    class="block w-full rounded-lg py-2.5 border border-slate-300 focus:ring-2 dark:focus:ring-slate-500 focus:ring-orange-600 outline-none text-sm pl-3 pr-10 dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200"
                                 />
                             </div>
                         </div>
@@ -154,7 +154,7 @@
                                     type="password"
                                     required
                                     placeholder="**********"
-                                    class="block w-full rounded-lg py-2.5 border border-slate-300 focus:ring-2 dark:focus:ring-orange-500 focus:ring-orange-600 outline-none text-sm pl-3 pr-10"
+                                    class="block w-full rounded-lg py-2.5 border border-slate-300 focus:ring-2 dark:focus:ring-slate-500 focus:ring-orange-600 outline-none text-sm pl-3 pr-10 dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200"
                                 />
                             </div>
                         </div>

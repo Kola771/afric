@@ -35,7 +35,7 @@
                                     <label for="fullname" class="block text-xs font-medium leading-6 text-slate-900 dark:text-white">Nom complet</label>
                                     <div class="mt-1 relative">
                                         <input id="fullname" name="fullname" type="text" v-model="full_name" required 
-                                            class="block w-full rounded-lg border-0 py-2.5 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-orange-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all pl-3"
+                                            class="block w-full rounded-lg border-0 py-2.5 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200 pl-3"
                                             placeholder="Votre nom">
                                     </div>
                                 </div>
@@ -45,7 +45,7 @@
                                     <label for="pseudo" class="block text-xs font-medium leading-6 text-slate-900 dark:text-white">Pseudonyme</label>
                                     <div class="mt-1 relative">
                                         <input id="pseudo" name="pseudo" type="text" v-model="pseudonym" required 
-                                            class="block w-full rounded-lg border-0 py-2.5 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-orange-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all pl-9"
+                                            class="block w-full rounded-lg border-0 py-2.5 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200 pl-9"
                                             placeholder="@lack_s">
                                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
                                             <Icon name="mdi:user-outline" class="w-6 h-6 lg:w-5 lg:h-5" />
@@ -56,7 +56,7 @@
 
                             <div>
                                 <label for="pays" class="block text-xs font-medium leading-6 text-slate-900 dark:text-white">Pays d'origine</label>
-                                <select required id="pays" name="pays" v-model="country" class="mt-1 block w-full rounded-lg border-0 py-2.5 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-orange-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all p-3">
+                                <select required id="pays" name="pays" v-model="country" class="mt-1 block w-full rounded-lg border-0 py-2.5 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-400 p-3">
                                     <option :value="0" disabled selected>Pays d'origine</option>
                                     <option :value="country.id" v-for="(country, index) in countries" :key="index">{{ country.name }}</option>
                                 </select>
@@ -66,7 +66,7 @@
                                 <label for="email" class="block text-xs font-medium leading-6 text-slate-900 dark:text-white">Adresse email</label>
                                 <div class="mt-1 relative">
                                     <input id="email" name="email" type="email" autocomplete="email" v-model="email" required 
-                                        class="block w-full rounded-lg border-0 py-2.5 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-orange-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all pl-3"
+                                        class="block w-full rounded-lg border-0 py-2.5 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200 pl-3"
                                         placeholder="exemple@email.com">
                                 </div>
                             </div>
@@ -77,7 +77,7 @@
                                     <label for="password" class="block text-xs font-medium leading-6 text-slate-900 dark:text-white">Mot de passe</label>
                                     <div class="mt-1 relative">
                                         <input v-model="password" id="password" name="password" type="password" placeholder="**********" required 
-                                            class="block w-full rounded-lg border-0 py-2.5 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-orange-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all pl-3 pr-10">
+                                            class="block w-full rounded-lg border-0 py-2.5 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200 pl-3 pr-10">
                                     </div>
                                 </div>
 
@@ -85,7 +85,7 @@
                                     <label for="confirm_password" class="block text-xs font-medium leading-6 text-slate-900 dark:text-white">Confirmation</label>
                                     <div class="mt-1 relative">
                                         <input v-model="confirmPassword" id="confirm_password" name="confirm_password" type="password" placeholder="**********" required 
-                                            class="block w-full rounded-lg border-0 py-2.5 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-orange-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all pl-3 pr-10">
+                                            class="block w-full rounded-lg border-0 py-2.5 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200 pl-3 pr-10">
                                         
                                         <!-- Status Icon -->
                                         <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
@@ -141,7 +141,7 @@
                                 </div>
                                 <div class="mt-1 relative">
                                     <textarea id="bio" name="bio" rows="3" v-model="bibliography"
-                                        class="block w-full rounded-lg border-0 py-2.5 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-orange-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all pl-3 resize-none"
+                                        class="block w-full rounded-lg border-0 py-2.5 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200 pl-3 resize-none"
                                         placeholder="Votre bibliographie..."></textarea>
                                 </div>
                             </div>
@@ -150,7 +150,7 @@
                             <div class="flex items-start">
                                 <div class="flex h-5 items-center">
                                     <input id="terms" name="terms" type="checkbox" v-model="accept" required
-                                        class="h-4 w-4 rounded border-slate-300 text-orange-600 dark:focus:ring-orange-500 focus:ring-orange-600 accent-orange-600">
+                                        class="h-4 w-4 rounded border-slate-300 text-orange-600 dark:focus:ring-slate-500 focus:ring-orange-600 accent-orange-600">
                                 </div>
                                 <div class="ml-3 text-xs leading-5">
                                     <label for="terms" class="text-slate-600 dark:text-white">J'accepte les <nuxt-link to="/conditions" class="font-medium text-orange-600 hover:text-orange-500 hover:underline dark:text-orange-500">Conditions</nuxt-link> et la <nuxt-link to="/privacy-policy" class="font-medium text-orange-600 hover:text-orange-500 hover:underline dark:text-orange-500">Politique</nuxt-link>.</label>
