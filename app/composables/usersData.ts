@@ -257,6 +257,28 @@ export function usersData() {
         return { success: false, status: 400, error: "Client-side error" };
     }
 
+    // Modifie l'image d'un utilisateur
+    async function updateImg(uuid: string, data: any): Promise<{ success: boolean, user?: any, msg?: string, error?: string | null, status?: number }> {
+        if (process.client) {
+            if (localStorage.getItem('user')) {
+                const token = JSON.parse(localStorage.getItem("user") || '{}').token;
+                try {
+                    const response = await axios.put(`/users/upload-img/${uuid}`, data,
+                        {
+                            headers: {
+                                Authorization: `Bearer ${token}`,
+                                "Content-Type": "multipart/form-data"
+                            },
+                        });
+                    return response?.data;
+                } catch (error: any) {
+                    return { success: false, status: error.response?.status || 500, error: error.message };
+                }
+            }
+        }
+        return { success: false, status: 400, error: "Client-side error" };
+    }
+
     return {
         findAuthors,
         getUsers,
@@ -272,5 +294,6 @@ export function usersData() {
         deletePersonNotLector,
         changeStatusUser,
         changeRoleUser,
+        updateImg,
     }
 }

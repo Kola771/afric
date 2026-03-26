@@ -7,7 +7,7 @@
 
         <div class="grid gap-4" v-if="bookReactions.length > 0">
             <!-- Continue Reading Card 1 -->
-            <div class="group relative flex flex-col sm:flex-row gap-4 p-4 rounded-2xl bg-white dark:bg-slate-300 border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 hover:border-slate-200 cursor-pointer"
+            <div class="group relative flex flex-col sm:flex-row gap-4 p-4 rounded-2xl bg-white dark:bg-transparent border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 hover:border-slate-200 cursor-pointer"
                 @click="openTheChapterDetail(`/books/${book.uuid}`)" v-for="(book, index) in bookReactions"
                 :key="index">
                 <div class="w-full sm:w-24 h-32 sm:h-36 bg-slate-100 rounded-lg overflow-hidden flex-shrink-0">
@@ -24,12 +24,12 @@
                                 }}</span>
                         </div>
                         <h3
-                            class="font-display font-medium text-lg text-slate-900 group-hover:text-orange-600 transition-colors">
+                            class="font-display font-medium text-lg text-slate-900 dark:text-slate-200 dark:group-hover:text-orange-500 group-hover:text-orange-600 transition-colors">
                             {{ book.title }}</h3>
-                        <p class="text-sm text-slate-500 my-1">
+                        <p class="text-sm text-slate-500 dark:text-slate-400 my-1">
                             <span :class="book?.book_reactions[0]?.color" class="p-1 rounded-full">{{ book?.book_reactions[0]?.emoji }}, votre réaction</span>
                         </p>
-                        <p class="text-sm text-slate-500">
+                        <p class="text-sm text-slate-500 dark:text-slate-400">
                             <strong>{{ formatNumber(Number(book?.total_views) || 0) }}</strong> vue{{
                                 Number(book?.total_views) > 1 ? 's' : '' }}, <strong>{{
                                 formatNumber(book?.book_comments || 0) }}</strong> commentaire{{
@@ -39,7 +39,7 @@
 
                     <div class="mt-4 sm:mt-0">
                         <button
-                            class="mt-3 w-full sm:w-auto px-4 py-2 bg-slate-900 text-white text-xs font-medium rounded-lg hover:bg-slate-800 transition-colors flex items-center justify-center gap-2">
+                            class="dark:border-slate-300 dark:border-[1px] mt-3 w-full sm:w-auto px-4 py-2 bg-slate-900 text-white text-xs font-medium rounded-lg hover:bg-slate-800 transition-colors flex items-center justify-center gap-2">
                             Plus de détails
                             <span
                                 class="border-white flex items-center justify-center md:border md:p-0.5 rounded-full md:w-4 md:h-4">

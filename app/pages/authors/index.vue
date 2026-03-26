@@ -85,17 +85,6 @@ useSeoMeta({
   twitterImage: 'https://africstoryline.com/afric.png'
 });
 
-onMounted(async () => {
-  user.value = await toConnectUser();
-  loading.value = true;
-  const { data, pagination } = await findAuthors();
-  authors.value = data;
-  totalPages.value = pagination.totalPages;
-  loading.value = false;
-  page.value++;
-  loadingAuthor.value = false;
-})
-
 // ============================
 // Load Authors
 // ============================
@@ -168,6 +157,7 @@ watch(
 // ============================
 
 onMounted(async () => {
+  user.value = await toConnectUser();
   await loadAuthors();
 });
 

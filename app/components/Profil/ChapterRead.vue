@@ -28,7 +28,7 @@
                             }}</span>
                         </div>
                         <h3
-                            class="font-display font-medium text-lg text-slate-900 group-hover:text-orange-600 transition-colors">
+                            class="font-display font-medium text-lg text-slate-900 dark:text-slate-200 dark:group-hover:text-orange-500 group-hover:text-orange-600 transition-colors">
                             {{ chapterR.chapter.title }}</h3>
                         <p class="text-sm text-slate-500">Du livre : <span class="font-medium">{{
                                 chapterR.chapter.book.title }}</span></p>
@@ -38,7 +38,7 @@
 
                     <div class="mt-4 sm:mt-0">
                         <button
-                            class="mt-3 w-full sm:w-auto px-4 py-2 bg-slate-900 text-white text-xs font-medium rounded-lg hover:bg-slate-800 transition-colors flex items-center justify-center gap-2">
+                            class="dark:border-slate-300 dark:border-[1px] mt-3 w-full sm:w-auto px-4 py-2 bg-slate-900 text-white text-xs font-medium rounded-lg hover:bg-slate-800 transition-colors flex items-center justify-center gap-2">
                             Continuer
                             <span
                                 class="border-white flex items-center justify-center md:border md:p-0.5 rounded-full md:w-4 md:h-4">
@@ -83,11 +83,11 @@ const props = defineProps<{
     chapterRead: ChapterReadData[]
 }>();
 const bgShades = [
-    'bg-white dark:bg-slate-300',
-    'bg-slate-200 dark:bg-slate-300/90',
-    'bg-slate-200/80 dark:bg-slate-300/90',
-    'bg-slate-200/60 dark:bg-slate-300/90',
-    'bg-slate-200/40 dark:bg-slate-300/95'
+    'bg-white dark:bg-transparent',
+    'bg-white dark:bg-transparent',
+    'bg-white dark:bg-transparent',
+    'bg-white dark:bg-transparent',
+    'bg-white dark:bg-transparent'
 ]
 const config = useRuntimeConfig();
 const router = useRouter();

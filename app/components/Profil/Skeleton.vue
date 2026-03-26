@@ -1,6 +1,6 @@
 <template>
     <div
-        class="flex flex-col sm:flex-row gap-4 p-4 rounded-2xl bg-white dark:bg-slate-300 border border-slate-100 shadow-sm animate-pulse">
+        class="flex flex-col sm:flex-row gap-4 p-4 rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 shadow-sm animate-pulse">
         <!-- image -->
         <div class="w-full sm:w-24 h-32 sm:h-36 bg-slate-200 rounded-lg flex-shrink-0"></div>
 

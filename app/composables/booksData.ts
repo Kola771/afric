@@ -286,8 +286,10 @@ export function booksData() {
                 try {
                     const response = await axios.put(`/books/upload-img/${uuid}`, data,
                         {
-                            params: { token },
-                            headers: { "Content-Type": "multipart/form-data" },
+                            headers: {
+                                Authorization: `Bearer ${token}`,
+                                "Content-Type": "multipart/form-data"
+                            },
                         });
                     return response?.data;
                 } catch (error: any) {

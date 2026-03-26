@@ -60,7 +60,7 @@
                     class="flex items-center gap-1 bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 transition-all duration-300 border-slate-200 border rounded-full py-1 pl-1 pr-1.5 cursor-pointer">
                     <img v-if="user.photo" :src="`${config.public.apiBackendUrl}/uploads/users/${user.photo}`"
                       alt="Profil"
-                      class="w-7 h-7 border-orange-600 border-2 dark:border-orange-500 rounded-full flex-shrink-0" />
+                      class="w-7 h-7 rounded-full flex-shrink-0" />
                     <span v-if="!user.photo"
                       class="p-1 text-xs flex items-center justify-center w-7 h-7 rounded-full flex-shrink-0"
                       :style="`background-color: ${user.code_color}`">
@@ -161,7 +161,7 @@
           <nuxt-link :to="`/profil`" v-if="user" @click="isOpen = !isOpen"
             class="flex items-center gap-3 w-full pb-1 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors text-left">
             <img v-if="user?.photo" :src="`${config.public.apiBackendUrl}/uploads/users/${user?.photo}`" alt="Profil"
-              class="w-8 h-8 border-orange-600 border-2 dark:border-orange-500 rounded-full" />
+              class="w-8 h-8 rounded-full" />
             <span v-if="!user?.photo" class="p-1 text-xs flex items-center justify-center w-8 h-8 rounded-full"
               :style="`background-color: ${user?.code_color}`">
               {{ user?.name.split(" ").length > 1 ? `${user?.name.charAt(0).toUpperCase() +

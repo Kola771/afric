@@ -17,7 +17,7 @@
                 <nuxt-link class="group flex items-center gap-1" :to="`/authors/${props.book.user?.uuid}`">
                     <img v-if="props.book.user?.photo"
                         :src="`${config.public.apiBackendUrl}/uploads/users/${props.book.user?.photo}`" alt="Profil"
-                        class="w-4 h-4 border-orange-600 border-2 dark:border-orange-500 rounded-full" />
+                        class="w-4 h-4 rounded-full" />
                     <span v-if="!props.book.user?.photo"
                         class="p-1 text-[8px] flex items-center justify-center w-4 h-4 rounded-full"
                         :style="`background-color: ${props.book.user?.code_color}`">

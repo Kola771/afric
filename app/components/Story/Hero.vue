@@ -22,7 +22,7 @@
                     <div class="flex items-center gap-2 text-sm mb-4">
                         <img v-if="book.user?.photo"
                             :src="`${config.public.apiBackendUrl}/uploads/users/${book.user?.photo}`" alt="Profil"
-                            class="w-6 h-6 border-orange-600 border-2 dark:border-orange-500 rounded-full" />
+                            class="w-6 h-6 rounded-full" />
                         <span v-if="!book.user?.photo"
                             class="p-1 text-[8px] flex items-center justify-center w-6 h-6 rounded-full font-medium"
                             :style="`background-color: ${book.user?.code_color}`">

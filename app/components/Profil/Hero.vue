@@ -25,10 +25,11 @@
                                     user?.name.charAt(0).toUpperCase() }}
                             </span>
                         </div>
-                        <button
-                            class="hidden absolute bottom-2 right-2 bg-slate-900 text-white flex items-center justify-center p-2 rounded-full shadow-md transition-all hover:scale-105">
-                            <Icon name="mdi:camera" class="w-5 h-5 text-white" />
-                        </button>
+                        <label for="file"
+                            class="dark:border-slate-300 dark:border-[1px] cursor-pointer absolute right-0 bottom-1 lg:bottom-2 lg:right-2 bg-slate-900 text-white flex items-center justify-center p-2 rounded-full shadow-md transition-all hover:scale-105">
+                            <Icon name="mdi:camera" class="w-4 h-4 text-white" />
+                            <input type="file" accept="image/jpeg, image/jpg, image/png, image/jfif" @change="onFileChange" name="file" id="file" class="hidden" />
+                        </label>
                     </div>
                     <div class="mb-2">
                         <h2 class="text-3xl font-display font-semibold tracking-tight">{{ user.name }}</h2>
@@ -127,6 +128,7 @@
             </div>
         </div>
         <ProfilDeleteUser @close-delete-modal="toggleDeleteModal" :showDeleteModal="showDeleteModal" :profil="profil" v-if="showDeleteModal && profil" />
+        <ProfilChangePhoto @close-change-modal="toggleChangeModal" :showChangeModal="showChangeModal" :profil="profil" :image="image" :preview="preview" v-if="showChangeModal && profil && preview && image" />
     </div>
 </template>
 
@@ -177,10 +179,26 @@ const { getProfile, findByUuid } = usersData();
 const user = ref<User | null>(null);
 const author = ref<Author | null>(null);
 const profil = ref<User | null>(null);
-const showDeleteModal = ref(false);
+const showDeleteModal = ref<boolean>(false);
+const showChangeModal = ref<boolean>(false);
+const image = ref<any>(null);
+const preview = ref<any>(null);
+
+const onFileChange = (event: any) => {
+    const target = event.target as HTMLInputElement
+    if (!target.files?.length) return
+    image.value = target.files[0]
+    const file = target.files[0]
+    preview.value = URL.createObjectURL(file);
+    showChangeModal.value = true;
+}
 
 const toggleDeleteModal = () => {
     showDeleteModal.value = !showDeleteModal.value
+}
+
+const toggleChangeModal = () => {
+    showChangeModal.value = !showChangeModal.value
 }
 
 const countChapters = (books: BookData[]): number => {

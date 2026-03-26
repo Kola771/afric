@@ -129,7 +129,7 @@
                                     <img v-if="book.user.photo"
                                         :src="`${config.public.apiBackendUrl}/uploads/users/${book.user.photo}`"
                                         alt="Profil"
-                                        class="w-6 h-6 border-orange-600 border-2 dark:border-orange-500 rounded-full" />
+                                        class="w-6 h-6 rounded-full" />
                                     <span v-else
                                         class="p-1 text-[8px] font-bold flex items-center justify-center text-slate-900 w-6 h-6 rounded-full"
                                         :style="`background-color: ${book.user.code_color}`">
