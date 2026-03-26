@@ -73,7 +73,7 @@
                             class="h-8 pl-8 pr-3 dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 w-full md:w-48 rounded-lg bg-slate-50 border border-slate-200 text-xs focus:outline-none focus:ring-1 focus:ring-slate-300 transition-colors">
                     </div>
                     <button @click="sortAsc = !sortAsc"
-                        class="h-8 px-3 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 flex items-center gap-2 transition-colors">
+                        class="h-8 px-3 rounded-lg border border-slate-200 text-slate-600 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 flex items-center gap-2 transition-colors">
                         <Icon name="solar:sort-vertical-linear" class="w-5 h-5" />
                         <span class="text-xs font-medium hidden sm:inline">
                             Trier {{ sortAsc ? "A-Z" : "" }}

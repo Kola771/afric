@@ -21,7 +21,7 @@
                     </div>
                     <div class="flex gap-3">
                         <button @click="exportBooks"
-                            class="h-9 px-4 rounded-lg bg-white dark:bg-slate-100 border border-slate-200 text-xs font-medium text-slate-700 hover:bg-slate-50 shadow-sm transition-colors flex items-center gap-2">
+                            class="h-9 px-4 dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 rounded-lg bg-white dark:bg-slate-100 border border-slate-200 text-xs font-medium text-slate-700 hover:bg-slate-50 shadow-sm transition-colors flex items-center gap-2">
                             <Icon name="solar:export-linear" class="w-5 h-5" />
                             Exporter
                         </button>
@@ -31,45 +31,45 @@
 
             <!-- Stats Grid -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                <div class="bg-white dark:bg-slate-100 p-4 rounded-xl border border-slate-200 shadow-sm">
-                    <p class="text-xs font-medium text-slate-500 mb-1">Total Histoires</p>
+                <div class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-4 rounded-xl border border-slate-200 shadow-sm">
+                    <p class="text-xs font-medium text-slate-500 dark:text-slate-300 mb-1">Total Histoires</p>
                     <div class="flex items-end justify-between">
-                        <p class="text-2xl font-display font-bold text-slate-900">{{ formatNumber(countAll) }}</p>
+                        <p class="text-2xl font-display font-bold text-slate-900 dark:text-slate-200">{{ formatNumber(countAll) }}</p>
                         <Icon name="solar:book-linear" class="text-slate-300" width="24" />
                     </div>
                 </div>
-                <div class="bg-white dark:bg-slate-100 p-4 rounded-xl border border-slate-200 shadow-sm">
-                    <p class="text-xs font-medium text-slate-500 mb-1">Histoires Terminées</p>
+                <div class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-4 rounded-xl border border-slate-200 shadow-sm">
+                    <p class="text-xs font-medium text-slate-500 dark:text-slate-300 mb-1">Histoires Terminées</p>
                     <div class="flex items-end justify-between">
-                        <p class="text-2xl font-display font-bold text-slate-900">{{ formatNumber(countCompleted) }}</p>
+                        <p class="text-2xl font-display font-bold text-slate-900 dark:text-slate-200">{{ formatNumber(countCompleted) }}</p>
                         <span class="w-2 h-2 rounded-full bg-green-600 animate-pulse"></span>
                     </div>
                 </div>
-                <div class="bg-white dark:bg-slate-100 p-4 rounded-xl border border-slate-200 shadow-sm">
-                    <p class="text-xs font-medium text-slate-500 mb-1">Histoires en cours</p>
+                <div class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-4 rounded-xl border border-slate-200 shadow-sm">
+                    <p class="text-xs font-medium text-slate-500 dark:text-slate-300 mb-1">Histoires en cours</p>
                     <div class="flex items-end justify-between">
-                        <p class="text-2xl font-display font-bold text-slate-900">{{ formatNumber(countOngoing) }}</p>
+                        <p class="text-2xl font-display font-bold text-slate-900 dark:text-slate-200">{{ formatNumber(countOngoing) }}</p>
                         <span class="w-2 h-2 rounded-full bg-orange-600 animate-pulse"></span>
                     </div>
                 </div>
-                <div class="bg-white dark:bg-slate-100 p-4 rounded-xl border border-slate-200 shadow-sm">
-                    <p class="text-xs font-medium text-slate-500 mb-1">Histoires en pause</p>
+                <div class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-4 rounded-xl border border-slate-200 shadow-sm">
+                    <p class="text-xs font-medium text-slate-500 dark:text-slate-300 mb-1">Histoires en pause</p>
                     <div class="flex items-end justify-between">
-                        <p class="text-2xl font-display font-bold text-slate-900">{{ formatNumber(countPaused) }}</p>
+                        <p class="text-2xl font-display font-bold text-slate-900 dark:text-slate-200">{{ formatNumber(countPaused) }}</p>
                         <span class="w-2 h-2 rounded-full bg-cyan-600 animate-pulse"></span>
                     </div>
                 </div>
-                <div class="bg-white dark:bg-slate-100 p-4 rounded-xl border border-slate-200 shadow-sm">
-                    <p class="text-xs font-medium text-slate-500 mb-1">Histoires en brouillon</p>
+                <div class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-4 rounded-xl border border-slate-200 shadow-sm">
+                    <p class="text-xs font-medium text-slate-500 dark:text-slate-300 mb-1">Histoires en brouillon</p>
                     <div class="flex items-end justify-between">
-                        <p class="text-2xl font-display font-bold text-slate-900">{{ formatNumber(countDraft) }}</p>
+                        <p class="text-2xl font-display font-bold text-slate-900 dark:text-slate-200">{{ formatNumber(countDraft) }}</p>
                         <span class="w-2 h-2 rounded-full bg-pink-600 animate-pulse"></span>
                     </div>
                 </div>
-                <div class="bg-white dark:bg-slate-100 p-4 rounded-xl border border-slate-200 shadow-sm">
-                    <p class="text-xs font-medium text-slate-500 mb-1">Histoires désactivées</p>
+                <div class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-4 rounded-xl border border-slate-200 shadow-sm">
+                    <p class="text-xs font-medium text-slate-500 dark:text-slate-300 mb-1">Histoires désactivées</p>
                     <div class="flex items-end justify-between">
-                        <p class="text-2xl font-display font-bold text-slate-900">{{ formatNumber(countInactive) }}</p>
+                        <p class="text-2xl font-display font-bold text-slate-900 dark:text-slate-200">{{ formatNumber(countInactive) }}</p>
                         <span class="w-2 h-2 rounded-full bg-red-600 animate-pulse"></span>
                     </div>
                 </div>
@@ -77,7 +77,7 @@
 
             <!-- Filters & Toolbar -->
             <div
-                class="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
+                class="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-3 rounded-xl border border-slate-200 shadow-sm">
                 <!-- Tabs -->
                 <div class="flex bg-slate-100 p-1 rounded-lg overflow-x-auto max-w-full custom">
                     <button v-for="filter in filters" :key="filter.value" @click="activeFilter = filter.value" :class="activeFilter === filter.value
@@ -96,10 +96,10 @@
                         <Icon name="solar:magnifer-linear"
                             class="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />
                         <input type="search" placeholder="Rechercher une histoire..." v-model="search"
-                            class="h-8 pl-8 pr-3 w-full md:w-48 rounded-lg bg-slate-50 border border-slate-200 text-xs focus:outline-none focus:ring-1 focus:ring-slate-300 transition-colors">
+                            class="h-8 pl-8 pr-3 dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 w-full md:w-48 rounded-lg bg-slate-50 border border-slate-200 text-xs focus:outline-none focus:ring-1 focus:ring-slate-300 transition-colors">
                     </div>
                     <button @click="sortAsc = !sortAsc"
-                        class="h-8 px-3 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 flex items-center gap-2 transition-colors">
+                        class="h-8 px-3 rounded-lg border border-slate-200 text-slate-600 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 flex items-center gap-2 transition-colors">
                         <Icon name="solar:sort-vertical-linear" class="w-5 h-5" />
                         <span class="text-xs font-medium hidden sm:inline">
                             Trier {{ sortAsc ? "A-Z" : "" }}
@@ -108,12 +108,12 @@
                 </div>
             </div>
 
-            <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+            <div class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 rounded-xl border border-slate-200 shadow-sm overflow-hidden">
                 <div class="overflow-y-auto overflow-x-auto custom max-h-[500px]">
                     <table class="w-full text-left border-collapse">
                         <thead class="sticky top-0 z-10 bg-slate-50">
                             <tr
-                                class="text-xs text-slate-400 dark:text-slate-700 border-b border-slate-100 bg-slate-50/50">
+                                class="text-xs text-slate-400 dark:text-slate-300 border-b border-slate-100 bg-slate-50/50 dark:bg-slate-800">
                                 <th class="font-semibold py-3 px-6 whitespace-nowrap">Titre de l'histoire</th>
                                 <th class="font-semibold py-3 px-6 whitespace-nowrap">Catégorie</th>
                                 <th class="font-semibold py-3 px-6 whitespace-nowrap">Performance</th>
@@ -188,7 +188,7 @@
                         </tbody>
 
                         <tbody v-if="!loading && filteredBooks.length !== 0" class="text-sm">
-                            <tr class="group hover:bg-slate-50 transition-colors border-b border-slate-50 text-xs"
+                            <tr class="group hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors border-b border-slate-50 text-xs"
                                 v-for="(book, index) in filteredBooks" :key="index">
                                 <td class="py-3 px-6">
                                     <div class="flex items-center gap-3">
@@ -198,11 +198,11 @@
                                                 class="w-full h-full object-cover opacity-80" :alt="book.title">
                                         </div>
                                         <nuxt-link :to="`/dashboard/stories/${book.uuid}`"
-                                            class="font-medium text-slate-900 group-hover:text-orange-600 transition-colors underline whitespace-nowrap">{{
+                                            class="font-medium text-slate-900 dark:text-slate-200 group-hover:text-orange-600 transition-colors underline whitespace-nowrap">{{
                                                 book.title }}</nuxt-link>
                                     </div>
                                 </td>
-                                <td class="py-3 px-6 space-x-1 whitespace-nowrap">
+                                <td class="py-3 px-6 space-x-1 whitespace-nowrap dark:text-slate-300">
                                     <span
                                         class="inline-flex items-center px-2 py-1 rounded text-[10px] font-medium bg-slate-100 text-slate-600 border border-slate-200"
                                         v-for="(category, i) in book.book_categories">
@@ -212,20 +212,20 @@
                                 <td class="py-3 px-6 whitespace-nowrap">
                                     <div class="flex items-center gap-4">
                                         <div class="text-xs">
-                                            <span class="font-semibold text-slate-900">{{
+                                            <span class="font-semibold text-slate-900 dark:text-slate-200">{{
                                                 formatNumber(book?.book_reactions)
                                                 }}</span> <span class="text-slate-400 text-[10px]">réactions
                                             </span>
                                         </div>
                                         <div class="text-xs">
-                                            <span class="font-semibold text-slate-900">{{
+                                            <span class="font-semibold text-slate-900 dark:text-slate-200">{{
                                                 formatNumber(Number(book?.total_views))
                                                 }}</span> <span class="text-slate-400 text-[10px]">vues
                                             </span>
                                         </div>
                                         <div class="w-px h-3 bg-slate-200"></div>
                                         <div class="text-xs">
-                                            <span class="font-semibold text-slate-900">{{
+                                            <span class="font-semibold text-slate-900 dark:text-slate-200">{{
                                                 formatNumber(book?.book_comments)
                                                 }}</span> <span class="text-slate-400 text-[10px]">commentaires
                                             </span>
@@ -247,7 +247,7 @@
                                         {{ formatLocalDate(book.deadline || '') }}
                                     </span>
                                 </td>
-                                <td class="py-3 px-6 text-center whitespace-nowrap">
+                                <td class="py-3 px-6 text-center whitespace-nowrap dark:text-slate-300">
                                     {{ book.rating_age }}
                                 </td>
                                 <td class="py-3 px-6 text-right whitespace-nowrap">
@@ -262,7 +262,7 @@
                                     </select>
                                     <nuxt-link :to="`/books/${book.uuid}`" target="_blank"
                                         v-if="!['draft', 'inactive'].includes(book.status)"
-                                        class="mr-2 text-amber-600 hover:text-amber-700 transition-colors text-xs underline">Rendu
+                                        class="mr-2 text-amber-600 dark:text-amber-500 hover:text-amber-700 transition-colors text-xs underline">Rendu
                                         en ligne</nuxt-link>
                                     <button @click="showModalDelete(book)"
                                         v-if="profil && !['support', 'auteur', 'lecteur'].includes(profil.role)"
@@ -276,15 +276,15 @@
                 </div>
 
                 <div class="flex items-center justify-between p-4 border-t border-slate-100">
-                    <span class="text-xs text-slate-500">Page <span class="font-medium text-slate-900">{{ page }} / {{
+                    <span class="text-xs text-slate-500 dark:text-slate-300">Page <span class="font-medium text-slate-900 dark:text-slate-200">{{ page }} / {{
                         total }}</span> - {{ filteredBooks.length }} données</span>
                     <div class="flex gap-2">
                         <button @click="prevPage" :disabled="page === 1"
-                            class="px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-medium text-slate-500 hover:bg-slate-50 disabled:opacity-50">
+                            class="px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-medium text-slate-500 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50">
                             Précédent
                         </button>
                         <button @click="nextPage" :disabled="page === total"
-                            class="px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-medium text-slate-900 hover:bg-slate-50 disabled:opacity-50">
+                            class="px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-medium text-slate-900 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50">
                             Suivant
                         </button>
                     </div>
