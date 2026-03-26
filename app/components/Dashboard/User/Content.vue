@@ -140,7 +140,7 @@
                             <th class="font-medium py-3 px-6 whitespace-nowrap">Origine</th>
                             <th class="font-medium py-3 px-6 whitespace-nowrap">Statut</th>
                             <th class="font-medium py-3 px-6 whitespace-nowrap">Rôle</th>
-                            <th class="font-medium py-3 px-6 whitespace-nowrap">Date de sanction</th>
+                            <th class="font-medium py-3 px-6 whitespace-nowrap">Deadline</th>
                             <th class="font-medium py-3 px-6 text-right whitespace-nowrap">Actions</th>
                         </tr>
                     </thead>
@@ -198,23 +198,27 @@
                             <td class="py-3 px-6 whitespace-nowrap">
                                 <span class="text-xs font-medium text-slate-600">{{ u.country }}</span>
                             </td>
-                            <td class="py-3 px-6 whitespace-nowrap">
+                            <td class="py-3 px-6 whitespace-nowrap capitalize" :class="u.status !== 'actif' ? 'text-red-600 font-medium' : ''">
                                 {{ u.status }}
                             </td>
-                            <td class="py-3 px-6 whitespace-nowrap">
+                            <td class="py-3 px-6 whitespace-nowrap capitalize">
                                 {{ u.role }}
                             </td>
                             <td class="py-3 px-6 text-center whitespace-nowrap">
-                                {{ formatLocalDate(u?.sanction_date) }}
+                                <span :class="`inline-flex items-center gap-1.5 text-[10px] font-medium text-red-700`"
+                                    v-if="u.status !== 'actif'">
+                                    <span :class="`w-1 h-1 rounded-full bg-red-600`"></span>
+                                    {{ formatLocalDate(u?.sanction_date || '') }}
+                                </span>
                             </td>
                             <td class="py-3 px-6 text-right whitespace-nowrap">
-                                <select
+                                <select :value="u.role" @change="(e) => changeValRole(e, u)" v-if="!['super-admin'].includes(u.role)"
                                     class="mr-2 text-[10px] bg-slate-50 border border-slate-200 rounded-md px-2 py-1 text-slate-600 outline-none">
                                     <option value="" disabled selected>Changez le rôle</option>
-                                    <option :value="role.id" v-for="(role, y) in filteredRoles" :key="y">
+                                    <option :value="role.name" v-for="(role, y) in filteredRoles" :key="y">
                                         {{ role.name }}</option>
                                 </select>
-                                <select :value="u.status" @change="(e) => changeValStatus(e, u)"
+                                <select :value="u.status" @change="(e) => changeValStatus(e, u)" v-if="!['super-admin'].includes(u.role)"
                                     class="mr-2 text-[10px] bg-slate-50 border border-slate-200 rounded-md px-2 py-1 text-slate-600 outline-none">
                                     <option value="" disabled selected>Changez le statut</option>
                                     <option value="actif">Actif</option>
@@ -227,7 +231,7 @@
                                     <Icon name="mdi:eye" width="16" />
                                 </nuxt-link>
                                 <button @click="showModalDelete(u)"
-                                    v-if="profil && !['support', 'auteur', 'lecteur'].includes(profil.role)"
+                                    v-if="profil && !['support', 'auteur', 'lecteur'].includes(profil.role) && (Number(profil.id) !== Number(u.id))"
                                     class="ml-1 p-1 rounded-md hover:bg-slate-100 text-red-600 hover:text-red-700 transition-colors">
                                     <Icon name="mdi:trash" width="16" />
                                 </button>
@@ -255,6 +259,7 @@
         </div>
         <DashboardUserDelete @close-delete-modal="toggleDeleteModal" @on-load="onLoad" :showDeleteModal="showDeleteModal" :user="userSelected" v-if="showDeleteModal && userSelected" />
         <DashboardUserChangeStatus @close-change-modal="toggleChangeModal" @on-load="onLoad" :showChangeStatusModal="showChangeStatusModal" :user="userSelected" :statut="statut" v-if="showChangeStatusModal && userSelected" />
+        <DashboardUserChangeRole @close-change-role-modal="toggleChangeRoleModal" @on-load="onLoad" :showChangeRoleModal="showChangeRoleModal" :user="userSelected" :role="role" v-if="showChangeRoleModal && userSelected" />
     </div>
 </template>
 
@@ -292,6 +297,7 @@ const users = ref<User[]>([]);
 const roles = ref<any[]>([]);
 const loading = ref<boolean>(true);
 const statut = ref<string>("");
+const role = ref<string>("");
 const page = ref<number>(1);
 const limit = ref<number>(25);
 const total = ref<number>(0);
@@ -308,6 +314,7 @@ const countAllSuspended = ref<number>(0);
 const countAllUsersBanned = ref<number>(0);
 const showDeleteModal = ref<boolean>(false);
 const showChangeStatusModal = ref<boolean>(false);
+const showChangeRoleModal = ref<boolean>(false);
 const search = ref<string>("");
 const activeFilter = ref<string>("all");
 const sortAsc = ref<boolean>(false);
@@ -329,6 +336,12 @@ const changeValStatus = (e: any, u: User) => {
     statut.value = e.target.value;
     userSelected.value = u;
     showChangeStatusModal.value = !showChangeStatusModal.value;
+}
+
+const changeValRole = (e: any, u: User) => {
+    role.value = e.target.value;
+    userSelected.value = u;
+    showChangeRoleModal.value = !showChangeRoleModal.value;
 }
 
 const filteredRoles = computed(() => {
@@ -392,6 +405,10 @@ const toggleDeleteModal = () => {
 
 const toggleChangeModal = () => {
     showChangeStatusModal.value = !showChangeStatusModal.value
+}
+
+const toggleChangeRoleModal = () => {
+    showChangeRoleModal.value = !showChangeRoleModal.value
 }
 
 const exportUsers = () => {

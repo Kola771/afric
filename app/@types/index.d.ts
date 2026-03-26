@@ -31,6 +31,7 @@ interface Author {
   total_followers: number
   country: Country
   created_at?: any
+  role?: any
   sanction_date?: any
   preference?: any
   followers?: any[]

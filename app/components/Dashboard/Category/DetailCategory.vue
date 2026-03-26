@@ -18,7 +18,7 @@
                 <p class="text-sm mb-2 text-slate-500 dark:text-slate-200 mt-1">{{ category?.description }}</p>
                 <nuxt-link :to="`/dashboard/categories/${category?.uuid}/stories`"
                     class="text-sm text-orange-600 hover:text-orange-700 dark:text-orange-400 dark:hover:text-orange-600 underline">Elle
-                    contient {{ formatNumber(category.booksCount || 0) }} histoire(s)</nuxt-link>
+                    contient {{ formatNumber(category.booksCount || 0) }} histoire(s) valide(s)</nuxt-link>
             </div>
         </div>
 

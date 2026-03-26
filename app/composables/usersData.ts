@@ -237,6 +237,26 @@ export function usersData() {
         return { success: false, status: 400, error: "Client-side error" };
     }
 
+    // 
+    async function changeRoleUser(uuid: string, data: any): Promise<{ success: boolean, msg?: string, error?: string | null, status?: number }> {
+        if (process?.client) {
+            if (localStorage.getItem("user")) {
+                try {
+                    const token = JSON.parse(localStorage.getItem("user") || '{}').token;
+                    const response = await axios.put(`/users/change-role-user/${uuid}`, data, {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
+                    return response?.data;
+                } catch (error: any) {
+                    return { success: false, status: error.response?.status || 500, error: error.message };
+                }
+            }
+        }
+        return { success: false, status: 400, error: "Client-side error" };
+    }
+
     return {
         findAuthors,
         getUsers,
@@ -251,5 +271,6 @@ export function usersData() {
         completeRemoval,
         deletePersonNotLector,
         changeStatusUser,
+        changeRoleUser,
     }
 }

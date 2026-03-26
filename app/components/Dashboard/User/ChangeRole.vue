@@ -23,12 +23,12 @@
                     </div>
                     <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                       <DialogTitle as="h3" class="text-base font-semibold text-gray-900 dark:text-white">
-                        Modifier le statut de cet utilisateur "<strong class="text-amber-600 dark:text-amber-500">{{
+                        Modifier le rôle de cet utilisateur "<strong class="text-amber-600 dark:text-amber-500">{{
                           user.name }}</strong>"
                       </DialogTitle>
                       <div class="mt-2">
                         <p class="text-sm text-gray-500 dark:text-slate-200">
-                          Passage de <strong>{{ user.status }}</strong> à <strong class="text-amber-400">{{ statut
+                          Passage de <strong>{{ user.role }}</strong> à <strong class="text-amber-400">{{ role
                             }}</strong>
                         </p>
                       </div>
@@ -36,7 +36,8 @@
                   </div>
 
                   <div class="mt-4 flex flex-col gap-1 text-sm">
-                    <label for="reason" class="text-slate-700 dark:text-slate-200 font-semibold">Indiquez la raison :</label>
+                    <label for="reason" class="text-slate-700 dark:text-slate-200 font-semibold">Indiquez la raison
+                      (facultatif) :</label>
                     <textarea name="reason" id="reason" v-model="reason"
                       class="w-full h-24 rounded-lg p-2 border-slate-300 border-[1px] outline-none resize-none"></textarea>
                   </div>
@@ -66,13 +67,13 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
-const { changeStatusUser } = usersData();
+const { changeRoleUser } = usersData();
 const props = defineProps<{
   user: User;
-  statut: string
+  role: string
 }>();
 
-const emit = defineEmits(['close-change-modal', 'on-load']);
+const emit = defineEmits(['close-change-role-modal', 'on-load']);
 const open = ref<boolean>(true);
 const reason = ref<string>("");
 const error = ref<any>(null);
@@ -83,7 +84,7 @@ const closeModal = () => {
   error.value = null;
   message.value = null;
   reason.value = "";
-  emit('close-change-modal');
+  emit('close-change-role-modal');
   open.value = false;
   disabled.value = false;
 }
@@ -92,27 +93,22 @@ const functionChangeStatus = async () => {
   error.value = null;
   message.value = null;
   disabled.value = true;
-  if (reason.value.trim() !== "") {
-    const response = await changeStatusUser(props.user.uuid, {
-      status: props.statut,
-      reason: reason.value,
-      name: props.user.name
-    });
+  const response = await changeRoleUser(props.user.uuid, {
+    role: props.role,
+    reason: reason.value,
+    name: props.user.name
+  });
 
-    if (response.success) {
-      message.value = response.msg;
+  if (response.success) {
+    message.value = response.msg;
 
-      setTimeout(() => {
-        open.value = false;
-        emit('close-change-modal');
-        emit('on-load');
-      }, 2000);
-    } else {
-      error.value = response.error;
-      disabled.value = false;
-    }
+    setTimeout(() => {
+      open.value = false;
+      emit('close-change-role-modal');
+      emit('on-load');
+    }, 2000);
   } else {
-    error.value = "Veuillez nous donner la raison de ce changement !";
+    error.value = response.error;
     disabled.value = false;
   }
 }
