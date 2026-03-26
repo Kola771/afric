@@ -132,15 +132,12 @@
                             </div>
                         </button>
                     </div>
-                    <div class="mt-4 lg:flex-1 lg:mt-0 bg-white lg:bg-slate-100 rounded-lg">
+                    <div class="mt-4 lg:flex-1 lg:mt-0 bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 lg:bg-slate-100 rounded-lg">
                         <div class="p-4" v-if="step === 'chapter' && selectedChapter">
-                            <h4 class="text-sm font-medium text-slate-900">
+                            <h4 class="text-sm font-medium text-slate-900 dark:text-slate-200">
                                 {{ selectedChapter.title }}
                             </h4>
-                            <p class="text-sm text-slate-500 mt-2">
-                                {{ selectedChapter.subtitle }}
-                            </p>
-                            <div class="text-sm text-slate-700 mt-4" v-html="selectedChapter.content"></div>
+                            <div class="text-sm text-slate-700 dark:text-slate-200 mt-4" v-html="selectedChapter.content"></div>
                         </div>
                     </div>
                 </div>

@@ -193,7 +193,7 @@
                                 <td class="py-3 px-6">
                                     <div class="flex items-center gap-3">
                                         <div
-                                            class="w-8 h-10 flex-shrink-0 bg-slate-200 rounded object-cover overflow-hidden">
+                                            class="w-8 h-10 lg:h-8 flex-shrink-0 bg-slate-200 rounded object-cover overflow-hidden">
                                             <img :src="`${config.public.apiBackendUrl}/uploads/books/${book?.image}`"
                                                 class="w-full h-full object-cover opacity-80" :alt="book.title">
                                         </div>
@@ -241,7 +241,7 @@
                                 </td>
                                 <td class="py-3 px-6 text-center whitespace-nowrap">
                                     <span
-                                        :class="`inline-flex items-center gap-1.5 text-[10px] font-medium text-red-700`"
+                                        :class="`inline-flex items-center gap-1.5 text-[10px] font-medium text-red-700 dark:text-red-500`"
                                         v-if="book.status === 'inactive'">
                                         <span :class="`w-1 h-1 rounded-full bg-red-600`"></span>
                                         {{ formatLocalDate(book.deadline || '') }}

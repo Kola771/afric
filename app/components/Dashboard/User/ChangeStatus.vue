@@ -38,7 +38,7 @@
                   <div class="mt-4 flex flex-col gap-1 text-sm">
                     <label for="reason" class="text-slate-700 dark:text-slate-200 font-semibold">Indiquez la raison :</label>
                     <textarea name="reason" id="reason" v-model="reason"
-                      class="w-full h-24 rounded-lg p-2 border-slate-300 border-[1px] outline-none resize-none"></textarea>
+                      class="w-full h-24 rounded-lg p-2 border-slate-300 border-[1px] dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 outline-none resize-none"></textarea>
                   </div>
                 </div>
 

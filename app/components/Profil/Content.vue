@@ -142,7 +142,7 @@
                             </template>
                         </div>
                     </div>
-                    <div>
+                    <div v-if="user.whatsapp_link || user.facebook_link || user.other_link">
                         <h3 class="font-display font-semibold text-slate-900 dark:text-white mb-4 text-sm">Liens utiles
                         </h3>
                         <div class="space-y-4">
