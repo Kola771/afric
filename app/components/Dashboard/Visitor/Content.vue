@@ -210,6 +210,7 @@ const months = computed(() => {
 
 // 
 const onLoadDataMonth = async (selected: string) => {
+    page.value = 1;
     loading.value = true;
     selectedMonth.value = selected;
     if (selected === "Tous") {
