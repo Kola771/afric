@@ -27,12 +27,12 @@
                 <label for="name_country" class="text-sm text-slate-900 font-medium dark:text-white">Nom du pays
                     :</label>
                 <input type="text" id="name_country" name="name_country" required v-model="name"
-                    class="block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-orange-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all" />
+                    class="block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200" />
             </div>
             <div class="flex flex-col gap-1">
                 <label for="file" class="text-sm text-slate-900 font-medium dark:text-white">Image du pays :</label>
                 <input type="file" id="file" name="file" ref="file"
-                    class="bg-white block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-orange-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all"
+                    class="bg-white block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200"
                     @change="onFileChange" />
             </div>
             <div class="flex flex-col gap-1" v-if="preview">
@@ -44,18 +44,18 @@
             <div class="flex flex-col gap-1">
                 <label for="code" class="text-sm text-slate-900 font-medium dark:text-white">Code du pays :</label>
                 <input type="text" id="code" name="code" v-model="code" required
-                    class="block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-orange-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all" />
+                    class="block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200" />
             </div>
             <div class="flex flex-col gap-1">
                 <label for="prefix" class="text-sm text-slate-900 font-medium dark:text-white">Préfixe du pays :</label>
                 <input type="text" id="prefix" name="prefix" v-model="prefix" required
-                    class="block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-orange-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all" />
+                    class="block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200" />
             </div>
             <div class="flex flex-col gap-1">
                 <label for="language" class="text-sm text-slate-900 font-medium dark:text-white">Langue la plus utilisée
                     du pays :</label>
                 <input type="text" id="language" name="language" v-model="language" required
-                    class="block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-orange-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all" />
+                    class="block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200" />
             </div>
             <div v-if="error" class="text-xs text-center font-medium text-red-500 mt-2">{{ error }}</div>
             <div v-if="message" class="text-xs text-center font-medium text-green-500 mt-2">{{ message }}</div>

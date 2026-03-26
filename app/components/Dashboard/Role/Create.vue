@@ -19,13 +19,13 @@
             <div class="flex flex-col gap-1">
                 <label for="name_role" class="text-sm text-slate-900 font-medium dark:text-white">Nom du rôle :</label>
                 <input type="text" id="name_role" name="name_role" v-model="name" required
-                    class="block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-orange-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all" />
+                    class="block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200" />
             </div>
             <div class="flex flex-col gap-1">
                 <label for="description" class="text-sm text-slate-900 font-medium dark:text-white">Que fait ce rôle
                     ?</label>
                 <input type="text" id="description" name="description" v-model="description" required
-                    class="block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-orange-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all" />
+                    class="block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200" />
             </div>
             <div v-if="error" class="text-xs text-center font-medium text-red-500 mt-2">{{ error }}</div>
             <div v-if="message" class="text-xs text-center font-medium text-green-500 mt-2">{{ message }}</div>

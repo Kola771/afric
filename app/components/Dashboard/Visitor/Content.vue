@@ -11,7 +11,7 @@
             </div>
             <div class="flex gap-3">
                 <button
-                    class="h-9 px-4 rounded-lg bg-white dark:bg-slate-100 border border-slate-200 text-xs font-medium text-slate-700 hover:bg-slate-50 shadow-sm transition-colors flex items-center gap-2">
+                    class="dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 h-9 px-4 rounded-lg bg-white border border-slate-200 text-xs font-medium text-slate-700 hover:bg-slate-50 shadow-sm transition-colors flex items-center gap-2">
                     <Icon name="solar:export-linear" class="w-5 h-5" />
                     Exporter
                 </button>
@@ -20,24 +20,24 @@
 
         <!-- Stats Grid -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            <div class="bg-white dark:bg-slate-100 p-4 rounded-xl border border-slate-200 shadow-sm">
-                <p class="text-xs font-medium text-slate-500 mb-1">Total Journalier des visiteurs</p>
+            <div class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-4 rounded-xl border border-slate-200 shadow-sm">
+                <p class="text-xs font-medium text-slate-500 dark:text-slate-300 mb-1">Total Journalier des visiteurs</p>
                 <div class="flex items-end justify-between">
-                    <p class="text-2xl font-display font-bold text-slate-900">{{ formatNumber(visitorsToday) }}</p>
+                    <p class="text-2xl font-display font-bold text-slate-900 dark:text-slate-200">{{ formatNumber(visitorsToday) }}</p>
                     <Icon name="solar:calendar-linear" class="text-slate-300" width="24" />
                 </div>
             </div>
-            <div class="bg-white dark:bg-slate-100 p-4 rounded-xl border border-slate-200 shadow-sm">
-                <p class="text-xs font-medium text-slate-500 mb-1">Total Mensuel des visiteurs</p>
+            <div class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-4 rounded-xl border border-slate-200 shadow-sm">
+                <p class="text-xs font-medium text-slate-500 dark:text-slate-300 mb-1">Total Mensuel des visiteurs</p>
                 <div class="flex items-end justify-between">
-                    <p class="text-2xl font-display font-bold text-slate-900">{{ formatNumber(visitorsMonth) }}</p>
+                    <p class="text-2xl font-display font-bold text-slate-900 dark:text-slate-200">{{ formatNumber(visitorsMonth) }}</p>
                     <Icon name="solar:calendar-linear" class="text-slate-300" width="24" />
                 </div>
             </div>
-            <div class="bg-white dark:bg-slate-100 p-4 rounded-xl border border-slate-200 shadow-sm">
-                <p class="text-xs font-medium text-slate-500 mb-1">Total annuel des visiteurs</p>
+            <div class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-4 rounded-xl border border-slate-200 shadow-sm">
+                <p class="text-xs font-medium text-slate-500 dark:text-slate-300 mb-1">Total annuel des visiteurs</p>
                 <div class="flex items-end justify-between">
-                    <p class="text-2xl font-display font-bold text-slate-900">{{ formatNumber(visitorsYear) }}</p>
+                    <p class="text-2xl font-display font-bold text-slate-900 dark:text-slate-200">{{ formatNumber(visitorsYear) }}</p>
                     <Icon name="solar:calendar-linear" class="text-slate-300" width="24" />
                 </div>
             </div>
@@ -45,7 +45,7 @@
 
         <!-- Filters & Toolbar -->
         <div
-            class="flex flex-col md:flex-row gap-4 justify-between items-start md:items-center bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
+            class="flex flex-col md:flex-row gap-4 justify-between items-start md:items-center bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-3 rounded-xl border border-slate-200 shadow-sm">
             <!-- Tabs -->
             <div class="flex bg-slate-100 p-1 rounded-lg overflow-x-auto max-w-lg custom">
                 <button v-for="month in months" :key="month" @click="onLoadDataMonth(month)" :class="[
@@ -61,7 +61,7 @@
             <!-- Actions -->
             <div class="flex flex-col lg:flex-row items-center gap-3 w-full md:w-auto">
                 <select v-model="selectedYear"
-                    class="w-full text-xs bg-slate-50 border border-slate-200 rounded-md px-2 py-1 text-slate-600 outline-none">
+                    class="w-full text-xs bg-slate-50 border border-slate-200 rounded-md px-2 py-1 text-slate-600 outline-none dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-400">
                     <option disabled value="">Sélectionnez une année</option>
                     <option v-for="year in years" :key="year" :value="year">{{ year }}</option>
                 </select>
@@ -70,7 +70,7 @@
                         <Icon name="solar:magnifer-linear"
                             class="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />
                         <input type="search" placeholder="Rechercher la ville ou le pays..." v-model="search"
-                            class="h-8 pl-8 pr-3 w-full md:w-48 rounded-lg bg-slate-50 border border-slate-200 text-xs focus:outline-none focus:ring-1 focus:ring-slate-300 transition-colors">
+                            class="h-8 pl-8 pr-3 dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 w-full md:w-48 rounded-lg bg-slate-50 border border-slate-200 text-xs focus:outline-none focus:ring-1 focus:ring-slate-300 transition-colors">
                     </div>
                     <button @click="sortAsc = !sortAsc"
                         class="h-8 px-3 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 flex items-center gap-2 transition-colors">
@@ -84,11 +84,11 @@
         </div>
 
         <!-- Authors Table -->
-        <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 rounded-xl border border-slate-200 shadow-sm overflow-hidden">
             <div class="overflow-y-auto overflow-x-auto custom max-h-[500px]">
                 <table class="w-full text-left border-collapse">
                     <thead class="sticky top-0 z-10 bg-slate-50">
-                        <tr class="text-xs text-slate-500 dark:text-slate-700 border-b border-slate-100 bg-slate-50/50">
+                        <tr class="text-xs text-slate-500 dark:text-slate-300 border-b border-slate-100 bg-slate-50/50 dark:bg-slate-800">
                             <th class="font-medium whitespace-nowrap py-3 px-6">IP</th>
                             <th class="font-medium whitespace-nowrap py-3 px-6">Ville</th>
                             <th class="font-medium whitespace-nowrap py-3 px-6">Pays</th>
@@ -111,12 +111,12 @@
                         </tr>
                     </tbody>
                     <tbody v-if="!loading && filteredVisitors.length !== 0" class="text-sm">
-                        <tr class="group hover:bg-slate-50 transition-colors"
+                        <tr class="group hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
                             v-for="(visitor, index) in filteredVisitors" :key="index">
-                            <td class="py-3 whitespace-nowrap px-6 text-xs text-slate-400">{{ visitor.visitor_id }}</td>
-                            <td class="py-3 whitespace-nowrap px-6 text-xs text-slate-400">{{ visitor.city }}</td>
-                            <td class="py-3 whitespace-nowrap px-6 text-xs text-slate-400">{{ visitor.origin }}</td>
-                            <td class="py-3 whitespace-nowrap px-6 text-xs text-slate-500">{{
+                            <td class="py-3 whitespace-nowrap px-6 text-xs text-slate-400 dark:text-slate-300">{{ visitor.visitor_id }}</td>
+                            <td class="py-3 whitespace-nowrap px-6 text-xs text-slate-400 dark:text-slate-300">{{ visitor.city }}</td>
+                            <td class="py-3 whitespace-nowrap px-6 text-xs text-slate-400 dark:text-slate-300">{{ visitor.origin }}</td>
+                            <td class="py-3 whitespace-nowrap px-6 text-xs text-slate-500 dark:text-slate-300">{{
                                 formatLocalDate(visitor.visit_date) }}</td>
                         </tr>
                     </tbody>
@@ -124,15 +124,15 @@
             </div>
 
             <div class="flex items-center justify-between p-4 border-t border-slate-100">
-                <span class="text-xs text-slate-500">Page <span class="font-medium text-slate-900">{{ page }} / {{ total
+                <span class="text-xs text-slate-500 dark:text-slate-300">Page <span class="font-medium text-slate-900 dark:text-slate-200">{{ page }} / {{ total
                         }}</span> - {{ filteredVisitors.length }} données</span>
                 <div class="flex gap-2">
                     <button @click="prevPage" :disabled="page === 1"
-                        class="px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-medium text-slate-500 hover:bg-slate-50 disabled:opacity-50">
+                        class="px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-medium text-slate-500 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50">
                         Précédent
                     </button>
                     <button @click="nextPage" :disabled="page === total"
-                        class="px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-medium text-slate-900 hover:bg-slate-50 disabled:opacity-50">
+                        class="px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-medium text-slate-900 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50">
                         Suivant
                     </button>
                 </div>

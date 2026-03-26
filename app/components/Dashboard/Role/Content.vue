@@ -11,7 +11,7 @@
             </div>
             <div class="flex gap-3">
                 <button @click="exportRoles"
-                    class="h-9 px-4 rounded-lg bg-white dark:bg-slate-100 border border-slate-200 text-xs font-medium text-slate-700 hover:bg-slate-50 shadow-sm transition-colors flex items-center gap-2">
+                    class="dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 h-9 px-4 rounded-lg bg-white border border-slate-200 text-xs font-medium text-slate-700 hover:bg-slate-50 shadow-sm transition-colors flex items-center gap-2">
                     <Icon name="solar:export-linear" class="w-5 h-5" />
                     Exporter
                 </button>
@@ -20,31 +20,31 @@
 
         <!-- Stats Grid -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            <div class="bg-white dark:bg-slate-100 p-4 rounded-xl border border-slate-200 shadow-sm">
-                <p class="text-xs font-medium text-slate-500 mb-1">Total Pays</p>
+            <div class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-4 rounded-xl border border-slate-200 shadow-sm">
+                <p class="text-xs font-medium text-slate-500 dark:text-slate-300 mb-1">Total Pays</p>
                 <div class="flex items-end justify-between">
-                    <p class="text-2xl font-display font-bold text-slate-900">{{ filteredRoles.length }}</p>
+                    <p class="text-2xl font-display font-bold text-slate-900 dark:text-slate-200">{{ filteredRoles.length }}</p>
                     <Icon name="mdi:globe" class="text-slate-300" width="24" />
                 </div>
             </div>
-            <div class="bg-white dark:bg-slate-100 p-4 rounded-xl border border-slate-200 shadow-sm">
-                <p class="text-xs font-medium text-slate-500 mb-1">Total Rôles actifs</p>
+            <div class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-4 rounded-xl border border-slate-200 shadow-sm">
+                <p class="text-xs font-medium text-slate-500 dark:text-slate-300 mb-1">Total Rôles actifs</p>
                 <div class="flex items-end justify-between">
-                    <p class="text-2xl font-display font-bold text-slate-900">{{ actifCount }}</p>
-                    <span class="w-2 h-2 rounded-full bg-green-600 animate-pulse"></span>
+                    <p class="text-2xl font-display font-bold text-slate-900 dark:text-slate-200">{{ actifCount }}</p>
+                    <span class="w-2 h-2 rounded-full bg-green-600 dark:bg-green-500 animate-pulse"></span>
                 </div>
             </div>
-            <div class="bg-white dark:bg-slate-100 p-4 rounded-xl border border-slate-200 shadow-sm">
-                <p class="text-xs font-medium text-slate-500 mb-1">Total Roles inactifs</p>
+            <div class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-4 rounded-xl border border-slate-200 shadow-sm">
+                <p class="text-xs font-medium text-slate-500 dark:text-slate-300 mb-1">Total Roles inactifs</p>
                 <div class="flex items-end justify-between">
-                    <p class="text-2xl font-display font-bold text-slate-900">{{ inactifCount }}</p>
-                    <span class="w-2 h-2 rounded-full bg-red-600 animate-pulse"></span>
+                    <p class="text-2xl font-display font-bold text-slate-900 dark:text-slate-200">{{ inactifCount }}</p>
+                    <span class="w-2 h-2 rounded-full bg-red-600 dark:bg-red-500 animate-pulse"></span>
                 </div>
             </div>
         </div>
 
         <!-- Filters & Toolbar -->
-        <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
+        <div class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-3 rounded-xl border border-slate-200 shadow-sm">
             <!-- Actions -->
             <div class="flex items-center gap-3 w-full">
                 <div class="relative flex-1">
@@ -52,10 +52,10 @@
                         class="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />
                     <input type="search" v-model="searchQuery" @keydown.enter="executeSearch"
                         placeholder="Rechercher un rôle..."
-                        class="h-8 pl-8 pr-3 w-full rounded-lg bg-slate-50 border border-slate-200 text-xs focus:outline-none focus:ring-1 focus:ring-slate-300 transition-colors">
+                        class="dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 h-8 pl-8 pr-3 w-full rounded-lg bg-slate-50 border border-slate-200 text-xs focus:outline-none focus:ring-1 focus:ring-slate-300 transition-colors">
                 </div>
                 <button @click="toggleSort('name')"
-                    class="h-8 px-3 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 flex items-center gap-2 transition-colors">
+                    class="h-8 px-3 rounded-lg border border-slate-200 text-slate-600 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 flex items-center gap-2 transition-colors">
                     <Icon :name="sortKey === 'name'
                             ? sortDirection === 'asc'
                                 ? 'solar:arrow-up-linear'
@@ -72,11 +72,11 @@
             </div>
         </div>
 
-        <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 rounded-xl border border-slate-200 shadow-sm overflow-hidden">
             <div class="overflow-y-auto overflow-x-auto custom max-h-[500px]">
                 <table class="w-full text-left border-collapse">
-                    <thead class="sticky top-0 z-10 bg-slate-50">
-                        <tr class="text-xs text-slate-400 dark:text-slate-700 border-b border-slate-100 bg-slate-50/50">
+                    <thead class="sticky top-0 z-10 bg-slate-50 dark:bg-slate-900">
+                        <tr class="text-xs text-slate-400 dark:text-slate-300 border-b border-slate-100 bg-slate-50/50 dark:bg-slate-800">
                             <th class="font-semibold py-3 px-6 whitespace-nowrap">Nom</th>
                             <th class="font-semibold py-3 px-6 whitespace-nowrap">Description</th>
                             <th class="font-semibold py-3 px-6 whitespace-nowrap">Status</th>
@@ -85,10 +85,10 @@
                         </tr>
                     </thead>
                     <tbody class="text-sm">
-                        <tr class="group hover:bg-slate-50 transition-colors border-b border-slate-50"
+                        <tr class="group hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors border-b border-slate-50"
                             v-for="(role, index) in sortedRoles" :key="index">
-                            <td class="py-3 px-6 text-slate-600 text-xs">{{ role.name }}</td>
-                            <td class="py-3 px-6 text-slate-600 text-xs">{{ role.description }}</td>
+                            <td class="py-3 px-6 text-slate-600 dark:text-slate-400 text-xs">{{ role.name }}</td>
+                            <td class="py-3 px-6 text-slate-600 dark:text-slate-400 text-xs">{{ role.description }}</td>
                             <td class="py-3 px-6 whitespace-nowrap">
                                 <span
                                     :class="`capitalize inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-medium ${role.status === 'actif' ? 'bg-green-50 text-green-700 border border-green-100' : 'bg-red-50 text-red-700 border border-red-100'} `">
@@ -99,7 +99,7 @@
                             </td>
                             <td class="py-3 px-6 whitespace-nowrap">
                                 <span
-                                    :class="`inline-flex items-center gap-1.5 text-[10px] font-medium ${role.status === 'actif' ? ' text-green-700' : 'text-red-700'} `">
+                                    :class="`inline-flex items-center gap-1.5 text-[10px] font-medium ${role.status === 'actif' ? ' text-green-700' : 'text-red-700 dark:text-red-600'} `">
                                     <span
                                         :class="`w-1 h-1 rounded-full ${role.status === 'actif' ? 'bg-green-600' : 'bg-red-600'}`"></span>
                                     {{ formatLocalDate(role.deadline || '') }}
@@ -121,7 +121,7 @@
             </div>
 
             <div class="flex items-center justify-between p-4 border-t border-slate-100">
-                <span class="text-xs font-bold text-slate-500">{{ filteredRoles.length }} rôles</span>
+                <span class="text-xs font-bold text-slate-500 dark:text-slate-300">{{ filteredRoles.length }} rôles</span>
             </div>
         </div>
         <DashboardRoleDelete @close-delete-modal="closeDeleteModal" :role="role" :showDeleteModal="showDeleteModal"
