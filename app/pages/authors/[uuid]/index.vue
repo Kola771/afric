@@ -110,6 +110,24 @@
                     <p v-if="author.bibliography" v-html="author.bibliography"></p>
                     <p v-else class="text-slate-500 dark:text-slate-400">Aucune bibliographie de cet auteur disponible !
                     </p>
+                    <div class="mt-4 flex flex-col gap-2"
+                        v-if="author.whatsapp_link || author.facebook_link || author.other_link">
+                        <h4 class="font-bold text-slate-900 dark:text-white">
+                            Liens permettant de consulter les autres œuvres de cet auteur, même si elles ne sont pas
+                            publiées sur la plateforme :
+                        </h4>
+                        <ul class="flex flex-col gap-1 list-disc pl-4 text-xs">
+                            <li v-if="author.whatsapp_link">
+                                <a :href="author.whatsapp_link" target="_blank"
+                                    class="text-orange-600 dark:text-orange-500 hover:underline">{{ author.whatsapp_link }}</a>
+                            </li>
+                            <li v-if="author.facebook_link">
+                                <a :href="author.facebook_link" target="_blank"
+                                    class="text-orange-600 dark:text-orange-500 hover:underline">{{ author.facebook_link }}</a>
+                            </li v-if="author.other_link">
+                            <li><a :href="author.other_link" target="_blank" class="text-orange-600 dark:text-orange-500 hover:underline">{{ author.other_link }}</a></li>
+                        </ul>
+                    </div>
                 </div>
                 <!-- stories List -->
                 <div class="border-t border-slate-200 mt-6 pt-6">

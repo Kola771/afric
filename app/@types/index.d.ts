@@ -14,6 +14,9 @@ interface User {
   sanction_date: Date;
   selected?: boolean
   followers?: any
+  whatsapp_link?: string
+  facebook_link?: string
+  other_link?: string
   following?: any
   books?: any
   preferences?: Category[]
@@ -33,6 +36,9 @@ interface Author {
   created_at?: any
   role?: any
   sanction_date?: any
+  whatsapp_link?: string
+  facebook_link?: string
+  other_link?: string
   preference?: any
   followers?: any[]
   following?: any[]
