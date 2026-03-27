@@ -5,26 +5,26 @@
         <section
             class="relative min-h-[70vh] lg:min-h-[75vh] flex flex-col justify-center items-center text-center px-6 bg-gradient-to-br from-orange-100 to-white dark:from-slate-900 dark:to-slate-800">
             <!-- Background Image -->
-            <img class="absolute inset-0 h-full w-full object-cover opacity-90 md:opacity-80 mix-blend-overlay"
-                src="/assets/tree.jpg"
-                alt="African Pattern Background">
-            <h2 class="text-4xl md:text-6xl font-bold text-slate-900 dark:text-white mb-6">
-                Afric Storyline
-            </h2>
-            <p class="max-w-2xl text-lg md:text-xl text-slate-600 dark:text-slate-300 leading-relaxed">
-                L'Afrique a toujours raconté des histoires.
-                Aujourd’hui, ces histoires méritent d’être vues, entendues et célébrées à l’échelle du monde.
-            </p>
-
-            <div class="mt-8 flex flex-col md:flex-row gap-4">
-                <nuxt-link to="/stories"
-                    class="px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white rounded-lg transition">
-                    Explorer les histoires
-                </nuxt-link>
-                <nuxt-link to="/register" v-if="!user"
-                    class="px-6 py-3 border border-slate-300 dark:border-slate-600 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition">
-                    Rejoindre la communauté
-                </nuxt-link>
+            <img class="absolute z-0 inset-0 h-full w-full object-cover opacity-90 md:opacity-80 mix-blend-overlay"
+                src="/assets/tree.jpg" alt="African Pattern Background">
+            <div class="z-10 flex flex-col justify-center items-center text-center">
+                <h2 class="text-4xl md:text-6xl font-bold text-slate-900 dark:text-white mb-6">
+                    Afric Storyline
+                </h2>
+                <p class="max-w-2xl text-lg md:text-xl text-slate-600 dark:text-slate-300 leading-relaxed">
+                    L'Afrique a toujours raconté des histoires.
+                    Aujourd’hui, ces histoires méritent d’être vues, entendues et célébrées à l’échelle du monde.
+                </p>
+                <div class="mt-8 flex flex-col md:flex-row gap-4">
+                    <nuxt-link to="/stories"
+                        class="px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white rounded-lg transition">
+                        Explorer les histoires
+                    </nuxt-link>
+                    <nuxt-link to="/register" v-if="!user"
+                        class="px-6 py-3 border border-slate-300 dark:border-slate-600 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition">
+                        Rejoindre la communauté
+                    </nuxt-link>
+                </div>
             </div>
         </section>
 
