@@ -17,8 +17,10 @@
                     </div>
                 </div>
 
-                <div class="flex flex-col gap-2 bg-white border-slate-300 border-[1px] dark:bg-slate-800 p-4 lg:p-6 rounded-lg">
-                    <h4 class="text-sm font-medium text-slate-700 dark:text-slate-200">Merci de respecter les points suivants :</h4>
+                <div
+                    class="flex flex-col gap-2 bg-white border-slate-300 border-[1px] dark:bg-slate-800 p-4 lg:p-6 rounded-lg">
+                    <h4 class="text-sm font-medium text-slate-700 dark:text-slate-200">Merci de respecter les points
+                        suivants :</h4>
                     <ul class="text-sm text-slate-500 dark:text-slate-200 mt-2 list-disc pl-5 space-y-1">
                         <li>Sélectionnez avec soin la ou les catégories correspondantes à votre ouvrage.</li>
                         <li>Si vous partagez une histoire réelle du continent africain, assurez-vous de l’exactitude des
@@ -56,6 +58,15 @@
                     <textarea name="description" id="description" placeholder="Description" v-model="description"
                         required
                         class="w-full flex-shrink-0 h-24 lg:h-28 xl:h-32 resize-none text-sm placeholder:text-slate-500 text-slate-800 outline-none border border-slate-300 dark:border-slate-200 dark:bg-slate-50 rounded-md p-2 dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200"></textarea>
+                    <div class="flex justify-between text-xs mt-1">
+                        <span :class="isDescriptionValid ? 'text-green-500 dark:text-green-400' : 'text-red-500 dark:text-red-400'">
+                            {{ descriptionLength }} / {{ minDescriptionLength }} caractères
+                        </span>
+
+                        <span v-if="!isDescriptionValid" class="text-red-500 dark:text-red-400">
+                            Minimum 150 caractères requis
+                        </span>
+                    </div>
                 </div>
                 <div>
                     <label class="block text-sm font-medium leading-6 text-slate-900 dark:text-white mb-1">
@@ -94,7 +105,7 @@
                 <div v-if="message" class="text-xs text-center font-medium text-green-500 mt-2">{{ message }}</div>
 
                 <div class="mt-2 flex flex-col md:flex-row md:justify-end">
-                    <button :disabled="loading"
+                    <button :disabled="loading || !isDescriptionValid" :class="loading || !isDescriptionValid ? 'cursor-not-allowed' : 'cursor-pointer'"
                         class="px-4 lg:px-8 py-2.5 bg-orange-600 dark:bg-orange-500 dark:hover:bg-orange-600 text-white text-sm rounded-md hover:bg-orange-700 transition-colors">Valider</button>
                 </div>
             </form>
@@ -118,8 +129,17 @@ const message = ref<string | null | undefined>(null);
 const image = ref<any>(null)
 const loading = ref(false);
 const router = useRouter();
-
 const preview = ref<any>(null)
+
+const minDescriptionLength = 150
+
+const descriptionLength = computed(() => {
+    return description.value.trim().length
+})
+
+const isDescriptionValid = computed(() => {
+    return descriptionLength.value >= minDescriptionLength
+})
 
 const onFileChange = (event: any) => {
     const target = event.target as HTMLInputElement
@@ -139,6 +159,10 @@ const createBook = async () => {
     loading.value = true; // ✅ désactivation début
     try {
         if (title.value.trim() !== "" && image.value && description.value.trim() !== "" && rating_age.value.trim() !== "" && selectedCategories.value.length > 0) {
+            if (!isDescriptionValid.value) {
+                error.value = "La description doit contenir au moins 150 caractères"
+                return
+            }
             const existing = await existingData({ title: title.value });
             if (!existing.success) {
                 error.value = existing.error;
@@ -147,7 +171,7 @@ const createBook = async () => {
                 const formData = new FormData()
                 formData.append('title', title.value)
                 formData.append('rating_age', rating_age.value)
-                formData.append('description', description.value.replace(/\n/g, '<br>'))
+                formData.append('description', description.value.replaceAll(/\n/g, '<br>'))
                 formData.append('id_user', `${user.value?.id}`)
                 formData.append('image', image.value)
                 selectedCategories.value.forEach((cat: any) => {
@@ -179,8 +203,8 @@ onMounted(async () => {
     profil.value = await getProfile();
     if (!user.value) {
         router.push("/login");
-    } 
-    if((user.value && profil.value) && authorizeRoleUser(`${profil.value.role.toLocaleLowerCase()}`)) {
+    }
+    if ((user.value && profil.value) && authorizeRoleUser(`${profil.value.role.toLocaleLowerCase()}`)) {
         useSeoMeta({
             title: `Ajout d'un livre`,
         });

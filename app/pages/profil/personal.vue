@@ -157,7 +157,7 @@ const changeData = async () => {
         const payload = {
             name: name.value,
             pseudonym: pseudonym.value,
-            bibliography: bibliography.value.trim().replace('\n', '<br />'),
+            bibliography: bibliography.value.trim().replaceAll('\n', '<br />'),
             email: email.value,
             code_color: code_color.value,
             country: country.value,
@@ -196,7 +196,7 @@ onMounted(async () => {
         facebook.value = user.value?.facebook_link || '';
         other.value = user.value?.other_link || '';
         pseudonym.value = user.value.pseudonym;
-        bibliography.value = user.value.bibliography.replace('<br />', '\n');
+        bibliography.value = user.value.bibliography.replaceAll('<br />', '\n');
         email.value = user.value.email;
         code_color.value = user.value.code_color;
         country.value = user.value.id_country;

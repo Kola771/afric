@@ -38,77 +38,117 @@
 
                     <!-- Interactions -->
                     <div
-                        class="mt-16 pt-8 border-t border-slate-200 text-slate-500 dark:text-slate-200 flex flex-col">
-                        <div class="flex items-center gap-4">
-                            <div class="">
-                                <div class="relative" ref="reactionWrapper" @mouseenter="handleMouseEnter"
-                                    @mouseleave="handleMouseLeave">
-                                    <button @click="toggleLike" @touchstart="startPress" @touchend="cancelPress"
-                                        @touchmove="cancelPress"
-                                        :class="`${(reactionUser && !selectedReaction)
-                                            ? reactionUser.color
-                                            : (selectedReaction ? selectedReaction.color : '')
-                                            } transition-colors flex items-center justify-center gap-2 !bg-transparent`">
-                                        <!-- class="flex items-center gap-2 hover:text-red-500 transition-colors group" -->
-                                        <span v-if="reactionUser && !selectedReaction && reactionUser?.emoji"
-                                            class="animate-pulse">
-                                            {{ reactionUser?.emoji }}
-                                        </span>
-                                        <span v-else-if="selectedReaction?.emoji" :class="selectedReaction.animation">
-                                            {{ selectedReaction?.emoji }}
-                                        </span>
-                                        <Icon v-else name="mdi:heart" class="w-5 h-5" />
-                                        <span class="text-sm font-medium">{{ formatNumber(counterReaction) }}
-                                            {{ (reactionUser && !selectedReaction) ? reactionUser.label :
-                                                (selectedReaction
-                                                    ? selectedReaction.label : 'J’aime') }}</span>
-                                    </button>
-                                    <!-- Popover -->
-                                    <transition name="fade">
-                                        <div v-if="showReactions"
-                                            class="absolute bottom-full mb-3 left-1/2 -translate-x-1/2 bg-white dark:bg-slate-900 dark:border-slate-300 shadow-xl border border-slate-200 rounded-xl px-3 py-2 flex flex-wrap w-[200px] gap-3 items-center justify-center z-50">
-                                            <!-- Triangle -->
-                                            <div
-                                                class="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-[8px] border-l-transparent border-r-[8px] border-r-transparent border-t-[8px] border-t-white">
+                        class="mt-16 pt-8 border-t border-slate-200 text-slate-500 dark:text-slate-200 flex flex-col gap-2">
+                        <div class="mb-2 text-sm">Si vous avez aimez, laissez une appréciation ou un commentaire !</div>
+                        <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center">
+                            <div class="flex items-center gap-4">
+                                <div class="">
+                                    <div class="relative" ref="reactionWrapper" @mouseenter="handleMouseEnter"
+                                        @mouseleave="handleMouseLeave">
+                                        <button @click="toggleLike" @touchstart="startPress" @touchend="cancelPress"
+                                            @touchmove="cancelPress"
+                                            :class="`${(reactionUser && !selectedReaction)
+                                                ? reactionUser.color
+                                                : (selectedReaction ? selectedReaction.color : '')
+                                                } transition-colors flex items-center justify-center gap-2 !bg-transparent`">
+                                            <!-- class="flex items-center gap-2 hover:text-red-500 transition-colors group" -->
+                                            <span v-if="reactionUser && !selectedReaction && reactionUser?.emoji"
+                                                class="animate-pulse">
+                                                {{ reactionUser?.emoji }}
+                                            </span>
+                                            <span v-else-if="selectedReaction?.emoji"
+                                                :class="selectedReaction.animation">
+                                                {{ selectedReaction?.emoji }}
+                                            </span>
+                                            <Icon v-else name="mdi:heart" class="w-5 h-5" />
+                                            <span class="text-sm font-medium">{{ formatNumber(counterReaction) }}
+                                                {{ (reactionUser && !selectedReaction) ? reactionUser.label :
+                                                    (selectedReaction
+                                                        ? selectedReaction.label : 'J’aime') }}</span>
+                                        </button>
+                                        <!-- Popover -->
+                                        <transition name="fade">
+                                            <div v-if="showReactions"
+                                                class="absolute bottom-full mb-3 left-1/2 -translate-x-1/2 bg-white dark:bg-slate-900 dark:border-slate-300 shadow-xl border border-slate-200 rounded-xl px-3 py-2 flex flex-wrap w-[200px] gap-3 items-center justify-center z-50">
+                                                <!-- Triangle -->
+                                                <div
+                                                    class="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-[8px] border-l-transparent border-r-[8px] border-r-transparent border-t-[8px] border-t-white">
+                                                </div>
+                                                <button v-for="reaction in reactions" :key="reaction.id"
+                                                    @click="selectReaction(reaction)"
+                                                    :class="`${reaction.animation} hover:scale-125 flex-shrink-0 w-8 h-8 hover:-translate-y-1 transition-all duration-200 ${(reactionUser && reactionUser.emoji === reaction.emoji) ? 'border-orange-600 p-1.5 bg-slate-50 dark:bg-slate-300 border-[1px] rounded-full text-sm flex items-center justify-center' : 'text-xl'}`">
+                                                    {{ reaction.emoji }}
+                                                </button>
                                             </div>
-                                            <button v-for="reaction in reactions" :key="reaction.id"
-                                                @click="selectReaction(reaction)"
-                                                :class="`${reaction.animation} hover:scale-125 flex-shrink-0 w-8 h-8 hover:-translate-y-1 transition-all duration-200 ${(reactionUser && reactionUser.emoji === reaction.emoji) ? 'border-orange-600 p-1.5 bg-slate-50 dark:bg-slate-300 border-[1px] rounded-full text-sm flex items-center justify-center' : 'text-xl'}`">
-                                                {{ reaction.emoji }}
-                                            </button>
-                                        </div>
-                                    </transition>
+                                        </transition>
+                                    </div>
                                 </div>
+                                <button class="flex items-center gap-2 hover:text-blue-600 transition-colors">
+                                    <Icon name="mdi:eye" class="w-5 h-5" />
+                                    <span class="text-sm font-medium">{{ formatNumber(chapter.chapter_reads.length || 0)
+                                        }}
+                                        Vue{{ chapter.chapter_reactions.length > 1 ? 's' : '' }}</span>
+                                </button>
+                                <button class="flex items-center gap-2 hover:text-blue-600 transition-colors"
+                                    @click="openStats('comments')">
+                                    <Icon name="mdi:message-text-outline" class="w-5 h-5" />
+                                    <span class="text-sm font-medium">{{ formatNumber(chapter.chapter_comments) }}
+                                        Com.</span>
+                                </button>
                             </div>
-                            <button class="flex items-center gap-2 hover:text-blue-600 transition-colors">
-                                <Icon name="mdi:eye" class="w-5 h-5" />
-                                <span class="text-sm font-medium">{{ formatNumber(chapter.chapter_reads.length || 0) }}
-                                    Vue{{chapter.chapter_reactions.length > 1 ? 's' : '' }}</span>
-                            </button>
-                            <button class="flex items-center gap-2 hover:text-blue-600 transition-colors"
-                                @click="openStats('comments')">
-                                <Icon name="mdi:message-text-outline" class="w-5 h-5" />
-                                <span class="text-sm font-medium">{{ formatNumber(chapter.chapter_comments) }}
-                                    Com.</span>
-                            </button>
+                            <div class="text-sm text-slate-500 dark:text-slate-200 mt-2 lg:mt-0 cursor-pointer hover:underline"
+                                @click="openStats('likes')">
+                                <p v-if="!reactionUser">
+                                    {{ reactionsState.list.length > 0
+                                        ? `${reactionsState.list[0].emoji} ${formatNumber(chapter.chapter_reactions)}
+                                    personne${chapter.chapter_reactions > 1 ? 's ont' : ' a'} réagi à ce chapitre`
+                                        : ''
+                                    }}
+                                </p>
+                                <p v-else>
+                                    {{ reactionsState.list.length > 1
+                                        ? `${reactionUser.emoji} vous et ${formatNumber(chapter.chapter_reactions - 1)}
+                                    autre${chapter.chapter_reactions - 1 > 1 ? 's' : ''}
+                                    personne${chapter.chapter_reactions
+                                            > 2
+                                            ? 's' : ''} avez réagi à ce chapitre`
+                                        : `${reactionUser.emoji} vous avez réagi à ce chapitre`
+                                    }}
+                                </p>
+                            </div>
                         </div>
-                        <div class="text-xs text-slate-500 dark:text-slate-200 md:text-center mt-2 cursor-pointer hover:underline"
-                            @click="openStats('likes')">
-                            <p v-if="!reactionUser">
-                                {{ reactionsState.list.length > 0
-                                    ? `${reactionsState.list[0].emoji} ${formatNumber(chapter.chapter_reactions)}
-                                personne${chapter.chapter_reactions > 1 ? 's ont' : ' a'} réagi à ce chapitre`
-                                    : ''
-                                }}
-                            </p>
-                            <p v-else>
-                                {{ reactionsState.list.length > 1
-                                    ? `${reactionUser.emoji} vous et ${formatNumber(chapter.chapter_reactions - 1)}
-                                autre${chapter.chapter_reactions - 1 > 1 ? 's' : ''} personne${chapter.chapter_reactions > 2
-                                        ? 's' : ''} avez réagi à ce chapitre`
-                                    : `${reactionUser.emoji} vous avez réagi à ce chapitre`
-                                }}
-                            </p>
+
+                        <div class="mt-2 text-sm text-slate-500 dark:text-slate-200 flex flex-col gap-2">
+                            <div>
+                                <h4>Abonnez-vous dès maintenant pour ne manquer aucun nouveau chapitre et soutenir
+                                    directement l’auteur !</h4>
+                                <p>Rejoignez sa communauté et soyez parmi les premiers à découvrir ses prochaines
+                                    histoires captivantes.</p>
+                            </div>
+                            <div class="bg-slate-50 dark:bg-slate-800 p-2.5 rounded-lg flex justify-between items-center">
+                                <!-- Author -->
+                                <nuxt-link :to="`/authors/${book.user.uuid}`" class="group flex items-center gap-1">
+                                    <img v-if="book.user.photo"
+                                        :src="`${config.public.apiBackendUrl}/uploads/users/${book.user.photo}`"
+                                        alt="Profil" class="w-8 h-8 rounded-full" />
+                                    <span v-else
+                                        class="p-1 text-[8px] font-bold flex items-center justify-center text-slate-900 w-8 h-8 rounded-full"
+                                        :style="`background-color: ${book.user.code_color}`">
+                                        {{ book.user?.name.split(" ").length > 1 ?
+                                            `${book.user?.name.charAt(0).toUpperCase() +
+                                            book.user?.name.split(" ")[1]?.charAt(0).toUpperCase()}` :
+                                            book.user?.name.charAt(0).toUpperCase() }}
+                                    </span>
+                                    <p class="text-slate-900 text-sm font-medium dark:text-white flex hover:underline truncate">
+                                        {{ book.user.name }}
+                                    </p>
+                                </nuxt-link>
+                                
+                                <nuxt-link :to="`/authors/${book.user.uuid}`"
+                                    class="flex-shrink-0 text-sm bg-orange-700 hover:bg-orange-800 text-white px-4 py-1.5 rounded">
+                                    Voir le compte
+                                </nuxt-link>
+                            </div>
                         </div>
                     </div>
 
@@ -249,7 +289,7 @@
                         <!-- REPLY FORM -->
                         <div v-if="replyFormId === commentItem.id" class="flex items-end gap-2 ml-11 mt-2 text-xs">
                             <textarea v-model="replyContent" id="replyInput" @input="autoResizeReply" rows="1" autofocus
-                                class="w-full border border-slate-200 rounded-lg p-2 resize-none outline-none"
+                                class="w-full border border-slate-200 dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 rounded-lg p-2 resize-none outline-none"
                                 :placeholder="`Répondre en tant que ${user?.name}`"></textarea>
 
                             <button @click="submitComment(commentItem.id)"
@@ -334,7 +374,7 @@
                         </div>
 
                         <textarea ref="textarea" v-model="comment" @input="autoResize" rows="1"
-                            class="flex-1 border border-slate-200 rounded-xl px-4 py-2 resize-none outline-none"
+                            class="flex-1 border border-slate-200 dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 rounded-xl px-4 py-2 resize-none outline-none"
                             :placeholder="`Commenter en tant que ${user?.name}`"></textarea>
 
                         <button v-if="!commentUuid && comment.trim().length > 0" @click="submitComment()"
@@ -471,7 +511,7 @@ const router = useRouter();
 const { getBookByUuid } = booksData();
 const { getChapterByUuid } = chaptersData();
 const { saveRead } = useChapterReads();
-const { toConnectUser } = authenticate();
+const { getProfile } = usersData();
 const { getCommentsByChapter, getReplies, createComment, updateComment, deleteComment } = useChapterComments();
 const { getReactionsByChapter, createReaction, createDefaultReaction, findByUserIdAndChapterId } = useChapterReactions();
 const config = useRuntimeConfig();
@@ -994,7 +1034,7 @@ onMounted(async () => {
 
     window.scrollTo({ top: 0 })
 
-    user.value = await toConnectUser()
+    user.value = await getProfile()
 
     book.value = await getBookByUuid(`${route.params.uuid}`);
 

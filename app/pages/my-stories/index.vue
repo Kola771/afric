@@ -58,7 +58,7 @@
                                     ? 'solar:arrow-up-linear'
                                     : 'solar:arrow-down-linear'
                                 : 'solar:sort-vertical-linear'
-                                " class="w-5 h-5" />
+                                " class="w-5 h-5 dark:text-slate-200" />
                             <span class="text-xs font-medium hidden sm:inline">Trier</span>
                         </button>
                     </div>
@@ -251,7 +251,7 @@
                         <!-- REPLY FORM -->
                         <div v-if="replyFormId === commentItem.id" class="flex items-end gap-2 ml-11 mt-2 text-xs">
                             <textarea v-model="replyContent" id="replyInput" @input="autoResizeReply" rows="1" autofocus
-                                class="w-full border border-slate-200 rounded-lg p-2 resize-none outline-none"
+                                class="w-full border border-slate-200 dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 rounded-lg p-2 resize-none outline-none"
                                 :placeholder="`Répondre en tant que ${user?.name}`"></textarea>
 
                             <button @click="submitComment(commentItem.id)"
@@ -336,7 +336,7 @@
                         </div>
 
                         <textarea ref="textarea" v-model="comment" @input="autoResize" rows="1"
-                            class="flex-1 border border-slate-200 rounded-xl px-4 py-2 resize-none outline-none"
+                            class="flex-1 border border-slate-200 dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 rounded-xl px-4 py-2 resize-none outline-none"
                             :placeholder="`Commenter en tant que ${user?.name}`"></textarea>
 
                         <button v-if="!commentUuid && comment.trim().length > 0" @click="submitComment()"

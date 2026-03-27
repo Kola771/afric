@@ -11,7 +11,7 @@
             </div>
             <div class="flex gap-3">
                 <button @click="exportUsers"
-                    class="h-9 px-4 rounded-lg bg-white dark:bg-slate-100 border border-slate-200 text-xs font-medium text-slate-700 hover:bg-slate-50 shadow-sm transition-colors flex items-center gap-2">
+                    class="h-9 dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 px-4 rounded-lg bg-white border border-slate-200 text-xs font-medium text-slate-700 hover:bg-slate-50 shadow-sm transition-colors flex items-center gap-2">
                     <Icon name="solar:export-linear" class="w-5 h-5" />
                     Exporter
                 </button>
@@ -20,76 +20,76 @@
 
         <!-- Stats Grid -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-            <div class="bg-white dark:bg-slate-100 p-4 rounded-xl border border-slate-200 shadow-sm">
-                <p class="text-xs font-medium text-slate-500 mb-1">Total Utilisateurs</p>
+            <div class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-4 rounded-xl border border-slate-200 shadow-sm">
+                <p class="text-xs font-medium text-slate-500 dark:text-slate-300 mb-1">Total Utilisateurs</p>
                 <div class="flex items-end justify-between">
-                    <p class="text-2xl font-display font-bold text-slate-900">{{ formatNumber(countAllUsers) }}</p>
+                    <p class="text-2xl font-display font-bold text-slate-900 dark:text-slate-200">{{ formatNumber(countAllUsers) }}</p>
                     <Icon name="solar:users-group-two-rounded-linear" class="text-slate-300" width="24" />
                 </div>
             </div>
-            <div class="bg-white dark:bg-slate-100 p-4 rounded-xl border border-slate-200 shadow-sm">
-                <p class="text-xs font-medium text-slate-500 mb-1">Total Utilisateurs super-admins</p>
+            <div class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-4 rounded-xl border border-slate-200 shadow-sm">
+                <p class="text-xs font-medium text-slate-500 dark:text-slate-300 mb-1">Total Utilisateurs super-admins</p>
                 <div class="flex items-end justify-between">
-                    <p class="text-2xl font-display font-bold text-slate-900">{{ formatNumber(countAllSuperAdmins) }}
+                    <p class="text-2xl font-display font-bold text-slate-900 dark:text-slate-200">{{ formatNumber(countAllSuperAdmins) }}
                     </p>
                     <Icon name="solar:crown-bold" class="text-slate-300" width="24" />
                 </div>
             </div>
-            <div class="bg-white dark:bg-slate-100 p-4 rounded-xl border border-slate-200 shadow-sm">
-                <p class="text-xs font-medium text-slate-500 mb-1">Total Utilisateurs admins</p>
+            <div class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-4 rounded-xl border border-slate-200 shadow-sm">
+                <p class="text-xs font-medium text-slate-500 dark:text-slate-300 mb-1">Total Utilisateurs admins</p>
                 <div class="flex items-end justify-between">
-                    <p class="text-2xl font-display font-bold text-slate-900">{{ formatNumber(countAllAdmins) }}</p>
+                    <p class="text-2xl font-display font-bold text-slate-900 dark:text-slate-200">{{ formatNumber(countAllAdmins) }}</p>
                     <Icon name="mdi:account-key" class="text-slate-300" width="24" />
                 </div>
             </div>
-            <div class="bg-white dark:bg-slate-100 p-4 rounded-xl border border-slate-200 shadow-sm">
-                <p class="text-xs font-medium text-slate-500 mb-1">Total Utilisateurs support</p>
+            <div class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-4 rounded-xl border border-slate-200 shadow-sm">
+                <p class="text-xs font-medium text-slate-500 dark:text-slate-300 mb-1">Total Utilisateurs support</p>
                 <div class="flex items-end justify-between">
-                    <p class="text-2xl font-display font-bold text-slate-900">{{ formatNumber(countAllSupports) }}</p>
+                    <p class="text-2xl font-display font-bold text-slate-900 dark:text-slate-200">{{ formatNumber(countAllSupports) }}</p>
                     <span class="w-2 h-2 rounded-full bg-orange-600 animate-pulse"></span>
                 </div>
             </div>
-            <div class="bg-white dark:bg-slate-100 p-4 rounded-xl border border-slate-200 shadow-sm">
-                <p class="text-xs font-medium text-slate-500 mb-1">Total Utilisateurs auteurs</p>
+            <div class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-4 rounded-xl border border-slate-200 shadow-sm">
+                <p class="text-xs font-medium text-slate-500 dark:text-slate-300 mb-1">Total Utilisateurs auteurs</p>
                 <div class="flex items-end justify-between">
-                    <p class="text-2xl font-display font-bold text-slate-900">{{ formatNumber(countAllAuthors) }}</p>
+                    <p class="text-2xl font-display font-bold text-slate-900 dark:text-slate-200">{{ formatNumber(countAllAuthors) }}</p>
                     <span class="w-2 h-2 rounded-full bg-green-600 animate-pulse"></span>
                 </div>
             </div>
-            <div class="bg-white dark:bg-slate-100 p-4 rounded-xl border border-slate-200 shadow-sm">
-                <p class="text-xs font-medium text-slate-500 mb-1">Total Utilisateurs lecteurs</p>
+            <div class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-4 rounded-xl border border-slate-200 shadow-sm">
+                <p class="text-xs font-medium text-slate-500 dark:text-slate-300 mb-1">Total Utilisateurs lecteurs</p>
                 <div class="flex items-end justify-between">
-                    <p class="text-2xl font-display font-bold text-slate-900">{{ formatNumber(countAllReaders) }}</p>
+                    <p class="text-2xl font-display font-bold text-slate-900 dark:text-slate-200">{{ formatNumber(countAllReaders) }}</p>
                     <span class="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
                 </div>
             </div>
-            <div class="bg-white dark:bg-slate-100 p-4 rounded-xl border border-slate-200 shadow-sm">
-                <p class="text-xs font-medium text-slate-500 mb-1">Total Utilisateurs actifs</p>
+            <div class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-4 rounded-xl border border-slate-200 shadow-sm">
+                <p class="text-xs font-medium text-slate-500 dark:text-slate-300 mb-1">Total Utilisateurs actifs</p>
                 <div class="flex items-end justify-between">
-                    <p class="text-2xl font-display font-bold text-slate-900">{{ formatNumber(countAllUsersActifs) }}
+                    <p class="text-2xl font-display font-bold text-slate-900 dark:text-slate-200">{{ formatNumber(countAllUsersActifs) }}
                     </p>
                     <span class="w-2 h-2 rounded-full bg-purple-600 animate-pulse"></span>
                 </div>
             </div>
-            <div class="bg-white dark:bg-slate-100 p-4 rounded-xl border border-slate-200 shadow-sm">
-                <p class="text-xs font-medium text-slate-500 mb-1">Total Utilisateurs inactifs</p>
+            <div class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-4 rounded-xl border border-slate-200 shadow-sm">
+                <p class="text-xs font-medium text-slate-500 dark:text-slate-300 mb-1">Total Utilisateurs inactifs</p>
                 <div class="flex items-end justify-between">
-                    <p class="text-2xl font-display font-bold text-slate-900">{{ formatNumber(countAllUsersInactifs) }}
+                    <p class="text-2xl font-display font-bold text-slate-900 dark:text-slate-200">{{ formatNumber(countAllUsersInactifs) }}
                     </p>
                     <span class="w-2 h-2 rounded-full bg-pink-600 animate-pulse"></span>
                 </div>
             </div>
-            <div class="bg-white dark:bg-slate-100 p-4 rounded-xl border border-slate-200 shadow-sm">
-                <p class="text-xs font-medium text-slate-500 mb-1">Total Utilisateurs suspendus</p>
+            <div class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-4 rounded-xl border border-slate-200 shadow-sm">
+                <p class="text-xs font-medium text-slate-500 dark:text-slate-300 mb-1">Total Utilisateurs suspendus</p>
                 <div class="flex items-end justify-between">
-                    <p class="text-2xl font-display font-bold text-slate-900">{{ formatNumber(countAllSuspended) }}</p>
+                    <p class="text-2xl font-display font-bold text-slate-900 dark:text-slate-200">{{ formatNumber(countAllSuspended) }}</p>
                     <span class="w-2 h-2 rounded-full bg-amber-600 animate-pulse"></span>
                 </div>
             </div>
-            <div class="bg-white dark:bg-slate-100 p-4 rounded-xl border border-slate-200 shadow-sm">
-                <p class="text-xs font-medium text-slate-500 mb-1">Total Utilisateurs bannis</p>
+            <div class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-4 rounded-xl border border-slate-200 shadow-sm">
+                <p class="text-xs font-medium text-slate-500 dark:text-slate-300 mb-1">Total Utilisateurs bannis</p>
                 <div class="flex items-end justify-between">
-                    <p class="text-2xl font-display font-bold text-slate-900">{{ formatNumber(countAllUsersBanned) }}
+                    <p class="text-2xl font-display font-bold text-slate-900 dark:text-slate-200">{{ formatNumber(countAllUsersBanned) }}
                     </p>
                     <span class="w-2 h-2 rounded-full bg-slate-600 animate-pulse"></span>
                 </div>
@@ -98,7 +98,7 @@
 
         <!-- Filters & Toolbar -->
         <div
-            class="flex flex-col md:flex-row gap-4 justify-between items-start md:items-center bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
+            class="flex flex-col md:flex-row gap-4 justify-between items-start md:items-center bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-3 rounded-xl border border-slate-200 shadow-sm">
             <!-- Tabs -->
             <div class="flex bg-slate-100 p-1 rounded-lg overflow-x-auto max-w-full custom">
                 <button v-for="filter in filters" :key="filter.value" @click="activeFilter = filter.value" :class="activeFilter === filter.value
@@ -117,10 +117,10 @@
                     <Icon name="solar:magnifer-linear"
                         class="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />
                     <input type="search" placeholder="Rechercher un utilisateur..." v-model="search"
-                        class="h-8 pl-8 pr-3 w-full sm:w-48 rounded-lg bg-slate-50 border border-slate-200 text-xs focus:outline-none focus:ring-1 focus:ring-slate-300 transition-colors">
+                        class="dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 h-8 pl-8 pr-3 w-full sm:w-48 rounded-lg bg-slate-50 border border-slate-200 text-xs focus:outline-none focus:ring-1 focus:ring-slate-300 transition-colors">
                 </div>
                 <button @click="sortAsc = !sortAsc"
-                    class="h-8 px-3 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 flex items-center gap-2 transition-colors">
+                    class="h-8 px-3 rounded-lg border border-slate-200 text-slate-600 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 flex items-center gap-2 transition-colors">
                     <Icon name="solar:sort-vertical-linear" class="w-5 h-5" />
                     <span class="text-xs font-medium hidden sm:inline">
                         Trier {{ sortAsc ? "A-Z" : "" }}
@@ -130,11 +130,11 @@
         </div>
 
         <!-- Authors Table -->
-        <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 rounded-xl border border-slate-200 shadow-sm overflow-hidden">
             <div class="overflow-x-auto custom">
                 <table class="w-full text-left border-collapse">
                     <thead>
-                        <tr class="text-xs text-slate-500 dark:text-slate-700 border-b border-slate-100 bg-slate-50/50">
+                        <tr class="text-xs text-slate-500 dark:text-slate-300 border-b border-slate-100 bg-slate-50/50 dark:bg-slate-800">
                             <th class="font-medium py-3 px-6 whitespace-nowrap">Utilisateurs</th>
                             <th class="font-medium py-3 px-6 whitespace-nowrap">Adresse électronique</th>
                             <th class="font-medium py-3 px-6 whitespace-nowrap">Origine</th>
@@ -163,8 +163,8 @@
                     </tbody>
 
                     <tbody v-if="!loading && filteredUsers.length !== 0" class="text-xs">
-                        <tr class="group hover:bg-slate-50 transition-colors"
-                            :class="u.role === 'super-admin' ? 'bg-slate-100' : ''" v-for="(u, index) in filteredUsers"
+                        <tr class="group hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+                            :class="u.role === 'super-admin' ? 'bg-slate-100 dark:bg-slate-800' : ''" v-for="(u, index) in filteredUsers"
                             :key="index">
                             <td class="py-3 px-6 whitespace-nowrap">
                                 <div class="flex items-center gap-3">
@@ -185,18 +185,18 @@
                                     </div>
                                     <div>
                                         <p
-                                            class="font-medium text-slate-900 group-hover:text-orange-600 transition-colors">
+                                            class="font-medium text-slate-900 dark:text-slate-200 group-hover:text-orange-600 transition-colors">
                                             {{ u.name }}</p>
-                                        <p class="text-xs text-slate-400">{{ u.pseudonym }}</p>
+                                        <p class="text-xs text-slate-400 dark:text-slate-300">{{ u.pseudonym }}</p>
                                     </div>
                                 </div>
                             </td>
                             <td class="py-3 px-6 whitespace-nowrap">
-                                <span class="text-xs font-medium text-slate-600">{{ u.email?.trim() ?? "---"
+                                <span class="text-xs font-medium text-slate-600 dark:text-slate-200">{{ u.email?.trim() ?? "---"
                                 }}</span>
                             </td>
                             <td class="py-3 px-6 whitespace-nowrap">
-                                <span class="text-xs font-medium text-slate-600">{{ u.country }}</span>
+                                <span class="text-xs font-medium text-slate-600 dark:text-slate-200">{{ u.country }}</span>
                             </td>
                             <td class="py-3 px-6 whitespace-nowrap capitalize" :class="u.status !== 'actif' ? 'text-red-600 font-medium' : ''">
                                 {{ u.status }}
@@ -243,15 +243,15 @@
 
             <!-- Pagination -->
             <div class="flex items-center justify-between p-4 border-t border-slate-100">
-                <span class="text-xs text-slate-500">Page <span class="font-medium text-slate-900">{{ page }} / {{ total
+                <span class="text-xs text-slate-500 dark:text-slate-300">Page <span class="font-medium text-slate-900 dark:text-slate-200">{{ page }} / {{ total
                         }}</span> - {{ filteredUsers.length }} données</span>
                 <div class="flex gap-2">
                     <button @click="prevPage" :disabled="page === 1"
-                        class="px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-medium text-slate-500 hover:bg-slate-50 disabled:opacity-50">
+                        class="px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-medium text-slate-500 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50">
                         Précédent
                     </button>
                     <button @click="nextPage" :disabled="page === total"
-                        class="px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-medium text-slate-900 hover:bg-slate-50 disabled:opacity-50">
+                        class="px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-medium text-slate-900 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50">
                         Suivant
                     </button>
                 </div>

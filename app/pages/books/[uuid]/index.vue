@@ -128,8 +128,7 @@
                                 <nuxt-link :to="`/authors/${book.user.uuid}`" class="group flex items-center gap-1">
                                     <img v-if="book.user.photo"
                                         :src="`${config.public.apiBackendUrl}/uploads/users/${book.user.photo}`"
-                                        alt="Profil"
-                                        class="w-6 h-6 rounded-full" />
+                                        alt="Profil" class="w-6 h-6 rounded-full" />
                                     <span v-else
                                         class="p-1 text-[8px] font-bold flex items-center justify-center text-slate-900 w-6 h-6 rounded-full"
                                         :style="`background-color: ${book.user.code_color}`">
@@ -159,8 +158,15 @@
                         </div>
 
                         <!-- Description -->
-                        <div class="prose prose-slate prose-sm max-w-none text-slate-600 dark:text-slate-200">
+                        <div class="prose prose-slate prose-sm max-w-none text-slate-600 dark:text-slate-200 flex flex-col gap-4">
                             <p v-html="book.description"></p>
+                            <div class="flex lg:justify-start text-sm">
+                                <button @click="shareLink"
+                                    class="w-full lg:w-auto lg:px-8 lg:py-2 bg-white border border-slate-200 text-slate-700 py-3 rounded-xl font-medium hover:bg-slate-50 dark:hover:bg-orange-50 dark:hover:border-orange-100/50 dark:hover:text-orange-800 transition-colors flex items-center justify-center gap-2">
+                                    <Icon name="mdi:share-variant" class="w-5 h-5 lg:w-4 lg:h-4" />
+                                    Partager le lien
+                                </button>
+                            </div>
                         </div>
 
                         <!-- Chapters List -->
@@ -196,8 +202,10 @@
                                                 <p class="text-xs text-slate-400 dark:text-slate-200">
                                                     il y a {{ formatRelativeDate(chapter.updated_at) }}, Lu par {{
                                                         formatNumber(chapter.chapter_reads.length) }} personne{{
-                                                        chapter.chapter_reads.length > 1 ? 's' : '' }}, {{ formatNumber(chapter.chapter_reactions.length) }} réaction{{
-                                                        chapter.chapter_reactions.length > 1 ? 's' : '' }}, {{ formatNumber(chapter.chapter_comments.length) }} commentaire{{
+                                                        chapter.chapter_reads.length > 1 ? 's' : '' }}, {{
+                                                    formatNumber(chapter.chapter_reactions.length) }} réaction{{
+                                                        chapter.chapter_reactions.length > 1 ? 's' : '' }}, {{
+                                                    formatNumber(chapter.chapter_comments.length) }} commentaire{{
                                                         chapter.chapter_comments.length > 1 ? 's' : '' }}
                                                 </p>
                                             </span>
@@ -393,7 +401,7 @@
                         <!-- REPLY FORM -->
                         <div v-if="replyFormId === commentItem.id" class="flex items-end gap-2 ml-11 mt-2 text-xs">
                             <textarea v-model="replyContent" id="replyInput" @input="autoResizeReply" rows="1" autofocus
-                                class="w-full border border-slate-200 rounded-lg p-2 resize-none outline-none"
+                                class="w-full border border-slate-200 dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 rounded-lg p-2 resize-none outline-none"
                                 :placeholder="`Répondre en tant que ${user?.name}`"></textarea>
 
                             <button @click="submitComment(commentItem.id)"
@@ -478,7 +486,7 @@
                         </div>
 
                         <textarea ref="textarea" v-model="comment" @input="autoResize" rows="1"
-                            class="flex-1 border border-slate-200 rounded-xl px-4 py-2 resize-none outline-none"
+                            class="flex-1 border border-slate-200 dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 rounded-xl px-4 py-2 resize-none outline-none"
                             :placeholder="`Commenter en tant que ${user?.name}`"></textarea>
 
                         <button v-if="!commentUuid && comment.trim().length > 0" @click="submitComment()"
@@ -528,7 +536,7 @@
                             </div>
                             <p class="text-[12px] lg:text-xs text-slate-600 dark:text-slate-200">{{
                                 reaction.user.pseudonym
-                            }} a réagi : <span class="font-medium">{{ reaction.label }} {{ reaction.emoji }}</span>
+                                }} a réagi : <span class="font-medium">{{ reaction.label }} {{ reaction.emoji }}</span>
                             </p>
                         </div>
                     </div>
@@ -819,7 +827,7 @@ interface Reaction {
 }
 
 const { getBookByUuid } = booksData();
-const { toConnectUser } = authenticate();
+const { getProfile } = usersData();
 const { getCommentsByBook, getReplies, createComment, updateComment, deleteComment } = useBookComments();
 const { getReactionsByBook, createReaction, createDefaultReaction, findByUserIdAndBookId } = useBookReactions();
 const config = useRuntimeConfig();
@@ -882,6 +890,26 @@ const reactions: Reaction[] = [
 
 const back = () => {
     router.back();
+}
+
+const shareLink = async () => {
+  const url = window.location.href
+
+  try {
+    if (navigator.share && book.value) {
+      await navigator.share({
+        title: book.value.title,
+        text: book.value.description,
+        url: url,
+      })
+    } else {
+      // Fallback : copier dans le presse-papiers
+      await navigator.clipboard.writeText(url)
+      alert("Une erreur est survenue lors du partage, n'empêche le lien copié dans le presse-papiers !")
+    }
+  } catch (error) {
+    console.error("Erreur lors du partage :", error)
+  }
 }
 
 const handleChapterClick = (index: number, uuid: string) => {
@@ -1224,7 +1252,7 @@ const showComments = () => (step.value = 'comments');
 // =============================
 onMounted(async () => {
     isMobile.value = window.innerWidth < 768
-    user.value = await toConnectUser();
+    user.value = await getProfile();
     loading.value = true;
     book.value = await getBookByUuid(`${route.params.uuid}`);
 
