@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-[#fffcfccc] dark:bg-dark dark:border-slate-200 dark:border-b pt-12 pb-12">
+    <div class="bg-[#fffcfccc] dark:bg-dark dark:border-slate-200 dark:border-b pt-12 pb-12" v-if="profil && user">
         <section class="max-w-7xl mx-auto px-6 pt-12 border-t border-slate-100 lg:gap-10">
             <div class="flex flex-col gap-4">
                 <div
