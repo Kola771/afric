@@ -197,7 +197,7 @@
 
                     <!-- MESSAGE -->
                     <p class="text-xs text-slate-500 dark:text-slate-400 text-center">
-                        🔥 Tu es à {{ progress }}% du niveau {{ progressData.progression.nextRank }}
+                        🔥 Tu es à {{ progressData.progression.progress }}% du niveau {{ progressData.progression.nextRank }}
                     </p>
 
                 </div>
@@ -648,20 +648,9 @@ const commentUuid = ref<string>('');
 const commentId = ref<number>(0);
 const commentReplyId = ref<number | null>(0);
 const textarea = ref<HTMLTextAreaElement | null>(null);
-const reactionWrapper = ref<HTMLElement | null>(null)
 const replyFormId = ref<number | null>(null);
 const replyContent = ref<string>('');
 const counterReaction = ref<number>(0);
-
-const progress = computed(() => {
-    if (!progressData.value) return 100
-
-    const v = Math.min(progressData.value.stats.totalViews / progressData.value.progression.target.views, 1)
-    const r = Math.min(progressData.value.stats.totalReactions / progressData.value.progression.target.reactions, 1)
-    const c = Math.min(progressData.value.stats.totalComments / progressData.value.progression.target.comments, 1)
-
-    return Math.round(((v + r + c) / 3) * 100)
-})
 
 // ---------- COMMENTS ----------
 const commentsState = reactive({
