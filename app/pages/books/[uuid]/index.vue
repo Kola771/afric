@@ -164,7 +164,7 @@
                                 <button @click="shareLink"
                                     class="w-full lg:w-auto lg:px-8 lg:py-2 bg-white border border-slate-200 text-slate-700 py-3 rounded-xl font-medium hover:bg-slate-50 dark:hover:bg-orange-50 dark:hover:border-orange-100/50 dark:hover:text-orange-800 transition-colors flex items-center justify-center gap-2">
                                     <Icon name="mdi:share-variant" class="w-5 h-5 lg:w-4 lg:h-4" />
-                                    Partager le lien
+                                    Partager le livre
                                 </button>
                             </div>
                         </div>

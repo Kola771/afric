@@ -119,14 +119,25 @@
                         <ul class="flex flex-col gap-1 list-disc pl-4 text-xs">
                             <li v-if="author.whatsapp_link">
                                 <a :href="author.whatsapp_link" target="_blank"
-                                    class="text-orange-600 dark:text-orange-500 hover:underline">{{ author.whatsapp_link }}</a>
+                                    class="text-orange-600 dark:text-orange-500 hover:underline">{{ author.whatsapp_link
+                                    }}</a>
                             </li>
                             <li v-if="author.facebook_link">
                                 <a :href="author.facebook_link" target="_blank"
-                                    class="text-orange-600 dark:text-orange-500 hover:underline">{{ author.facebook_link }}</a>
+                                    class="text-orange-600 dark:text-orange-500 hover:underline">{{ author.facebook_link
+                                    }}</a>
                             </li v-if="author.other_link">
-                            <li><a :href="author.other_link" target="_blank" class="text-orange-600 dark:text-orange-500 hover:underline">{{ author.other_link }}</a></li>
+                            <li><a :href="author.other_link" target="_blank"
+                                    class="text-orange-600 dark:text-orange-500 hover:underline">{{ author.other_link
+                                    }}</a></li>
                         </ul>
+                    </div>
+                    <div class="flex lg:justify-start text-sm mt-4">
+                        <button @click="shareLink"
+                            class="w-full lg:w-auto lg:px-8 lg:py-2 bg-white border border-slate-200 text-slate-700 py-3 rounded-xl font-medium hover:bg-slate-50 dark:hover:bg-orange-50 dark:hover:border-orange-100/50 dark:hover:text-orange-800 transition-colors flex items-center justify-center gap-2">
+                            <Icon name="mdi:share-variant" class="w-5 h-5 lg:w-4 lg:h-4" />
+                            Partager le compte
+                        </button>
                     </div>
                 </div>
                 <!-- stories List -->
@@ -189,12 +200,13 @@
 </template>
 
 <script setup lang="ts">
+
 const config = useRuntimeConfig();
 const route = useRoute();
 const router = useRouter();
 const { findByUuid } = usersData();
 const { findAllPaginatedByAuthor } = booksData();
-const { toConnectUser } = authenticate();
+const { getProfile } = usersData();
 const { createFollower, deleteFollow } = useFollowers();
 const user = ref<User | null>(null);
 const author = ref<Author | null>(null);
@@ -211,7 +223,7 @@ const statusFilter = ref<string | null>(null)
 const ageFilter = ref<string | null>(null)
 
 const onLoad = async () => {
-    user.value = await toConnectUser();
+    user.value = await getProfile();
     const res = await findByUuid(`${route.params.uuid}`);
     if (res.success) {
         author.value = res.data;
@@ -304,6 +316,26 @@ const unFollowAuthor = async (authorId: number) => {
 
 const back = () => {
     router.back();
+}
+
+const shareLink = async () => {
+  const url = window.location.href
+
+  try {
+    if (navigator.share && author.value) {
+      await navigator.share({
+        title: author.value.name,
+        text: author.value.bibliography,
+        url: url,
+      })
+    } else {
+      // Fallback : copier dans le presse-papiers
+      await navigator.clipboard.writeText(url)
+      alert("Une erreur est survenue lors du partage, n'empêche le lien copié dans le presse-papiers !")
+    }
+  } catch (error) {
+    console.error("Erreur lors du partage :", error)
+  }
 }
 
 // ============================
