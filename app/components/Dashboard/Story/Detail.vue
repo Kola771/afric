@@ -132,8 +132,8 @@
                             </div>
                         </button>
                     </div>
-                    <div class="mt-4 lg:flex-1 lg:mt-0 bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 lg:bg-slate-100 rounded-lg">
-                        <div class="p-4" v-if="step === 'chapter' && selectedChapter">
+                    <div class="mt-4 lg:flex-1 lg:mt-0 bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 lg:bg-slate-100 rounded-lg" v-if="step === 'chapter' && selectedChapter">
+                        <div class="p-4">
                             <h4 class="text-sm font-medium text-slate-900 dark:text-slate-200">
                                 {{ selectedChapter.title }}
                             </h4>
