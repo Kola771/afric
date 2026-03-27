@@ -82,7 +82,7 @@
                                 </ul>
                             </div>
                             <div>
-                                <p class="font-semibold text-orange-600">🔥 Top</p>
+                                <p class="font-semibold text-green-600">🔥 Top</p>
                                 <ul class="list-disc ml-5">
                                     <li>50 000 vues cumulées sur une ou plusieurs histoires</li>
                                     <li>+200 réactions (likes)</li>
@@ -92,15 +92,15 @@
                             <div>
                                 <p class="font-semibold text-purple-600">💎 Best</p>
                                 <ul class="list-disc ml-5">
-                                    <li>150 000 vues cumulées</li>
+                                    <li>350 000 vues cumulées</li>
                                     <li>+800 réactions</li>
                                     <li>+200 commentaires</li>
                                 </ul>
                             </div>
                             <div>
-                                <p class="font-semibold text-green-600">👑 Certifié</p>
+                                <p class="font-semibold text-orange-600">👑 Certifié</p>
                                 <ul class="list-disc ml-5">
-                                    <li>500 000 vues cumulées</li>
+                                    <li>1 000 000 vues cumulées</li>
                                     <li>+2000 réactions</li>
                                     <li>+500 commentaires</li>
                                 </ul>
