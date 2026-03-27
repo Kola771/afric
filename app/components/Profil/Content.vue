@@ -31,7 +31,7 @@
                         <ProfilBookReaction v-if="loadBookReaction" :bookReactions="bookReactions" />
                     </template>
                     <!-- Section: Saved List -->
-                    <section>
+                    <section v-if="user.role === 'lecteur'">
                         <div class="flex items-center justify-between mb-6" v-if="books.length > 0">
                             <h2
                                 class="text-lg font-display font-semibold text-slate-900 dark:text-white tracking-tight">
@@ -66,7 +66,7 @@
                 </div>
                 <!-- RIGHT COLUMN (Sidebar) -->
                 <div class="lg:col-span-4 space-y-8 lg:space-y-10">
-                    <div>
+                    <div v-if="user.role === 'lecteur'">
                         <h3 class="font-display font-semibold text-slate-900 dark:text-white mb-4 text-sm">Auteurs
                             suggérés
                         </h3>
@@ -163,6 +163,15 @@
                             </div>
                         </div>
                     </div>
+                    <div v-if="user.role !== 'lecteur'">
+                        <h3 class="font-display font-semibold text-slate-900 dark:text-white mb-4 text-sm">Votre profil sera proposé aux lecteurs ayant les mêmes préférences que vous.
+                        </h3>
+                        <div class="space-y-4">
+                            <div :class="`flex items-center justify-between ${i !== (user.preferences?.length || 0) - 1 ? 'border-slate-200 border-b-[1px] pb-2' : ''}`" v-for="(pref, i) in user.preferences" :key="i">
+                                <h5 class="text-[12px] font-medium text-slate-900 dark:text-white flex items-center gap-2"><Icon name="solar:tag-linear" size="16" class="text-sky-600 dark:text-sky-500" /> {{ pref.name }}</h5>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -193,7 +202,7 @@
 <script lang="ts" setup>
 const config = useRuntimeConfig();
 const router = useRouter();
-const { toConnectUser } = authenticate();
+const { getProfile } = usersData();
 const user = ref<User | null>(null);
 const authors = ref<Author[]>([]);
 const books = ref<BookData[]>([]);
@@ -227,7 +236,7 @@ const onLoadBookReactions = async () => {
 }
 
 const onLoad = async () => {
-    user.value = await toConnectUser();
+    user.value = await getProfile();
     await onLoadChapterRead();
     const { data } = await propositionsAuthors();
     const res = await propositionsBooks();
