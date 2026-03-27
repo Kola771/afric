@@ -26,9 +26,9 @@
                 <div
                     class="flex flex-col gap-4 bg-slate-50 dark:bg-slate-800 border dark:border-slate-400 px-3 py-4 lg:p-4 rounded-lg">
                     <div class="flex flex-col gap-1">
-                        <h3 class="text-lg font-semibold text-slate-900 dark:text-white flex items-center gap-2">
+                        <h3 class="text-lg font-semibold text-slate-900 dark:text-white flex flex-wrap items-center gap-2">
                             Objectifs & Certifications (<span v-if="profil && profil?.rank" :class="[
-                      'text-[11px] w-fit px-2 py-0.5 rounded-md flex items-center gap-1',
+                      'text-[11px] w-fit px-2 rounded-md flex items-center gap-1',
                       profil?.rank === 'certifié'
                         ? 'bg-orange-50 text-orange-700 border border-orange-100'
                         : profil?.rank === 'best'
