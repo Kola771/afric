@@ -1,25 +1,133 @@
 <template>
     <div class="bg-[#fffcfccc] dark:bg-dark dark:border-slate-200 dark:border-b pt-12 pb-12">
         <section class="max-w-7xl mx-auto px-6 pt-12 border-t border-slate-100 lg:gap-10">
-            <div
-                class="flex flex-col gap-4 lg:gap-1 md:items-center md:justify-between bg-slate-50 dark:bg-slate-800 border dark:border-slate-400 px-3 py-4 lg:p-3 rounded-lg">
-                <div class="flex flex-col gap-1 items-start md:w-full">
-                    <button @click="back"
-                        class="p-1 border rounded-lg flex items-center justify-center hover:bg-slate-100 text-slate-500 dark:text-slate-200 dark:hover:text-slate-300 dark:hover:bg-slate-700 transition-colors">
-                        <Icon name="mdi:arrow-left" class="w-5 h-5" />
-                    </button>
-                    <p class="text-[14px] text-slate-500 dark:text-slate-200">
-                        Par défaut, toute histoire créée a pour statut
-                        <span class="font-medium text-orange-600 dark:text-orange-500">Brouillon</span>
-                        et n'est pas accessible aux lecteurs en ligne.
-                    </p>
+            <div class="flex flex-col gap-4">
+                <div
+                    class="flex flex-col gap-4 lg:gap-1 md:items-center md:justify-between bg-slate-50 dark:bg-slate-800 border dark:border-slate-400 px-3 py-4 lg:p-3 rounded-lg">
+                    <div class="flex flex-col gap-1 items-start md:w-full">
+                        <button @click="back"
+                            class="p-1 border rounded-lg flex items-center justify-center hover:bg-slate-100 text-slate-500 dark:text-slate-200 dark:hover:text-slate-300 dark:hover:bg-slate-700 transition-colors">
+                            <Icon name="mdi:arrow-left" class="w-5 h-5" />
+                        </button>
+                        <p class="text-[14px] text-slate-500 dark:text-slate-200">
+                            Par défaut, toute histoire créée a pour statut
+                            <span class="font-medium text-orange-600 dark:text-orange-500">Brouillon</span>
+                            et n'est pas accessible aux lecteurs en ligne.
+                        </p>
+                    </div>
+                    <div class="w-full lg:flex lg:justify-end">
+                        <nuxt-link to="/my-stories/create_book"
+                            class="flex items-center gap-2 bg-primary text-white dark:border hover:bg-slate-700 hover:ease-in-out hover:duration-300 rounded-lg py-3 text-[13px] justify-center border-slate-200 border md:px-6 md:py-2.5">
+                            <Icon name="mdi:plus" class="w-5 h-5" />
+                            Ajouter une histoire
+                        </nuxt-link>
+                    </div>
                 </div>
-                <div class="w-full lg:flex lg:justify-end">
-                    <nuxt-link to="/my-stories/create_book"
-                        class="flex items-center gap-2 bg-primary text-white dark:border hover:bg-slate-700 hover:ease-in-out hover:duration-300 rounded-lg py-3 text-[13px] justify-center border-slate-200 border md:px-6 md:py-2.5">
-                        <Icon name="mdi:plus" class="w-5 h-5" />
-                        Ajouter une histoire
-                    </nuxt-link>
+                <div
+                    class="flex flex-col gap-4 bg-slate-50 dark:bg-slate-800 border dark:border-slate-400 px-3 py-4 lg:p-4 rounded-lg">
+                    <div class="flex flex-col gap-1">
+                        <h3 class="text-lg font-semibold text-slate-900 dark:text-white flex items-center gap-2">
+                            Objectifs & Certifications (<span v-if="profil && profil?.rank" :class="[
+                      'text-[11px] w-fit px-2 py-0.5 rounded-md flex items-center gap-1',
+                      profil?.rank === 'certifié'
+                        ? 'bg-orange-50 text-orange-700 border border-orange-100'
+                        : profil?.rank === 'best'
+                          ? 'bg-purple-50 text-purple-700 border border-purple-100'
+                          : profil?.rank === 'top'
+                            ? 'bg-green-50 text-green-700 border border-green-100'
+                            : 'bg-slate-100 text-slate-600 border border-slate-200'
+                    ]">
+                      <Icon name="mdi:star-outline" size="14" />
+                      {{ profil?.rank }}
+                    </span>)
+                        </h3>
+                        <p class="text-[14px] text-slate-500 dark:text-slate-300">
+                            Débloquez des fonctionnalités et gagnez en visibilité en atteignant certains paliers.
+                        </p>
+                    </div>
+                    <!-- TOGGLE ITEM -->
+                    <details class="group border rounded-lg p-3 cursor-pointer">
+                        <summary class="flex justify-between items-center font-medium text-slate-800 dark:text-white">
+                            🎬 Mini-vidéos par chapitre
+                            <span class="group-open:rotate-180 transition">
+                                <Icon name="mdi:arrow-bottom" class="w-4 h-4 text-slate-700 dark:text-slate-200" />
+                            </span>
+                        </summary>
+                        <div class="mt-3 text-[14px] text-slate-600 dark:text-slate-300 space-y-2">
+                            <p>
+                                Dès qu’un chapitre atteint <span class="font-semibold text-orange-600">1 000
+                                    vues</span>,
+                                vous pouvez ajouter une mini-vidéo immersive (30 à 40 secondes).
+                            </p>
+                            <p>
+                                Cela permet d’augmenter l’engagement et de donner vie à vos histoires.
+                            </p>
+                        </div>
+                    </details>
+                    <!-- CERTIFICATIONS -->
+                    <details class="group border rounded-lg p-3 cursor-pointer">
+                        <summary class="flex justify-between items-center font-medium text-slate-800 dark:text-white">
+                            🏅 Système de certification
+                            <span class="group-open:rotate-180 transition">
+                                <Icon name="mdi:arrow-bottom" class="w-4 h-4 text-slate-700 dark:text-slate-200" />
+                            </span>
+                        </summary>
+                        <div
+                            class="mt-3 space-y-4 md:space-y-0 text-[14px] md:grid md:grid-cols-2 md:gap-4 text-slate-600 dark:text-slate-300">
+                            <div>
+                                <p class="font-semibold text-slate-900 dark:text-white">🔰 Standard</p>
+                                <ul class="list-disc ml-5">
+                                    <li>Statut par défaut</li>
+                                    <li>Accès aux fonctionnalités de base</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-orange-600">🔥 Top</p>
+                                <ul class="list-disc ml-5">
+                                    <li>50 000 vues cumulées sur une ou plusieurs histoires</li>
+                                    <li>+200 réactions (likes)</li>
+                                    <li>+50 commentaires</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-purple-600">💎 Best</p>
+                                <ul class="list-disc ml-5">
+                                    <li>150 000 vues cumulées</li>
+                                    <li>+800 réactions</li>
+                                    <li>+200 commentaires</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-green-600">👑 Certifié</p>
+                                <ul class="list-disc ml-5">
+                                    <li>500 000 vues cumulées</li>
+                                    <li>+2000 réactions</li>
+                                    <li>+500 commentaires</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </details>
+                    <!-- AVANTAGES -->
+                    <details class="group border rounded-lg p-3 cursor-pointer">
+                        <summary class="flex justify-between items-center font-medium text-slate-800 dark:text-white">
+                            🚀 Avantages des paliers
+                            <span class="group-open:rotate-180 transition">
+                                <Icon name="mdi:arrow-bottom" class="w-4 h-4 text-slate-700 dark:text-slate-200" />
+                            </span>
+                        </summary>
+                        <div class="mt-3 text-[14px] text-slate-600 dark:text-slate-300 space-y-2">
+                            <ul class="list-disc ml-5">
+                                <li>Plus de visibilité sur la plateforme</li>
+                                <li>Mise en avant dans les recommandations</li>
+                                <li>Accès anticipé à certaines fonctionnalités</li>
+                                <li>Badge de reconnaissance auprès des lecteurs</li>
+                            </ul>
+                        </div>
+                    </details>
+                    <p class="text-xs text-slate-400">
+                        D'autres fonctionnalités exclusives seront débloquées avec les prochaines évolutions de la
+                        plateforme.
+                    </p>
                 </div>
             </div>
             <div class="border-t border-slate-200 mt-8 lg:mt-7 pt-6 lg:pt-5">

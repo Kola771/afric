@@ -14,6 +14,7 @@ interface User {
   sanction_date: Date;
   selected?: boolean
   followers?: any
+  rank?: string
   whatsapp_link?: string
   facebook_link?: string
   other_link?: string
