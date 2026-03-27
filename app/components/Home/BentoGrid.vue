@@ -14,7 +14,9 @@
                     <!-- Large item -->
                     <div class="md:col-span-2 md:row-span-2 relative rounded-2xl overflow-hidden group cursor-pointer border border-slate-200"
                         @click="openPageCategory(`${categories[0]?.uuid}`)">
-                        <img :src="`${config.public.apiBackendUrl}/uploads/categories/${categories[0]?.image}`"
+                        <img :src="categories[0]?.image?.includes('https')
+                            ? categories[0]?.image
+                            : `${config.public.apiBackendUrl}/uploads/categories/${categories[0]?.image}`"
                             class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
                         <div class="absolute bottom-0 left-0 p-8">
@@ -36,7 +38,9 @@
                     <!-- Top right -->
                     <div class="md:col-span-2 relative rounded-2xl overflow-hidden group cursor-pointer border border-slate-200"
                         @click="openPageCategory(`${categories[1]?.uuid}`)">
-                        <img :src="`${config.public.apiBackendUrl}/uploads/categories/${categories[1]?.image}`"
+                        <img :src="categories[1]?.image?.includes('https')
+                            ? categories[1]?.image
+                            : `${config.public.apiBackendUrl}/uploads/categories/${categories[1]?.image}`"
                             class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
                         <div class="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition-colors"></div>
                         <div class="absolute inset-0 flex items-center justify-center">
@@ -61,7 +65,7 @@
                             </div>
                             <h3 class="text-slate-900 font-display font-medium text-lg">{{ categories[2]?.name }}</h3>
                             <p class="text-slate-500 text-xs mt-1">{{ formatNumber(categories[2]?.booksCount || 0)
-                                }}{{ (categories[2]?.booksCount || 0) > 1 ? '+ Histoires' : ' Histoire' }} </p>
+                            }}{{ (categories[2]?.booksCount || 0) > 1 ? '+ Histoires' : ' Histoire' }} </p>
                         </div>
                     </div>
 

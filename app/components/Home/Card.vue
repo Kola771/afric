@@ -45,8 +45,12 @@
                     </span>
                     <!-- <span v-if="props.book.category">• {{ props.book.category }}</span> -->
                     <span v-if="props.book.status"
-                        class="bg-white text-stone-600 py-1 px-2 rounded-xl dark:bg-transparent dark:text-slate-200 dark:border dark:border-slate-200">•
-                        {{ status(props.book.status) }}</span>
+                    class="bg-white text-stone-600 py-1 px-2 rounded-xl dark:bg-transparent dark:text-slate-200 dark:border dark:border-slate-200">•
+                    {{ status(props.book.status) }}</span>
+                    <span class="flex items-center gap-0.5" @click="shareLink">
+                        <Icon name="mdi:share-variant" class="text-slate-900 dark:text-slate-200" />
+                        Partager
+                    </span>
                 </div>
             </div>
         </div>
@@ -75,6 +79,25 @@ const status = (status: string) => {
         default:
             return "Brouillon"
     }
+}
+
+const shareLink = async () => {
+  const url = window.location.href
+  try {
+    if (navigator.share && props.book) {
+      await navigator.share({
+        title: props.book.title,
+        text: props.book.description,
+        url: `/books/${props.book.uuid}`,
+      })
+    } else {
+      // Fallback : copier dans le presse-papiers
+      await navigator.clipboard.writeText(url.replace('/stories', `/books/${props.book.uuid}`))
+      alert("Une erreur est survenue lors du partage, n'empêche le lien copié dans le presse-papiers !")
+    }
+  } catch (error) {
+    console.error("Erreur lors du partage :", error)
+  }
 }
 
 const openTheBook = (url: string) => {

@@ -171,7 +171,7 @@
                             <td class="py-3 px-6">
                                 <div class="flex items-center gap-3">
                                     <div
-                                        class="w-8 h-10 flex-shrink-0 bg-slate-200 rounded object-cover overflow-hidden">
+                                        class="w-8 h-10 lg:h-8 flex-shrink-0 bg-slate-200 rounded object-cover overflow-hidden">
                                         <img :src="`${config.public.apiBackendUrl}/uploads/books/${book?.image}`"
                                             class="w-full h-full object-cover opacity-80" :alt="book.title">
                                     </div>

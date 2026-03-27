@@ -12,7 +12,7 @@
         </template>
         <template v-else>
           <div
-            class="group rounded-xl overflow-hidden transition-all duration-500 hover:shadow-xl bg-white dark:bg-slate-800"
+            class="group rounded-xl w-full overflow-hidden transition-all duration-500 hover:shadow-xl bg-white dark:bg-slate-800"
             :class="{
               'flex flex-col md:flex-row': layoutType === 0,
               'flex flex-col md:flex-row-reverse': layoutType === 1,
