@@ -203,7 +203,7 @@
 
             <div class="relative hidden w-0 flex-1 lg:block bg-slate-900">
                 <!-- Background Image -->
-                <img class="absolute inset-0 h-full w-full object-cover opacity-60 mix-blend-overlay" src="https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?q=80&w=2000&auto=format&fit=crop" alt="African Pattern Background">
+                <img class="absolute inset-0 h-full w-full object-cover opacity-60 mix-blend-overlay" src="/assets/tree.jpg" alt="African Pattern Background">
             
                 <!-- Gradient Overlay -->
                 <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-slate-900/10"></div>
