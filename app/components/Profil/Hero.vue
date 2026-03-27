@@ -28,12 +28,28 @@
                         <label for="file"
                             class="dark:border-slate-300 dark:border-[1px] cursor-pointer absolute right-0 bottom-1 lg:bottom-2 lg:right-2 bg-slate-900 text-white flex items-center justify-center p-2 rounded-full shadow-md transition-all hover:scale-105">
                             <Icon name="mdi:camera" class="w-4 h-4 text-white" />
-                            <input type="file" accept="image/jpeg, image/jpg, image/png, image/jfif" @change="onFileChange" name="file" id="file" class="hidden" />
+                            <input type="file" accept="image/jpeg, image/jpg, image/png, image/jfif"
+                                @change="onFileChange" name="file" id="file" class="hidden" />
                         </label>
                     </div>
                     <div class="mb-2">
                         <h2 class="text-3xl font-display font-semibold tracking-tight">{{ user.name }}</h2>
-                        <p class="text-slate-500 text-md font-medium">{{ user.pseudonym }}</p>
+                        <p class="text-slate-500 text-md font-medium flex flex-wrap items-center gap-2">{{
+                            user.pseudonym }}
+                            <span v-if="profil && profil.role !== 'lecteur' && profil?.rank" :class="[
+                                'text-[11px] w-fit px-2 rounded-md flex items-center gap-1',
+                                profil?.rank === 'certifié'
+                                    ? 'bg-orange-50 text-orange-700 border border-orange-100'
+                                    : profil?.rank === 'best'
+                                        ? 'bg-purple-50 text-purple-700 border border-purple-100'
+                                        : profil?.rank === 'top'
+                                            ? 'bg-green-50 text-green-700 border border-green-100'
+                                            : 'bg-slate-100 text-slate-600 border border-slate-200'
+                            ]">
+                                <Icon name="mdi:star-outline" size="14" />
+                                {{ profil?.rank }}
+                            </span>
+                        </p>
                         <p class="hidden lg:block text-sm lg:text-md text-slate-600 mt-2 dark:text-slate-200">
                             <template v-if="user.bibliography && user.bibliography.trim() !== ''">
                                 {{ user.bibliography }}
@@ -41,28 +57,28 @@
                             <template v-else>Aucune bibliographie disponible !
                             </template>
                         </p>
-                    <div class="text-[13px] flex-wrap items-center gap-2 hidden lg:flex" v-if="author">
-                        <nuxt-link :to="`/authors/${author.uuid}/followers`" class="hover:underline">
-                            <span class="font-semibold text-slate-900 dark:text-slate-200">{{
-                                formatNumber(author.total_followers) }}</span>
-                            <span class="text-slate-700 dark:text-slate-400"> abonné(s)</span>
-                        </nuxt-link>
-                        <div>
-                            <span class="font-semibold text-slate-900 dark:text-slate-200">{{
-                                formatNumber(author.books.length) }}</span>
-                            <span class="text-slate-700 dark:text-slate-400"> livre(s)</span>
+                        <div class="text-[13px] flex-wrap items-center gap-2 hidden lg:flex" v-if="author">
+                            <nuxt-link :to="`/authors/${author.uuid}/followers`" class="hover:underline">
+                                <span class="font-semibold text-slate-900 dark:text-slate-200">{{
+                                    formatNumber(author.total_followers) }}</span>
+                                <span class="text-slate-700 dark:text-slate-400"> abonné(s)</span>
+                            </nuxt-link>
+                            <div>
+                                <span class="font-semibold text-slate-900 dark:text-slate-200">{{
+                                    formatNumber(author.books.length) }}</span>
+                                <span class="text-slate-700 dark:text-slate-400"> livre(s)</span>
+                            </div>
+                            <div>
+                                <span class="font-semibold text-slate-900 dark:text-slate-200">{{
+                                    formatNumber(countChapters(author.books)) }}</span>
+                                <span class="text-slate-700 dark:text-slate-400"> chapitre(s)</span>
+                            </div>
+                            <div>
+                                <span class="font-semibold text-slate-900 dark:text-slate-200">{{
+                                    formatNumber(countViews(author.books)) }}</span>
+                                <span class="text-slate-700 dark:text-slate-400"> vue(s)</span>
+                            </div>
                         </div>
-                        <div>
-                            <span class="font-semibold text-slate-900 dark:text-slate-200">{{
-                                formatNumber(countChapters(author.books)) }}</span>
-                            <span class="text-slate-700 dark:text-slate-400"> chapitre(s)</span>
-                        </div>
-                        <div>
-                            <span class="font-semibold text-slate-900 dark:text-slate-200">{{
-                                formatNumber(countViews(author.books)) }}</span>
-                            <span class="text-slate-700 dark:text-slate-400"> vue(s)</span>
-                        </div>
-                    </div>
                     </div>
                     <p class="lg:hidden text-sm lg:text-md text-slate-600 mt-2 dark:text-slate-200">
                         <template v-if="user.bibliography && user.bibliography.trim() !== ''">
@@ -116,7 +132,8 @@
             <!-- Stats Bar -->
             <div class="flex items-center gap-8 py-6 border-y border-slate-200">
                 <div class="flex flex-col">
-                    <span class="text-lg font-display font-bold text-slate-900 tracking-tight dark:text-white">{{ formatNumber(user?.preferences?.length || 0) }}</span>
+                    <span class="text-lg font-display font-bold text-slate-900 tracking-tight dark:text-white">{{
+                        formatNumber(user?.preferences?.length || 0) }}</span>
                     <span
                         class="text-xs text-slate-500 uppercase tracking-wide font-medium dark:text-slate-200">Préférences</span>
                 </div>
@@ -127,8 +144,10 @@
                 </div>
             </div>
         </div>
-        <ProfilDeleteUser @close-delete-modal="toggleDeleteModal" :showDeleteModal="showDeleteModal" :profil="profil" v-if="showDeleteModal && profil" />
-        <ProfilChangePhoto @close-change-modal="toggleChangeModal" :showChangeModal="showChangeModal" :profil="profil" :image="image" :preview="preview" v-if="showChangeModal && profil && preview && image" />
+        <ProfilDeleteUser @close-delete-modal="toggleDeleteModal" :showDeleteModal="showDeleteModal" :profil="profil"
+            v-if="showDeleteModal && profil" />
+        <ProfilChangePhoto @close-change-modal="toggleChangeModal" :showChangeModal="showChangeModal" :profil="profil"
+            :image="image" :preview="preview" v-if="showChangeModal && profil && preview && image" />
     </div>
 </template>
 

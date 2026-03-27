@@ -10,19 +10,36 @@
         <template v-if="loadingCategory">
           <CategoryDetailSkeleton />
         </template>
-        <template v-else class="flex flex-col items-start">
-          <div class="bg-slate-50 dark:bg-slate-800 rounded-lg w-full h-72 relative">
-            <img :src="`${config.public.apiBackendUrl}/uploads/categories/${category?.image}`" v-if="category"
-              alt="Image de couverture de l'histoire"
-              class="w-full h-full object-cover lg:object-contain grayscale-[20%] rounded-lg transition-transform duration-700">
-          </div>
-          <div class="py-4">
-            <h2 class="text-xl font-display font-bold text-slate-900 dark:text-white tracking-tight">{{ category?.name
-            }}
-            </h2>
-            <p class="text-sm mb-2 text-slate-500 dark:text-slate-200 mt-1">{{ category?.description }}</p>
-            <p class="text-sm text-orange-600 hover:text-orange-700 dark:text-orange-400">Elle
-              contient {{ category?.booksCount }} histoire(s)</p>
+        <template v-else>
+          <div
+            class="group rounded-xl overflow-hidden transition-all duration-500 hover:shadow-xl bg-white dark:bg-slate-800"
+            :class="{
+              'flex flex-col md:flex-row': layoutType === 0,
+              'flex flex-col md:flex-row-reverse': layoutType === 1,
+            }">
+            <!-- IMAGE -->
+            <div :class="`relative md:w-1/2 h-64 md:h-auto overflow-hidden`">
+              <img v-if="category" :src="category.image?.includes('https')
+                ? category.image
+                : `${config.public.apiBackendUrl}/uploads/categories/${category?.image}`"
+                class="w-full h-full md:h-96 object-cover transition-transform duration-700 group-hover:scale-105" />
+              <div class="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition"></div>
+            </div>
+
+            <!-- CONTENT -->
+            <div class="p-5 md:w-1/2 flex flex-col justify-center">
+              <h2 class="text-xl font-display font-bold text-slate-900 dark:text-white">
+                {{ category?.name }}
+              </h2>
+
+              <p class="text-sm mt-2 text-slate-600 dark:text-slate-300 line-clamp-4">
+                {{ category?.description }}
+              </p>
+
+              <p class="mt-3 text-sm text-orange-600 dark:text-orange-400 font-medium">
+                Elle contient {{ category?.booksCount }} histoire(s)
+              </p>
+            </div>
           </div>
         </template>
 
@@ -99,7 +116,10 @@ const loadingCategory = ref<boolean>(false); // skeleton
 const loadingSkeleton = ref<boolean>(false); // skeleton
 const selectedStatus = ref<string>("")
 const selectedAge = ref<string>("")
-const loadMoreTrigger = ref<HTMLElement | null>(null)
+const loadMoreTrigger = ref<HTMLElement | null>(null);
+const layoutType = Math.floor(Math.random() * 2);
+// 0 = image gauche
+// 1 = image droite
 
 const back = () => {
   router.back();

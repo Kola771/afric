@@ -104,7 +104,7 @@
                             <td class="py-3 px-6">
                                 <div class="flex items-center gap-3">
                                     <div class="w-8 h-10 lg:h-8 bg-slate-200 rounded object-cover overflow-hidden">
-                                        <img :src="`${config.public.apiBackendUrl}/uploads/categories/${category.image}`"
+                                        <img :src="category.image?.includes('https') ? category.image : `${config.public.apiBackendUrl}/uploads/categories/${category.image}`"
                                             class="w-full h-full object-cover opacity-80">
                                     </div>
                                     <span

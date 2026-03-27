@@ -23,6 +23,29 @@ interface User {
   preferences?: Category[]
 }
 
+interface Progression {
+    user: {
+        uuid: string,
+        email: string,
+        rank: string
+    },
+    stats: {
+        totalViews: number,
+        totalReactions: number,
+        totalComments: number
+    },
+    progression: {
+        currentRank: string,
+        nextRank: string,
+        progress: number,
+        target: {
+            views: number,
+            reactions: number,
+            comments: number
+        }
+    }
+}
+
 interface Author {
   id: number
   uuid: string

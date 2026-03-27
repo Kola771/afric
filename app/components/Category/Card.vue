@@ -3,7 +3,7 @@
     @click="openTheBooksOfTheCategory(props.category.uuid)">
 
     <div class="relative flex-shrink-0 overflow-hidden rounded-lg bg-slate-100 shadow-subtle group-hover:shadow-xl transition-all duration-300 ring-1 ring-slate-900/5">
-        <img :src="`${config.public.apiBackendUrl}/uploads/categories/${props.category.image}`"
+        <img :src="props.category.image?.includes('https') ? props.category.image : `${config.public.apiBackendUrl}/uploads/categories/${props.category.image}`"
              class="w-24 h-24 text-xs object-cover transition-transform duration-500 group-hover:scale-105"
              :alt="props.category.name">
 

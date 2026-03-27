@@ -153,6 +153,22 @@ export function usersData() {
         return null;
     }
 
+    // Retourne la progression d'un auteur
+    async function getAuthorRankProgress(uuid: string) {
+        if (process?.client) {
+            if (localStorage.getItem("user")) {
+                const token = JSON.parse(localStorage.getItem("user") || '{}').token;
+                const response = await axios.get(`/users/progress-author/${uuid}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                return response?.data;
+            }
+        }
+        return null;
+    }
+
     // Propose des auteurs ayant ou non les certaines préférences en commum avec le lecteur
     async function propositionsAuthors() {
         if (process?.client) {
@@ -314,6 +330,7 @@ export function usersData() {
         getUsers,
         findByUuid,
         getProfile,
+        getAuthorRankProgress,
         getAuthors,
         getAllUsers,
         propositionsAuthors,

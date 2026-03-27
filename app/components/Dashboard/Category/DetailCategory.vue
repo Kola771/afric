@@ -8,7 +8,7 @@
                 <Icon name="mdi:arrow-left" class="w-4 h-4" />
             </button>
             <div class="bg-slate-100 dark:bg-slate-800 rounded-lg w-full h-72 mt-2 relative">
-                <img :src="`${config.public.apiBackendUrl}/uploads/categories/${category?.image}`" v-if="category"
+                <img :src="category.image?.includes('https') ? category.image : `${config.public.apiBackendUrl}/uploads/categories/${category?.image}`" v-if="category"
                     alt="Image de couverture de l'histoire"
                     class="w-full h-full object-cover lg:object-contain grayscale-[20%] rounded-lg transition-transform duration-700">
             </div>
