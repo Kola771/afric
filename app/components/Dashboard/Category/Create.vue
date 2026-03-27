@@ -20,13 +20,14 @@
                 <label for="name_category" class="text-sm text-slate-900 font-medium dark:text-white">Nom de la
                     catégorie :</label>
                 <input type="text" id="name_category" v-model="name_category" required name="name_category"
-                    class="block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-orange-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all" />
+                    class="block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200" />
             </div>
             <div class="flex flex-col gap-1">
                 <label for="file" class="text-sm text-slate-900 font-medium dark:text-white">Image de la catégorie
                     :</label>
-                <input type="file" id="file" ref="file" name="file" accept="image/jpeg, image/jpg, image/png, image/jfif, image/avif" required
-                    class="bg-white block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-orange-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all"
+                <input type="file" id="file" ref="file" name="file"
+                    accept="image/jpeg, image/jpg, image/png, image/jfif, image/avif" required
+                    class="bg-white block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200"
                     @change="onFileChange" />
             </div>
             <div class="flex flex-col gap-1" v-if="preview">
@@ -39,8 +40,18 @@
                 <label for="description" class="text-sm text-slate-900 font-medium dark:text-white">Description
                     :</label>
                 <textarea id="description" v-model="description" name="description" rows="3" required
-                    class="block w-full rounded-lg border-0 py-2.5 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-orange-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all pl-3 resize-none"
+                    class="block w-full rounded-lg border-0 py-2.5 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200 pl-3 resize-none"
                     placeholder="Description de la catégorie..."></textarea>
+                <div class="flex justify-between text-xs mt-1">
+                    <span
+                        :class="isDescriptionValid ? 'text-green-500 dark:text-green-400' : 'text-red-500 dark:text-red-400'">
+                        {{ descriptionLength }} / {{ minDescriptionLength }} caractères
+                    </span>
+
+                    <span v-if="!isDescriptionValid" class="text-red-500 dark:text-red-400">
+                        Minimum 150 caractères requis
+                    </span>
+                </div>
             </div>
             <div v-if="error" class="text-xs text-center font-medium text-red-500 mt-2">{{ error }}</div>
             <div v-if="message" class="text-xs text-center font-medium text-green-500 mt-2">{{ message }}</div>
@@ -61,6 +72,16 @@ const description = ref<string>('')
 const error = ref<string | null | undefined>(null);
 const message = ref<string | null | undefined>(null);
 
+const minDescriptionLength = 150
+
+const descriptionLength = computed(() => {
+    return description.value.trim().length
+})
+
+const isDescriptionValid = computed(() => {
+    return descriptionLength.value >= minDescriptionLength
+})
+
 const back = () => {
     router.back();
 }
@@ -79,6 +100,10 @@ const createCategory = async () => {
     error.value = null;
     message.value = null;
     if (name_category.value.trim() !== "" && description.value.trim() !== "" && image.value !== null) {
+        if (!isDescriptionValid.value) {
+            error.value = "La description doit contenir au moins 150 caractères"
+            return
+        }
         const formData = new FormData()
         formData.append('name', name_category.value)
         formData.append('description', description.value)
@@ -91,9 +116,11 @@ const createCategory = async () => {
             }, 1500);
         } else {
             error.value = res.error;
+            return;
         }
     } else {
         error.value = "Veuillez remplir tous les champs";
+        return;
     }
 }
 
