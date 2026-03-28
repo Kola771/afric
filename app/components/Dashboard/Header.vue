@@ -4,14 +4,14 @@
         class="hidden min-h-screen lg:flex w-64 flex-col border-r border-slate-200 bg-white dark:bg-dark relative z-20">
         <!-- Logo -->
         <div class="h-16 flex items-center px-6">
-            <div class="flex items-center gap-2">
+            <nuxt-link to="/" target="_blank" class="flex items-center gap-2">
                 <div
                     class="w-7 h-7 bg-slate-900 rounded-lg flex items-center justify-center text-white shadow-lg shadow-slate-200 dark:shadow-slate-600">
                     <Icon name="solar:book-2-bold" class="w-5 h-5" />
                 </div>
                 <span class="font-display font-bold text-slate-900 dark:text-white tracking-tight text-sm">Afric
                     <span class="text-orange-600">Storyline</span></span>
-            </div>
+            </nuxt-link>
         </div>
 
         <!-- Navigation -->

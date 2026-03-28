@@ -26,13 +26,6 @@
 
             <!-- Right Actions -->
             <div class="flex items-center gap-4">
-                <div class="relative hidden sm:block">
-                  <Icon name="solar:magnifer-linear" class="absolute left-2 top-3 text-slate-400 w-4 h-4" />
-                    <input type="search" placeholder="Rechercher..." class="h-10 pl-9 pr-4 rounded-lg dark:bg-transparent bg-slate-50 border border-slate-200 text-xs font-medium text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-100 focus:border-slate-300 w-64 transition-all">
-                </div>
-                <button class="relative lg:hidden flex items-center justify-center text-slate-500 dark:text-slate-200 dark:hover:bg-slate-800 hover:bg-slate-50 transition-colors">
-                  <Icon name="solar:magnifer-linear" class="w-4 h-4" />
-                </button>
                 <ThemeToggle />
             </div>
         </header>
