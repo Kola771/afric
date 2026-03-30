@@ -40,7 +40,7 @@
                 <p class="text-slate-600 dark:text-slate-300 mt-1">{{ notif.message }}</p>
               </div>
             </div>
-            <span class="text-xs text-slate-400 dark:text-slate-500">{{ formatLocalDate(notif.created_at) }}</span>
+            <span class="text-xs text-slate-400 dark:text-slate-500">{{ notif.is_read ? formatLocalDate(notif.created_at) : formatLocalDate(notif.updated_at) }}</span>
           </div>
         </div>
       </div>

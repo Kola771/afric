@@ -25,9 +25,10 @@ interface User {
 
 interface Notification {
   id: number,
-  created_at: Date,
   is_read: boolean,
   message: string,
+  created_at: Date,
+  updated_at: Date,
   user: User,
   lastSender: User,
   book: BookData,
