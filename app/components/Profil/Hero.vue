@@ -118,8 +118,8 @@
                     </nuxt-link>
                     <nuxt-link to="/profil/personal"
                         class="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-lg font-medium text-slate-700 hover:bg-slate-50 hover:border-slate-300 dark:bg-slate-300 transition-all shadow-sm">
-                        <Icon name="mdi:edit" class="w-5 h-5 text-slate-700" />
-                        Éditer
+                        <Icon name="mdi:settings" class="w-5 h-5 text-slate-700" />
+                        Paramètres
                     </nuxt-link>
                     <button
                         class="flex items-center justify-center p-2 bg-red-200 border border-red-300 dark:bg-red-300 rounded-lg text-slate-700 hover:bg-slate-50 hover:border-slate-300 transition-all shadow-sm"

@@ -2,19 +2,17 @@
   <div>
     <header>
       <nav
-        class="fixed top-0 w-full z-50 md:border-b md:border-slate-200 bg-white/40 md:bg-white-80 dark:bg-dark/40 dark:md:bg-dark/80 dark:md:border-slate-300 dark:text-white backdrop-blur-md transition-all">
+        class="fixed top-0 w-full z-50 border-b border-slate-200 bg-white/80 dark:bg-dark/80 dark:border-slate-300 dark:text-white backdrop-blur-md transition-all">
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="flex justify-between items-center h-14 md:h-16">
+          <div class="flex justify-between items-center h-16">
             <!-- Logo -->
-            <nuxt-link to="/"
-              class="flex items-center gap-1.5 md:gap-2.5 group bg-orange-100 dark:bg-orange-100/90 dark:md:bg-transparent md:bg-transparent rounded-full px-2 py-1 md:p-0">
+            <nuxt-link to="/" class="flex items-center gap-2.5 group">
               <div
-                class="w-5 h-5 md:w-8 md:h-8 bg-primary rounded-lg dark:border-gray-600 dark:border flex items-center justify-center text-white shadow-lg group-hover:scale-105 transition-transform duration-300 tracking-tighter">
-                <Icon name="solar:book-2-bold" class="w-3 h-3 md:w-5 md:h-5" />
+                class="w-8 h-8 bg-primary rounded-lg dark:border-gray-600 dark:border flex items-center justify-center text-white shadow-lg group-hover:scale-105 transition-transform duration-300 tracking-tighter">
+                <Icon name="solar:book-2-bold" class="w-5 h-5" />
               </div>
-              <span
-                class="font-display font-semibold dark:md:text-gray-200 text-slate-900 tracking-tight text-md md:text-lg">
+              <span class="font-display font-semibold dark:text-gray-200 text-slate-900 tracking-tight text-lg">
                 Afric <span class="text-orange-600 dark:text-orange-500">Storyline</span>
               </span>
             </nuxt-link>
@@ -35,15 +33,18 @@
                 :class="`${route.path === '/about' ? 'text-primary dark:text-orange-400' : 'dark:text-white'} font-medium hover:text-slate-900 dark:hover:text-gray-400 transition-colors`">A
                 propos</nuxt-link>
             </div>
-
             <!-- Right Actions -->
-            <div class="flex items-center gap-1 md:gap-3">
+            <div class="flex items-center gap-3">
               <!-- Desktop actions -->
               <button @click="toggleSearch"
                 class="lg:hidden flex p-2 text-slate-400 hover:text-slate-900 dark:text-white dark:hover:text-gray-400 transition-colors">
-                <Icon name="solar:magnifer-linear" class="w-5 md:h-5" />
+                <Icon name="solar:magnifer-linear" class="w-5 h-5" />
               </button>
               <ThemeToggle class="lg:hidden" />
+              <!-- Hamburger (mobile only) -->
+              <button @click="isOpen = !isOpen" class="lg:hidden p-2 mt-1 text-slate-700 dark:text-white">
+                <Icon :name="isOpen ? 'mdi:close' : 'mdi:menu'" class="w-6 h-6 transition-transform duration-300" />
+              </button>
               <!-- Desktop actions -->
               <button @click="toggleSearch"
                 class="hidden lg:flex p-2 text-slate-400 hover:text-slate-900 dark:text-white dark:hover:text-gray-400 transition-colors">
@@ -76,12 +77,6 @@
                       class="block px-4 py-2 flex items-center gap-2 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
                       <Icon name="mdi:account" class="w-4 h-4" />
                       Mon profil
-                    </nuxt-link>
-                    <nuxt-link @click="showProfileMenu = false"
-                      to="/notifications"
-                      class="block px-4 py-2 flex items-center gap-2 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
-                      <Icon name="mdi:bell" class="w-4 h-4" />
-                      Notifications <span class="bg-red-600 text-white text-[8px] rounded-full w-4 h-4 flex items-center justify-center" v-if="notifications > 0">{{ notifications > 9 ? '9+' : notifications }}</span>
                     </nuxt-link>
                     <nuxt-link v-if="profil && authorizeRoleDash(`${profil.role}`)" @click="showProfileMenu = false"
                       to="/dashboard"
@@ -116,106 +111,80 @@
       </nav>
     </header>
 
+    <div v-if="isOpen" @click="isOpen = false" class="fixed inset-0 bg-black/40 z-40 lg:hidden"></div>
+    <!-- 🔥 Mobile Menu avec animation -->
+    <transition enter-active-class="transition duration-300 ease-out" enter-from-class="opacity-0 -translate-y-4"
+      enter-to-class="opacity-100 translate-y-0" leave-active-class="transition duration-200 ease-in"
+      leave-from-class="opacity-100 translate-y-0" leave-to-class="opacity-0 -translate-y-4">
+      <div v-if="isOpen"
+        class="fixed flex flex-col justify-between top-0 left-0 h-full w-2/3 bg-white dark:bg-dark border-r border-slate-200 dark:border-gray-700 px-6 py-6 space-y-5 shadow-2xl z-50 lg:hidden">
+        <nuxt-link to="/" class="flex items-center gap-2.5 group">
+          <div
+            class="w-8 h-8 bg-primary rounded-lg dark:border-gray-600 dark:border flex items-center justify-center text-white shadow-lg group-hover:scale-105 transition-transform duration-300 tracking-tighter">
+            <Icon name="solar:book-2-bold" class="w-5 h-5" />
+          </div>
+          <span class="font-display font-semibold dark:text-gray-200 text-slate-900 tracking-tight text-lg">
+            Afric <span class="text-orange-600 dark:text-orange-500">Storyline</span>
+          </span>
+        </nuxt-link>
+
+        <div class="space-y-5 flex-1 overflow-y-auto custom">
+          <nuxt-link to="/" @click="isOpen = !isOpen"
+            :class="`${route.path === '/' ? 'text-primary dark:text-orange-400' : 'text-slate-500 dark:text-white'} block text-sm dark:hover:text-gray-400 font-medium hover:text-primary transition-colors`">Découvrir</nuxt-link>
+          <nuxt-link to="/categories" @click="isOpen = !isOpen"
+            :class="`${route.path === '/categories' ? 'text-primary dark:text-orange-400' : 'text-slate-500 dark:text-white'} block text-sm dark:hover:text-gray-400 font-medium hover:text-primary transition-colors`">Categories</nuxt-link>
+          <nuxt-link to="/stories" @click="isOpen = !isOpen"
+            :class="`${route.path === '/stories' ? 'text-primary dark:text-orange-400' : 'text-slate-500 dark:text-white'} block text-sm dark:hover:text-gray-400 font-medium hover:text-primary transition-colors`">Livres</nuxt-link>
+          <nuxt-link to="/authors" @click="isOpen = !isOpen"
+            :class="`${route.path === '/authors' ? 'text-primary dark:text-orange-400' : 'text-slate-500 dark:text-white'} block text-sm dark:hover:text-gray-400 font-medium hover:text-primary transition-colors`">Auteurs</nuxt-link>
+          <nuxt-link to="/about" v-if="!user" @click="isOpen = !isOpen"
+            :class="`${route.path === '/about' ? 'text-primary dark:text-orange-400' : 'text-slate-500 dark:text-white'} block text-sm dark:hover:text-gray-400 font-medium hover:text-primary transition-colors`">A
+            propos</nuxt-link>
+          <nuxt-link to="/my-stories" v-if="user && profil && authorizeRoleUser(`${profil.role}`)"
+            @click="isOpen = !isOpen"
+            :class="`${route.path === '/my-stories' ? 'text-primary dark:text-orange-400' : 'text-slate-500 dark:text-white'} block text-sm dark:hover:text-gray-400 font-medium hover:text-primary transition-colors`">Mes
+            histoires</nuxt-link>
+          <nuxt-link to="/dashboard" v-if="user && profil && authorizeRoleDash(`${profil.role}`)"
+            @click="isOpen = !isOpen"
+            :class="`${route.path === '/dashboard' ? 'text-primary dark:text-orange-400' : 'text-slate-500 dark:text-white'} block text-sm dark:hover:text-gray-400 font-medium hover:text-primary transition-colors`">Tableau
+            de bord</nuxt-link>
+        </div>
+        <div class="pt-3 border-t border-slate-200 dark:border-gray-700 flex md:flex-row flex-col gap-2 text-[13px]">
+          <div class="flex md:flex-row flex-col gap-2" v-if="!user">
+            <nuxt-link to="/login" @click="isOpen = !isOpen"
+              class="flex items-center justify-center gap-2 text-center font-medium text-primary bg-white rounded-lg px-4 py-3 md:py-2 md:px-6 border-primary border-[1px] dark:border-none">
+              <Icon name="mdi:login" class="w-4 h-5" />
+              Connexion
+            </nuxt-link>
+          </div>
+          <nuxt-link :to="`/profil`" v-if="user" @click="isOpen = !isOpen"
+            class="flex items-center gap-3 w-full pb-1 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors text-left">
+            <img v-if="user?.photo" :src="`${config.public.apiBackendUrl}/uploads/users/${user?.photo}`" alt="Profil"
+              class="w-8 h-8 rounded-full" />
+            <span v-if="!user?.photo" class="p-1 text-xs flex items-center justify-center w-8 h-8 rounded-full"
+              :style="`background-color: ${user?.code_color}`">
+              {{ user?.name.split(" ").length > 1 ? `${user?.name.charAt(0).toUpperCase() +
+                user?.name.split(" ")[1]?.charAt(0).toUpperCase()}` : user?.name.charAt(0).toUpperCase() }}
+            </span>
+            <div class="flex-1 min-w-0">
+              <p class="text-xs font-semibold text-slate-900 dark:text-white truncate">{{ user?.name }}</p>
+              <p class="text-[10px] text-slate-500 dark:text-slate-400 dark:text-slate-200 truncate">{{ user?.role }}
+              </p>
+            </div>
+            <Icon name="solar:alt-arrow-right-linear" class="w-5 h-5 text-slate-400" />
+          </nuxt-link>
+          <button v-if="user" @click="logout(); isOpen = !isOpen"
+            class="flex items-center justify-center gap-2 text-center bg-red-600 text-white py-2 md:px-6 px-4 rounded-lg dark:border-gray-600 dark:border-[1px]">
+            <Icon name="mdi:logout" class="w-5 h-5" />
+            Déconnexion
+          </button>
+        </div>
+      </div>
+    </transition>
     <Search @close-modal="toggleSearch" @function-search="functionSearch" v-if="showSearch" />
     <ResultSearch @close-modal-result="toggleResultSearch" @previous-data="previousData" @next-data="nextData"
       :results="result" :data="datas" :totalDatas="totalDatas" :currentPage="page" :total="total" :loading="loading"
       v-if="showResultSearch" />
-
-    <div class="fixed lg:hidden bottom-4 z-40 left-0 right-0 flex justify-center">
-      <div class="w-[95%] flex items-center justify-between">
-
-        <!-- LEFT -->
-        <div class="flex items-center">
-          <nuxt-link to="/" class="p-2.5 rounded-full flex items-center justify-center
-               bg-white/30 dark:bg-dark/40 
-               border border-white/50 dark:border-white/20
-               ring-1 ring-black/5 dark:ring-white/5
-               transition-all duration-200" :class="route.path === '/'
-                ? 'bg-orange-100 dark:bg-orange-200 dark:text-slate-800 scale-105'
-                : 'text-slate-700 dark:text-slate-200'">
-            <Icon name="mdi:home" class="w-5 h-5" />
-          </nuxt-link>
-        </div>
-
-        <!-- CENTER -->
-        <div class="w-[70%] flex items-center justify-between px-1 py-1
-                rounded-full bg-white/30 dark:bg-dark/40
-                border border-white/50 dark:border-white/20
-                ring-1 ring-black/5 dark:ring-white/5
-                backdrop-blur-md">
-
-          <nuxt-link to="#" class="p-2 rounded-full flex items-center justify-center 
-               transition-all duration-200" :class="route.path === '/feed'
-                ? 'bg-orange-100 dark:bg-orange-200 dark:text-slate-800 scale-105'
-                : 'text-slate-700 dark:text-slate-200'">
-            <Icon name="mdi:newspaper-variant-outline" class="w-5 h-5" />
-          </nuxt-link>
-
-          <nuxt-link to="/categories" class="p-2 rounded-full flex items-center justify-center 
-               transition-all duration-200" :class="route.path === '/categories'
-                ? 'bg-orange-100 dark:bg-orange-200 dark:text-slate-800 scale-105'
-                : 'text-slate-700 dark:text-slate-200'">
-            <Icon name="solar:tag-linear" class="w-5 h-5" />
-          </nuxt-link>
-
-          <nuxt-link to="/stories" class="p-2 rounded-full flex items-center justify-center 
-               transition-all duration-200" :class="route.path === '/stories'
-                ? 'bg-orange-100 dark:bg-orange-200 dark:text-slate-800 scale-105'
-                : 'text-slate-700 dark:text-slate-200'">
-            <Icon name="mdi:book-open-variant" class="w-5 h-5" />
-          </nuxt-link>
-
-          <nuxt-link to="/authors" class="p-2 rounded-full flex items-center justify-center 
-               transition-all duration-200" :class="route.path === '/authors'
-                ? 'bg-orange-100 dark:bg-orange-200 dark:text-slate-800 scale-105'
-                : 'text-slate-700 dark:text-slate-200'">
-            <Icon name="mdi:users" class="w-5 h-5" />
-          </nuxt-link>
-
-          <nuxt-link to="/notifications" class="relative p-2 rounded-full flex items-center justify-center 
-               transition-all duration-200" :class="route.path === '/notifications'
-                ? 'bg-orange-100 dark:bg-orange-200 dark:text-slate-800 scale-105'
-                : 'text-slate-700 dark:text-slate-200'">
-            <Icon name="mdi:bell" class="w-5 h-5" />
-            <span
-              class="absolute right-1 top-1 bg-red-600 text-white text-xs rounded-full w-2 h-2 flex items-center justify-center"
-              v-if="notifications > 0"></span>
-          </nuxt-link>
-
-        </div>
-
-        <!-- RIGHT -->
-        <div class="flex items-center">
-          <nuxt-link v-if="!user" to="/login" class="p-2.5 rounded-full flex items-center justify-center
-               bg-white/30 dark:bg-dark/40 
-               border border-white/50 dark:border-white/20
-               ring-1 ring-black/5 dark:ring-white/5
-               transition-all duration-200" :class="route.path === '/login'
-                ? 'bg-orange-100 dark:bg-orange-200 dark:text-slate-800 scale-105'
-                : 'text-slate-700 dark:text-slate-200'">
-            <Icon name="mdi:account" class="w-5 h-5" />
-          </nuxt-link>
-          <nuxt-link v-if="user" to="/profil" class="rounded-full flex items-center justify-center
-               bg-white/30 dark:bg-dark/40 
-               border border-white/50 dark:border-white/20
-               ring-1 ring-black/5 dark:ring-white/5
-               transition-all duration-200" :class="route.path === '/profil'
-                ? 'bg-orange-100 dark:bg-orange-200 dark:text-slate-800 scale-105'
-                : 'text-slate-700 dark:text-slate-200'">
-            <img v-if="user.photo" :src="`${config.public.apiBackendUrl}/uploads/users/${user.photo}`" alt="Profil"
-              class="w-10 h-10 rounded-full flex-shrink-0" />
-            <span v-if="!user.photo"
-              class="p-2.5 text-xs flex items-center justify-center w-10 h-10 rounded-full flex-shrink-0"
-              :style="`background-color: ${user.code_color}`">
-              {{ user.name.split(" ").length > 1
-                ? `${user.name.charAt(0).toUpperCase() + user.name.split(" ")[1]?.charAt(0).toUpperCase()}`
-                : user.name.charAt(0).toUpperCase() }}
-            </span>
-          </nuxt-link>
-        </div>
-
-      </div>
-    </div>
   </div>
 </template>
 
@@ -241,6 +210,7 @@
 </style>
 
 <script setup lang="ts">
+const socket = useSocket();
 const config = useRuntimeConfig();
 const route = useRoute()
 const isOpen = ref<boolean>(false)
@@ -250,13 +220,11 @@ const showProfileMenu = ref<boolean>(false);
 const loading = ref<boolean>(true);
 const datas = ref<{ searchType: string, search: string, status: string, rating_age: string[] }>({ searchType: "", search: "", status: "", rating_age: [] });
 const result = ref<Author[] | BookData[] | Category[]>([]);
-const notifications = ref<number>(0);
 const page = ref<number>(1);
 const total = ref<number>(0);
 const totalDatas = ref<number>(0);
 const limit = ref<number>(25);
 const { toConnectUser, logout } = authenticate();
-const { getNotifications } = notificationsData();
 const { findAllPaginatedStatutOrRatingAge } = booksData();
 const { getProfile, getUsers } = usersData();
 const { getCategoriesByName } = categoriesData();
@@ -346,12 +314,7 @@ onMounted(async () => {
   user.value = await toConnectUser();
   profil.value = await getProfile();
   if (profil.value) {
-    const socket = useSocket(profil.value.id);
-    const { countNoRead } = await getNotifications(1, 25, profil.value!.id);
-    notifications.value = countNoRead;
     // console.log("🧠 socket instance :", socket);
-
-    socket.off("notification"); // 🔥 évite les doublons
 
     socket.on("connect", () => {
       // console.log("🟢 socket connecté", socket.id);
@@ -360,7 +323,8 @@ onMounted(async () => {
     });
 
     socket.on("notification", (data: any) => {
-      notifications.value = data?.countNoRead;
+      console.log("🔔 Nouvelle notif :", data);
+
       // 👉 ici tu peux afficher toast / badge
     });
   }

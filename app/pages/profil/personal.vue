@@ -1,19 +1,26 @@
 <template>
     <div class="bg-[#fffcfccc] dark:bg-dark dark:border-slate-200 dark:border-b-[1px]">
-        <div class="max-w-6xl mx-auto space-y-8 px-4 sm:px-6 lg:px-8 pt-24 pb-12" v-if="user">
-            <!-- Welcome Section -->
-            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-                <div>
-                    <div class="flex items-center gap-2">
-                        <button @click="back"
-                            class="py-2 rounded-lg flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors">
-                            <Icon name="mdi:arrow-left" class="w-4 h-4" />
-                        </button>
-                        <h2 class="text-2xl font-display font-bold text-slate-900 dark:text-white tracking-tight">
-                            Bonjour, {{ user?.name || 'Utilisateur' }} 👋</h2>
+        <div class="max-w-6xl mx-auto space-y-8 px-4 sm:px-6 lg:px-8 pt-20 md:pt-24 pb-12" v-if="user">
+            <div class="flex flex-col gap-4 lg:gap-6">
+                <div
+                    class="flex items-center gap-2 bg-white dark:bg-slate-800 p-4 rounded-lg border-slate-300 border-[1px]">
+                    <button @click="back"
+                        class="py-2 rounded-lg flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors">
+                        <Icon name="mdi:arrow-left" class="w-4 h-4" />
+                    </button>
+                    <h2 class="text-2xl font-display font-bold text-slate-900 dark:text-white tracking-tight">
+                        Paramètres</h2>
+                </div>
+                <div
+                    class="flex flex-col gap-2 bg-white dark:bg-slate-800 p-4 rounded-lg border-slate-300 border-[1px]">
+                    <h2 class="text-[20px] font-display font-bold text-slate-900 dark:text-white tracking-tight">
+                        Modifier vos informations personnelles</h2>
+                    <div>
+                        <h3 class="text-lg font-display font-semibold text-slate-900 dark:text-white tracking-tight">
+                            Bonjour, {{ user?.name || 'Utilisateur' }} 👋</h3>
+                        <p class="text-sm text-slate-500 dark:text-slate-200 mt-1">Faîtes une mise à jour de vos
+                            informations personnelles !</p>
                     </div>
-                    <p class="text-sm text-slate-500 dark:text-slate-200 mt-1">Faîtes une mise à jour de vos
-                        informations personnelles !</p>
                 </div>
             </div>
             <form class="flex flex-col gap-4" @submit.prevent="changeData">
@@ -60,7 +67,7 @@
                         class="mt-1 block w-full rounded-lg border-0 py-2.5 lg:p-3 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-400">
                         <option value="" disabled selected>Pays d'origine</option>
                         <option v-for="(country, index) in countries" :key="index" :value="country.id">{{ country.name
-                        }}</option>
+                            }}</option>
                     </select>
                 </div>
                 <div>
@@ -83,8 +90,10 @@
                         </label>
                     </div>
                 </div>
-                <div class="bg-white dark:bg-slate-800 px-4 py-6 rounded-lg border-slate-300 border-[1px] flex flex-col gap-4" v-if="profil && profil.role.toLocaleLowerCase() !== 'lecteur'">
-                    <p class="text-sm font-medium text-slate-700 dark:text-slate-200">Publiez-vous également sur d’autres réseaux sociaux ?
+                <div class="bg-white dark:bg-slate-800 px-4 py-6 rounded-lg border-slate-300 border-[1px] flex flex-col gap-4"
+                    v-if="profil && profil.role.toLocaleLowerCase() !== 'lecteur'">
+                    <p class="text-sm font-medium text-slate-700 dark:text-slate-200">Publiez-vous également sur
+                        d’autres réseaux sociaux ?
                         <br />
                         Si oui, merci de renseigner les liens correspondants dans les champs ci-dessous.
                     </p>
@@ -119,6 +128,16 @@
                         les modifications</button>
                 </div>
             </form>
+            <div
+                class="flex flex-col gap-2 bg-white dark:bg-slate-800 p-4 rounded-lg border-slate-300 border-[1px]">
+                <h2 class="text-[20px] font-display font-bold text-slate-900 dark:text-white tracking-tight">
+                    Se déconnecter</h2>
+
+                <div class="tracking-tight text-slate-500 dark:text-slate-200 text-sm">
+                    <p>Cliquez sur ce bouton pour vous déconnecter de cette session.</p>
+                    <button @click="logout" class="mt-2 bg-red-600 hover:bg-red-700 duration-300 ease-linear text-white px-4 py-2 rounded-md">Déconnexion</button>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -126,8 +145,8 @@
 const { allCountrieActifs } = countriesData();
 const { allCategorieActifs } = categoriesData();
 const { changePersonalData } = authForm();
-const { toConnectUser } = authenticate();
-const { getProfile } = usersData();
+const { toConnectUser, logout } = authenticate();
+const { getProfile, } = usersData();
 const user = ref<User | null>(null);
 const profil = ref<User | null>(null);
 const name = ref<string>("");

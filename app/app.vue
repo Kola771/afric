@@ -6,7 +6,7 @@
     </NuxtLayout>
     <!-- Scroll To Top Button -->
     <button v-if="showScrollTop" @click="scrollToTop"
-      class="fixed bottom-6 flex items-center justify-center right-6 z-40 bg-slate-900 text-white p-3 rounded-full shadow-xl hover:bg-slate-800 transition-all duration-300 dark:bg-white dark:text-slate-900">
+      class="fixed bottom-16 md:bottom-6 flex items-center justify-center right-3 md:right-6 z-30 bg-slate-900 text-white p-2.5 md:p-3 rounded-full shadow-xl hover:bg-slate-800 transition-all duration-300 dark:bg-white dark:text-slate-900">
       <Icon name="mdi:arrow-up" class="w-5 h-5" />
     </button>
   </div>

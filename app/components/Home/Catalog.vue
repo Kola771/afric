@@ -1,6 +1,6 @@
 <template>
   <div id="popular">
-    <section class="border-b border-slate-200 bg-white dark:bg-dark sticky top-16 z-10 shadow-sm">
+    <section class="border-b border-slate-200 bg-white dark:bg-dark sticky top-14 z-10 shadow-sm">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-slate-600 dark:text-primary">
         <div class="flex items-center gap-2 py-4 overflow-x-auto custom">
           <button

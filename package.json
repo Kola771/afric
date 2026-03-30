@@ -38,6 +38,7 @@
     "headlessui": "^0.0.0",
     "nuxt": "^4.3.1",
     "pdfjs-dist": "^5.4.624",
+    "socket.io-client": "^4.8.3",
     "tailwind-scrollbar-hide": "^4.0.0",
     "tesseract.js": "^7.0.0",
     "tinymce": "^8.3.2",

@@ -23,27 +23,38 @@ interface User {
   preferences?: Category[]
 }
 
+interface Notification {
+  id: number,
+  created_at: Date,
+  is_read: boolean,
+  message: string,
+  user: User,
+  lastSender: User,
+  book: BookData,
+  chapter: ChapterData,
+}
+
 interface Progression {
-    user: {
-        uuid: string,
-        email: string,
-        rank: string
-    },
-    stats: {
-        totalViews: number,
-        totalReactions: number,
-        totalComments: number
-    },
-    progression: {
-        currentRank: string,
-        nextRank: string,
-        progress: number,
-        target: {
-            views: number,
-            reactions: number,
-            comments: number
-        }
+  user: {
+    uuid: string,
+    email: string,
+    rank: string
+  },
+  stats: {
+    totalViews: number,
+    totalReactions: number,
+    totalComments: number
+  },
+  progression: {
+    currentRank: string,
+    nextRank: string,
+    progress: number,
+    target: {
+      views: number,
+      reactions: number,
+      comments: number
     }
+  }
 }
 
 interface Author {
@@ -123,7 +134,7 @@ interface BookData {
   rating_age: string
   status: string
   deadline: Date
-  book_pdf?: string|null
+  book_pdf?: string | null
   image: string
   book_categories?: any
   book_comments?: any

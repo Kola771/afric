@@ -30,7 +30,7 @@
                         props.book.user?.name
                             }}</span></p>
                 </nuxt-link>
-                <div class="flex items-center gap-2 text-[10px] text-slate-400 dark:text-slate-300 font-medium">
+                <div class="flex flex-wrap items-center gap-2 text-[10px] text-slate-400 dark:text-slate-300 font-medium">
                     <span class="flex items-center gap-0.5">
                         <Icon name="mdi:heart" class="text-red-600 dark:text-red-500" />
                         {{ formatNumber(props.book.book_reactions) }}
