@@ -77,7 +77,7 @@
                       <Icon name="mdi:account" class="w-4 h-4" />
                       Mon profil
                     </nuxt-link>
-                    <nuxt-link @click="showProfileMenu = false" to="/notifications"
+                    <nuxt-link @click="showProfileMenu = false" v-if="authorizeRoleUser(`${profil?.role}`)" to="/notifications"
                       class="block px-4 py-2 flex items-center gap-2 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
                       <Icon name="mdi:bell" class="w-4 h-4" />
                       Notifications <span
@@ -173,7 +173,7 @@
             <Icon name="mdi:users" class="w-5 h-5" />
           </nuxt-link>
 
-          <nuxt-link to="/notifications" class="relative p-2 rounded-full flex items-center justify-center 
+          <nuxt-link v-if="profil" to="/notifications" class="relative p-2 rounded-full flex items-center justify-center 
                transition-all duration-200" :class="route.path === '/notifications'
                 ? 'bg-orange-100 dark:bg-orange-200 dark:text-slate-800 scale-105'
                 : 'text-slate-700 dark:text-slate-200'">
@@ -271,7 +271,7 @@ let clickTimer: number | null = null;
 
 const onAvatarClick = () => {
   clickCount++;
-  if(!profil.value) return;
+  if (!profil.value) return;
   if (clickCount === 1) {
     // single click possible
     clickTimer = window.setTimeout(() => {
@@ -380,6 +380,14 @@ onMounted(async () => {
   user.value = await toConnectUser();
   profil.value = await getProfile();
   if (profil.value) {
+    if (Notification.permission === "default") {
+      const permission = await Notification.requestPermission();
+    }
+    setTimeout(() => {
+  new Notification("TEST 🔔", {
+    body: "Si tu vois ça, c’est OK",
+  });
+}, 2000);
     const socket = useSocket(profil.value.id);
     const { countNoRead } = await getNotifications(1, 25, profil.value!.id);
     notifications.value = countNoRead;
@@ -396,6 +404,12 @@ onMounted(async () => {
     socket.on("notification", (data: any) => {
       notifications.value = data?.countNoRead;
       // 👉 ici tu peux afficher toast / badge
+      if (Notification.permission === "granted") {
+        new Notification("Nouvelle notification 🔔", {
+          body: data?.message || "Vous avez une nouvelle notification",
+          icon: "/afric.png", // optionnel (mettre ton logo)
+        });
+      }
     });
   }
 })
