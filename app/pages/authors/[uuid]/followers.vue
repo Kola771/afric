@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-[#fffcfccc] dark:bg-dark dark:border-slate-200 dark:border-b pt-8 md:pt-12 pb-12 flex-1 min-h-screen"
+    <div class="bg-[#fffcfccc] dark:bg-dark dark:border-slate-200 dark:border-b pt-8 md:pt-12 pb-12 flex-1"
         v-if="author">
         <section class="max-w-7xl mx-auto px-6 pt-12 border-t border-slate-100">
             <button @click="back"

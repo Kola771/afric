@@ -21,13 +21,13 @@ export function notificationsData() {
         return { data: [], total: 0, totalPages: 0, countNoRead: 0, currentPage: 0 };
     }
 
-    // Modification des informations d'une catégorie
-    async function updateData(uuid: string, data: any): Promise<{ success: boolean, msg?: string, error?: string | null, status?: number }> {
+    // M
+    async function updateData(id: number, id_user: number, data: any): Promise<{ success: boolean, msg?: string, error?: string | null, status?: number }> {
         if (process.client) {
             if (localStorage.getItem('user')) {
                 const token = JSON.parse(localStorage.getItem("user") || '{}').token;
                 try {
-                    const response = await axios.put(`/notifications/${uuid}`, data, {
+                    const response = await axios.put(`/notifications/${id}/${id_user}`, data, {
                         headers: {
                             Authorization: `Bearer ${token}`,
                         },

@@ -20,8 +20,8 @@
             </nuxt-link>
             <!-- Desktop Menu -->
             <div class="hidden lg:flex items-center gap-8 text-slate-500 text-[13.5px] xl:text-sm">
-              <nuxt-link to="/"
-                :class="`${route.path === '/' ? 'text-primary dark:text-orange-400' : 'dark:text-white'} font-medium hover:text-slate-900 dark:hover:text-gray-400 transition-colors`">Découvrir</nuxt-link>
+              <nuxt-link to="#"
+                :class="`${route.path === '/discover' ? 'text-primary dark:text-orange-400' : 'dark:text-white'} font-medium hover:text-slate-900 dark:hover:text-gray-400 transition-colors`">Découvrir</nuxt-link>
               <nuxt-link to="/categories"
                 :class="`${route.path === '/categories' ? 'text-primary dark:text-orange-400' : 'dark:text-white'} font-medium hover:text-slate-900 dark:hover:text-gray-400 transition-colors`">Categories</nuxt-link>
               <nuxt-link to="/stories"
@@ -77,11 +77,12 @@
                       <Icon name="mdi:account" class="w-4 h-4" />
                       Mon profil
                     </nuxt-link>
-                    <nuxt-link @click="showProfileMenu = false"
-                      to="/notifications"
+                    <nuxt-link @click="showProfileMenu = false" to="/notifications"
                       class="block px-4 py-2 flex items-center gap-2 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
                       <Icon name="mdi:bell" class="w-4 h-4" />
-                      Notifications <span class="bg-red-600 text-white text-[8px] rounded-full w-4 h-4 flex items-center justify-center" v-if="notifications > 0">{{ notifications > 9 ? '9+' : notifications }}</span>
+                      Notifications <span
+                        class="bg-red-600 text-white text-[8px] rounded-full w-4 h-4 flex items-center justify-center"
+                        v-if="notifications > 0">{{ notifications > 9 ? '9+' : notifications }}</span>
                     </nuxt-link>
                     <nuxt-link v-if="profil && authorizeRoleDash(`${profil.role}`)" @click="showProfileMenu = false"
                       to="/dashboard"
@@ -145,7 +146,7 @@
                 backdrop-blur-md">
 
           <nuxt-link to="#" class="p-2 rounded-full flex items-center justify-center 
-               transition-all duration-200" :class="route.path === '/feed'
+               transition-all duration-200" :class="route.path === '/discover'
                 ? 'bg-orange-100 dark:bg-orange-200 dark:text-slate-800 scale-105'
                 : 'text-slate-700 dark:text-slate-200'">
             <Icon name="mdi:newspaper-variant-outline" class="w-5 h-5" />
@@ -186,7 +187,7 @@
 
         <!-- RIGHT -->
         <div class="flex items-center">
-          <nuxt-link v-if="!user" to="/login" class="p-2.5 rounded-full flex items-center justify-center
+          <nuxt-link v-if="!profil" to="/login" class="p-2.5 rounded-full flex items-center justify-center
                bg-white/30 dark:bg-dark/40 
                border border-white/50 dark:border-white/20
                ring-1 ring-black/5 dark:ring-white/5
@@ -195,23 +196,19 @@
                 : 'text-slate-700 dark:text-slate-200'">
             <Icon name="mdi:account" class="w-5 h-5" />
           </nuxt-link>
-          <nuxt-link v-if="user" to="/profil" class="rounded-full flex items-center justify-center
-               bg-white/30 dark:bg-dark/40 
-               border border-white/50 dark:border-white/20
-               ring-1 ring-black/5 dark:ring-white/5
-               transition-all duration-200" :class="route.path === '/profil'
-                ? 'bg-orange-100 dark:bg-orange-200 dark:text-slate-800 scale-105'
-                : 'text-slate-700 dark:text-slate-200'">
-            <img v-if="user.photo" :src="`${config.public.apiBackendUrl}/uploads/users/${user.photo}`" alt="Profil"
+          <div v-if="profil" class="rounded-full flex items-center justify-center
+             bg-white/30 dark:bg-dark/40 
+             border border-white/50 dark:border-white/20
+             ring-1 ring-black/5 dark:ring-white/5
+             transition-all duration-200 cursor-pointer" @click="onAvatarClick">
+            <!-- Image ou Initiales -->
+            <img v-if="profil?.photo" :src="`${config.public.apiBackendUrl}/uploads/users/${profil.photo}`" alt="Profil"
               class="w-10 h-10 rounded-full flex-shrink-0" />
-            <span v-if="!user.photo"
-              class="p-2.5 text-xs flex items-center justify-center w-10 h-10 rounded-full flex-shrink-0"
-              :style="`background-color: ${user.code_color}`">
-              {{ user.name.split(" ").length > 1
-                ? `${user.name.charAt(0).toUpperCase() + user.name.split(" ")[1]?.charAt(0).toUpperCase()}`
-                : user.name.charAt(0).toUpperCase() }}
+            <span v-else class="p-2.5 text-xs flex items-center justify-center w-10 h-10 rounded-full flex-shrink-0"
+              :style="`background-color: ${profil?.code_color}`">
+              {{ getInitials(profil?.name) }}
             </span>
-          </nuxt-link>
+          </div>
         </div>
 
       </div>
@@ -243,6 +240,7 @@
 <script setup lang="ts">
 const config = useRuntimeConfig();
 const route = useRoute()
+const router = useRouter()
 const isOpen = ref<boolean>(false)
 const showSearch = ref<boolean>(false);
 const showResultSearch = ref<boolean>(false);
@@ -266,6 +264,42 @@ const profil = ref<User | null>(null);
 const toggleSearch = () => {
   showSearch.value = !showSearch.value
 }
+
+// compteur de clics
+let clickCount = 0;
+let clickTimer: number | null = null;
+
+const onAvatarClick = () => {
+  clickCount++;
+  if(!profil.value) return;
+  if (clickCount === 1) {
+    // single click possible
+    clickTimer = window.setTimeout(() => {
+      router.push('/profil'); // single click → profil
+      clickCount = 0;
+      clickTimer = null;
+    }, 250); // délai pour détecter double click
+  } else if (clickCount === 2 && !['lecteur', 'auteur'].includes(profil.value?.role || '')) {
+    // double click détecté
+    if (clickTimer) {
+      clearTimeout(clickTimer);
+      clickTimer = null;
+    }
+    router.push('/dashboard'); // double click → dashboard
+    clickCount = 0;
+  }
+};
+
+
+// Helper pour les initiales
+const getInitials = (name: string | undefined) => {
+  if (!name) return '';
+  const parts = name.split(' ');
+  if (parts.length > 1) {
+    return `${parts[0]?.charAt(0).toUpperCase()}${parts[1]?.charAt(0).toUpperCase()}`;
+  }
+  return name?.charAt(0).toUpperCase();
+};
 
 const toggleResultSearch = () => {
   showResultSearch.value = !showResultSearch.value;
