@@ -212,7 +212,7 @@ const hydrateLikes = (items: any[]) => {
 const saveWatchTime = async () => {
     const item = feed.value[currentIndex.value];
     if (!item) return;
-    if (['author', 'book'].includes(item.type)) return;
+    if (['author', 'book', 'category'].includes(item.type)) return;
 
     const key = `${item.type}-${item.data.uuid}`;
     const timeSpent = Date.now() - viewStartTime.value;
