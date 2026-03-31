@@ -44,6 +44,10 @@
                         </div>
                     </div>
 
+                    <div class="absolute inset-0 flex items-center justify-center"
+                        v-if="['chapter', 'category'].includes(item.type)" :class="`${bg[index % bg.length]}`">
+                    </div>
+
                     <!-- 🎭 OVERLAY -->
                     <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
 
@@ -52,12 +56,17 @@
 
                         <!-- CATEGORY -->
                         <div v-if="item.type === 'category'" class="w-full px-4 py-6">
-                            <h3 class="text-sm text-gray-400 mb-2 flex items-center gap-2"><Icon name="solar:tag-linear" class="w-5 h-5" /> Explorer nos différentes catégories</h3>
+                            <h3 class="text-sm text-white font-medium mb-2 flex items-center gap-2">
+                                <Icon name="solar:tag-linear" class="w-5 h-5" /> Explorer nos différentes catégories
+                            </h3>
 
-                            <div class="grid grid-cols-2 gap-2">
+                            <div class="grid grid-cols-2 gap-2"
+                                :class="item.data.length % 2 === 0 ? '' : 'lg:grid-cols-3'">
                                 <button v-for="(cat, y) in item.data" :key="cat.uuid" @click="goCategory(cat.uuid)"
-                                    class="bg-primary/80 hover:bg-dark/80 hover:border-slate-400 hover:border-[1px] hover:duration-300 hover:ease-linear transition p-3 rounded-lg text-left" :class="y === 4 ? 'col-span-2' : ''">
-                                    <img :src="cat.image?.includes('https') ? cat.image : `${$config.public.apiBackendUrl}/uploads/categories/${cat.image}`" class="h-24 lg:h-36 w-full rounded-lg" />
+                                    class="bg-primary/80 hover:bg-dark/80 hover:border-slate-400 hover:border-[1px] hover:duration-300 hover:ease-linear flex flex-col items-start transition p-3 rounded-lg text-left"
+                                    :class="y === 4 ? 'col-span-2' : ''">
+                                    <img :src="cat.image?.includes('https') ? cat.image : `${$config.public.apiBackendUrl}/uploads/categories/${cat.image}`"
+                                        class="h-24 lg:h-36 w-full rounded-lg" />
                                     <p class="font-semibold text-white">{{ cat.name }}</p>
                                     <p class="text-xs text-gray-300" :class="y === 4 ? 'line-clamp-2' : 'line-clamp-1'">
                                         {{ cat.description }}
@@ -68,8 +77,8 @@
 
                         <!-- 📖 CHAPTER -->
                         <div v-if="item.type === 'chapter'">
-                            <h2 class="text-2xl md:text-4xl font-bold">
-                                {{ item.data.title }}
+                            <h2 class="text-2xl md:text-4xl font-bold flex items-center gap-2">
+                               <Icon name="mdi:book-open-page-variant" class="w-5 h-5 flex-shrink-0" /> {{ item.data.title }}
                             </h2>
 
                             <p class="text-gray-300 text-sm" v-html="item.data.content.length > 1000
@@ -78,15 +87,19 @@
                             </p>
                             <p class="text-amber-500 text-xs mt-2 font-medium"
                                 v-if="Number(item.data.chapter_reactions.length) > 0">{{
+                                    item.data.chapter_reactions[0].emoji }} {{
                                     formatNumber(Number(item.data.chapter_reactions.length)) }} personne{{
-                                    Number(item.data.chapter_reactions.length) > 1 ? 's ont' : ' a' }} aimé ce chapitre.</p>
-                            <p class="text-sky-500 text-xs mt-2 font-medium"
-                                v-if="Number(item.data.chapter_reads.length) > 0">{{
+                                    Number(item.data.chapter_reactions.length) > 1 ? 's ont' : ' a' }} réagi sur ce
+                                chapitre.</p>
+                            <p class="text-sky-500 text-xs mt-2 font-medium flex items-center gap-1.5"
+                                v-if="Number(item.data.chapter_reads.length) > 0">
+                                <Icon name="mdi:eye" class="w-4 h-4" /> {{
                                     formatNumber(Number(item.data.chapter_reads.length)) }} personne{{
-                                    Number(item.data.chapter_reads.length) > 1 ? 's ont' : ' a' }} lu ce chapitre.</p>
-
+                                    Number(item.data.chapter_reads.length) > 1 ? 's ont' : ' a' }} lu ce chapitre.
+                            </p>
+                            <nuxt-link :to="`/books/${item.data.book.uuid}`" class="font-medium underline text-xs mt-1">Tirer du livre : {{ item.data.book.title }}</nuxt-link>
                             <button @click.stop="goToChapter(item.data.book.uuid, item.data.uuid)"
-                                class="mt-3 animate-pulse lg:animate-none flex items-center justify-center gap-2 px-6 py-3 rounded-lg w-[80%] md:w-auto md:px-12 bg-primary lg:bg-orange-900 font-semibold hover:bg-orange-800 transition">
+                                class="mt-3 flex items-center justify-center gap-2 px-6 py-3 rounded-lg w-[80%] md:w-auto md:px-12 bg-primary lg:bg-orange-900 font-semibold hover:bg-orange-800 transition">
                                 <Icon name="mdi:book-open-page-variant" class="w-5 h-5" /> Lire la suite
                             </button>
                         </div>
@@ -102,12 +115,13 @@
                                 : item.data.description">
                             </p>
                             <p class="text-amber-500 text-xs mt-2 font-medium"
-                                v-if="Number(item.data.book_reactions.length) > 0">{{
+                                v-if="Number(item.data.book_reactions.length) > 0">{{ item.data.book_reactions[0].emoji
+                                }} {{
                                     formatNumber(Number(item.data.book_reactions.length)) }} personne{{
-                                    Number(item.data.book_reactions.length) > 1 ? 's ont' : ' a' }} aimé ce livre.</p>
+                                    Number(item.data.book_reactions.length) > 1 ? 's ont' : ' a' }} réagi sur ce livre.</p>
 
                             <button @click.stop="goToBook(item.data.uuid)"
-                                class="mt-3 animate-pulse lg:animate-none flex items-center justify-center gap-2 px-6 py-3 rounded-lg w-[80%] md:w-auto md:px-12 bg-primary lg:bg-orange-900 font-semibold hover:bg-orange-800 transition">
+                                class="mt-3 flex items-center justify-center gap-2 px-6 py-3 rounded-lg w-[80%] md:w-auto md:px-12 bg-primary lg:bg-orange-900 font-semibold hover:bg-orange-800 transition">
                                 <Icon name="mdi:book-open-variant" class="w-5 h-5" /> Voir le livre
                             </button>
                         </div>
@@ -127,15 +141,19 @@
                             </p>
 
                             <p class="text-gray-400 text-sm">
-                                Pays d'origine : {{ item.data.country }}
+                                <strong>Pays d'origine :</strong> {{ item.data.country }}
                             </p>
 
                             <p class="text-gray-400 text-sm">
-                                Followers : {{ formatNumber(item.data.total_followers) }}
+                                <strong>Livres disponibles :</strong> {{ formatNumber(item.data.books.length) }}
+                            </p>
+
+                            <p class="text-gray-400 text-sm">
+                                <strong>Followers :</strong> {{ formatNumber(item.data.total_followers) }}
                             </p>
 
                             <button @click.stop="goToAuthor(item.data.uuid)"
-                                class="mt-3 animate-pulse lg:animate-none flex items-center justify-center gap-2 px-6 py-3 rounded-lg w-full md:w-auto md:px-12 bg-primary font-semibold lg:bg-orange-900 hover:bg-orange-800 transition">
+                                class="mt-3 flex items-center justify-center gap-2 px-6 py-3 rounded-lg w-full md:w-auto md:px-12 bg-primary font-semibold lg:bg-orange-900 hover:bg-orange-800 transition">
                                 <Icon name="mdi:user" class="w-5 h-5" /> Voir profil
                             </button>
                         </div>
@@ -144,8 +162,8 @@
                     <!-- ❤️ LIKE -->
                     <div class="absolute right-4 bottom-5 lg:bottom-10 flex flex-col items-center z-20"
                         v-if="['book', 'chapter'].includes(item.type)">
-                        <button @click.stop="like(item, $event)" class="text-3xl">
-                            <Icon name="mdi:heart" class="w-8 h-8 transition"
+                        <button @click.stop="like(item, $event)" class="text-3xl animate-bounce">
+                            <Icon name="mdi:heart-outline" class="w-8 h-8 transition"
                                 :class="likedItems.has(`${item.type}-${item.data.uuid}`) ? 'text-red-500' : 'text-white'" />
                         </button>
                     </div>
@@ -166,7 +184,21 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+useSeoMeta({
+    title: 'Découvrir notre fil d\'actualité',
+    description: 'Explorez des histoires africaines originales écrites par des auteurs émergents et passionnés sur Afric Storyline.',
+
+    ogTitle: 'Découvrir notre fil d\'actualité',
+    ogDescription: 'Plongez dans des récits africains captivants publiés par une nouvelle génération d’auteurs talentueux.',
+    ogImage: 'https://africstoryline.com/afric.png',
+    ogUrl: 'https://africstoryline.com/',
+    ogType: 'website',
+
+    twitterCard: 'summary_large_image',
+    twitterTitle: 'Découvrir notre fil d\'actualité',
+    twitterDescription: 'Découvrez des récits africains uniques écrits par des auteurs émergents.',
+    twitterImage: 'https://africstoryline.com/afric.png'
+});
 
 definePageMeta({ layout: "not-layout" });
 
@@ -181,6 +213,7 @@ const user = ref<User | null>(null);
 const page = ref(1);
 const currentIndex = ref(0);
 const showTimeHeart = ref<boolean>(false);
+const bg = ref<any>(["bg-purple-500", "bg-pink-500", "bg-sky-500", "bg-yellow-500", "bg-cyan-500", "bg-[#f50]", "bg-slate-500", "bg-teal-500", "bg-green-500", "bg-red-500"]);
 let startY = 0;
 let startX = 0;
 const SWIPE_THRESHOLD = 60;
@@ -283,7 +316,33 @@ const fetchFeed = async () => {
     }
 };
 
-onMounted(fetchFeed);
+const handleKeydown = (e: KeyboardEvent) => {
+    switch (e.key) {
+        case 'ArrowUp':
+            e.preventDefault();
+            prev();
+            break;
+
+        case 'ArrowDown':
+            e.preventDefault();
+            next();
+            break;
+
+        case 'ArrowRight':
+            e.preventDefault();
+            openCurrentItem();
+            break;
+    }
+};
+
+onMounted(() => {
+    fetchFeed();
+    window.addEventListener('keydown', handleKeydown);
+});
+
+onUnmounted(() => {
+    window.removeEventListener('keydown', handleKeydown);
+});
 
 // ❤️ HEART SPAWN
 const spawnHearts = (x: number, y: number) => {
