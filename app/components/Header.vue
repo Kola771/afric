@@ -20,7 +20,7 @@
             </nuxt-link>
             <!-- Desktop Menu -->
             <div class="hidden lg:flex items-center gap-8 text-slate-500 text-[13.5px] xl:text-sm">
-              <nuxt-link to="#"
+              <nuxt-link to="/discover"
                 :class="`${route.path === '/discover' ? 'text-primary dark:text-orange-400' : 'dark:text-white'} font-medium hover:text-slate-900 dark:hover:text-gray-400 transition-colors`">Découvrir</nuxt-link>
               <nuxt-link to="/categories"
                 :class="`${route.path === '/categories' ? 'text-primary dark:text-orange-400' : 'dark:text-white'} font-medium hover:text-slate-900 dark:hover:text-gray-400 transition-colors`">Categories</nuxt-link>
@@ -146,7 +146,7 @@
                 ring-1 ring-black/5 dark:ring-white/5
                 backdrop-blur-md">
 
-          <nuxt-link to="#" class="p-2 rounded-full flex items-center justify-center 
+          <nuxt-link to="/discover" class="p-2 rounded-full flex items-center justify-center 
                transition-all duration-200" :class="route.path === '/discover'
                 ? 'bg-orange-100 dark:bg-orange-200 dark:text-slate-800 scale-105'
                 : 'text-slate-700 dark:text-slate-200'">
@@ -290,7 +290,6 @@ const onAvatarClick = () => {
     clickCount = 0;
   }
 };
-
 
 // Helper pour les initiales
 const getInitials = (name: string | undefined) => {

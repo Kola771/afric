@@ -926,7 +926,7 @@ const handleChapterClick = (index: number, uuid: string) => {
 const sortedChapters = computed(() => {
     if (!book.value?.chapters) return [];
     const sorted = [...book.value.chapters].sort((a, b) => {
-        const diff = new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
+        const diff = a.id - b.id;
         return sortDirection.value === 'asc' ? diff : -diff;
     });
     return sorted;

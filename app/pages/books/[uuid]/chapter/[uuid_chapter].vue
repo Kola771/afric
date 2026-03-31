@@ -899,10 +899,20 @@ const textSizeClass = computed(() => {
     }
 })
 
+// ---------- CHAPTERS ----------
+const sortedChapters = computed(() => {
+    if (!book.value?.chapters) return [];
+    const sorted = [...book.value.chapters].sort((a, b) => {
+        const diff = a.id - b.id;
+        return diff;
+    });
+    return sorted;
+});
+
 // Calculer l'index du chapitre courant
 const currentChapterIndex = computed(() => {
     if (!book.value || !chapter.value) return -1;
-    return book.value.chapters.findIndex((c: BookData) => c.uuid === chapter.value?.uuid);
+    return sortedChapters.value.findIndex((c: BookData) => c.uuid === chapter.value?.uuid);
 });
 
 // Chapitre précédent
