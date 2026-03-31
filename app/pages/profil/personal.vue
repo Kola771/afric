@@ -8,7 +8,7 @@
                         class="py-2 rounded-lg flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors">
                         <Icon name="mdi:arrow-left" class="w-4 h-4" />
                     </button>
-                    <h2 class="text-2xl font-display font-bold text-slate-900 dark:text-white tracking-tight">
+                    <h2 class="text-xl font-display font-bold text-slate-900 dark:text-white tracking-tight">
                         Paramètres</h2>
                 </div>
                 <div

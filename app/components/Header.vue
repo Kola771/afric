@@ -77,7 +77,8 @@
                       <Icon name="mdi:account" class="w-4 h-4" />
                       Mon profil
                     </nuxt-link>
-                    <nuxt-link @click="showProfileMenu = false" v-if="authorizeRoleUser(`${profil?.role}`)" to="/notifications"
+                    <nuxt-link @click="showProfileMenu = false" v-if="authorizeRoleUser(`${profil?.role}`)"
+                      to="/notifications"
                       class="block px-4 py-2 flex items-center gap-2 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
                       <Icon name="mdi:bell" class="w-4 h-4" />
                       Notifications <span
@@ -383,11 +384,7 @@ onMounted(async () => {
     if (Notification.permission === "default") {
       const permission = await Notification.requestPermission();
     }
-    setTimeout(() => {
-  new Notification("TEST 🔔", {
-    body: "Si tu vois ça, c’est OK",
-  });
-}, 2000);
+
     const socket = useSocket(profil.value.id);
     const { countNoRead } = await getNotifications(1, 25, profil.value!.id);
     notifications.value = countNoRead;
