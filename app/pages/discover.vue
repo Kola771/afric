@@ -163,7 +163,7 @@
                     <div class="absolute right-4 bottom-5 lg:bottom-10 flex flex-col items-center z-20"
                         v-if="['book', 'chapter'].includes(item.type)">
                         <button @click.stop="like(item, $event)" class="text-3xl animate-bounce">
-                            <Icon name="mdi:heart-outline" class="w-8 h-8 transition"
+                            <Icon name="solar:heart-outline" class="w-8 h-8 transition"
                                 :class="likedItems.has(`${item.type}-${item.data.uuid}`) ? 'text-red-500' : 'text-white'" />
                         </button>
                     </div>
