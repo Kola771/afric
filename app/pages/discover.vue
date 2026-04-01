@@ -173,6 +173,19 @@
                             <p class="text-gray-400 text-sm">
                                 <strong>Followers :</strong> {{ formatNumber(item.data.total_followers) }}
                             </p>
+                            <div v-if="item.data.followers.length > 0" class="mt-1">
+                                <div class="flex items-center gap-1">
+                                    <img v-if="item.data.followers[0]?.photo"
+                                        :src="`${$config.public.apiBackendUrl}/uploads/users/${item.data.followers[0].photo}`" alt="Profil"
+                                        class="w-5 h-5 rounded-full flex-shrink-0" />
+                                    <span v-else
+                                        class="p-2.5 text-[7px] flex items-center justify-center w-5 h-5 rounded-full flex-shrink-0"
+                                        :style="`background-color: ${item.data.followers[0]?.code_color}`">
+                                        {{ getInitials(item.data.followers[0]?.name) }}
+                                    </span>
+                                    <span class="text-xs">{{ item.data.followers[0]?.name }} le suit</span>
+                                </div>
+                            </div>
 
                             <button @click.stop="goToAuthor(item.data.uuid)"
                                 class="mt-3 flex items-center justify-center gap-2 px-6 py-3 rounded-lg w-full md:w-auto md:px-12 bg-primary font-semibold lg:bg-orange-900 hover:bg-orange-800 transition">
