@@ -759,7 +759,7 @@ function splitChapters(text: string): ImportedChapter[] {
   // - résumé / resume
   // - introduction
   // - chapitre X ou chapitre_X
-  const regex = /\b(pr[eé]face|resume|r[eé]sum[eé]|introduction|chapitre[_ ]?\d+)\b/gi;
+  const regex = /\b(pr[eé]face|resume|r[eé]sum[eé]|introduction|chapitre[_ ]?(\d+|[IVXLCDM]+))\b/gi;
 
   const matches = [...text.matchAll(regex)];
   if (!matches.length) return [];
