@@ -175,15 +175,15 @@
                             </p>
                             <div v-if="item.data.followers.length > 0" class="mt-1">
                                 <div class="flex items-center gap-1">
-                                    <img v-if="item.data.followers[0]?.photo"
-                                        :src="`${$config.public.apiBackendUrl}/uploads/users/${item.data.followers[0].photo}`"
+                                    <img v-if="item.data.followers[item.data.followers.length - 1]?.photo"
+                                        :src="`${$config.public.apiBackendUrl}/uploads/users/${item.data.followers[item.data.followers.length - 1].photo}`"
                                         alt="Profil" class="w-5 h-5 rounded-full flex-shrink-0" />
                                     <span v-else
                                         class="p-2.5 text-[7px] flex items-center justify-center w-5 h-5 rounded-full flex-shrink-0"
-                                        :style="`background-color: ${item.data.followers[0]?.code_color}`">
-                                        {{ getInitials(item.data.followers[0]?.name) }}
+                                        :style="`background-color: ${item.data.followers[item.data.followers.length - 1]?.code_color}`">
+                                        {{ getInitials(item.data.followers[item.data.followers.length - 1]?.name) }}
                                     </span>
-                                    <span class="text-xs">{{ item.data.followers[0]?.name }} le suit</span>
+                                    <span class="text-xs">{{ item.data.followers[item.data.followers.length - 1]?.name }} le suit</span>
                                 </div>
                             </div>
 
