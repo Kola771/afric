@@ -21,7 +21,8 @@
 
             <!-- FEED -->
             <TransitionGroup name="feed" tag="div">
-                <div v-for="(item, index) in feed" :key="item.type === 'category' ? `category-${index}` : `${item.type}-${item.data.uuid}`"
+                <div v-for="(item, index) in feed"
+                    :key="item.type === 'category' ? `category-${index}` : `${item.type}-${item.data.uuid}`"
                     class="absolute inset-0 transition-all duration-500 flex items-end justify-center" :class="{
                         'opacity-100 z-10 translate-y-0': currentIndex === index,
                         'opacity-0 z-0 translate-y-full': currentIndex !== index
@@ -183,7 +184,8 @@
                                         :style="`background-color: ${item.data.followers[item.data.followers.length - 1]?.code_color}`">
                                         {{ getInitials(item.data.followers[item.data.followers.length - 1]?.name) }}
                                     </span>
-                                    <span class="text-xs">{{ item.data.followers[item.data.followers.length - 1]?.name }} le suit</span>
+                                    <span class="text-xs">{{ item.data.followers[item.data.followers.length - 1]?.name
+                                        }} le suit</span>
                                 </div>
                             </div>
 
@@ -195,7 +197,7 @@
                     </div>
 
                     <!-- ❤️ LIKE -->
-                    <div class="absolute right-4 bottom-5 lg:bottom-10 flex items-center gap-2 z-20"
+                    <div class="absolute right-4 bottom-5 lg:bottom-10 lg:right-6 flex items-center gap-2 z-20"
                         v-if="['book', 'chapter'].includes(item.type)">
                         <button @click.stop="like(item, $event)" class="text-3xl"
                             :class="!likedItems.has(`${item.type}-${item.data.uuid}`) ? 'animate-bounce' : 'animate-pulse'">
@@ -210,6 +212,38 @@
                     </div>
                 </div>
             </TransitionGroup>
+
+            <!-- EMPTY STATE -->
+            <div v-if="feed.length === 0"
+                class="absolute inset-0 flex flex-col items-center justify-center text-center px-6 z-10">
+
+                <div class="flex flex-col items-center gap-4">
+
+                    <!-- ICON -->
+                    <div class="bg-white/10 backdrop-blur-md p-6 rounded-full shadow-lg animate-pulse">
+                        <Icon name="mdi:book-open-page-variant-outline" class="w-14 h-14 text-white" />
+                    </div>
+
+                    <!-- TITLE -->
+                    <h2 class="text-xl md:text-2xl font-bold text-white">
+                        Aucune histoire pour le moment
+                    </h2>
+
+                    <!-- DESCRIPTION -->
+                    <p class="text-gray-300 text-sm max-w-md">
+                        Les auteurs sont en train de préparer des récits incroyables ✍️🔥
+                        Reviens très bientôt pour découvrir des histoires africaines uniques.
+                    </p>
+
+                    <!-- ACTION -->
+                    <button @click="fetchFeed"
+                        class="mt-4 px-6 py-3 bg-primary rounded-full font-semibold hover:bg-orange-800 transition flex items-center gap-2">
+                        <Icon name="mdi:reload" class="w-5 h-5" />
+                        Rafraîchir
+                    </button>
+
+                </div>
+            </div>
 
             <!-- 🖥️ NAV -->
             <div class="hidden md:flex absolute right-4 top-1/2 flex-col gap-3 z-20">

@@ -40,7 +40,7 @@
             <div class="flex items-center gap-1 md:gap-3">
               <!-- Desktop actions -->
               <button @click="toggleSearch"
-                class="lg:hidden flex p-2 text-slate-400 hover:text-slate-900 dark:text-white dark:hover:text-gray-400 transition-colors">
+                class="lg:hidden flex p-2 text-slate-400 hover:text-slate-900 dark:text-white dark:hover:text-gray-400 transition-colors" :class="profil && authorizeRoleUser(`${profil?.role}`) ? '' : (profil && !authorizeRoleUser(`${profil?.role}`) ? 'hidden' : 'hidden')">
                 <Icon name="solar:magnifer-linear" class="w-5 md:h-5" />
               </button>
               <ThemeToggle class="lg:hidden" />
@@ -174,7 +174,11 @@
             <Icon name="mdi:users" class="w-5 h-5" />
           </nuxt-link>
 
-          <nuxt-link v-if="profil" to="/notifications" class="relative p-2 rounded-full flex items-center justify-center 
+          <button @click="toggleSearch" :class="profil && authorizeRoleUser(`${profil?.role}`) ? 'hidden' : (profil && !authorizeRoleUser(`${profil?.role}`) ? '' : '')" class="p-2 rounded-full flex items-center justify-center 
+               transition-all duration-200 text-slate-700 dark:text-slate-200">
+            <Icon name="solar:magnifer-linear" class="w-5 h-5" />
+          </button>
+          <nuxt-link v-if="profil && authorizeRoleUser(`${profil?.role}`)" to="/notifications" class="relative p-2 rounded-full flex items-center justify-center 
                transition-all duration-200" :class="route.path === '/notifications'
                 ? 'bg-orange-100 dark:bg-orange-200 dark:text-slate-800 scale-105'
                 : 'text-slate-700 dark:text-slate-200'">
