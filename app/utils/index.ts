@@ -80,11 +80,11 @@ export function formatRelativeDate(date: string | Date): string {
   const now = new Date();
   const target = new Date(date);
 
-  const diff = Math.floor((now.getTime() - target.getTime()) / 1000);
+  const diffSeconds = Math.floor((now.getTime() - target.getTime()) / 1000);
 
-  if (diff < 10) return "maintenant";
+  if (diffSeconds < 10) return "maintenant";
 
-  const minutes = Math.floor(diff / 60);
+  const minutes = Math.floor(diffSeconds / 60);
   if (minutes < 60) return `${minutes}min`;
 
   const hours = Math.floor(minutes / 60);
@@ -96,10 +96,15 @@ export function formatRelativeDate(date: string | Date): string {
   const weeks = Math.floor(days / 7);
   if (weeks < 4) return `${weeks}sem`;
 
-  const months = Math.floor(days / 30);
-  if (months < 12) return `${months}mois`;
+  // ✅ calcul réel des mois
+  let months =
+    (now.getFullYear() - target.getFullYear()) * 12 +
+    (now.getMonth() - target.getMonth());
 
-  const years = Math.floor(days / 365);
+  if (months < 12) return `${months || 1}mois`;
+
+  // ✅ calcul réel des années
+  const years = Math.floor(months / 12);
   return `${years}an${years > 1 ? "s" : ""}`;
 }
 

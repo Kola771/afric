@@ -158,7 +158,8 @@
                         </div>
 
                         <!-- Description -->
-                        <div class="prose prose-slate prose-sm max-w-none text-slate-600 dark:text-slate-200 flex flex-col gap-4">
+                        <div
+                            class="prose prose-slate prose-sm max-w-none text-slate-600 dark:text-slate-200 flex flex-col gap-4">
                             <p v-html="book.description"></p>
                             <div class="flex lg:justify-start text-sm">
                                 <button @click="shareLink"
@@ -203,9 +204,9 @@
                                                     il y a {{ formatRelativeDate(chapter.updated_at) }}, Lu par {{
                                                         formatNumber(chapter.chapter_reads.length) }} personne{{
                                                         chapter.chapter_reads.length > 1 ? 's' : '' }}, {{
-                                                    formatNumber(chapter.chapter_reactions.length) }} réaction{{
+                                                        formatNumber(chapter.chapter_reactions.length) }} réaction{{
                                                         chapter.chapter_reactions.length > 1 ? 's' : '' }}, {{
-                                                    formatNumber(chapter.chapter_comments.length) }} commentaire{{
+                                                        formatNumber(chapter.chapter_comments.length) }} commentaire{{
                                                         chapter.chapter_comments.length > 1 ? 's' : '' }}
                                                 </p>
                                             </span>
@@ -324,7 +325,7 @@
 
                 <!-- CONTENT -->
                 <div v-if="step === 'comments'" ref="commentsWrapper" @scroll="handleScroll"
-                    class="flex-1 overflow-y-auto p-4 space-y-6">
+                    class="flex-1 overflow-y-auto py-4 space-y-6">
 
                     <!-- COMMENT LOOP -->
                     <div v-for="commentItem in commentsState.list" :key="commentItem.id"
@@ -398,18 +399,6 @@
                             </div>
                         </div>
 
-                        <!-- REPLY FORM -->
-                        <div v-if="replyFormId === commentItem.id" class="flex items-end gap-2 ml-11 mt-2 text-xs">
-                            <textarea v-model="replyContent" id="replyInput" @input="autoResizeReply" rows="1" autofocus
-                                class="w-full border border-slate-200 dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 rounded-lg p-2 resize-none outline-none"
-                                :placeholder="`Répondre en tant que ${user?.name}`"></textarea>
-
-                            <button @click="submitComment(commentItem.id)"
-                                class="bg-orange-600 flex items-center justify-center text-white px-3 py-1.5 rounded-lg">
-                                <Icon name="mdi:send" class="w-4 h-4" />
-                            </button>
-                        </div>
-
                         <!-- REPLIES -->
                         <div v-if="commentsState.replies[commentItem.id]" class="ml-11 mt-3 space-y-3">
                             <div v-for="reply in commentsState.replies[commentItem.id]" :key="reply.id"
@@ -476,7 +465,7 @@
                 </div>
 
                 <!-- ADD COMMENT -->
-                <div v-if="step === 'comments'" class="border-t border-slate-200 p-4 text-xs">
+                <div v-if="step === 'comments'" class="border-t border-slate-200 pt-4 text-xs">
                     <div v-if="user" class="flex items-end gap-2">
                         <img v-if="user.photo" :src="`${config.public.apiBackendUrl}/uploads/users/${user.photo}`"
                             class="w-8 h-8 rounded-full" />
@@ -485,9 +474,15 @@
                             {{ user.name.charAt(0).toUpperCase() }}
                         </div>
 
-                        <textarea ref="textarea" v-model="comment" @input="autoResize" rows="1"
+                        <textarea ref="textarea" v-show="comment || commentId === 0" v-model="comment"
+                            @input="autoResize" rows="1" id="message"
                             class="flex-1 border border-slate-200 dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 rounded-xl px-4 py-2 resize-none outline-none"
                             :placeholder="`Commenter en tant que ${user?.name}`"></textarea>
+
+                        <textarea ref="textareaRef" v-show="comment.trim() === '' && commentId !== 0"
+                            v-model="replyContent" id="replyInput" @input="autoResizeReply" rows="1" autofocus
+                            class="flex-1 border border-slate-200 dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 rounded-xl px-4 py-2 resize-none outline-none"
+                            placeholder="Répondre à ce commentaire"></textarea>
 
                         <button v-if="!commentUuid && comment.trim().length > 0" @click="submitComment()"
                             class="bg-orange-600 text-white px-4 py-2 rounded-xl">
@@ -496,6 +491,11 @@
 
                         <button v-if="commentUuid && comment.trim().length > 0" @click="updateCommentLocal()"
                             class="bg-orange-600 text-white px-4 py-2 rounded-xl">
+                            <Icon name="mdi:send" class="w-4 h-4" />
+                        </button>
+
+                        <button v-if="commentId !== 0 && replyContent.trim().length > 0"
+                            @click="submitComment(commentId)" class="bg-orange-600 text-white px-4 py-2 rounded-xl">
                             <Icon name="mdi:send" class="w-4 h-4" />
                         </button>
                     </div>
@@ -536,7 +536,7 @@
                             </div>
                             <p class="text-[12px] lg:text-xs text-slate-600 dark:text-slate-200">{{
                                 reaction.user.pseudonym
-                                }} a réagi : <span class="font-medium">{{ reaction.label }} {{ reaction.emoji }}</span>
+                            }} a réagi : <span class="font-medium">{{ reaction.label }} {{ reaction.emoji }}</span>
                             </p>
                         </div>
                     </div>
@@ -893,23 +893,23 @@ const back = () => {
 }
 
 const shareLink = async () => {
-  const url = window.location.href
+    const url = window.location.href
 
-  try {
-    if (navigator.share && book.value) {
-      await navigator.share({
-        title: book.value.title,
-        text: book.value.description,
-        url: url,
-      })
-    } else {
-      // Fallback : copier dans le presse-papiers
-      await navigator.clipboard.writeText(url)
-      alert("Une erreur est survenue lors du partage, n'empêche le lien copié dans le presse-papiers !")
+    try {
+        if (navigator.share && book.value) {
+            await navigator.share({
+                title: book.value.title,
+                text: book.value.description,
+                url: url,
+            })
+        } else {
+            // Fallback : copier dans le presse-papiers
+            await navigator.clipboard.writeText(url)
+            alert("Une erreur est survenue lors du partage, n'empêche le lien copié dans le presse-papiers !")
+        }
+    } catch (error) {
+        console.error("Erreur lors du partage :", error)
     }
-  } catch (error) {
-    console.error("Erreur lors du partage :", error)
-  }
 }
 
 const handleChapterClick = (index: number, uuid: string) => {
@@ -1072,12 +1072,14 @@ const loadReplies = async (commentId: number) => {
 // =============================
 // TOGGLE REPLIES
 // =============================
-const toggleReplies = async (commentId: number) => {
-    replyFormId.value =
-        replyFormId.value === commentId ? null : commentId;
+const toggleReplies = async (cId: number) => {
+    commentId.value = cId; // ✅ d'abord on affiche
+    await nextTick();      // ✅ on attend le DOM
+    document.getElementById('replyInput')?.focus()
+    replyFormId.value = replyFormId.value === cId ? null : cId;
 
-    if (!commentsState.replies[commentId]) {
-        await loadReplies(commentId);
+    if (!commentsState.replies[cId]) {
+        await loadReplies(cId);
     }
 };
 
@@ -1142,7 +1144,8 @@ const handleUpdateComment = async (uuid: string, id: number, parent_id?: any, co
     commentId.value = id;
     commentReplyId.value = parent_id;
     comment.value = content ? content.replace(/<br>/g, '\n') : '';
-    textarea.value?.focus();
+    await nextTick();
+    document.getElementById("message")?.focus();
 };
 
 // =============================

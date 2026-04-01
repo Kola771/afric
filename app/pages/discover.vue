@@ -78,28 +78,40 @@
                         <!-- 📖 CHAPTER -->
                         <div v-if="item.type === 'chapter'">
                             <h2 class="text-2xl md:text-4xl font-bold flex items-center gap-2">
-                               <Icon name="mdi:book-open-page-variant" class="w-5 h-5 flex-shrink-0" /> {{ item.data.title }}
+                                <Icon name="mdi:book-open-page-variant" class="w-5 h-5 flex-shrink-0" /> {{
+                                    item.data.title }}
                             </h2>
 
                             <p class="text-gray-300 text-sm" v-html="item.data.content.length > 1000
                                 ? item.data.content.slice(0, 1000) + '...'
                                 : item.data.content">
                             </p>
-                            <p class="text-amber-500 text-xs mt-2 font-medium"
-                                v-if="Number(item.data.chapter_reactions.length) > 0">{{
-                                    item.data.chapter_reactions[0].emoji }} {{
-                                    formatNumber(Number(item.data.chapter_reactions.length)) }} personne{{
-                                    Number(item.data.chapter_reactions.length) > 1 ? 's ont' : ' a' }} réagi sur ce
-                                chapitre.</p>
-                            <p class="text-sky-500 text-xs mt-2 font-medium flex items-center gap-1.5"
-                                v-if="Number(item.data.chapter_reads.length) > 0">
-                                <Icon name="mdi:eye" class="w-4 h-4" /> {{
-                                    formatNumber(Number(item.data.chapter_reads.length)) }} personne{{
-                                    Number(item.data.chapter_reads.length) > 1 ? 's ont' : ' a' }} lu ce chapitre.
-                            </p>
-                            <nuxt-link :to="`/books/${item.data.book.uuid}`" class="font-medium underline text-xs mt-1">Tirer du livre : {{ item.data.book.title }}</nuxt-link>
+                            <div class="flex items-center gap-2 mt-2">
+                                <p class="text-amber-500 text-xs font-medium"
+                                    v-if="Number(item.data.chapter_reactions.length) > 0">{{
+                                        item.data.chapter_reactions[0].emoji }}{{ item.data.chapter_reactions.length > 1 ?
+                                        item.data.chapter_reactions[item.data.chapter_reactions.length - 1].emoji : '' }} {{
+                                        formatNumber(Number(item.data.chapter_reactions.length)) }}
+                                </p>
+                                <p class="text-sky-500 text-xs font-medium flex items-center gap-1.5"
+                                    v-if="Number(item.data.chapter_reads.length) > 0">
+                                    <Icon name="mdi:eye" class="w-4 h-4" /> {{
+                                        formatNumber(Number(item.data.chapter_reads.length)) }} vue{{
+                                        Number(item.data.chapter_reads.length) > 1 ? 's' : '' }}
+                                </p>
+
+                                <p class="text-xs font-medium flex items-center gap-1.5"
+                                    v-if="Number(item.data.chapter_comments.length) > 0">
+                                    <Icon name="mdi:comments" class="w-3 h-3" /> {{
+                                        formatNumber(Number(item.data.chapter_comments.length)) }} commentaire{{
+                                        Number(item.data.chapter_comments.length) > 1 ? 's' : '' }}
+                                </p>
+                            </div>
+                            <nuxt-link :to="`/books/${item.data.book.uuid}`"
+                                class="font-medium underline text-xs mt-1">Tirer du livre : {{ item.data.book.title
+                                }}</nuxt-link>
                             <button @click.stop="goToChapter(item.data.book.uuid, item.data.uuid)"
-                                class="mt-3 flex items-center justify-center gap-2 px-6 py-3 rounded-lg w-[80%] md:w-auto md:px-12 bg-primary lg:bg-orange-900 font-semibold hover:bg-orange-800 transition">
+                                class="mt-3 flex items-center justify-center gap-2 px-6 py-3 rounded-lg w-[78%] md:w-auto md:px-12 bg-primary lg:bg-orange-900 font-semibold hover:bg-orange-800 transition">
                                 <Icon name="mdi:book-open-page-variant" class="w-5 h-5" /> Lire la suite
                             </button>
                         </div>
@@ -109,19 +121,29 @@
                             <h2 class="text-2xl md:text-4xl font-bold">
                                 {{ item.data.title }}
                             </h2>
-
                             <p class="text-gray-300 text-sm" v-html="item.data.description.length > 1000
                                 ? item.data.description.slice(0, 600) + '...'
                                 : item.data.description">
                             </p>
-                            <p class="text-amber-500 text-xs mt-2 font-medium"
-                                v-if="Number(item.data.book_reactions.length) > 0">{{ item.data.book_reactions[0].emoji
-                                }} {{
-                                    formatNumber(Number(item.data.book_reactions.length)) }} personne{{
-                                    Number(item.data.book_reactions.length) > 1 ? 's ont' : ' a' }} réagi sur ce livre.</p>
+                            <div class="flex items-center gap-2 mt-2">
+                                <p class="text-amber-500 text-xs font-medium"
+                                    v-if="Number(item.data.book_reactions.length) > 0">{{
+                                        item.data.book_reactions[0].emoji
+                                    }}{{ item.data.book_reactions.length > 1 ?
+                                        item.data.book_reactions[item.data.book_reactions.length - 1].emoji : '' }}
+                                    {{ formatNumber(Number(item.data.book_reactions.length)) }}
+                                </p>
+
+                                <p class="text-xs font-medium flex items-center gap-1.5"
+                                    v-if="Number(item.data.book_comments.length) > 0">
+                                    <Icon name="mdi:comments" class="w-3 h-3" /> {{
+                                        formatNumber(Number(item.data.book_comments.length)) }} commentaire{{
+                                        Number(item.data.book_comments.length) > 1 ? 's' : '' }}
+                                </p>
+                            </div>
 
                             <button @click.stop="goToBook(item.data.uuid)"
-                                class="mt-3 flex items-center justify-center gap-2 px-6 py-3 rounded-lg w-[80%] md:w-auto md:px-12 bg-primary lg:bg-orange-900 font-semibold hover:bg-orange-800 transition">
+                                class="mt-3 flex items-center justify-center gap-2 px-6 py-3 rounded-lg w-[78%] md:w-auto md:px-12 bg-primary lg:bg-orange-900 font-semibold hover:bg-orange-800 transition">
                                 <Icon name="mdi:book-open-variant" class="w-5 h-5" /> Voir le livre
                             </button>
                         </div>
@@ -160,11 +182,17 @@
                     </div>
 
                     <!-- ❤️ LIKE -->
-                    <div class="absolute right-4 bottom-5 lg:bottom-10 flex flex-col items-center z-20"
+                    <div class="absolute right-4 bottom-5 lg:bottom-10 flex items-center gap-2 z-20"
                         v-if="['book', 'chapter'].includes(item.type)">
-                        <button @click.stop="like(item, $event)" class="text-3xl animate-bounce">
-                            <Icon name="solar:heart-outline" class="w-8 h-8 transition"
+                        <button @click.stop="like(item, $event)" class="text-3xl"
+                            :class="!likedItems.has(`${item.type}-${item.data.uuid}`) ? 'animate-bounce' : 'animate-pulse'">
+                            <Icon
+                                :name="!likedItems.has(`${item.type}-${item.data.uuid}`) ? 'solar:heart-outline' : 'solar:heart-bold'"
+                                class="w-7 h-7 transition"
                                 :class="likedItems.has(`${item.type}-${item.data.uuid}`) ? 'text-red-500' : 'text-white'" />
+                        </button>
+                        <button @click.stop="comments(item, $event)" v-if="item.type === 'book'" class="text-3xl">
+                            <Icon name="mdi:comment" class="w-7 h-7 transition" />
                         </button>
                     </div>
                 </div>
@@ -180,6 +208,199 @@
                 </button>
             </div>
         </div>
+
+        <!-- STATS MODAL -->
+        <StatsModal :show="showStatsModal" @close="closeStats">
+            <div class="flex flex-col h-full w-full">
+                <hr class="w-14 border-2 mx-auto">
+
+                <!-- CONTENT -->
+                <div ref="commentsWrapper" @scroll="handleScroll" class="flex-1 overflow-y-auto py-4 space-y-6">
+
+                    <!-- COMMENT LOOP -->
+                    <div v-for="commentItem in commentsState.list" :key="commentItem.id"
+                        v-if="commentsState.list.length > 0">
+
+                        <!-- MAIN COMMENT -->
+                        <div class="flex gap-2">
+
+                            <!-- Avatar -->
+                            <img v-if="commentItem.user.photo"
+                                :src="`${$config.public.apiBackendUrl}/uploads/users/${commentItem.user.photo}`"
+                                class="w-6 h-6 rounded-full" />
+                            <div v-else
+                                class="w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold"
+                                :style="`background-color: ${commentItem.user.code_color}`">
+                                {{ commentItem.user.name.charAt(0).toUpperCase() }}
+                            </div>
+
+
+                            <!-- Content -->
+                            <div class="flex-1 text-xs">
+
+                                <div class="bg-slate-50 dark:bg-slate-700 rounded-xl p-2">
+                                    <nuxt-link
+                                        :to="`${(commentItem.user && Number(commentItem.user.id) === Number(book.id_user)) ? `/authors/${book.user.uuid}` : ''}`"
+                                        class="flex justify-between items-center font-semibold text-slate-900 dark:text-white">
+                                        <span class="flex items-center gap-1">{{ commentItem.user.name }}
+                                            <span class="text-slate-500 text-[11px] dark:text-slate-200 block">
+                                                {{ formatRelativeDate(commentItem.created_at) }}
+                                            </span>
+                                        </span>
+                                        <span class="font-light text-[10px] flex items-center gap-1"
+                                            v-if="(commentItem.user && Number(commentItem.user.id) === Number(book.id_user))">
+                                            <Icon name="mdi:edit" class="w-3 h-3 text-orange-600 animate-pulse" />
+                                            Auteur/trice
+                                        </span>
+                                    </nuxt-link>
+                                    <p class="text-slate-700 text-[11px] dark:text-slate-200"
+                                        v-html="commentItem.content"></p>
+                                </div>
+
+                                <div
+                                    class="flex items-center gap-2 mt-1 text-[11px] text-slate-500 dark:text-slate-200">
+                                    <button class="hover:underline text-orange-600 dark:text-orange-400" v-if="user"
+                                        @click="toggleReplies(commentItem.id)">
+                                        Répondre
+                                    </button>
+
+                                    <button class="hover:underline text-blue-600 dark:text-blue-400"
+                                        v-if="(user && (commentItem.user.id === user.id))"
+                                        @click="handleUpdateComment(commentItem.uuid, commentItem.id, null, commentItem.content)">
+                                        Modifier
+                                    </button>
+                                    <button
+                                        v-if="(user && (commentItem.user.id === user.id || user.id === book.id_user))"
+                                        class="hover:underline text-red-600 dark:text-red-400"
+                                        @click="handleDeleteComment(commentItem.uuid, commentItem.id)">
+                                        Supprimer
+                                    </button>
+                                </div>
+
+                                <!-- VOIR REPONSES -->
+                                <div v-if="commentItem.replies_count > 0 && !commentsState.replies[commentItem.id]"
+                                    class="mt-1">
+                                    <button class="text-[11px] text-slate-500 dark:text-slate-200 hover:underline"
+                                        @click="loadReplies(commentItem.id)">
+                                        Voir {{ commentItem.replies_count }} réponse(s)
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- REPLIES -->
+                        <div v-if="commentsState.replies[commentItem.id]" class="ml-11 mt-3 space-y-3">
+                            <div v-for="reply in commentsState.replies[commentItem.id]" :key="reply.id"
+                                class="flex gap-2">
+                                <img v-if="reply.user.photo"
+                                    :src="`${$config.public.apiBackendUrl}/uploads/users/${reply.user.photo}`"
+                                    class="w-5 h-5 rounded-full" />
+                                <div v-else
+                                    class="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold"
+                                    :style="`background-color: ${reply.user.code_color}`">
+                                    {{ reply.user.name.charAt(0).toUpperCase() }}
+                                </div>
+
+                                <div class="flex-1">
+                                    <div class="bg-slate-50 dark:bg-slate-700 rounded-xl p-2">
+                                        <nuxt-link
+                                            :to="`${(reply.user && Number(reply.user.id) === Number(book.id_user)) ? `/authors/${book.user.uuid}` : ''}`"
+                                            class="text-[12px] flex justify-between items-center font-semibold text-slate-900 dark:text-white">
+                                            <span class="flex items-center gap-1">{{ reply.user.name }}
+                                                <span class="text-slate-500 text-[11px] dark:text-slate-200 block">
+                                                    {{ formatRelativeDate(reply.created_at) }}
+                                                </span>
+                                            </span>
+                                            <span class="font-light text-[10px] flex items-center gap-1"
+                                                v-if="(reply.user && Number(reply.user.id) === Number(book.id_user))">
+                                                <Icon name="mdi:edit" class="w-3 h-3 text-orange-600 animate-pulse" />
+                                                Auteur/trice
+                                            </span>
+                                        </nuxt-link>
+                                        <p class="text-[11px] text-slate-700 dark:text-slate-200"
+                                            v-html="reply.content">
+                                        </p>
+                                    </div>
+
+                                    <div class="text-[10px] flex items-center gap-2 mt-1">
+                                        <button class="hover:underline text-blue-600 dark:text-blue-400"
+                                            v-if="(user && (reply.user.id === user.id))"
+                                            @click="handleUpdateComment(reply.uuid, reply.id, commentItem.id, reply.content)">
+                                            Modifier
+                                        </button>
+                                        <button v-if="(user && (reply.user.id === user.id || user.id === book.id_user))"
+                                            class="hover:underline text-red-600 dark:text-red-400"
+                                            @click="handleDeleteComment(reply.uuid, reply.id, commentItem.id)">
+                                            Supprimer
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div v-else
+                        class="flex flex-col items-center justify-center text-center p-6 text-slate-500 dark:text-slate-200">
+                        <Icon name="mdi:comment-outline" class="w-12 h-12 text-slate-300 mb-3" />
+                        <p class="text-sm font-medium">Aucun commentaire disponible</p>
+                        <p class="text-sm">Soyez le premier à le faire !</p>
+                    </div>
+
+                    <!-- LOADING -->
+                    <div v-if="commentsState.loading" class="text-center text-sm text-slate-500 dark:text-slate-200">
+                        Chargement...
+                    </div>
+                </div>
+
+                <!-- ADD COMMENT -->
+                <div class="border-t border-slate-200 pt-4 text-xs">
+                    <div v-if="user" class="flex items-end gap-2">
+                        <img v-if="user.photo" :src="`${$config.public.apiBackendUrl}/uploads/users/${user.photo}`"
+                            class="w-8 h-8 rounded-full" />
+                        <div v-else class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold"
+                            :style="`background-color: ${user.code_color}`">
+                            {{ user.name.charAt(0).toUpperCase() }}
+                        </div>
+
+                        <textarea ref="textarea" v-show="comment || commentId === 0" v-model="comment"
+                            @input="autoResize" rows="1" id="message"
+                            class="flex-1 border border-slate-200 dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 rounded-xl px-4 py-2 resize-none outline-none"
+                            :placeholder="`Commenter en tant que ${user?.name}`"></textarea>
+
+                        <textarea ref="textareaRef" v-show="comment.trim() === '' && commentId !== 0"
+                            v-model="replyContent" id="replyInput" @input="autoResizeReply" rows="1" autofocus
+                            class="flex-1 border border-slate-200 dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 rounded-xl px-4 py-2 resize-none outline-none"
+                            placeholder="Répondre à ce commentaire"></textarea>
+
+                        <button v-if="!commentUuid && comment.trim().length > 0" @click="submitComment()"
+                            class="bg-orange-600 text-white px-4 py-2 rounded-xl">
+                            <Icon name="mdi:send" class="w-4 h-4" />
+                        </button>
+
+                        <button v-if="commentUuid && comment.trim().length > 0" @click="updateCommentLocal()"
+                            class="bg-orange-600 text-white px-4 py-2 rounded-xl">
+                            <Icon name="mdi:send" class="w-4 h-4" />
+                        </button>
+
+                        <button v-if="commentId !== 0 && replyContent.trim().length > 0"
+                            @click="submitComment(commentId)" class="bg-orange-600 text-white px-4 py-2 rounded-xl">
+                            <Icon name="mdi:send" class="w-4 h-4" />
+                        </button>
+                    </div>
+
+                    <p v-else class="flex flex-col gap-2 text-xs text-slate-500 dark:text-slate-200 text-center">
+                        Vous devez être connecté pour commenter
+                        <nuxt-link to="/login"
+                            class="flex items-center justify-center gap-2 bg-primary hover:bg-slate-800 dark:bg-white dark:hover:bg-orange-50 dark:hover:border-orange-100/50 dark:hover:text-orange-800 dark:text-stone-700 text-white px-4 py-2 lg:py-3 rounded-full text-xs xl:text-sm font-medium transition-all shadow-sm hover:shadow-md transform active:scale-95">
+                            <span>Se connecter</span>
+                        </nuxt-link>
+                    </p>
+
+                </div>
+            </div>
+        </StatsModal>
     </div>
 </template>
 
@@ -207,6 +428,27 @@ const { getProfile } = usersData();
 const { saveRead } = useChapterReads();
 const { createDefaultReaction } = useBookReactions();
 const { createDefaultReaction: createDefaultReactionChapter } = useChapterReactions();
+const { getCommentsByBook, getReplies, createComment, updateComment, deleteComment } = useBookComments();
+// ---------- STATE ----------
+const showStatsModal = ref<boolean>(false);
+const comment = ref<string>('');
+const commentUuid = ref<string>('');
+const commentId = ref<number>(0);
+const book = ref<any>(null);
+const commentReplyId = ref<number | null>(0);
+const textarea = ref<HTMLTextAreaElement | null>(null);
+const replyFormId = ref<number | null>(null);
+const replyContent = ref<string>('');
+
+// ---------- COMMENTS ----------
+const commentsState = reactive({
+    list: [] as any[],
+    replies: {} as Record<number, any[]>,
+    page: 1,
+    total: 0,
+    loading: false,
+});
+
 const router = useRouter();
 const feed = ref<any[]>([]);
 const user = ref<User | null>(null);
@@ -220,6 +462,201 @@ const SWIPE_THRESHOLD = 60;
 const viewStartTime = ref<number>(Date.now());
 const watchTime = ref<Record<string, number>>({});
 const likedItems = ref<Set<string>>(new Set());
+
+const closeStats = () => {
+    showStatsModal.value = false;
+    commentId.value = 0;
+    commentUuid.value = "";
+    comment.value = "";
+    replyContent.value = "";
+    commentsState.page = 1;
+    commentsState.list = [];
+    commentsState.replies = {};
+    commentsState.total = 0;
+    commentsState.loading = false;
+};
+
+// =============================
+// LOAD COMMENTS (PAGINATION)
+// =============================
+const loadComments = async () => {
+    if (!book.value || commentsState.loading) return;
+
+    commentsState.loading = true;
+
+    const res = await getCommentsByBook(book.value.id, commentsState.page);
+
+    if (res?.data?.length) {
+        commentsState.list.push(...res.data);
+        commentsState.total = res.total;
+    }
+
+    commentsState.loading = false;
+};
+
+// =============================
+// LOAD REPLIES (ON DEMAND)
+// =============================
+const loadReplies = async (commentId: number) => {
+    if (commentsState.replies[commentId]) return;
+
+    const res = await getReplies(commentId);
+    if (Array.isArray(res)) {
+        commentsState.replies[commentId] = res;
+    }
+};
+
+// =============================
+// TOGGLE REPLIES
+// =============================
+const toggleReplies = async (cId: number) => {
+    commentId.value = cId; // ✅ d'abord on affiche
+    await nextTick();      // ✅ on attend le DOM
+    document.getElementById('replyInput')?.focus()
+    replyFormId.value = replyFormId.value === cId ? null : cId;
+
+    if (!commentsState.replies[cId]) {
+        await loadReplies(cId);
+    }
+};
+
+const updateCommentLocal = async () => {
+    const res = await updateComment(commentUuid.value, comment.value.replace(/\n/g, '<br>'));
+    if (!res.success) return;
+    // Modification commentaire principal
+    if (commentReplyId.value === null) {
+        const commentToUpdate = commentsState.list.find(
+            c => c.id === commentId.value
+        );
+
+        if (commentToUpdate) {
+            commentToUpdate.content = comment.value.replace(/\n/g, '<br>');
+            comment.value = "";
+            commentUuid.value = "";
+            commentReplyId.value = null;
+        }
+
+        return;
+    }
+
+    // Modification reply
+    const replies = commentsState.replies[commentReplyId.value];
+
+    if (!replies) return;
+
+    const replyToUpdate = replies.find(
+        c => c.id === commentId.value
+    );
+
+    if (replyToUpdate) {
+        replyToUpdate.content = comment.value.replace(/\n/g, '<br>');
+        comment.value = "";
+        commentUuid.value = "";
+        commentReplyId.value = null;
+    }
+};
+
+const deleteCommentLocal = (id: number, parent_id?: number) => {
+    if (!parent_id) {
+        // Suppression commentaire principal
+        commentsState.list = commentsState.list.filter(c => c.id !== id);
+        commentsState.total -= 1;
+    } else {
+        // Suppression reply
+        if (commentsState.replies[parent_id]) {
+            commentsState.replies[parent_id] =
+                commentsState.replies[parent_id].filter(r => r.id !== id);
+        }
+    }
+};
+
+const handleDeleteComment = async (uuid: string, id: number, parent_id?: number) => {
+    await deleteComment(uuid);
+
+    deleteCommentLocal(id, parent_id);
+};
+
+const handleUpdateComment = async (uuid: string, id: number, parent_id?: any, content?: string) => {
+    commentUuid.value = uuid;
+    commentId.value = id;
+    commentReplyId.value = parent_id;
+    comment.value = content ? content.replace(/<br>/g, '\n') : '';
+    await nextTick();
+    document.getElementById("message")?.focus();
+};
+
+// =============================
+// SUBMIT COMMENT (MAIN + REPLY)
+// =============================
+const submitComment = async (parent_id?: number) => {
+    if (!book.value || !user.value) return;
+
+    const content = parent_id
+        ? replyContent.value.trim()
+        : comment.value.trim();
+
+    if (!content) return;
+
+    const newComment = await createComment({
+        content: content.replace(/\n/g, '<br>'),
+        id_book: book.value.id,
+        id_user: user.value.id,
+        parent_id,
+    });
+
+    if (!parent_id) {
+        // Ajout instantané en haut (Facebook style)
+        commentsState.list.unshift(newComment);
+        commentsState.total += 1;
+        comment.value = '';
+    } else {
+        if (!commentsState.replies[parent_id]) {
+            commentsState.replies[parent_id] = [];
+        }
+
+        commentsState.replies[parent_id].push(newComment);
+        replyContent.value = '';
+        replyFormId.value = null;
+    }
+
+    await nextTick();
+
+    if (textarea.value) {
+        textarea.value.style.height = 'auto';
+    }
+};
+
+// =============================
+// INFINITE SCROLL
+// =============================
+const handleScroll = async (e: Event) => {
+    const el = e.target as HTMLElement;
+    if (!el) return;
+
+    if (
+        el.scrollTop + el.clientHeight >= el.scrollHeight - 50 &&
+        !commentsState.loading &&
+        commentsState.list.length < commentsState.total
+    ) {
+        commentsState.page += 1;
+        await loadComments();
+    }
+};
+
+// =============================
+// AUTO RESIZE
+// =============================
+const autoResize = (event: Event) => {
+    const el = event.target as HTMLTextAreaElement;
+    el.style.height = 'auto';
+    el.style.height = Math.min(el.scrollHeight, 80) + 'px';
+};
+
+const autoResizeReply = (event: Event) => {
+    const el = event.target as HTMLTextAreaElement;
+    el.style.height = 'auto';
+    el.style.height = Math.min(el.scrollHeight, 80) + 'px';
+};
 
 const hydrateLikes = (items: any[]) => {
     items.forEach((item: any) => {
@@ -335,7 +772,7 @@ const handleKeydown = (e: KeyboardEvent) => {
     }
 };
 
-onMounted(() => {
+onMounted(async () => {
     fetchFeed();
     window.addEventListener('keydown', handleKeydown);
 });
@@ -371,6 +808,13 @@ const like = async (item: any, e: MouseEvent) => {
     if (item.type === "chapter") {
         await createDefaultReactionChapter({ id_chapter: item.data.id, id_user: user.value.id, label: "Coup de cœur", emoji: '❤️', color: "text-red-600 bg-red-50" })
     }
+};
+
+// 
+const comments = async (item: any, e: MouseEvent) => {
+    book.value = item.data;
+    showStatsModal.value = true;
+    await loadComments();
 };
 
 // scroll
