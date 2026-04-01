@@ -3,20 +3,20 @@
         <div class="max-w-6xl mx-auto space-y-8 px-4 sm:px-6 lg:px-8 pt-20 md:pt-24 pb-12" v-if="user">
             <div class="flex flex-col gap-4 lg:gap-6">
                 <div
-                    class="flex items-center gap-2 bg-white dark:bg-slate-800 p-4 rounded-lg border-slate-300 border-[1px]">
+                    class="flex items-center gap-2 bg-white dark:bg-slate-800 p-2 rounded-lg border-slate-300 border-[1px]">
                     <button @click="back"
                         class="py-2 rounded-lg flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors">
                         <Icon name="mdi:arrow-left" class="w-4 h-4" />
                     </button>
-                    <h2 class="text-xl font-display font-bold text-slate-900 dark:text-white tracking-tight">
+                    <h2 class="text-lg font-display font-bold text-slate-900 dark:text-white tracking-tight">
                         Paramètres</h2>
                 </div>
                 <div
-                    class="flex flex-col gap-2 bg-white dark:bg-slate-800 p-4 rounded-lg border-slate-300 border-[1px]">
-                    <h2 class="text-[20px] font-display font-bold text-slate-900 dark:text-white tracking-tight">
-                        Modifier vos informations personnelles</h2>
+                    class="flex flex-col gap-1 bg-white dark:bg-slate-800 p-4 rounded-lg border-slate-300 border-[1px]">
+                    <h2 class="text-[18px] flex items-center gap-2 font-display font-bold text-slate-900 dark:text-white tracking-tight">
+                        <Icon name="mdi:edit" class="w-4 h-4 text-orange-500" /> Modifier vos informations</h2>
                     <div>
-                        <h3 class="text-lg font-display font-semibold text-slate-900 dark:text-white tracking-tight">
+                        <h3 class="text-md font-display font-semibold text-slate-900 dark:text-white tracking-tight">
                             Bonjour, {{ user?.name || 'Utilisateur' }} 👋</h3>
                         <p class="text-sm text-slate-500 dark:text-slate-200 mt-1">Faîtes une mise à jour de vos
                             informations personnelles !</p>
@@ -129,9 +129,9 @@
                 </div>
             </form>
             <div
-                class="flex flex-col gap-2 bg-white dark:bg-slate-800 p-4 rounded-lg border-slate-300 border-[1px]">
-                <h2 class="text-[20px] font-display font-bold text-slate-900 dark:text-white tracking-tight">
-                    Se déconnecter</h2>
+                class="flex flex-col gap-1 bg-white dark:bg-slate-800 p-4 rounded-lg border-slate-300 border-[1px]">
+                <h2 class="text-[18px] flex items-center gap-2 font-display font-bold text-slate-900 dark:text-white tracking-tight">
+                    <Icon name="mdi:logout" class="w-4 h-4 text-red-500" /> Se déconnecter</h2>
 
                 <div class="tracking-tight text-slate-500 dark:text-slate-200 text-sm">
                     <p>Cliquez sur ce bouton pour vous déconnecter de cette session.</p>

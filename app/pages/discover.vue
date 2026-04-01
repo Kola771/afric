@@ -21,7 +21,7 @@
 
             <!-- FEED -->
             <TransitionGroup name="feed" tag="div">
-                <div v-for="(item, index) in feed" :key="`${item.type}-${item.data.uuid}`"
+                <div v-for="(item, index) in feed" :key="item.type === 'category' ? `category-${index}` : `${item.type}-${item.data.uuid}`"
                     class="absolute inset-0 transition-all duration-500 flex items-end justify-center" :class="{
                         'opacity-100 z-10 translate-y-0': currentIndex === index,
                         'opacity-0 z-0 translate-y-full': currentIndex !== index
@@ -108,7 +108,7 @@
                                 </p>
                             </div>
                             <nuxt-link :to="`/books/${item.data.book.uuid}`"
-                                class="font-medium underline text-xs mt-1">Tirer du livre : {{ item.data.book.title
+                                class="font-medium underline text-xs mt-1">Tiré du livre : {{ item.data.book.title
                                 }}</nuxt-link>
                             <button @click.stop="goToChapter(item.data.book.uuid, item.data.uuid)"
                                 class="mt-3 flex items-center justify-center gap-2 px-6 py-3 rounded-lg w-[78%] md:w-auto md:px-12 bg-primary lg:bg-orange-900 font-semibold hover:bg-orange-800 transition">
@@ -176,8 +176,8 @@
                             <div v-if="item.data.followers.length > 0" class="mt-1">
                                 <div class="flex items-center gap-1">
                                     <img v-if="item.data.followers[0]?.photo"
-                                        :src="`${$config.public.apiBackendUrl}/uploads/users/${item.data.followers[0].photo}`" alt="Profil"
-                                        class="w-5 h-5 rounded-full flex-shrink-0" />
+                                        :src="`${$config.public.apiBackendUrl}/uploads/users/${item.data.followers[0].photo}`"
+                                        alt="Profil" class="w-5 h-5 rounded-full flex-shrink-0" />
                                     <span v-else
                                         class="p-2.5 text-[7px] flex items-center justify-center w-5 h-5 rounded-full flex-shrink-0"
                                         :style="`background-color: ${item.data.followers[0]?.code_color}`">
@@ -475,6 +475,7 @@ const SWIPE_THRESHOLD = 60;
 const viewStartTime = ref<number>(Date.now());
 const watchTime = ref<Record<string, number>>({});
 const likedItems = ref<Set<string>>(new Set());
+const loadedIds = ref<Set<string>>(new Set());
 
 const closeStats = () => {
     showStatsModal.value = false;
@@ -742,26 +743,50 @@ const fetchFeed = async () => {
     user.value = await getProfile();
     const res = await getFeed(page.value);
 
-    if (res) {
-        res.forEach((item: any) => {
-            let url = null;
+    if (!res) return;
 
-            if (item.type === 'category' && item.data.image) {
-                url = `${useRuntimeConfig().public.apiBackendUrl}/uploads/categories/${item.data.image}`;
-            }
+    const filtered: any[] = [];
 
-            if (item.type === 'book' && item.data.image) {
-                url = `${useRuntimeConfig().public.apiBackendUrl}/uploads/books/${item.data.image}`;
-            }
+    res.forEach((item: any) => {
+        // 🔥 clé unique SAFE
+        const key =
+            item.type === 'category'
+                ? `category-${item.data.map((c: any) => c.uuid).join('-')}`
+                : `${item.type}-${item.data.uuid}`;
 
-            if (item.type === 'author' && item.data.photo) {
-                url = `${useRuntimeConfig().public.apiBackendUrl}/uploads/users/${item.data.photo}`;
-            }
+        // ❌ skip si déjà vu
+        if (loadedIds.value.has(key)) return;
 
-            if (url) preloadImage(url);
-        });
-        hydrateLikes(res);
-        feed.value.push(...res);
+        loadedIds.value.add(key);
+        filtered.push(item);
+
+        // preload image
+        let url = null;
+
+        if (item.type === 'book' && item.data.image) {
+            url = `${useRuntimeConfig().public.apiBackendUrl}/uploads/books/${item.data.image}`;
+        }
+
+        if (item.type === 'author' && item.data.photo) {
+            url = `${useRuntimeConfig().public.apiBackendUrl}/uploads/users/${item.data.photo}`;
+        }
+
+        if (item.type === 'category') {
+            item.data.forEach((cat: any) => {
+                if (cat.image) {
+                    preloadImage(`${useRuntimeConfig().public.apiBackendUrl}/uploads/categories/${cat.image}`);
+                }
+            });
+        }
+
+        if (url) preloadImage(url);
+    });
+
+    hydrateLikes(filtered);
+
+    // 🔥 IMPORTANT
+    if (filtered.length > 0) {
+        feed.value.push(...filtered);
         page.value++;
     }
 };
@@ -881,8 +906,15 @@ const openCurrentItem = () => {
 const next = async () => {
     await saveWatchTime();
 
-    if (currentIndex.value < feed.value.length - 1) currentIndex.value++;
-    else fetchFeed();
+    // 🔥 PRELOAD avant fin
+    if (currentIndex.value >= feed.value.length - 3) {
+        fetchFeed(); // ⚡ pas await pour fluidité
+    }
+
+    if (currentIndex.value < feed.value.length - 1) {
+        currentIndex.value++;
+    }
+
     viewStartTime.value = Date.now();
 };
 
