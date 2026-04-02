@@ -13,6 +13,7 @@ COPY . .
 # Builder l'application en mode SSR
 RUN npm run build
 
+
 # Étape de production
 FROM node:20-alpine
 
