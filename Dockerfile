@@ -34,4 +34,5 @@ ENV PORT=9005
 EXPOSE 9005
 
 # Démarrer l'application sur 0.0.0.0:9005
-CMD ["serve", "-p", "9005", "-s", ".output/public"]
+CMD ["node","/app/server/index.mjs"]
+# CMD ["serve", "-p", "9005", "-s", ".output/public"]
