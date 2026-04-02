@@ -1,6 +1,7 @@
 # Étape de build
 FROM node:20-alpine AS build
 
+
 WORKDIR /app
 
 # Installer les dépendances de build
@@ -10,7 +11,7 @@ RUN npm ci
 # Copier les fichiers nécessaires pour le build
 COPY . .
 
-# Builder l'application en mode SSR
+# Builder l'application
 RUN npm run build
 
 # Étape de production
@@ -18,12 +19,12 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-# Copier les fichiers générés par le build
-COPY --from=build /app/.output /app/.output
-COPY --from=build /app/package*.json ./
+# Installer uniquement serve en production
+RUN npm install -g serve
 
-# Installer les dépendances de production
-RUN npm ci --only=production
+# Copier uniquement les fichiers nécessaires
+COPY --from=build /app/.output /app/.output
+COPY --from=build /app/public /app/public
 
 # Définir les variables d'environnement
 ENV NODE_ENV=production
@@ -32,5 +33,6 @@ ENV PORT=9005
 # Exposer le port
 EXPOSE 9005
 
-# Démarrer le serveur Nuxt en mode SSR
-CMD ["node", ".output/server/index.mjs"]
+# Démarrer l'application sur 0.0.0.0:9005
+CMD ["node","/app/server/index.mjs"]
+# CMD ["serve", "-p", "9005", "-s", ".output/public"]
