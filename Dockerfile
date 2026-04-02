@@ -33,5 +33,5 @@ ENV PORT=9005
 # Exposer le port
 EXPOSE 9005
 
-# Démarrer l'application
-CMD ["serve", "-p", "9005", "-s", ".output/public"]
+# Démarrer l'application sur 0.0.0.0:9005
+CMD ["serve", "-l", "9005", "-s", ".output/public"]

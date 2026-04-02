@@ -5,7 +5,7 @@ on:
     branches:
       - main 
 
-      
+
 jobs:
   prepare_environment:
     runs-on: ubuntu-latest
@@ -104,7 +104,7 @@ jobs:
             --label "traefik.enable=true" \
             --label "traefik.docker.network=traefik-public" \
             --label "traefik.constraint-label=traefik-public" \
-            --label "traefik.http.services.africastoryline_frontend.loadbalancer.server.port=3000" \
+            --label "traefik.http.services.africastoryline_frontend.loadbalancer.server.port=9005" \
             --label "traefik.http.routers.africastoryline_frontend-http.rule=Host(\`${{ secrets.DOMAIN }}\`)" \
             --label "traefik.http.routers.africastoryline_frontend-http.entrypoints=http" \
             --label "traefik.http.routers.africastoryline_frontend-https.rule=Host(\`${{ secrets.DOMAIN }}\`)" \
