@@ -1,0 +1,1 @@
+ # docker run -d --name africastoryline_frontend_project_instance --restart unless-stopped -p ${{secrets.PORT}}:3000 -v africastoryline_frontend_project_volume:/data africastoryline_frontend_project_image

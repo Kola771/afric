@@ -95,7 +95,23 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            docker run -d --name africastoryline_frontend_project_instance --restart unless-stopped -p ${{secrets.PORT}}:3000 -v africastoryline_frontend_project_volume:/data africastoryline_frontend_project_image
+           docker run -d \
+            --name africastoryline_frontend_project_instance \
+            --restart unless-stopped \
+            --network traefik-public \
+            -v africastoryline_frontend_project_volume:/data \
+            --label "traefik.enable=true" \
+            --label "traefik.docker.network=traefik-public" \
+            --label "traefik.constraint-label=traefik-public" \
+            --label "traefik.http.services.africastoryline_frontend.loadbalancer.server.port=3000" \
+            --label "traefik.http.routers.africastoryline_frontend-http.rule=Host(\`${{ secrets.DOMAIN }}\`)" \
+            --label "traefik.http.routers.africastoryline_frontend-http.entrypoints=http" \
+            --label "traefik.http.routers.africastoryline_frontend-https.rule=Host(\`${{ secrets.DOMAIN }}\`)" \
+            --label "traefik.http.routers.africastoryline_frontend-https.entrypoints=https" \
+            --label "traefik.http.routers.africastoryline_frontend-https.tls=true" \
+            --label "traefik.http.routers.africastoryline_frontend-https.tls.certresolver=le" \
+            --label "traefik.http.routers.africastoryline_frontend-http.middlewares=https-redirect" \
+            africastoryline_frontend_project_image
 
   clean_up_except_the_latest:
     needs: stop_and_start_container
