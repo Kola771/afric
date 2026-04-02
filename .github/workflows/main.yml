@@ -11,6 +11,16 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+
+      - name: Debug SSH Key
+        run: |
+          if [ -z "${{ secrets.SSH_PRIVATE_KEY }}" ]; then
+            echo "::error::La clé SSH privée est vide ou non définie !"
+            exit 1
+          else
+            echo "La clé SSH privée est présente (masquée pour des raisons de sécurité)."
+          fi
+
       - name: Esure target directory exists on VPS
         uses: appleboy/ssh-action@v0.1.3
         with:
