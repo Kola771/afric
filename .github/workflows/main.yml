@@ -1,6 +1,5 @@
 name: Deploys africastoryline_frontend Project to Ubuntu VPS
 
-
 on:
   push:
     branches:
