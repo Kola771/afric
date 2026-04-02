@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main 
-
-
 jobs:
   prepare_environment:
     runs-on: ubuntu-latest
