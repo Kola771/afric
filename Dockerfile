@@ -28,10 +28,10 @@ COPY --from=build /app/public /app/public
 
 # Définir les variables d'environnement
 ENV NODE_ENV=production
-ENV PORT=3000
+ENV PORT=9005
 
 # Exposer le port
-EXPOSE 3000
+EXPOSE 9005
 
 # Démarrer l'application
-CMD ["serve", "-p", "3000", "-s", ".output/public"]
+CMD ["serve", "-p", "9005", "-s", ".output/public"]
