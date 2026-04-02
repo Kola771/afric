@@ -11,7 +11,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-
       - name: Debug SSH Key
         run: |
           if [ -z "${{ secrets.SSH_PRIVATE_KEY }}" ]; then
