@@ -163,7 +163,7 @@
                             </div>
                         </div>
                     </div>
-                    <div v-if="user.role !== 'lecteur'">
+                    <div v-if="user.role !== 'lecteur' && (user.preferences?.length || 0) > 0">
                         <h3 class="font-display font-semibold text-slate-900 dark:text-white mb-4 text-sm">Votre profil sera proposé aux lecteurs ayant les mêmes préférences que vous.
                         </h3>
                         <div class="space-y-4">
@@ -201,7 +201,6 @@
 
 <script lang="ts" setup>
 const config = useRuntimeConfig();
-const router = useRouter();
 const { getProfile } = usersData();
 const user = ref<User | null>(null);
 const authors = ref<Author[]>([]);
