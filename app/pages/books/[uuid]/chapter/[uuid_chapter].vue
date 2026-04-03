@@ -145,7 +145,7 @@
                                 </nuxt-link>
                                 
                                 <nuxt-link :to="`/authors/${book.user.uuid}`"
-                                    class="flex-shrink-0 text-sm lg:text-[13px] bg-orange-700 hover:bg-orange-800 text-white px-4 py-1.5 rounded lg:rounded-full lg:px-5">
+                                    class="flex-shrink-0 text-sm lg:text-[13px] bg-orange-700 hover:bg-orange-800 text-white px-4 py-1.5 rounded lg:px-5">
                                     Voir le compte
                                 </nuxt-link>
                             </div>

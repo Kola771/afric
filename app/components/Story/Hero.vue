@@ -34,11 +34,11 @@
                         <nuxt-link :to="`/authors/${book.user.uuid}`" class="flex hover:underline dark:text-slate-200">
                             <span class="truncate">{{
                                 book.user?.name
-                            }}</span>
+                                }}</span>
                         </nuxt-link>
                     </div>
                     <div class="flex items-center gap-3 text-xs lg:text-sm">
-                        <nuxt-link :to="`/books/${book.uuid}/chapter/${book.chapters[0].uuid}`"
+                        <nuxt-link v-if="book.chapters.length > 0" :to="`/books/${book.uuid}/chapter/${book.chapters[0].uuid}`"
                             class="inline-flex items-center justify-center gap-2 bg-slate-900 text-white px-8 py-4 rounded-xl font-medium hover:bg-slate-800 transition-all shadow-xl shadow-slate-200 dark:shadow-slate-800 dark:border-[1px] dark:border-gray-600">
                             <span class="md:hidden">Commencer</span>
                             <span class="hidden md:block">Commencer la lecture</span>
@@ -62,9 +62,11 @@
                         alt="Hero">
                     <div class="absolute bottom-2 md:bottom-6 left-2 md:left-6 z-10">
                         <div
-                            class="bg-white/90 backdrop-blur border border-white/20 p-4 rounded-lg shadow-lg max-w-xs md:max-w-full">
-                            <p class="text-xs text-gray-500">{{ (book.chapters[0].title.toLowerCase()).includes("chapitre") ? '' : 'Chapitre :' }} <strong
-                                    class="animate-pulse text-orange-600 dark:text-orange-500">{{ book.chapters[0].title
+                            class="bg-white/90 backdrop-blur border border-white/20 p-4 rounded-lg shadow-lg max-w-xs md:max-w-full" v-if="book.chapters.length > 0">
+                            <p class="text-xs text-gray-500">{{
+                                (book.chapters[0].title.toLowerCase()).includes("chapitre") ? '' : 'Chapitre :' }}
+                                <strong class="animate-pulse text-orange-600 dark:text-orange-500">{{
+                                    book.chapters[0].title
                                     }}</strong> • Lu par {{ formatNumber(book.chapters[0].readsCount) }} personnes</p>
                         </div>
                     </div>

@@ -222,7 +222,8 @@
               </div>
             </div>
 
-            <TinyMCE v-model="chapterContent" @update:modelValue="markDirty" />
+            <!-- <TinyMCE v-model="chapterContent" @update:modelValue="markDirty" /> -->
+            <textarea class="w-full dark:text-white text-slate-900 placeholder:text-slate-300 border-slate-300 border p-0 focus:ring-0 bg-transparent mb-6 tracking-tight h-[500px]" v-model="chapterContent" @update:modelValue="markDirty"></textarea>
           </div>
 
           <!-- PREVIEW VIEW -->
