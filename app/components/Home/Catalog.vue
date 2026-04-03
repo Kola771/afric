@@ -1,15 +1,18 @@
 <template>
   <div id="popular">
-    <section class="border-b border-slate-200 bg-white dark:bg-dark sticky top-14 z-10 shadow-sm">
+    <section class="border-b border-slate-200 bg-white dark:bg-dark sticky top-14 lg:top-16 z-10 shadow-sm">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-slate-600 dark:text-primary">
         <div class="flex items-center gap-2 py-4 overflow-x-auto custom">
           <button
             class="flex-shrink-0 px-4 py-1.5 rounded bg-slate-900 text-white text-xs font-medium transition-transform hover:scale-105 dark:border-gray-600 dark:border-[1px]">Pour
             vous</button>
-          <div class="flex items-center gap-2">
+          <div class="flex items-center gap-2" v-if="!loadingCategory && categories.length > 0">
             <nuxt-link v-for="(category, index) in categories" :key="index" :to="`/categories/${category.uuid}`"
               class="flex-shrink-0 px-4 py-1.5 rounded bg-white border border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-xs font-medium transition-all whitespace-nowrap dark:hover:bg-orange-50 dark:hover:border-orange-100/50 dark:hover:text-orange-800">{{
                 category.name }}</nuxt-link>
+          </div>
+          <div class="flex items-center gap-2" v-else>
+            <button v-for="index in 8" :key="index" class="animate-pulse flex-shrink-0 px-4 py-3.5 w-1/4 lg:w-1/3 rounded bg-white border border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-xs font-medium transition-all whitespace-nowrap bg-gradient-to-r from-slate-200 via-slate-300 to-slate-200 dark:from-slate-700 dark:via-slate-600 dark:to-slate-700 bg-[length:200%_100%] animate-[shimmer_1.5s_infinite]"></button>
           </div>
         </div>
       </div>
@@ -76,11 +79,13 @@
 const { allCategorieActifs } = categoriesData();
 const { getFiveTopBooks } = booksData();
 const loading = ref<boolean>(true);
+const loadingCategory = ref<boolean>(true);
 const categories = ref<Category[]>([]);
 const books = ref<BookData[]>([]);
 onMounted(async () => {
   categories.value = await allCategorieActifs();
   books.value = await getFiveTopBooks();
   loading.value = false;
+  loadingCategory.value = false;
 })
 </script>

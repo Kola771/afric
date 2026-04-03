@@ -15,7 +15,7 @@
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
                             <Icon name="mdi:email-outline" class="w-5 h-5 dark:text-slate-600" />
                         </div>
-                        <input v-model="email" type="email" class="block w-full pl-10 pr-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-900 dark:placeholder-slate-600 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent text-sm transition-all shadow-sm" placeholder="Votre adresse email">
+                        <input v-model="email" type="email" class="block w-full pl-10 pr-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-900 dark:placeholder-slate-600 placeholder-slate-400 dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent text-sm transition-all shadow-sm" placeholder="Votre adresse email">
                     </div>
                     <button type="submit" class="px-6 py-3 bg-slate-900 text-white font-medium rounded-xl text-sm hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900 shadow-lg shadow-slate-200/50 dark:hover:bg-dark dark:border-slate-400 dark:border-[1px] dark:shadow-slate-700 whitespace-nowrap transition-all">
                         Créer mon compte

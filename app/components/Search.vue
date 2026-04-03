@@ -1,11 +1,9 @@
 <template>
   <div>
-    <div class="fixed inset-0 z-50">
-      <div class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity"></div>
-      <div
-        class="fixed inset-0 z-10 w-screen overflow-y-auto flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+    <div class="fixed inset-0 z-50 p-4 flex min-h-full items-end md:items-center justify-center">
+      <div class="fixed inset-0 z-40 bg-slate-900/40 backdrop-blur-sm transition-opacity" @click="closeModal"></div>
         <div
-          class="relative transform overflow-hidden rounded-xl bg-white dark:bg-dark dark:border text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-md ring-1 ring-black/5">
+          class="relative transform overflow-hidden z-50 rounded-xl bg-white dark:bg-dark dark:border text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-md ring-1 ring-black/5">
 
           <div class="px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
             <div class="sm:flex sm:items-start">
@@ -172,19 +170,13 @@
               class="inline-flex w-full justify-center rounded-lg bg-orange-600 dark:bg-orange-500 px-3 md:px-6 py-2 font-semibold text-white shadow-sm hover:bg-orange-700 sm:ml-3 lg:ml-1 sm:w-auto transition-colors">
               Rechercher
             </button>
-            <button @click="closeModal"
-              class="mt-2 inline-flex w-full justify-center rounded-lg bg-red-600 dark:bg-red-500 text-white px-3 py-2 font-semibold sm:mt-0 sm:w-auto transition-colors">
-              Fermer
-            </button>
           </div>
         </div>
-      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { formatDate } from '@vueuse/core';
 import { ref, computed } from 'vue'
 
 const emit = defineEmits(['close-modal', 'function-search'])

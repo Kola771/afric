@@ -246,11 +246,11 @@
             </div>
 
             <!-- 🖥️ NAV -->
-            <div class="hidden md:flex absolute right-4 top-1/2 flex-col gap-3 z-20">
-                <button @click="prev" class="nav-btn">
+            <div class="hidden md:flex absolute right-4 top-1/2 flex-col gap-3 z-20" v-if="feed.length > 0">
+                <button @click="prev" :class="prevClass ? 'bg-white text-slate-900' : 'bg-white/50'" class="nav-btn">
                     <Icon name="mdi:arrow-top" class="w-5 h-5" />
                 </button>
-                <button @click="next" class="nav-btn">
+                <button @click="next" :class="nextClass ? 'bg-white text-slate-900' : 'bg-white/50'" class="nav-btn" v-if="currentIndex !== feed.length - 1">
                     <Icon name="mdi:arrow-bottom" class="w-5 h-5" />
                 </button>
             </div>
@@ -502,6 +502,8 @@ const user = ref<User | null>(null);
 const page = ref(1);
 const currentIndex = ref(0);
 const showTimeHeart = ref<boolean>(false);
+const prevClass = ref<boolean>(false);
+const nextClass = ref<boolean>(false);
 const bg = ref<any>(["bg-purple-500", "bg-pink-500", "bg-sky-500", "bg-yellow-500", "bg-cyan-500", "bg-[#f50]", "bg-slate-500", "bg-teal-500", "bg-green-500", "bg-red-500"]);
 let startY = 0;
 let startX = 0;
@@ -939,6 +941,8 @@ const openCurrentItem = () => {
 // nav
 const next = async () => {
     await saveWatchTime();
+    prevClass.value = false;
+    nextClass.value = true;
 
     // 🔥 PRELOAD avant fin
     if (currentIndex.value >= feed.value.length - 3) {
@@ -953,6 +957,8 @@ const next = async () => {
 };
 
 const prev = async () => {
+    prevClass.value = true;
+    nextClass.value = false;
     await saveWatchTime();
 
     if (currentIndex.value > 0) currentIndex.value--;
@@ -994,7 +1000,7 @@ const goToAuthor = (uuid: string) =>
 }
 
 .nav-btn {
-    @apply bg-white/50 p-2 w-10 h-10 rounded-full flex items-center justify-center hover:bg-white/70 transition;
+    @apply p-2 w-10 h-10 rounded-full flex items-center justify-center hover:bg-white/70 transition;
 }
 
 .animate-float {
