@@ -587,7 +587,7 @@
             </div>
         </StatsModal>
     </div>
-    <div v-else class="h-96 flex items-center justify-center">
+    <div v-else class="bg-[#fffcfccc] dark:bg-dark dark:border-slate-200 dark:border-b h-96 flex items-center justify-center">
 
         <div role="status">
             <svg aria-hidden="true" class="w-12 h-12 animate-spin fill-orange-600" viewBox="0 0 100 101" fill="none"

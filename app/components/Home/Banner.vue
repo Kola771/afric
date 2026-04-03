@@ -48,21 +48,21 @@
                         <div>
                             <div
                                 class="text-2xl font-display font-semibold text-slate-900 dark:text-white tracking-tight">
-                                {{ formatNumber(books) }}+</div>
+                                {{ `${books > 1 ? `${formatNumber(books - 1)}+` : 1}` }}</div>
                             <div class="text-xs font-medium uppercase tracking-wide mt-1">Histoires</div>
                         </div>
                         <div class="w-px h-8 bg-slate-200"></div>
                         <div>
                             <div
                                 class="text-2xl font-display font-semibold text-slate-900 dark:text-white tracking-tight">
-                                {{ formatNumber(chapters) }}+</div>
+                                 {{ `${chapters > 1 ? `${formatNumber(chapters - 1)}+` : 1}` }}</div>
                             <div class="text-xs font-medium uppercase tracking-wide mt-1">Chapitres</div>
                         </div>
                         <div class="w-px h-8 bg-slate-200"></div>
                         <div>
                             <div
                                 class="text-2xl font-display font-semibold text-slate-900 dark:text-white tracking-tight">
-                                {{ formatNumber(visitors) }}+</div>
+                                 {{ `${visitors > 1 ? `${formatNumber(visitors - 1)}+` : 1}` }}</div>
                             <div class="text-xs font-medium uppercase tracking-wide mt-1">Visiteurs</div>
                         </div>
                     </div>
