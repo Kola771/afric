@@ -193,7 +193,9 @@
 
                   <!-- Avatar -->
                   <span>
-                    <img :src="`${config.public.apiBackendUrl}/uploads/categories/${category.image}`"
+                    <img :src="category.image?.includes('https')
+                ? category.image
+                : `${config.public.apiBackendUrl}/uploads/categories/${category?.image}`"
                       class="w-12 h-12 md:w-14 md:h-14 rounded-lg object-cover" :alt="category.name" />
                   </span>
 
