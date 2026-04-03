@@ -1,7 +1,7 @@
 <template>
   <div>
     <TransitionRoot as="template" :show="open">
-      <Dialog class="relative z-10" @close="closeModal">
+      <Dialog class="relative z-50" @close="closeModal">
         <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="" leave="ease-in duration-200" leave-from="" leave-to="opacity-0">
           <div class="fixed inset-0 bg-gray-500/75 transition-opacity"></div>
         </TransitionChild>
