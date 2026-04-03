@@ -443,7 +443,7 @@
             </div>
         </StatsModal>
 
-        <div class="fixed top-[60px] left-0 w-full h-[3px] bg-slate-200 dark:bg-slate-700 z-40">
+        <div class="fixed top-[62px] left-0 w-full h-[3px] bg-slate-200 dark:bg-slate-700 z-40">
             <div class="h-full bg-orange-500 transition-all duration-200" :style="{ width: scrollPercent + '%' }">
             </div>
         </div>
