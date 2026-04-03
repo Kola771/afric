@@ -351,20 +351,21 @@
 </template>
 
 <script setup lang="ts">
+const config = useRuntimeConfig();
 useSeoMeta({
     title: 'Politique de confidentialité',
     description: 'Découvrez notre politique de confidentialité et comment nous protégeons vos données.',
 
     ogTitle: 'Politique de confidentialité',
     ogDescription: 'Découvrez notre politique de confidentialité et comment nous protégeons vos données.',
-    ogImage: 'https://africstoryline.com/afric.png',
-    ogUrl: 'https://africstoryline.com/',
+    ogImage: `${config.public.frontUrl}/afric.png`,
+    ogUrl: `${config.public.frontUrl}`,
     ogType: 'website',
 
     twitterCard: 'summary_large_image',
     twitterTitle: 'Politique de confidentialité',
     twitterDescription: 'Découvrez notre politique de confidentialité et comment nous protégeons vos données.',
-    twitterImage: 'https://africstoryline.com/afric.png'
+    twitterImage: `${config.public.frontUrl}/afric.png`
 });
 
 onMounted(() => {

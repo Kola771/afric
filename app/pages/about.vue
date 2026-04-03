@@ -181,20 +181,21 @@
     </div>
 </template>
 <script lang="ts" setup>
+const config = useRuntimeConfig();
 useSeoMeta({
     title: 'À propos',
     description: 'Découvrez notre histoire et notre passion pour les histoires africaines.',
 
     ogTitle: 'À propos',
     ogDescription: 'Découvrez notre histoire et notre passion pour les histoires africaines.',
-    ogImage: 'https://africstoryline.com/afric.png',
-    ogUrl: 'https://africstoryline.com/',
+    ogImage: `${config.public.frontUrl}/afric.png`,
+    ogUrl: `${config.public.frontUrl}`,
     ogType: 'website',
 
     twitterCard: 'summary_large_image',
     twitterTitle: 'À propos',
     twitterDescription: 'Découvrez notre histoire et notre passion pour les histoires africaines.',
-    twitterImage: 'https://africstoryline.com/afric.png'
+    twitterImage: `${config.public.frontUrl}/afric.png`
 });
 
 const { toConnectUser } = authenticate();

@@ -228,6 +228,7 @@
     </div>
 </template>
 <script lang="ts" setup>
+const config = useRuntimeConfig();
 definePageMeta({
   layout: "not-layout",
 })
@@ -238,14 +239,14 @@ useSeoMeta({
 
     ogTitle: 'Inscription',
     ogDescription: 'Inscrivez-vous sur Afric Storyline pour accéder à vos histoires préférées et bien plus.',
-    ogImage: 'https://africstoryline.com/afric.png',
-    ogUrl: 'https://africstoryline.com/',
+    ogImage: `${config.public.frontUrl}/afric.png`,
+    ogUrl: `${config.public.frontUrl}`,
     ogType: 'website',
 
     twitterCard: 'summary_large_image',
     twitterTitle: 'Inscription',
     twitterDescription: 'Inscrivez-vous sur Afric Storyline pour accéder à vos histoires préférées et bien plus.',
-    twitterImage: 'https://africstoryline.com/afric.png'
+    twitterImage: `${config.public.frontUrl}/afric.png`
 });
 
 const { full_name, pseudonym, bibliography, country, email, password, role, register } = registerForm();

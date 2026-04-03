@@ -258,20 +258,21 @@
 </template>
 
 <script setup lang="ts">
+const config = useRuntimeConfig();
 useSeoMeta({
   title: 'Conditions d\'utilisation',
   description: 'Découvrez nos conditions d\'utilisation et comment utiliser notre plateforme.',
 
   ogTitle: 'Conditions d\'utilisation',
   ogDescription: 'Découvrez nos conditions d\'utilisation et comment utiliser notre plateforme.',
-  ogImage: 'https://africstoryline.com/afric.png',
-  ogUrl: 'https://africstoryline.com/',
+  ogImage: `${config.public.frontUrl}/afric.png`,
+  ogUrl: `${config.public.frontUrl}`,
   ogType: 'website',
 
   twitterCard: 'summary_large_image',
   twitterTitle: 'Conditions d\'utilisation',
   twitterDescription: 'Découvrez nos conditions d\'utilisation et comment utiliser notre plateforme.',
-  twitterImage: 'https://africstoryline.com/afric.png'
+  twitterImage: `${config.public.frontUrl}/afric.png`
 });
 
 onMounted(() => {

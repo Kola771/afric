@@ -22,6 +22,7 @@
     </div>
 </template>
 <script lang="ts" setup>
+const config = useRuntimeConfig();
 const { allCategorieActifs } = categoriesData();
 const categories = ref<Category[]>([])
 const loading = ref<boolean>(true)
@@ -35,13 +36,13 @@ onMounted(async () => {
     
     ogTitle: 'Catégories',
     ogDescription: 'Découvrez nos différentes catégories d\'histoires africaines originales.',
-    ogImage: 'https://africstoryline.com/afric.png',
-    ogUrl: 'https://africstoryline.com/',
+    ogImage: `${config.public.frontUrl}/afric.png`,
+    ogUrl: `${config.public.frontUrl}`,
     ogType: 'website',
 
     twitterCard: 'summary_large_image',
     twitterTitle: 'Catégories',
     twitterDescription: 'Découvrez nos différentes catégories d\'histoires africaines originales.',
-    twitterImage: 'https://africstoryline.com/afric.png'
+    twitterImage: `${config.public.frontUrl}/afric.png`
   });
 </script>

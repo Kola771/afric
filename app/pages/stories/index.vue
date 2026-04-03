@@ -36,6 +36,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
+const config = useRuntimeConfig();
 const { getFiveRatingAge } = booksData();
 const loading = ref<boolean>(true)
 const books = ref<Record<string, BookData[]>>({
@@ -65,13 +66,13 @@ useSeoMeta({
 
   ogTitle: 'Toutes les histoires',
   ogDescription: 'Découvrez toutes les histoires publiées sur notre plateforme.',
-  ogImage: 'https://africstoryline.com/afric.png',
-  ogUrl: 'https://africstoryline.com/',
+  ogImage: `${config.public.frontUrl}/afric.png`,
+  ogUrl: `${config.public.frontUrl}`,
   ogType: 'website',
 
   twitterCard: 'summary_large_image',
   twitterTitle: 'Toutes les histoires',
   twitterDescription: 'Découvrez toutes les histoires publiées sur notre plateforme.',
-  twitterImage: 'https://africstoryline.com/afric.png'
+  twitterImage: `${config.public.frontUrl}/afric.png`
 });
 </script>

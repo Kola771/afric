@@ -169,6 +169,7 @@
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue'
+const config = useRuntimeConfig();
 const router = useRouter();
 const { pseudonym, password, login } = authForm();
 const { authorizePage } = authenticate();
@@ -182,13 +183,13 @@ useSeoMeta({
     description: 'Connectez-vous sur Afric Storyline pour accéder à vos histoires préférées et bien plus.',
     ogTitle: 'Connexion',
     ogDescription: 'Connectez-vous sur Afric Storyline pour accéder à vos histoires préférées et bien plus.',
-    ogImage: 'https://africstoryline.com/afric.png',
-    ogUrl: 'https://africstoryline.com/',
+    ogImage: `${config.public.frontUrl}/afric.png`,
+    ogUrl: `${config.public.frontUrl}`,
     ogType: 'website',
     twitterCard: 'summary_large_image',
     twitterTitle: 'Connexion',
     twitterDescription: 'Connectez-vous sur Afric Storyline pour accéder à vos histoires préférées et bien plus.',
-    twitterImage: 'https://africstoryline.com/afric.png'
+    twitterImage: `${config.public.frontUrl}/afric.png`
 });
 
 const accept = ref<boolean>(true);

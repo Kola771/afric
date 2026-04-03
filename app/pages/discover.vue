@@ -452,20 +452,22 @@
 </template>
 
 <script setup lang="ts">
+const config = useRuntimeConfig();
+
 useSeoMeta({
     title: 'Découvrir notre fil d\'actualité',
     description: 'Explorez des histoires africaines originales écrites par des auteurs émergents et passionnés sur Afric Storyline.',
 
     ogTitle: 'Découvrir notre fil d\'actualité',
     ogDescription: 'Plongez dans des récits africains captivants publiés par une nouvelle génération d’auteurs talentueux.',
-    ogImage: 'https://africstoryline.com/afric.png',
-    ogUrl: 'https://africstoryline.com/',
+    ogImage: `${config.public.frontUrl}/afric.png`,
+    ogUrl: `${config.public.frontUrl}`,
     ogType: 'website',
 
     twitterCard: 'summary_large_image',
     twitterTitle: 'Découvrir notre fil d\'actualité',
     twitterDescription: 'Découvrez des récits africains uniques écrits par des auteurs émergents.',
-    twitterImage: 'https://africstoryline.com/afric.png'
+    twitterImage: `${config.public.frontUrl}/afric.png`
 });
 
 definePageMeta({ layout: "not-layout" });

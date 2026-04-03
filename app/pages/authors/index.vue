@@ -57,6 +57,7 @@
 </template>
 
 <script lang="ts" setup>
+const config = useRuntimeConfig();
 const { findAuthors } = usersData()
 const { toConnectUser } = authenticate();
 const user = ref<User | null>(null);
@@ -75,14 +76,14 @@ useSeoMeta({
 
   ogTitle: 'Auteurs',
   ogDescription: 'Découvrez nos auteurs préférés et leurs histoires captivantes.',
-  ogImage: 'https://africstoryline.com/afric.png',
-  ogUrl: 'https://africstoryline.com/',
+  ogImage: `${config.public.frontUrl}/afric.png`,
+  ogUrl: `${config.public.frontUrl}`,
   ogType: 'website',
 
   twitterCard: 'summary_large_image',
   twitterTitle: 'Auteurs',
   twitterDescription: 'Découvrez nos auteurs préférés et leurs histoires captivantes.',
-  twitterImage: 'https://africstoryline.com/afric.png'
+  twitterImage: `${config.public.frontUrl}/afric.png`
 });
 
 // ============================
