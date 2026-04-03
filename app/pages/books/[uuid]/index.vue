@@ -536,7 +536,7 @@
                             </div>
                             <p class="text-[12px] lg:text-xs text-slate-600 dark:text-slate-200">{{
                                 reaction.user.pseudonym
-                            }} a réagi : <span class="font-medium">{{ reaction.label }} {{ reaction.emoji }}</span>
+                                }} a réagi : <span class="font-medium">{{ reaction.label }} {{ reaction.emoji }}</span>
                             </p>
                         </div>
                     </div>
@@ -1267,7 +1267,19 @@ onMounted(async () => {
         await loadComments();
         await loadReactions();
         useSeoMeta({
-            title: `${book.value.title}`
+            title: `${book.value.title}`,
+            description: `${book.value.description || ''}`,
+
+            ogTitle: `${book.value.title}`,
+            ogDescription: `${book.value.description || ''}`,
+            ogImage: `${config.public.apiBackendUrl}/uploads/books/${book.value.image}`,
+            ogUrl: `${config.public.frontUrl}`,
+            ogType: 'website',
+
+            twitterCard: 'summary_large_image',
+            twitterTitle: `${book.value.title}`,
+            twitterDescription: `${book.value.description || ''}`,
+            twitterImage: `${config.public.apiBackendUrl}/uploads/books/${book.value.image}`
         })
         loading.value = false;
     } else {
