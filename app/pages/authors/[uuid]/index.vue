@@ -330,7 +330,7 @@ const shareLink = async () => {
         if (navigator.share && author.value) {
             await navigator.share({
                 title: author.value.name,
-                text: author.value.bibliography,
+                text: author.value.bibliography?.replaceAll('<br>', ''),
                 url: url,
             })
         } else {

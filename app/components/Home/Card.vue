@@ -87,7 +87,7 @@ const shareLink = async () => {
     if (navigator.share && props.book) {
       await navigator.share({
         title: props.book.title,
-        text: props.book.description,
+        text: props.book.description.replaceAll('<br>', ''),
         url: `/books/${props.book.uuid}`,
       })
     } else {
