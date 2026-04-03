@@ -174,17 +174,17 @@ onMounted(async () => {
 
     useSeoMeta({
       title: `${category.value?.name}`,
-      description: `${category.value.description || ''}`,
+      description: `${category.value.description?.replaceAll('<br>', '') || ''}`,
 
       ogTitle: `${category.value.name}`,
-      ogDescription: `${category.value.description || ''}`,
+      ogDescription: `${category.value.description?.replaceAll('<br>', '') || ''}`,
       ogImage: `${category.value.image?.includes('https') ? category.value.image : `${config.public.apiBackendUrl}/uploads/categories/${category.value.image}`}`,
       ogUrl: `${config.public.frontUrl}`,
       ogType: 'website',
 
       twitterCard: 'summary_large_image',
       twitterTitle: `${category.value.name}`,
-      twitterDescription: `${category.value.description || ''}`,
+      twitterDescription: `${category.value.description?.replaceAll('<br>', '') || ''}`,
       twitterImage: `${category.value.image?.includes('https') ? category.value.image : `${config.public.apiBackendUrl}/uploads/categories/${category.value.image}`}`
     })
   }

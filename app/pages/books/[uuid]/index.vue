@@ -1267,17 +1267,17 @@ onMounted(async () => {
         await loadReactions();
         useSeoMeta({
             title: `${book.value.title}`,
-            description: `${book.value.description || ''}`,
+            description: `${book.value.description.replaceAll('<br>', '') || ''}`,
 
             ogTitle: `${book.value.title}`,
-            ogDescription: `${book.value.description || ''}`,
+            ogDescription: `${book.value.description.replaceAll('<br>', '') || ''}`,
             ogImage: `${config.public.apiBackendUrl}/uploads/books/${book.value.image}`,
             ogUrl: `${config.public.frontUrl}`,
             ogType: 'website',
 
             twitterCard: 'summary_large_image',
             twitterTitle: `${book.value.title}`,
-            twitterDescription: `${book.value.description || ''}`,
+            twitterDescription: `${book.value.description.replaceAll('<br>', '') || ''}`,
             twitterImage: `${config.public.apiBackendUrl}/uploads/books/${book.value.image}`
         })
         loading.value = false;
