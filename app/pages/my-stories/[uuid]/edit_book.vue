@@ -89,7 +89,7 @@
                     <label for="step" class="text-sm text-slate-900 font-medium dark:text-white">Âge autorisé
                         :</label>
                     <select required id="step"
-                        class="w-full text-sm placeholder:text-slate-500 text-slate-800 outline-none border border-slate-300 dark:border-slate-200 dark:bg-slate-50 rounded-md p-2.5 dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-400"
+                        class="w-full text-sm placeholder:text-slate-500 text-slate-800 outline-none border border-slate-300 dark:border-slate-200 dark:bg-slate-50 rounded-md p-2.5 bg-white dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-400"
                         v-model="rating_age">
                         <option value="" disabled selected>Âge autorisé'age</option>
                         <option value="12+">12ans+</option>
@@ -101,7 +101,7 @@
                     <label for="step" class="text-sm text-slate-900 font-medium dark:text-white">État de l'histoire
                         :</label>
                     <select required id="step"
-                        class="w-full text-sm placeholder:text-slate-500 text-slate-800 outline-none border border-slate-300 dark:border-slate-200 dark:bg-slate-50 rounded-md p-2.5 dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-400"
+                        class="w-full text-sm placeholder:text-slate-500 text-slate-800 outline-none border border-slate-300 dark:border-slate-200 dark:bg-slate-50 rounded-md p-2.5 bg-white dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-400"
                         v-model="status">
                         <option value="" disabled selected>Statut de l'histoire</option>
                         <option value="draft">Brouillon</option>

@@ -20,8 +20,8 @@ const isOpen = ref(false)
                         La première plateforme digitale dédiée à la narration africaine contemporaine. Nous connectons les cultures par les mots.
                     </p>
                     <div class="flex gap-4">
-                        <nuxt-link to="#" class="text-slate-800 hover:text-slate-900 dark:hover:text-slate-400 dark:text-slate-200 transition-colors"><Icon name="mdi:facebook" class="w-5 h-5" /></nuxt-link>
-                        <nuxt-link to="#" class="text-slate-800 hover:text-slate-900 dark:hover:text-slate-400 dark:text-slate-200 transition-colors"><Icon name="mdi:whatsapp" class="w-5 h-5" /></nuxt-link>
+                        <nuxt-link target="_blank" to="https://chat.whatsapp.com/DvG5yaAyf7k4zbj2nbJtkH" class="text-slate-800 hover:text-slate-900 dark:hover:text-slate-400 dark:text-slate-200 transition-colors"><Icon name="mdi:facebook" class="w-5 h-5" /></nuxt-link>
+                        <nuxt-link target="_blank" to="https://www.facebook.com/kola.aboudou.2025" class="text-slate-800 hover:text-slate-900 dark:hover:text-slate-400 dark:text-slate-200 transition-colors"><Icon name="mdi:whatsapp" class="w-5 h-5" /></nuxt-link>
                     </div>
                 </div>
                 

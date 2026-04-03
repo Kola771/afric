@@ -154,12 +154,12 @@
                 </div>
 
                 <div :class="`grid ${user ? 'grid-cols-2' : 'md:grid-cols-3'} gap-4 w-full md:w-auto`">
-                    <nuxt-link to="#"
+                    <nuxt-link target="_blank" to="https://chat.whatsapp.com/DvG5yaAyf7k4zbj2nbJtkH"
                         class="flex justify-center items-center gap-1 text-sm text-slate-900 hover:bg-green-600 transition-colors dark:text-slate-200 bg-green-500 rounded-lg p-2 md:px-4 lg:px-6 text-white">
                         <Icon name="mdi:whatsapp" class="w-7 h-7 lg:w-6 lg:h-6" />
                         <span class="">WhatsApp</span>
                     </nuxt-link>
-                    <nuxt-link to="#"
+                    <nuxt-link target="_blank" to="https://www.facebook.com/kola.aboudou.2025"
                         class="flex justify-center items-center gap-1 text-sm text-slate-900 hover:bg-blue-600 transition-colors dark:text-slate-200 bg-blue-500 rounded-lg p-2 md:px-4 lg:px-6 text-white">
                         <Icon name="mdi:facebook" class="w-7 h-7 lg:w-6 lg:h-6" />
                         <span class="">Facebook</span>

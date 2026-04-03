@@ -22,11 +22,11 @@
                     </button>
                 </form>
                 <div class="grid grid-cols-2 mt-4 gap-4 w-full md:w-1/3 md:mx-auto">
-                    <nuxt-link to="#" class="flex justify-center items-center gap-1 text-xs md:text-sm text-slate-900 hover:bg-green-600 transition-colors dark:text-slate-200 bg-green-500 dark:bg-green-600 dark:hover:bg-green-700 rounded-lg p-2 md:px-4 lg:px-6 text-white">
+                    <nuxt-link target="_blank" to="https://chat.whatsapp.com/DvG5yaAyf7k4zbj2nbJtkH" class="flex justify-center items-center gap-1 text-xs md:text-sm text-slate-900 hover:bg-green-600 transition-colors dark:text-slate-200 bg-green-500 dark:bg-green-600 dark:hover:bg-green-700 rounded-lg p-2 md:px-4 lg:px-6 text-white">
                         <Icon name="mdi:whatsapp" class="w-5 h-5 lg:w-6 lg:h-6" />
                         <span class="">WhatsApp</span>
                     </nuxt-link>
-                    <nuxt-link to="#" class="flex justify-center items-center gap-1 text-xs md:text-sm text-slate-900 hover:bg-blue-600 transition-colors dark:text-slate-200 bg-blue-500 dark:bg-blue-600 dark:hover:bg-blue-700 rounded-lg p-2 md:px-4 lg:px-6 text-white">
+                    <nuxt-link target="_blank" to="https://www.facebook.com/kola.aboudou.2025" class="flex justify-center items-center gap-1 text-xs md:text-sm text-slate-900 hover:bg-blue-600 transition-colors dark:text-slate-200 bg-blue-500 dark:bg-blue-600 dark:hover:bg-blue-700 rounded-lg p-2 md:px-4 lg:px-6 text-white">
                         <Icon name="mdi:facebook" class="w-5 h-5 lg:w-6 lg:h-6" />
                         <span class="">Facebook</span>
                     </nuxt-link>
