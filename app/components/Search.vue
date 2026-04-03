@@ -24,7 +24,7 @@
           <div class="mb-2 px-4 flex flex-col gap-2.5 overflow-y-auto text-xs">
             <div class="lg:mt-2">
               <select v-model="searchType" required
-                class="w-full placeholder:text-slate-500 text-slate-800 outline-none border border-slate-300 dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-400 rounded-md px-2 py-2.5">
+                class="w-full placeholder:text-slate-500 text-slate-800 outline-none border border-slate-300 bg-white dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-400 rounded-md px-2 py-2.5">
                 <option value="" disabled>Vous recherchez quoi ?</option>
                 <option value="histoires">Histoires</option>
                 <option value="auteurs">Auteurs</option>
