@@ -57,7 +57,7 @@
                         : <span
                             class="font-normal text-slate-500 dark:text-slate-200 text-xs">(Optionnel)</span></label>
                     <textarea id="bio" name="bio" rows="3" v-model="bibliography"
-                        class="block w-full rounded-lg border-0 py-2.5 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200 pl-3 resize-none"
+                        class="block w-full rounded-lg border-0 py-2.5 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all bg-white dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200 pl-3 resize-none"
                         placeholder="Ma bibliographie..."></textarea>
                 </div>
                 <div class="flex flex-col gap-1">

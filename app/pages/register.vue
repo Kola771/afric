@@ -56,7 +56,7 @@
 
                             <div>
                                 <label for="pays" class="block text-xs font-medium leading-6 text-slate-900 dark:text-white">Pays d'origine</label>
-                                <select required id="pays" name="pays" v-model="country" class="mt-1 block w-full rounded-lg border-0 py-2.5 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-400 p-3">
+                                <select required id="pays" name="pays" v-model="country" class="mt-1 block w-full rounded-lg border-0 py-2.5 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all bg-white dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-400 p-3">
                                     <option :value="0" disabled selected>Pays d'origine</option>
                                     <option :value="country.id" v-for="(country, index) in countries" :key="index">{{ country.name }}</option>
                                 </select>

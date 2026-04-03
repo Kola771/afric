@@ -37,7 +37,7 @@
             <div v-if="showBooks" class="pb-1 flex flex-col gap-2.5">
               <div>
                 <select v-model="status"
-                  class="w-full placeholder:text-slate-500 text-slate-800 outline-none border border-slate-300 dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-400 rounded-md p-2">
+                  class="w-full placeholder:text-slate-500 text-slate-800 outline-none border border-slate-300 bg-white dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-400 rounded-md p-2">
                   <option value="" disabled selected>Status</option>
                   <option value="ongoing">En cours</option>
                   <option value="paused">En pause</option>

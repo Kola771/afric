@@ -142,6 +142,43 @@
                 </div>
             </div>
         </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" v-else>
+            <div
+                class="relative -mt-10 sm:-mt-20 lg:-mt-14 dark:text-white mb-6 flex flex-col md:flex-row md:items-end justify-between gap-6">
+                <!-- Avatar & Info -->
+                <div :class="`flex flex-wrap lg:flex-nowrap items-end md:items-end gap-3 lg:gap-6`">
+                    <div class="relative group">
+                        <div
+                            class="w-24 h-24 sm:w-40 sm:h-40 rounded-full border-[4px] border-white shadow-lg overflow-hidden bg-slate-200">
+                            <span
+                                class="p-1 text-xl lg:text-3xl font-medium text-slate-600 flex items-center justify-center w-full h-full rounded-full">
+                            </span>
+                        </div>
+                    </div>
+                    <div class="mb-2">
+                        <h2 class="text-3xl font-display font-semibold tracking-tight"></h2>
+                        <p class="text-slate-500 text-md font-medium flex flex-wrap items-center gap-2">
+                        </p>
+                        <p class="hidden md:block text-sm md:text-md text-slate-600 mt-2 dark:text-slate-200 clamp-3">
+                        </p>
+                    </div>
+                    <p class="md:hidden text-sm md:text-md text-slate-600 mt-2 dark:text-slate-200 md:clamp-6">
+                    </p>
+                </div>
+            </div>
+
+            <!-- Stats Bar -->
+            <div class="flex items-center gap-8 py-6 border-y border-slate-200">
+                <div class="flex flex-col">
+                    <span class="text-lg font-display font-bold text-slate-900 tracking-tight dark:text-white"></span>
+                </div>
+                <div class="h-8 w-px bg-slate-200 mx-2"></div>
+                <div
+                    class="capitalize flex items-center gap-2 bg-orange-50 text-orange-900 px-3 py-1.5 rounded-full text-xs font-medium border border-orange-100">
+                </div>
+            </div>
+        </div>
         <ProfilDeleteUser @close-delete-modal="toggleDeleteModal" :showDeleteModal="showDeleteModal" :profil="profil"
             v-if="showDeleteModal && profil" />
         <ProfilChangePhoto @close-change-modal="toggleChangeModal" :showChangeModal="showChangeModal" :profil="profil"
