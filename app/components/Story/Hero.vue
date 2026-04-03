@@ -71,7 +71,7 @@
                 </div>
             </div>
         </section>
-        <section v-if="loading" class="mb-2 animate-pulse">
+        <section v-if="loading && !book" class="mb-2 animate-pulse">
             <div class="grid lg:grid-cols-2 gap-8 md:gap-12 items-center">
                 <div class="max-w-2xl space-y-6">
                     <div

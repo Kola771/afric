@@ -35,7 +35,7 @@
         </div>
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-6 gap-y-10">
           <!-- Skeleton -->
-          <template v-if="loading">
+          <template v-if="loading && books.length > 0">
             <HomeCardSkeleton v-for="i in 5" :key="i" />
           </template>
 

@@ -20,7 +20,7 @@
             </div>
 
             <!-- FEED -->
-            <TransitionGroup name="feed" tag="div">
+            <TransitionGroup name="feed" tag="div" v-if="feed.length > 2">
                 <div v-for="(item, index) in feed"
                     :key="item.type === 'category' ? `category-${index}` : `${item.type}-${item.data.uuid}`"
                     class="absolute inset-0 transition-all duration-500 flex items-end justify-center" :class="{
@@ -214,7 +214,7 @@
             </TransitionGroup>
 
             <!-- EMPTY STATE -->
-            <div v-if="feed.length === 0"
+            <div v-else
                 class="absolute inset-0 flex flex-col items-center justify-center text-center px-6 z-10">
 
                 <div class="flex flex-col items-center gap-4">

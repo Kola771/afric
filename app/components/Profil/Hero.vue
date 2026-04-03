@@ -50,12 +50,12 @@
                                 {{ profil?.rank }}
                             </span>
                         </p>
-                        <p class="hidden lg:block text-sm lg:text-md text-slate-600 mt-2 dark:text-slate-200">
-                            <template v-if="user.bibliography && user.bibliography.trim() !== ''">
-                                {{ user.bibliography }}
-                            </template>
-                            <template v-else>Aucune bibliographie disponible !
-                            </template>
+                        <p class="hidden lg:block text-sm lg:text-md text-slate-600 mt-2 dark:text-slate-200 lg:line-clamp-3"
+                            v-if="user.bibliography && user.bibliography.trim() !== ''" v-html="user.bibliography">
+                        </p>
+                        <p class="hidden lg:block text-sm lg:text-md text-slate-600 mt-2 dark:text-slate-200 lg:line-clamp-3"
+                            v-else>
+                            Aucune bibliographie disponible !
                         </p>
                         <div class="text-[13px] flex-wrap items-center gap-2 hidden lg:flex" v-if="author">
                             <nuxt-link :to="`/authors/${author.uuid}/followers`" class="hover:underline">
@@ -80,10 +80,8 @@
                             </div>
                         </div>
                     </div>
-                    <p class="lg:hidden text-sm lg:text-md text-slate-600 mt-2 dark:text-slate-200">
-                        <template v-if="user.bibliography && user.bibliography.trim() !== ''">
-                            {{ user.bibliography }}
-                        </template>
+                    <p class="lg:hidden text-sm lg:text-md text-slate-600 mt-2 dark:text-slate-200"
+                        v-if="user.bibliography && user.bibliography.trim() !== ''" v-html="user.bibliography">
                     </p>
                     <div class="text-[11px] flex flex-wrap items-center gap-2 lg:hidden" v-if="author">
                         <nuxt-link :to="`/authors/${author.uuid}/followers`" class="hover:underline">
