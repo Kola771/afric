@@ -24,7 +24,7 @@
           <div class="mb-2 px-4 flex flex-col gap-2.5 overflow-y-auto text-xs">
             <div class="lg:mt-2">
               <select v-model="searchType" required
-                class="w-full placeholder:text-slate-500 text-slate-800 outline-none border border-slate-300 dark:border-slate-200 dark:bg-slate-50 rounded-md px-2 py-2.5">
+                class="w-full placeholder:text-slate-500 text-slate-800 outline-none border border-slate-300 dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-400 rounded-md px-2 py-2.5">
                 <option value="" disabled>Vous recherchez quoi ?</option>
                 <option value="histoires">Histoires</option>
                 <option value="auteurs">Auteurs</option>
@@ -32,12 +32,12 @@
               </select>
             </div>
             <input type="text" name="search" id="search" required autofocus placeholder="Rechercher" v-model="search"
-              class="w-full placeholder:text-slate-500 text-slate-800 outline-none border border-slate-300 dark:border-slate-200 dark:bg-slate-50 rounded-md px-2 py-2.5">
+              class="w-full placeholder:text-slate-500 text-slate-800 outline-none border border-slate-300 dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200 rounded-md px-2 py-2.5">
 
             <div v-if="showBooks" class="pb-1 flex flex-col gap-2.5">
               <div>
                 <select v-model="status"
-                  class="w-full placeholder:text-slate-500 text-slate-800 outline-none border border-slate-300 dark:border-slate-200 dark:bg-slate-50 rounded-md p-2">
+                  class="w-full placeholder:text-slate-500 text-slate-800 outline-none border border-slate-300 dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-400 rounded-md p-2">
                   <option value="" disabled selected>Status</option>
                   <option value="ongoing">En cours</option>
                   <option value="paused">En pause</option>
@@ -167,7 +167,7 @@
           <div
             class="bg-slate-50 dark:bg-dark px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 gap-2 border-t border-slate-100 text-sm lg:text-[13px]">
             <button @click="sendSearch"
-              class="inline-flex w-full justify-center rounded-lg bg-orange-600 dark:bg-orange-500 px-3 md:px-6 py-2 font-semibold text-white shadow-sm hover:bg-orange-700 sm:ml-3 lg:ml-1 sm:w-auto transition-colors">
+              class="inline-flex w-full justify-center rounded-lg bg-orange-600 dark:bg-orange-500 px-3 md:px-8 py-2 font-semibold text-white shadow-sm hover:bg-orange-700 sm:ml-3 lg:ml-1 sm:w-auto transition-colors">
               Rechercher
             </button>
           </div>
