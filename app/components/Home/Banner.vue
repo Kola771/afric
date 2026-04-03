@@ -80,7 +80,7 @@
 
                     <!-- Main Card -->
                     <!-- Skeleton -->
-                    <template v-if="loading && !book">
+                    <template v-if="loading || !book">
                         <HomeBannerSkeleton />
                     </template>
                     <template v-else>
