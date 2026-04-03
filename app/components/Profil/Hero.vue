@@ -11,7 +11,7 @@
             <div
                 class="relative -mt-10 sm:-mt-20 lg:-mt-14 dark:text-white mb-6 flex flex-col md:flex-row md:items-end justify-between gap-6">
                 <!-- Avatar & Info -->
-                <div :class="`flex flex-wrap items-end md:items-end gap-3 lg:gap-6`">
+                <div :class="`flex flex-wrap lg:flex-nowrap items-end md:items-end gap-3 lg:gap-6`">
                     <div class="relative group">
                         <div
                             class="w-24 h-24 sm:w-40 sm:h-40 rounded-full border-[4px] border-white shadow-lg overflow-hidden bg-slate-200">
@@ -50,10 +50,10 @@
                                 {{ profil?.rank }}
                             </span>
                         </p>
-                        <p class="hidden lg:block text-sm lg:text-md text-slate-600 mt-2 dark:text-slate-200 lg:line-clamp-3"
+                        <p class="hidden md:block text-sm md:text-md text-slate-600 mt-2 dark:text-slate-200 clamp-3"
                             v-if="user.bibliography && user.bibliography.trim() !== ''" v-html="user.bibliography">
                         </p>
-                        <p class="hidden lg:block text-sm lg:text-md text-slate-600 mt-2 dark:text-slate-200 lg:line-clamp-3"
+                        <p class="hidden md:block text-sm lg:text-md text-slate-600 mt-2 dark:text-slate-200"
                             v-else>
                             Aucune bibliographie disponible !
                         </p>
@@ -80,10 +80,10 @@
                             </div>
                         </div>
                     </div>
-                    <p class="lg:hidden text-sm lg:text-md text-slate-600 mt-2 dark:text-slate-200"
+                    <p class="md:hidden text-sm md:text-md text-slate-600 mt-2 dark:text-slate-200 md:clamp-6"
                         v-if="user.bibliography && user.bibliography.trim() !== ''" v-html="user.bibliography">
                     </p>
-                    <div class="text-[11px] flex flex-wrap items-center gap-2 lg:hidden" v-if="author">
+                    <div class="text-[11px] flex flex-wrap items-center gap-2 md:hidden" v-if="author">
                         <nuxt-link :to="`/authors/${author.uuid}/followers`" class="hover:underline">
                             <span class="font-semibold text-slate-900 dark:text-slate-200">{{
                                 formatNumber(author.total_followers) }}</span>
@@ -172,6 +172,13 @@
     animation: fillBar 1.5s linear infinite;
     /* animation continue tant que le skeleton existe */
     border-radius: 4px;
+}
+
+.clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 @keyframes fillBar {

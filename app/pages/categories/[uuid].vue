@@ -173,7 +173,19 @@ onMounted(async () => {
     await loadBooks()
 
     useSeoMeta({
-      title: `${category.value?.name}`
+      title: `${category.value?.name}`,
+      description: `${category.value.description || ''}`,
+
+      ogTitle: `${category.value.name}`,
+      ogDescription: `${category.value.description || ''}`,
+      ogImage: `${category.value.image?.includes('https') ? category.value.image : `${config.public.apiBackendUrl}/uploads/categories/${category.value.image}`}`,
+      ogUrl: `${config.public.frontUrl}`,
+      ogType: 'website',
+
+      twitterCard: 'summary_large_image',
+      twitterTitle: `${category.value.name}`,
+      twitterDescription: `${category.value.description || ''}`,
+      twitterImage: `${category.value.image?.includes('https') ? category.value.image : `${config.public.apiBackendUrl}/uploads/categories/${category.value.image}`}`
     })
   }
 
