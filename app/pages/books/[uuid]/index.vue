@@ -536,7 +536,7 @@
                             </div>
                             <p class="text-[12px] lg:text-xs text-slate-600 dark:text-slate-200">{{
                                 reaction.user.pseudonym
-                                }} a réagi : <span class="font-medium">{{ reaction.label }} {{ reaction.emoji }}</span>
+                            }} a réagi : <span class="font-medium">{{ reaction.label }} {{ reaction.emoji }}</span>
                             </p>
                         </div>
                     </div>
@@ -557,10 +557,9 @@
 
     </div>
 
-    <div v-else
-        class="bg-[#fffcfccc] dark:bg-dark dark:border-slate-200 dark:border-b flex flex-col items-center justify-center text-center p-6 text-slate-500 dark:text-slate-200 min-h-screen">
+    <div v-else class="bg-[#fffcfccc] dark:bg-dark dark:border-slate-200 dark:border-b pt-20 px-6 md:pt-24 pb-12">
 
-        <HomeCardSkeleton class="w-full md:w-2/5 lg:w-1/3 xl:w-1/5" />
+        <HomeCardSkeletonSecond class="max-w-7xl mx-auto" />
     </div>
 </template>
 

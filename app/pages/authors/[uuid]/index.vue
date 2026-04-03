@@ -197,6 +197,11 @@
             </div>
         </section>
     </div>
+    <div v-else
+        class="bg-[#fffcfccc] dark:bg-dark dark:border-slate-200 dark:border-b pt-20 px-6 md:pt-24 pb-12">
+
+        <HomeCardSkeletonSecond class="max-w-7xl mx-auto" />
+    </div>
 </template>
 
 <script setup lang="ts">
@@ -319,23 +324,23 @@ const back = () => {
 }
 
 const shareLink = async () => {
-  const url = window.location.href
+    const url = window.location.href
 
-  try {
-    if (navigator.share && author.value) {
-      await navigator.share({
-        title: author.value.name,
-        text: author.value.bibliography,
-        url: url,
-      })
-    } else {
-      // Fallback : copier dans le presse-papiers
-      await navigator.clipboard.writeText(url)
-      alert("Une erreur est survenue lors du partage, n'empêche le lien copié dans le presse-papiers !")
+    try {
+        if (navigator.share && author.value) {
+            await navigator.share({
+                title: author.value.name,
+                text: author.value.bibliography,
+                url: url,
+            })
+        } else {
+            // Fallback : copier dans le presse-papiers
+            await navigator.clipboard.writeText(url)
+            alert("Une erreur est survenue lors du partage, n'empêche le lien copié dans le presse-papiers !")
+        }
+    } catch (error) {
+        console.error("Erreur lors du partage :", error)
     }
-  } catch (error) {
-    console.error("Erreur lors du partage :", error)
-  }
 }
 
 // ============================
