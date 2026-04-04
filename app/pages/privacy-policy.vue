@@ -111,7 +111,7 @@
                                             <span class="block text-sm font-semibold text-slate-900">Informations de
                                                 compte</span>
                                             <span class="text-sm text-slate-500">Votre nom d'utilisateur, adresse email
-                                                et mot de passe crypté lors de votre inscription.</span>
+                                                et mot de passe lors de votre inscription.</span>
                                         </div>
                                     </li>
                                     <li class="flex items-start gap-3">
@@ -234,9 +234,7 @@
                                         <h2 class="text-xl font-display font-bold mb-2">Sécurité des données</h2>
                                         <p class="text-slate-300 text-sm leading-relaxed mb-4">
                                             Nous ne vendons jamais vos données à des tiers. Vos écrits sont votre
-                                            propriété intellectuelle exclusive. Nous utilisons des protocoles de
-                                            cryptage TLS (SSL) pour toutes les communications entre votre appareil et
-                                            nos serveurs.
+                                            propriété intellectuelle exclusive.
                                         </p>
                                         <ul class="text-sm text-slate-300 space-y-1">
                                             <li class="flex items-center gap-2">
