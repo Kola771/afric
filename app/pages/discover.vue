@@ -247,7 +247,7 @@
 
             <!-- 🖥️ NAV -->
             <div class="hidden md:flex absolute right-4 top-1/2 flex-col gap-3 z-20" v-if="loading && feed.length > 2">
-                <button @click="prev" :class="prevClass ? 'bg-white text-slate-900' : 'bg-white/50'" class="nav-btn">
+                <button @click="prev" :class="prevClass ? 'bg-white text-slate-900' : 'bg-white/50'" class="nav-btn" v-if="currentIndex > 0">
                     <Icon name="mdi:arrow-top" class="w-5 h-5" />
                 </button>
                 <button @click="next" :class="nextClass ? 'bg-white text-slate-900' : 'bg-white/50'" class="nav-btn"
