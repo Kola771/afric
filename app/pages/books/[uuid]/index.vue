@@ -10,7 +10,7 @@
                     <div
                         class="md:col-span-4 flex flex-col gap-4 items-start lg:col-span-3 md:sticky md:top-24 self-start">
                         <div
-                            class="rounded-xl overflow-hidden shadow-2xl border border-slate-200 rotate-1 hover:rotate-0 transition-transform duration-500">
+                            class="rounded-xl overflow-hidden shadow-2xl border border-slate-200 rotate-1 hover:rotate-0 transition-transform duration-500 w-full">
                             <img v-if="book" :src="`${config.public.apiBackendUrl}/uploads/books/${book.image}`"
                                 class="w-full object-cover aspect-[3/4]" alt="Cover Large">
                         </div>
