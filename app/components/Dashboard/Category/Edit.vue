@@ -20,7 +20,7 @@
             <div class="flex flex-col gap-1">
                 <p class="text-sm text-slate-900 font-medium dark:text-white">Image actuelle :</p>
                 <div class="bg-slate-100 dark:bg-slate-800 flex flex-col rounded-lg"><img
-                        :src="`${config.public.apiBackendUrl}/uploads/categories/${category?.image}`" v-if="category"
+                        :src="category.image?.includes('https') ? category.image : `${config.public.apiBackendUrl}/uploads/categories/${category.image}`" v-if="category"
                         alt="Image actuelle"
                         class="max-h-[200px] dark:border object-cover lg:object-contain lg:max-h-[220px] rounded-lg" />
                 </div>
