@@ -159,7 +159,7 @@
                                 {{ item.data.pseudonym }}
                             </h3>
 
-                            <p class="text-gray-400 text-sm clamp-3"
+                            <p class="text-gray-400 text-sm line-clamp-6"
                                 v-html="item.data.bibliography || 'Auteur Afric Storyline'">
                             </p>
 

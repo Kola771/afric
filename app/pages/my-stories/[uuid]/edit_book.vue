@@ -31,7 +31,7 @@
                     <label for="title" class="text-sm text-slate-900 font-medium dark:text-white">Titre du livre
                         :</label>
                     <input type="text" id="title" v-model="title"
-                        class="block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200" />
+                        class="block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all bg-white dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200" />
                 </div>
                 <div class="flex flex-col gap-1">
                     <label for="image" class="text-sm text-slate-900 font-medium dark:text-white">Image de couverture

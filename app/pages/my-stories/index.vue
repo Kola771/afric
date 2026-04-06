@@ -1033,7 +1033,8 @@ const toggleDeleteModal = (b: BookData) => {
 
 const closeDeleteModal = async () => {
     if (user.value) {
-        const { data, totalPages: tp } = await findAllPaginatedAuthor(page.value, limit.value, user.value?.id);
+        const { data, totalPages: tp } = await findAllPaginatedAuthor(1, limit.value, user.value?.id);
+        page.value = 1;
         books.value = data;
         totalPages.value = tp;
     }

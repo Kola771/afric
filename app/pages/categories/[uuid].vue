@@ -32,7 +32,7 @@
                 {{ category?.name }}
               </h2>
 
-              <p class="text-sm mt-2 text-slate-600 dark:text-slate-300 line-clamp-4">
+              <p class="text-sm mt-2 text-slate-600 dark:text-slate-300">
                 {{ category?.description }}
               </p>
 

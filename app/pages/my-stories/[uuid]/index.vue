@@ -141,11 +141,11 @@
             <Icon name="mdi:plus" class="w-5 h-5" />
             Nouveau Chapitre
           </button>
-          <button @click="showPdfModal = true"
+          <!-- <button @click="showPdfModal = true"
             class="mt-2 flex w-full items-center justify-center gap-2 rounded-lg border border-dashed border-slate-300 bg-white px-3 py-2.5 text-xs font-semibold text-slate-600 hover:border-orange-400 hover:text-orange-600 hover:bg-orange-50 transition-all">
             <Icon name="mdi:plus" class="w-5 h-5" />
             Importer les chapitres
-          </button>
+          </button> -->
           <p class="text-xs text-red-600 text-center mt-1" v-if="error">{{ error }}</p>
         </div>
       </aside>
@@ -252,11 +252,11 @@
                 <Icon name="mdi:plus" class="w-5 h-5" />
                 Nouveau Chapitre
               </button>
-              <button @click="showPdfModal = true"
+              <!-- <button @click="showPdfModal = true"
                 class="mt-2 flex w-full items-center justify-center gap-2 rounded-lg border border-dashed border-slate-300 bg-white px-3 py-2.5 text-xs font-semibold text-slate-600 hover:border-orange-400 hover:text-orange-600 hover:bg-orange-50 transition-all">
                 <Icon name="mdi:plus" class="w-5 h-5" />
                 Importer les chapitres
-              </button>
+              </button> -->
               <p class="text-xs text-red-600 text-center mt-1" v-if="error">{{ error }}</p>
             </div>
           </div>
@@ -371,11 +371,11 @@
             <Icon name="mdi:plus" class="w-5 h-5" />
             Nouveau Chapitre
           </button>
-          <button @click="showPdfModal = true; showMobileChapters = false"
+          <!-- <button @click="showPdfModal = true; showMobileChapters = false"
             class="mt-2 flex w-full items-center justify-center gap-2 rounded-lg border border-dashed border-slate-300 bg-white px-3 py-2.5 text-xs font-semibold text-slate-600 hover:border-orange-400 hover:text-orange-600 hover:bg-orange-50 transition-all">
             <Icon name="mdi:plus" class="w-5 h-5" />
             Importer les chapitres
-          </button>
+          </button> -->
           <p class="text-xs text-red-600 text-center mt-1" v-if="error">{{ error }}</p>
         </div>
       </aside>
