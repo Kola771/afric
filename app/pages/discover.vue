@@ -122,7 +122,7 @@
                             <h2 class="text-2xl md:text-4xl font-bold">
                                 {{ item.data.title }}
                             </h2>
-                            <p class="text-gray-300 text-sm" v-html="item.data.description.length > 1000
+                            <p class="text-gray-300 text-sm line-clamp-6" v-html="item.data.description.length > 1000
                                 ? item.data.description.slice(0, 600) + '...'
                                 : item.data.description">
                             </p>

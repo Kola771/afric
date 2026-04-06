@@ -41,20 +41,20 @@
                     <span class="w-2 h-2 rounded-full bg-red-600 animate-pulse"></span>
                 </div>
             </div>
-            <div class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-4 rounded-xl border border-slate-200 shadow-sm">
+            <!-- <div class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-4 rounded-xl border border-slate-200 shadow-sm">
                 <p class="text-xs font-medium text-slate-500 dark:text-slate-300 mb-1">Total Catégories les plus lues</p>
                 <div class="flex items-end justify-between">
                     <p class="text-2xl font-display font-bold text-slate-900 dark:text-slate-200">4</p>
                     <p class="text-xs text-slate-500 dark:text-slate-300">Avec plus de 101K vues chacune</p>
                 </div>
-            </div>
-            <div class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-4 rounded-xl border border-slate-200 shadow-sm">
+            </div> -->
+            <!-- <div class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-4 rounded-xl border border-slate-200 shadow-sm">
                 <p class="text-xs font-medium text-slate-500 dark:text-slate-300 mb-1">Catégorie phare</p>
                 <div class="flex items-end justify-between">
                     <p class="text-2xl font-display font-bold text-slate-900 dark:text-slate-200">Roman</p>
                     <span class="w-2 h-2 rounded-full bg-orange-600 animate-pulse"></span>
                 </div>
-            </div>
+            </div> -->
         </div>
 
         <!-- Filters & Toolbar -->
@@ -101,7 +101,7 @@
                     <tbody class="text-sm">
                         <tr class="group hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors border-b border-slate-50"
                             v-for="(category, index) in sortedCategories" :key="index">
-                            <td class="py-3 px-6">
+                            <td class="py-3 px-6 whitespace-nowrap">
                                 <div class="flex items-center gap-3">
                                     <div class="w-8 h-10 lg:h-8 bg-slate-200 rounded object-cover overflow-hidden">
                                         <img :src="category.image?.includes('https') ? category.image : `${config.public.apiBackendUrl}/uploads/categories/${category.image}`"
@@ -112,7 +112,7 @@
                                             category.name }}</span>
                                 </div>
                             </td>
-                            <td class="py-3 px-6 text-slate-600 dark:text-slate-200 text-xs"><nuxt-link
+                            <td class="py-3 px-6 text-slate-600 dark:text-slate-200 text-xs whitespace-nowrap"><nuxt-link
                                     class="flex items-center gap-2 hover:underline hover:text-orange-600 dark:hover:text-orange-500 hover:duration-300 hover:ease-linear"
                                     :to="`/dashboard/categories/${category.uuid}/stories`">
                                     <Icon name="mdi:book-open-page-variant" class="w-4 h-4" /> {{ category.booksCount }}
@@ -132,7 +132,7 @@
                                     {{ formatLocalDate(category.deadline || '') }}
                                 </span>
                             </td>
-                            <td class="py-3 px-6 text-right">
+                            <td class="py-3 px-6 text-right whitespace-nowrap">
                                 <nuxt-link :to="`/dashboard/categories/${category.uuid}`"
                                     class="text-slate-400 hover:text-slate-900 transition-colors">
                                     <Icon name="mdi:eye" class="w-4 h-4" />
