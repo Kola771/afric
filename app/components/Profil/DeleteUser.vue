@@ -35,7 +35,7 @@
                           Êtes-vous certain de vouloir supprimer votre compte ? Vos données seront supprimées
                           définitivement après un délai de 10 jours.
                           Ce délai vous permet de revenir sur votre décision en nous contactant à l’adresse suivante :
-                          <strong><a href="mailto:contact@africstoryline.com">contact@africstoryline.com</a></strong>.
+                          <strong><a href="mailto:africstoryline@gmail.com">africstoryline@gmail.com</a></strong>.
                           Une fois l'action effectuée, vous serez déconnecté et n’aurez plus accès à votre compte,
                           sauf en cas de réactivation avant la fin du délai.
                         </p>

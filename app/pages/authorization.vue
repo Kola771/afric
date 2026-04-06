@@ -37,7 +37,7 @@
         </p>
 
         <p class="mt-4 flex flex-col gap-4">
-          <a href="mailto:contact@africstoryline.com" class="inline-block text-orange-600 font-medium underline">
+          <a href="mailto:africstoryline@gmail.com" class="inline-block text-orange-600 font-medium underline">
             Contacter le support
           </a>
           <button class="inline-block bg-red-600 hover:bg-red-700 hover:ease-linear hover:duration-300 font-medium text-white py-3 rounded-lg" @click="logout">Se déconnecter</button>

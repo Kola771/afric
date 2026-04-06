@@ -38,7 +38,7 @@
                         <p class="text-sm text-gray-500 dark:text-slate-200">Ce livre sera supprimé dans quelques jours...(<strong>{{ days }}</strong>jrs).
                         
                         Ce délai vous permet de revenir sur votre décision en nous contactant à l’adresse suivante :
-                          <strong><a href="mailto:contact@africstoryline.com">contact@africstoryline.com</a></strong>.</p>
+                          <strong><a href="mailto:africstoryline@gmail.com">africstoryline@gmail.com</a></strong>.</p>
                       </div>
                     </div>
                   </div>

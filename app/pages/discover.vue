@@ -159,7 +159,7 @@
                                 {{ item.data.pseudonym }}
                             </h3>
 
-                            <p class="text-gray-400 text-sm"
+                            <p class="text-gray-400 text-sm clamp-3"
                                 v-html="item.data.bibliography || 'Auteur Afric Storyline'">
                             </p>
 
@@ -768,8 +768,6 @@ const saveWatchTime = async () => {
 
     viewStartTime.value = Date.now();
 
-    if (!user.value) return;
-
     const readingTime = Math.floor(timeSpent / 1000);
     const payload = {
         id_book: item.data.book?.id,
@@ -1027,6 +1025,13 @@ const goToAuthor = (uuid: string) =>
 
 .animate-float {
     animation: floatUp 0.9s ease-out forwards;
+}
+
+.clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 @keyframes floatUp {

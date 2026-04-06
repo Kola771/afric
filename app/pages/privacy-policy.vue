@@ -182,7 +182,7 @@
                                 sont traitées par l’éditeur de la plateforme.
                                 <br />
                                 Pour toute question relative à la protection des données :
-                                <strong><a href="mailto:contact@africstoryline.com">contact@africstoryline.com</a></strong>
+                                <strong><a href="mailto:africstoryline@gmail.com">africstoryline@gmail.com</a></strong>
                             </p>
                         </section>
 

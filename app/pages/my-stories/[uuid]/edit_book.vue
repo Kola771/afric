@@ -127,7 +127,7 @@
                     potentiellement
                     problématique.
                     Veuillez notifier vos corrections aux administrateurs via cet e-mail :
-                    <strong><a href="mailto:contact@africstoryline.com">contact@africstoryline.com</a></strong>.
+                    <strong><a href="mailto:africstoryline@gmail.com">africstoryline@gmail.com</a></strong>.
                     Passé ce délai, l'histoire pourra être supprimée de la plateforme.
                 </p>
 

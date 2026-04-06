@@ -187,7 +187,7 @@
                 <p class="text-sm text-slate-600 dark:text-slate-200 leading-relaxed">
                   Tout utilisateur peut signaler un contenu jugé illicite ou contraire
                   aux présentes conditions via l’adresse suivante :
-                  <strong><a href="mailto:contact@africstoryline.com">contact@africstoryline.com</a></strong>.
+                  <strong><a href="mailto:africstoryline@gmail.com">africstoryline@gmail.com</a></strong>.
                   <br />
                   Après vérification, la plateforme pourra suspendre ou supprimer
                   le contenu concerné.
@@ -205,7 +205,7 @@
                   Ces données ne sont ni vendues ni cédées à des tiers.
                   <br />
                   L’Utilisateur peut demander la suppression de ses données
-                  en contactant : <strong><a href="mailto:contact@africstoryline.com">contact@africstoryline.com</a></strong>.
+                  en contactant : <strong><a href="mailto:africstoryline@gmail.com">africstoryline@gmail.com</a></strong>.
                 </p>
               </section>
 

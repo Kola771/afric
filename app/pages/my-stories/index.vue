@@ -278,6 +278,7 @@
                                                 status(book.status)
                                             }}</span>
                                     </p>
+                                    <p v-if="book.status === 'inactive'" class="text-xs text-center text-red-600 font-medium bg-red-50 p-1 rounded">Ce livre sera supprimé dans quelques jours...(<strong>{{ getDaysFromToday(`${book.deadline}`)?.days }}</strong>jrs).</p>
                                 </div>
                             </nuxt-link>
                             <div
@@ -297,7 +298,7 @@
                                     <Icon name="mdi:graph" class="w-3 h-3" />
                                     Stats
                                 </button>
-                                <button @click="toggleDeleteModal(book)"
+                                <button @click="toggleDeleteModal(book)" v-if="book.status !== 'inactive'"
                                     class="flex items-center gap-1 justify-center text-red-500 gap-1 group-hover:translate-x-1 transition-transform">
                                     <Icon name="mdi:delete" class="w-3 h-3" />
                                     Supprimer
