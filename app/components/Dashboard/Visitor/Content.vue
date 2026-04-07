@@ -111,13 +111,13 @@
                         </tr>
                     </tbody>
                     <tbody v-if="!loading && filteredVisitors.length !== 0" class="text-sm">
-                        <tr class="group hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+                        <tr class="group hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors border-b border-slate-50"
                             v-for="(visitor, index) in filteredVisitors" :key="index">
                             <td class="py-3 whitespace-nowrap px-6 text-xs text-slate-400 dark:text-slate-300">{{ visitor.visitor_id }}</td>
                             <td class="py-3 whitespace-nowrap px-6 text-xs text-slate-400 dark:text-slate-300">{{ visitor.city }}</td>
                             <td class="py-3 whitespace-nowrap px-6 text-xs text-slate-400 dark:text-slate-300">{{ visitor.origin }}</td>
                             <td class="py-3 whitespace-nowrap px-6 text-xs text-slate-500 dark:text-slate-300">{{
-                                formatLocalDate(visitor.visit_date) }}</td>
+                                formatLocalDate(visitor.created_at) }}</td>
                         </tr>
                     </tbody>
                 </table>

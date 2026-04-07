@@ -130,9 +130,9 @@
                                 <nuxt-link :to="`/authors/${book.user.uuid}`" class="group flex items-center gap-1">
                                     <img v-if="book.user.photo"
                                         :src="`${config.public.apiBackendUrl}/uploads/users/${book.user.photo}`"
-                                        alt="Profil" class="w-8 h-8 rounded-full" />
+                                        alt="Profil" class="w-8 h-8 rounded" />
                                     <span v-else
-                                        class="p-1 text-[8px] font-bold flex items-center justify-center text-slate-900 w-8 h-8 rounded-full"
+                                        class="p-1 text-[8px] font-bold flex items-center justify-center text-slate-900 w-8 h-8 rounded"
                                         :style="`background-color: ${book.user.code_color}`">
                                         {{ book.user?.name.split(" ").length > 1 ?
                                             `${book.user?.name.charAt(0).toUpperCase() +
