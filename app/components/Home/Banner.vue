@@ -35,11 +35,18 @@
                             Lire gratuitement
                             <Icon name="mdi:arrow-right" class="w-5 h-5" />
                         </nuxt-link>
-                        <button v-if="!user" @click="registerAuthor"
-                            class="inline-flex items-center justify-center gap-2 bg-white border border-slate-200 text-slate-700 px-8 py-4 rounded-xl text-sm font-medium hover:bg-slate-50 hover:border-slate-300 transition-all">
-                            <Icon name="mdi:pen" class="w-5 h-5" />
-                            Devenir auteur
-                        </button>
+                        <div class="flex gap-4 justify-between" v-if="!user">
+                            <nuxt-link to="/register"
+                                class="inline-flex items-center justify-center gap-2 bg-orange-700 text-white px-8 rounded-xl text-sm font-medium hover:bg-orange-800 transition-all shadow-xl shadow-slate-200 dark:shadow-slate-800 dark:border-[1px] dark:border-gray-600">
+                                <Icon name="mdi:account" class="w-5 h-5" />
+                                S'inscrire
+                            </nuxt-link>
+                            <button @click="registerAuthor"
+                                class="flex-1 inline-flex items-center justify-center gap-2 bg-white border border-slate-200 text-slate-700 px-8 py-4 rounded-xl text-sm font-medium hover:bg-slate-50 hover:border-slate-300 transition-all">
+                                <Icon name="mdi:pen" class="w-5 h-5" />
+                                Devenir auteur
+                            </button>
+                        </div>
                     </div>
 
                     <!-- Stats/Trust -->

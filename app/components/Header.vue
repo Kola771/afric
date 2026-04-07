@@ -40,7 +40,8 @@
             <div class="flex items-center gap-1 md:gap-3">
               <!-- Desktop actions -->
               <button @click="toggleSearch"
-                class="lg:hidden flex p-2 text-slate-400 hover:text-slate-900 dark:text-white dark:hover:text-gray-400 transition-colors" :class="profil && authorizeRoleUser(`${profil?.role}`) ? '' : (profil && !authorizeRoleUser(`${profil?.role}`) ? 'hidden' : 'hidden')">
+                class="lg:hidden flex p-2 text-slate-400 hover:text-slate-900 dark:text-white dark:hover:text-gray-400 transition-colors"
+                :class="profil && authorizeRoleUser(`${profil?.role}`) ? '' : (profil && !authorizeRoleUser(`${profil?.role}`) ? 'hidden' : 'hidden')">
                 <Icon name="solar:magnifer-linear" class="w-5 md:h-5" />
               </button>
               <ThemeToggle class="lg:hidden" />
@@ -129,97 +130,85 @@
       :results="result" :data="datas" :totalDatas="totalDatas" :currentPage="page" :total="total" :loading="loading"
       v-if="showResultSearch" />
 
-    <div class="fixed lg:hidden bottom-4 z-40 left-0 right-0 flex justify-center">
+    <div class="fixed lg:hidden bottom-0 z-40 left-0 right-0 flex justify-center py-2 bg-white/90 dark:bg-dark/90 
+               border border-white/50 dark:border-white/20
+               ring-1 ring-black/5 dark:ring-white/5
+               transition-all duration-200">
       <div class="w-[95%] flex items-center justify-between">
 
-        <!-- LEFT -->
-        <div class="flex items-center">
-          <nuxt-link to="/" class="p-2.5 rounded-full flex items-center justify-center
-               bg-white/30 dark:bg-dark/40 
-               border border-white/50 dark:border-white/20
-               ring-1 ring-black/5 dark:ring-white/5
-               transition-all duration-200" :class="route.path === '/'
-                ? 'bg-orange-100 dark:bg-orange-200 dark:text-slate-800 scale-105'
+        <nuxt-link to="/" class="p-2 rounded-full flex flex-col items-center justify-center" :class="route.path === '/'
+                ? 'text-orange-600 dark:text-orange-500 scale-105'
                 : 'text-slate-700 dark:text-slate-200'">
-            <Icon name="mdi:home" class="w-5 h-5" />
-          </nuxt-link>
-        </div>
+          <Icon name="mdi:home" class="w-5 h-5" />
+          <span class="text-[8px]">Accueil</span>
+        </nuxt-link>
 
-        <!-- CENTER -->
-        <div class="w-[70%] flex items-center justify-between px-1 py-1
-                rounded-full bg-white/30 dark:bg-dark/40
-                border border-white/50 dark:border-white/20
-                ring-1 ring-black/5 dark:ring-white/5
-                backdrop-blur-md">
 
-          <nuxt-link to="/discover" class="p-2 rounded-full flex items-center justify-center 
+        <nuxt-link to="/discover" class="p-2 rounded-full flex flex-col items-center justify-center 
                transition-all duration-200" :class="route.path === '/discover'
-                ? 'bg-orange-100 dark:bg-orange-200 dark:text-slate-800 scale-105'
+                ? 'text-orange-600 dark:text-orange-500 scale-105'
                 : 'text-slate-700 dark:text-slate-200'">
-            <Icon name="mdi:newspaper-variant-outline" class="w-5 h-5" />
-          </nuxt-link>
+          <Icon name="mdi:newspaper-variant-outline" class="w-5 h-5" />
+          <span class="text-[8px]">Découverte</span>
+        </nuxt-link>
 
-          <nuxt-link to="/categories" class="p-2 rounded-full flex items-center justify-center 
+        <nuxt-link to="/categories" class="p-2 rounded-full flex flex-col items-center justify-center 
                transition-all duration-200" :class="route.path === '/categories'
-                ? 'bg-orange-100 dark:bg-orange-200 dark:text-slate-800 scale-105'
+                ? 'text-orange-600 dark:text-orange-500 scale-105'
                 : 'text-slate-700 dark:text-slate-200'">
-            <Icon name="solar:tag-linear" class="w-5 h-5" />
-          </nuxt-link>
+          <Icon name="solar:tag-linear" class="w-5 h-5" />
+          <span class="text-[8px]">Catégories</span>
+        </nuxt-link>
 
-          <nuxt-link to="/stories" class="p-2 rounded-full flex items-center justify-center 
+        <nuxt-link to="/stories" class="p-2 rounded-full flex flex-col items-center justify-center 
                transition-all duration-200" :class="route.path === '/stories'
-                ? 'bg-orange-100 dark:bg-orange-200 dark:text-slate-800 scale-105'
+                ? 'text-orange-600 dark:text-orange-500 scale-105'
                 : 'text-slate-700 dark:text-slate-200'">
-            <Icon name="mdi:book-open-variant" class="w-5 h-5" />
-          </nuxt-link>
+          <Icon name="mdi:book-open-variant" class="w-5 h-5" />
+          <span class="text-[8px]">Livres</span>
+        </nuxt-link>
 
-          <nuxt-link to="/authors" class="p-2 rounded-full flex items-center justify-center 
+        <nuxt-link to="/authors" class="p-2 rounded-full flex flex-col items-center justify-center 
                transition-all duration-200" :class="route.path === '/authors'
-                ? 'bg-orange-100 dark:bg-orange-200 dark:text-slate-800 scale-105'
+                ? 'text-orange-600 dark:text-orange-500 scale-105'
                 : 'text-slate-700 dark:text-slate-200'">
-            <Icon name="mdi:users" class="w-5 h-5" />
-          </nuxt-link>
+          <Icon name="mdi:users" class="w-5 h-5" />
+          <span class="text-[8px]">Auteurs</span>
+        </nuxt-link>
 
-          <button @click="toggleSearch" :class="profil && authorizeRoleUser(`${profil?.role}`) ? 'hidden' : (profil && !authorizeRoleUser(`${profil?.role}`) ? '' : '')" class="p-2 rounded-full flex items-center justify-center 
+        <button @click="toggleSearch"
+          :class="profil && authorizeRoleUser(`${profil?.role}`) ? 'hidden' : (profil && !authorizeRoleUser(`${profil?.role}`) ? '' : '')"
+          class="p-2 rounded-full flex flex-col items-center justify-center 
                transition-all duration-200 text-slate-700 dark:text-slate-200">
-            <Icon name="solar:magnifer-linear" class="w-5 h-5" />
-          </button>
-          <nuxt-link v-if="profil && authorizeRoleUser(`${profil?.role}`)" to="/notifications" class="relative p-2 rounded-full flex items-center justify-center 
+          <Icon name="solar:magnifer-linear" class="w-5 h-5" />
+          <span class="text-[8px]">Recherche</span>
+        </button>
+        <nuxt-link v-if="profil && authorizeRoleUser(`${profil?.role}`)" to="/notifications" class="relative p-2 rounded-full flex flex-col items-center justify-center 
                transition-all duration-200" :class="route.path === '/notifications'
-                ? 'bg-orange-100 dark:bg-orange-200 dark:text-slate-800 scale-105'
+                ? 'text-orange-600 dark:text-orange-500 scale-105'
                 : 'text-slate-700 dark:text-slate-200'">
-            <Icon name="mdi:bell" class="w-5 h-5" />
-            <span
-              class="absolute right-1 top-1 bg-red-600 text-white text-xs rounded-full w-2 h-2 flex items-center justify-center"
-              v-if="notifications > 0"></span>
-          </nuxt-link>
+          <Icon name="mdi:bell" class="w-5 h-5" />
+          <span class="text-[8px]">Notifications</span>
+          <span
+            class="absolute right-1 top-1 text-red-600 text-white text-xs rounded-full w-2 h-2 flex items-center justify-center"
+            v-if="notifications > 0"></span>
+        </nuxt-link>
 
-        </div>
-
-        <!-- RIGHT -->
-        <div class="flex items-center">
-          <nuxt-link v-if="!profil" to="/login" class="p-2.5 rounded-full flex items-center justify-center
-               bg-white/30 dark:bg-dark/40 
-               border border-white/50 dark:border-white/20
-               ring-1 ring-black/5 dark:ring-white/5
-               transition-all duration-200" :class="route.path === '/login'
-                ? 'bg-orange-100 dark:bg-orange-200 dark:text-slate-800 scale-105'
+        <nuxt-link v-if="!profil" to="/login" class="p-2.5 rounded-full flex flex-col items-center justify-center" :class="route.path === '/login'
+                ? 'text-orange-600 dark:text-orange-500 scale-105'
                 : 'text-slate-700 dark:text-slate-200'">
-            <Icon name="mdi:account" class="w-5 h-5" />
-          </nuxt-link>
-          <div v-if="profil" class="rounded-full flex items-center justify-center
-             bg-white/30 dark:bg-dark/40 
-             border border-white/50 dark:border-white/20
-             ring-1 ring-black/5 dark:ring-white/5
-             transition-all duration-200 cursor-pointer" @click="onAvatarClick">
-            <!-- Image ou Initiales -->
-            <img v-if="profil?.photo" :src="`${config.public.apiBackendUrl}/uploads/users/${profil.photo}`" alt="Profil"
-              class="w-10 h-10 rounded-full flex-shrink-0" />
-            <span v-else class="p-2.5 text-xs flex items-center justify-center w-10 h-10 rounded-full flex-shrink-0"
-              :style="`background-color: ${profil?.code_color}`">
-              {{ getInitials(profil?.name) }}
-            </span>
-          </div>
+          <Icon name="mdi:account" class="w-5 h-5" />
+          <span class="text-[8px]">Login</span>
+        </nuxt-link>
+        <div v-if="profil" class="rounded-full flex flex-col items-center justify-center" @click="onAvatarClick">
+          <!-- Image ou Initiales -->
+          <img v-if="profil?.photo" :src="`${config.public.apiBackendUrl}/uploads/users/${profil.photo}`" alt="Profil"
+            class="w-6 h-6 rounded-full flex-shrink-0" />
+          <span v-else class="p-2.5 text-[8px] flex items-center justify-center w-6 h-6 rounded-full flex-shrink-0"
+            :style="`background-color: ${profil?.code_color}`">
+            {{ getInitials(profil?.name) }}
+          </span>
+          <span class="text-[8px]">Profil</span>
         </div>
 
       </div>
