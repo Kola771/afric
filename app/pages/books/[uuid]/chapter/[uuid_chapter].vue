@@ -925,7 +925,7 @@ const prevChapter = computed(() => {
 // Chapitre suivant
 const nextChapter = computed(() => {
     const index = currentChapterIndex.value;
-    if (index >= 5 && !user.value) {
+    if (index >= 2 && !user.value) {
         connectedModal.value = true;
         return null;
     }

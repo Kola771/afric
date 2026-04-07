@@ -186,7 +186,7 @@
 
                             <div v-if="sortedChapters.length > 0" class="space-y-2 lg:space-y-3">
                                 <div v-for="(chapter, index) in sortedChapters" :key="chapter.id">
-                                    <nuxt-link v-if="index < 5 || user"
+                                    <nuxt-link v-if="index < 2 || user"
                                         :to="`/books/${book.uuid}/chapter/${chapter.uuid}`"
                                         class="group flex items-center justify-between p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-100 hover:border-slate-300 transition-all hover:shadow-sm"
                                         :class="{ 'cursor-not-allowed opacity-50': !user && index >= 5 }"
