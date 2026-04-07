@@ -10,8 +10,12 @@
             <div class="grid grid-cols-1 gap-4">
                 <div class="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
 
-                    <h2 class="text-xl font-bold text-slate-900 dark:text-slate-200">
+                    <h2 class="text-xl font-bold text-slate-900 dark:text-slate-200" v-if="!user || user.uuid !== author.uuid">
                         Les abonnés de {{ author.name }}
+                    </h2>
+
+                    <h2 class="text-xl font-bold text-slate-900 dark:text-slate-200" v-else>
+                        Vos abonnés
                     </h2>
 
                     <div class="relative w-full lg:w-1/4">
@@ -20,7 +24,7 @@
 
                         <input type="search" v-model="searchQuery" @input="executeSearch"
                             placeholder="Rechercher un abonné..."
-                            class="h-10 pl-8 pr-3 w-full rounded-lg bg-slate-50 dark:bg-transparent border border-slate-200 text-sm focus:outline-none focus:ring-1 focus:ring-slate-300 transition-colors" />
+                            class="h-10 lg:h-8 pl-8 pr-3 w-full rounded-lg bg-slate-50 dark:bg-transparent border border-slate-200 text-sm lg:text-xs focus:outline-none focus:ring-1 focus:ring-slate-300 transition-colors" />
                     </div>
 
                 </div>

@@ -1265,6 +1265,15 @@ onMounted(async () => {
         counterReaction.value = Number(book.value.book_reactions);
         await loadComments();
         await loadReactions();
+        useHead({
+            title: `${book.value.title}`,
+            meta: [
+                { name: 'description', content: `${book.value.description.replaceAll('<br>', '') || ''}` }
+            ],
+            link: [
+                { rel: 'icon', type: 'image/png', href: `${config.public.apiBackendUrl}/uploads/books/${book.value.image}` }
+            ]
+        });
         useSeoMeta({
             title: `${book.value.title}`,
             description: `${book.value.description.replaceAll('<br>', '') || ''}`,
@@ -1272,14 +1281,14 @@ onMounted(async () => {
             ogTitle: `${book.value.title}`,
             ogDescription: `${book.value.description.replaceAll('<br>', '') || ''}`,
             ogImage: `${config.public.apiBackendUrl}/uploads/books/${book.value.image}`,
-            ogUrl: `${config.public.frontUrl}`,
+            ogUrl: `${config.public.frontUrl}/books/${book.value.uuid}`,
             ogType: 'website',
 
             twitterCard: 'summary_large_image',
             twitterTitle: `${book.value.title}`,
             twitterDescription: `${book.value.description.replaceAll('<br>', '') || ''}`,
             twitterImage: `${config.public.apiBackendUrl}/uploads/books/${book.value.image}`
-        })
+        });
         loading.value = false;
     } else {
         loading.value = true;

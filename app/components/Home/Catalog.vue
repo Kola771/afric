@@ -33,7 +33,7 @@
             <Icon name="mdi:arrow-right" class="w-5 h-5" />
           </nuxt-link>
         </div>
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-6 gap-y-10">
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 gap-x-6 gap-y-10">
           <!-- Skeleton -->
           <template v-if="loading || books.length === 0">
             <HomeCardSkeleton v-for="i in 5" :key="i" />

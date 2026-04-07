@@ -197,8 +197,7 @@
             </div>
         </section>
     </div>
-    <div v-else
-        class="bg-[#fffcfccc] dark:bg-dark dark:border-slate-200 dark:border-b pt-20 px-6 md:pt-24 pb-12">
+    <div v-else class="bg-[#fffcfccc] dark:bg-dark dark:border-slate-200 dark:border-b pt-20 px-6 md:pt-24 pb-12">
 
         <HomeCardSkeletonSecond class="max-w-7xl mx-auto" />
     </div>
@@ -233,9 +232,30 @@ const onLoad = async () => {
     if (res.success) {
         author.value = res.data;
         if (author.value) {
+            useHead({
+                title: `Auteur - ${author.value.name}`,
+                meta: [
+                    { name: 'description', content: `${author.value.bibliography?.replaceAll('<br>', '') || ''}` }
+                ],
+                link: [
+                    { rel: 'icon', type: 'image/png', href: `${config.public.apiBackendUrl}/uploads/users/${author.value.photo}` }
+                ]
+            });
             useSeoMeta({
-                title: `Auteur - ${author.value.name}`
-            })
+                title: `Auteur - ${author.value.name}`,
+                description: `${author.value.bibliography?.replaceAll('<br>', '') || ''}`,
+
+                ogTitle: `${author.value.name}`,
+                ogDescription: `${author.value.bibliography?.replaceAll('<br>', '') || ''}`,
+                ogImage: `${config.public.apiBackendUrl}/uploads/users/${author.value.photo}`,
+                ogUrl: `${config.public.frontUrl}/authors/${author.value.uuid}`,
+                ogType: 'website',
+
+                twitterCard: 'summary_large_image',
+                twitterTitle: `${author.value.name}`,
+                twitterDescription: `${author.value.bibliography?.replaceAll('<br>', '') || ''}`,
+                twitterImage: `${config.public.apiBackendUrl}/uploads/users/${author.value.photo}`
+            });
             if (author.value.status !== 'actif') {
                 router.back();
             } else {

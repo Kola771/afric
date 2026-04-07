@@ -38,7 +38,7 @@
                         :</label>
                     <input type="file" accept="image/jpeg, image/jpg, image/png, image/jfif" name="image" id="image"
                         ref="file"
-                        class="w-full text-sm outline-none border border-slate-300 dark:border-slate-200 bg-slate-50 rounded-md p-2 dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200"
+                        class="w-full text-sm outline-none border border-slate-300 dark:border-slate-200 bg-slate-50 rounded-md p-2 bg-white dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200"
                         @change="onFileChange">
                 </div>
                 <div class="flex flex-col gap-1" v-if="preview">
@@ -75,11 +75,13 @@
                             <input type="checkbox" class="peer sr-only" :value="category.id"
                                 v-model="selectedCategories">
 
-                            <div class="rounded-md px-3 py-2.5 lg:py-2 lg:px-5 text-xs font-medium bg-white border border-slate-200 text-slate-600 shadow-sm transition-all 
+                            <div class="rounded-md px-3 py-2.5 lg:py-2 text-xs font-medium bg-white border border-slate-200 text-slate-600 shadow-sm transition-all 
                             peer-checked:border-orange-500 
                             peer-checked:text-orange-600 
                             peer-checked:bg-orange-50 
                             hover:bg-slate-50 flex items-center gap-1.5 dark:bg-transparent dark:text-slate-200">
+                                <img :src="category.image?.includes('https') ? category.image : `${$config.public.apiBackendUrl}/uploads/categories/${category.image}`"
+                                    :alt="category.name" class="w-5 h-5 rounded">
                                 <span>{{ category.name }}</span>
                             </div>
                         </label>

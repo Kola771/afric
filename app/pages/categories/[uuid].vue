@@ -171,7 +171,15 @@ onMounted(async () => {
 
   if (category.value) {
     await loadBooks()
-
+    useHead({
+      title: `${category.value.name}`,
+      meta: [
+        { name: 'description', content: `${category.value.description?.replaceAll('<br>', '') || ''}` }
+      ],
+      link: [
+        { rel: 'icon', type: 'image/png', href: `${category.value.image?.includes('https') ? category.value.image : `${config.public.apiBackendUrl}/uploads/categories/${category.value.image}`}` }
+      ]
+    });
     useSeoMeta({
       title: `${category.value?.name}`,
       description: `${category.value.description?.replaceAll('<br>', '') || ''}`,
@@ -186,7 +194,7 @@ onMounted(async () => {
       twitterTitle: `${category.value.name}`,
       twitterDescription: `${category.value.description?.replaceAll('<br>', '') || ''}`,
       twitterImage: `${category.value.image?.includes('https') ? category.value.image : `${config.public.apiBackendUrl}/uploads/categories/${category.value.image}`}`
-    })
+    });
   }
 
   const observer = new IntersectionObserver(

@@ -2,15 +2,15 @@
   <article
     class="group border border-slate-200 rounded-2xl flex flex-col h-full bg-slate-50 dark:bg-slate-800 w-full mx-auto cursor-pointer">
     <div class="flex flex-col flex-1" @click="openTheAuthorDetail(props.author.uuid)">
-      <div class="flex flex-col gap-4 rounded-lg p-2">
+      <div class="flex flex-col gap-4 lg:gap-3 rounded-t-lg">
         <div
-          class="relative flex-shrink-0 overflow-hidden rounded-lg shadow-subtle group-hover:shadow-xl transition-all duration-300 ring-1 ring-slate-900/5">
+          class="relative flex-shrink-0 overflow-hidden rounded-t-lg shadow-subtle group-hover:shadow-xl transition-all duration-300 ring-1 ring-slate-900/5">
           <img v-if="props.author.photo" :src="`${config.public.apiBackendUrl}/uploads/users/${props.author.photo}`"
-            class="w-full h-24 md:h-36 lg:h-48 object-cover transition-transform duration-500 group-hover:scale-105"
+            class="w-full h-24 md:h-36 lg:h-40 object-cover transition-transform duration-500 group-hover:scale-105"
             :alt="props.author.name" />
 
           <span v-else
-            class="p-1 text-md lg:text-2xl font-bold flex items-center justify-center w-full h-24 md:h-36 lg:h-48"
+            class="p-1 text-md lg:text-2xl font-bold flex items-center justify-center w-full h-24 md:h-36 lg:h-40"
             :style="`background-color: ${props.author.code_color}`">
             {{
               props.author.name.split(" ").length > 1
@@ -32,7 +32,7 @@
           </div>
         </div>
 
-        <div class="flex flex-col gap-1.5">
+        <div class="flex flex-col gap-1.5 px-2">
           <div>
             <h3
               class="font-display font-medium text-slate-900 dark:text-slate-200 text-base leading-snug group-hover:text-orange-600 transition-colors line-clamp-1">
@@ -43,9 +43,6 @@
               Originaire : {{ props.author.country.name }}
             </p>
           </div>
-
-          <p class="hidden line-clamp-3 text-xs text-slate-600 dark:text-slate-300" v-html="props.author?.bibliography">
-          </p>
         </div>
       </div>
 

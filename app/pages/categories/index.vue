@@ -3,7 +3,7 @@
         <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
             <div class="flex items-center md:items-end justify-between mb-8">
                 <div>
-                    <h2 class="text-2xl font-display font-medium dark:text-white text-slate-900 tracking-tight">Nos différentes catégories</h2>
+                    <h2 class="text-2xl font-display font-medium dark:text-white text-slate-900 tracking-tight">{{categories.length}} différentes catégories</h2>
                     <p class="text-slate-500 text-sm mt-1 dark:text-slate-200">Faites votre choix.</p>
                 </div>
             </div>
