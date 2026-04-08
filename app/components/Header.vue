@@ -131,7 +131,7 @@
       v-if="showResultSearch" />
 
     <div class="fixed lg:hidden bottom-0 z-40 left-0 right-0 flex justify-center py-2 bg-white/90 dark:bg-dark/90 
-               border border-white/50 dark:border-white/20
+               border border-white/50 dark:border-white/20 dark:border-none
                ring-1 ring-black/5 dark:ring-white/5
                transition-all duration-200">
       <div class="w-[95%] flex items-center justify-between">

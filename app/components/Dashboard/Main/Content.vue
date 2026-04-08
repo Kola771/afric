@@ -74,9 +74,12 @@
         </div>
 
         <!-- Main Grid: Traffic & Map (Placeholder) -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <!-- Chart Area -->
             <DashboardMainReadsByWeek />
+
+            <!-- Top Countries / Categories -->
+            <DashboardMainVisitorsPercentageByCountryMobile :visitorsPercentageByCountry="visitorsPercentageByCountry" />
 
             <!-- Top Countries / Categories -->
             <DashboardMainVisitorsPercentageByCountry :visitorsPercentageByCountry="visitorsPercentageByCountry" />
