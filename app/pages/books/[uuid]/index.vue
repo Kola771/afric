@@ -188,9 +188,11 @@
                                 <div v-for="(chapter, index) in sortedChapters" :key="chapter.id">
                                     <nuxt-link v-if="index < 2 || user"
                                         :to="`/books/${book.uuid}/chapter/${chapter.uuid}`"
-                                        class="group flex items-center justify-between p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-100 hover:border-slate-300 transition-all hover:shadow-sm"
-                                        :class="{ 'cursor-not-allowed opacity-50': !user && index >= 5 }"
-                                        @click.prevent="handleChapterClick(index, chapter.uuid)">
+                                        class="group flex items-center justify-between p-4 rounded-xl border border-slate-100 hover:border-slate-300 transition-all hover:shadow-sm relative"
+                                        :class="{
+                                            'cursor-not-allowed opacity-50': !user && index >= 5,
+                                            'bg-orange-50 dark:bg-slate-700': handleViewChapter(chapter)
+                                        }" @click.prevent="handleChapterClick(index, chapter.uuid)">
                                         <span class="flex items-center gap-4">
                                             <span
                                                 class="text-slate-500 dark:text-slate-200 font-display font-bold text-xl w-8">{{
@@ -215,6 +217,8 @@
                                             class="text-slate-500 dark:text-slate-200 group-hover:translate-x-1 transition-transform">
                                             <Icon name="mdi:arrow-right" class="w-5 h-5" />
                                         </span>
+
+                                        <span class="absolute bottom-2 right-4 text-xs dark:text-orange-400 font-medium" v-if="handleViewChapter(chapter)">Lu</span>
                                     </nuxt-link>
 
                                     <!-- Version grisée et bloquée si non connecté et index >= 5 -->
@@ -265,7 +269,8 @@
                                 <Icon name="mdi:account-alert-outline" class="text-amber-600" width="24"></Icon>
                             </div>
                             <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                                <h3 class="text-base font-semibold leading-6 text-slate-900 dark:text-slate-200">Connexion requise</h3>
+                                <h3 class="text-base font-semibold leading-6 text-slate-900 dark:text-slate-200">
+                                    Connexion requise</h3>
                                 <div class="mt-2">
                                     <p class="text-sm text-slate-500 dark:text-slate-300">
                                         Vous avez atteint la limite de chapitres accessibles sans compte. Connectez-vous
@@ -920,6 +925,17 @@ const handleChapterClick = (index: number, uuid: string) => {
     // Sinon navigation normale
     router.push(`/books/${book.value?.uuid}/chapter/${uuid}`)
 }
+
+const handleViewChapter = (chapter: ChapterData) => {
+    const visitorId = localStorage.getItem("as_visitor_id");
+    const userId = user.value?.id;
+
+    const hasRead = chapter.chapter_reads.some((c: any) => {
+        return (userId && c.id_user === userId) || (visitorId && c.visitor_id === visitorId);
+    });
+
+    return hasRead;
+};
 
 // ---------- CHAPTERS ----------
 const sortedChapters = computed(() => {
