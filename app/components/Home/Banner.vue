@@ -35,7 +35,7 @@
                             Lire gratuitement
                             <Icon name="mdi:arrow-right" class="w-5 h-5" />
                         </nuxt-link>
-                        <div class="flex gap-4 justify-between" v-if="!user">
+                        <div class="flex gap-4 justify-between" v-if="(!user && !loading)">
                             <nuxt-link to="/register"
                                 class="inline-flex items-center justify-center gap-2 bg-orange-700 text-white px-8 rounded-xl text-sm font-medium hover:bg-orange-800 transition-all shadow-xl shadow-slate-200 dark:shadow-slate-800 dark:border-[1px] dark:border-gray-600">
                                 <Icon name="mdi:account" class="w-5 h-5" />

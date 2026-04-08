@@ -3,47 +3,43 @@
     <section class="border-b border-slate-200 bg-white dark:bg-dark sticky top-14 lg:top-16 z-10 shadow-sm">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-slate-600 dark:text-primary">
 
-        <div class="relative">
+        <div class="relative flex items-center gap-2 py-4">
+
+          <!-- bouton fixe -->
+          <button class="flex-shrink-0 px-4 py-1.5 rounded bg-slate-900 text-white text-xs font-medium">
+            Pour vous
+          </button>
+
+          <!-- slider wrapper -->
+          <div class="flex-1 relative overflow-hidden">
+
+            <!-- slider scrollable -->
+            <div ref="slider" class="flex items-center gap-2 overflow-x-auto no-scrollbar scroll-smooth px-2">
+              <div v-if="!loadingCategory && categories.length > 0" class="flex items-center gap-2">
+                <nuxt-link v-for="(category, index) in categories" :key="index" :to="`/categories/${category.uuid}`"
+                  class="flex-shrink-0 px-4 py-1.5 rounded bg-white dark:bg-transparent dark:text-slate-200 border border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-xs font-medium whitespace-nowrap flex items-center gap-2">
+                  <img :src="category.image?.includes('https')
+                    ? category.image
+                    : `${$config.public.apiBackendUrl}/uploads/categories/${category.image}`"
+                    class="w-5 h-5 rounded" />
+                  {{ category.name }}
+                </nuxt-link>
+              </div>
+            </div>
+
+          </div>
 
           <!-- bouton gauche -->
-          <button @click="scrollLeft"
-            class="hidden lg:flex lg:justify-center lg:items-center w-9 h-9 absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-slate-800 hover:bg-slate-900 hover:duration-300 hover:ease-linear text-white shadow p-2 rounded-full">
+          <button v-if="showLeftArrow" @click="scrollLeft"
+            class="hidden lg:flex items-center justify-center w-9 h-9 absolute left-24 top-1/2 -translate-y-1/2 z-20 bg-slate-800 hover:bg-slate-900 text-white shadow rounded-full transition">
             <Icon name="mdi:arrow-left" class="w-4 h-4" />
           </button>
 
-          <!-- slider -->
-          <div ref="slider" class="flex items-center gap-2 py-4 overflow-x-auto no-scrollbar scroll-smooth">
-            <!-- bouton fixe -->
-            <button
-              class="flex-shrink-0 px-4 py-1.5 rounded bg-slate-900 text-white text-xs font-medium transition-transform hover:scale-105">
-              Pour vous
-            </button>
-
-            <!-- catégories -->
-            <div v-if="!loadingCategory && categories.length > 0" class="flex items-center gap-2">
-              <nuxt-link v-for="(category, index) in categories" :key="index" :to="`/categories/${category.uuid}`"
-                class="flex-shrink-0 px-4 lg:px-3 py-1.5 rounded bg-white dark:bg-transparent dark:text-slate-200 border border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-xs font-medium whitespace-nowrap flex items-center gap-2">
-                <img :src="category.image?.includes('https')
-                  ? category.image
-                  : `${$config.public.apiBackendUrl}/uploads/categories/${category.image}`" :alt="category.name"
-                  class="w-5 h-5 rounded" />
-                {{ category.name }}
-              </nuxt-link>
-            </div>
-
-            <!-- skeleton -->
-            <div v-else class="flex items-center gap-2">
-              <button v-for="index in 8" :key="index"
-                class="animate-pulse flex-shrink-0 px-4 py-3.5 w-1/4 lg:w-1/3 rounded bg-gradient-to-r from-slate-200 via-slate-300 to-slate-200"></button>
-            </div>
-          </div>
-
           <!-- bouton droite -->
-          <button @click="scrollRight"
-            class="hidden lg:flex lg:justify-center lg:items-center w-9 h-9 absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-slate-800 hover:bg-slate-900 hover:duration-300 hover:ease-linear text-white shadow p-2 rounded-full">
+          <button v-if="showRightArrow" @click="scrollRight"
+            class="hidden lg:flex items-center justify-center w-9 h-9 absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-slate-800 hover:bg-slate-900 text-white shadow rounded-full transition">
             <Icon name="mdi:arrow-right" class="w-4 h-4" />
           </button>
-
         </div>
 
       </div>
@@ -116,36 +112,59 @@
 </style>
 
 <script lang="ts" setup>
+import { nextTick } from 'vue'
+
 const { allCategorieActifs } = categoriesData();
 const { getFiveTopBooks } = booksData();
-const loading = ref<boolean>(true);
-const loadingCategory = ref<boolean>(true);
-const categories = ref<Category[]>([]);
-const books = ref<BookData[]>([]);
+const loading = ref<boolean>(true)
+const loadingCategory = ref<boolean>(true)
+const categories = ref<Category[]>([])
+const books = ref<BookData[]>([])
 const slider = ref<HTMLElement | null>(null)
+const showLeftArrow = ref(false)
+const showRightArrow = ref(true) // 🔹 par défaut, droite visible
+
+const epsilon = 1 // tolérance pour les arrondis
+
+const updateArrows = () => {
+  if (!slider.value) return
+
+  const scrollLeftPos = slider.value.scrollLeft
+  const scrollWidth = slider.value.scrollWidth
+  const clientWidth = slider.value.clientWidth
+
+  showLeftArrow.value = scrollLeftPos > epsilon
+  showRightArrow.value = scrollLeftPos + clientWidth < scrollWidth - epsilon
+}
 
 const scrollLeft = () => {
   if (!slider.value) return
 
-  slider.value.scrollBy({
-    left: -300,
-    behavior: "smooth"
-  })
+  slider.value.scrollBy({ left: -300, behavior: 'smooth' })
+  setTimeout(updateArrows, 150) // ✅ délai pour que le scroll effectif se produise
 }
 
 const scrollRight = () => {
   if (!slider.value) return
 
-  slider.value.scrollBy({
-    left: 300,
-    behavior: "smooth"
-  })
+  slider.value.scrollBy({ left: 300, behavior: 'smooth' })
+  setTimeout(updateArrows, 150)
 }
 
 onMounted(async () => {
-  categories.value = await allCategorieActifs();
-  books.value = await getFiveTopBooks();
-  loading.value = false;
-  loadingCategory.value = false;
+  categories.value = await allCategorieActifs()
+  books.value = await getFiveTopBooks()
+  loading.value = false
+  loadingCategory.value = false
+
+  // attendre le rendu du DOM pour le slider
+  await nextTick()
+  updateArrows()
+
+  // scroll event
+  slider.value?.addEventListener('scroll', updateArrows)
+
+  // resize window
+  window.addEventListener('resize', updateArrows)
 })
 </script>
