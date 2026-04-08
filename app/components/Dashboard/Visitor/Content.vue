@@ -47,7 +47,7 @@
         <div
             class="flex flex-col md:flex-row gap-4 justify-between items-start md:items-center bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-3 rounded-xl border border-slate-200 shadow-sm">
             <!-- Tabs -->
-            <div class="flex bg-slate-100 p-1 rounded-lg overflow-x-auto max-w-lg custom">
+            <div class="flex bg-slate-100 p-1 rounded-lg overflow-x-auto w-full md:max-w-lg custom">
                 <button v-for="month in months" :key="month" @click="onLoadDataMonth(month)" :class="[
                     'px-3 py-1.5 text-xs font-medium rounded-md whitespace-nowrap transition-all',
                     selectedMonth === month
