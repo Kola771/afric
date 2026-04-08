@@ -15,7 +15,9 @@
     <div class="lg:col-span-3 grid grid-cols-1 gap-4">
       <div class="pb-4 border-slate-200 border-b-[1px] flex flex-col gap-2">
         <div class="h-4 w-1/4 rounded bg-slate-200 dark:bg-slate-700"></div>
-        <div class="h-12 lg:h-20 w-full rounded bg-slate-200 dark:bg-slate-700"></div>
+        <div class="h-4 w-full rounded bg-slate-200 dark:bg-slate-700"></div>
+        <div class="h-5 w-full rounded bg-slate-200 dark:bg-slate-700"></div>
+        <div class="h-6 w-full rounded bg-slate-200 dark:bg-slate-700"></div>
         <div class="h-8 lg:h-10 w-full lg:w-1/4 rounded-lg bg-slate-200 dark:bg-slate-700"></div>
       </div>
       <div class="grid grid-cols-1 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-6 gap-y-10">
