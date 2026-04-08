@@ -108,10 +108,10 @@
                         <!-- Book info -->
                         <div>
                             <div class="flex flex-wrap items-center gap-3 text-xs font-medium text-orange-600 mb-4">
-                                <span v-for="(category, index) in book.book_categories" :key="index"
-                                    class="bg-orange-50 uppercase border border-orange-100/50 text-orange-600 text-xs font-medium animate-fade-in-up px-2 py-1 rounded">
+                                <nuxt-link :to="`/categories/${category.uuid}`" v-for="(category, index) in book.book_categories" :key="index"
+                                    class="bg-orange-50 hover:underline uppercase border border-orange-100/50 text-orange-600 text-xs font-medium animate-fade-in-up px-2 py-1 rounded">
                                     {{ category.name }}
-                                </span>
+                                </nuxt-link>
                                 <span
                                     :class="`${book.status === 'inactive' ? 'text-red-600 bg-red-50 dark:text-red-600' : (book.status === 'completed' ? 'text-green-600 dark:text-green-500 bg-green-50' : (book.status === 'ongoing' ? 'text-blue-600 dark:text-blue-500 bg-blue-50' : 'bg-slate-100 text-slate-500'))} px-2 py-1 rounded uppercase`">
                                     {{ status(book.status) }}

@@ -2,29 +2,29 @@
     <div class="bg-[#fffcfccc] dark:bg-dark dark:border-slate-200 dark:border-b pt-8 md:pt-12 pb-12 flex-1"
         v-if="author">
         <section class="max-w-7xl mx-auto px-6 pt-12 border-t border-slate-100">
-            <button @click="back"
+            <!-- <button @click="back"
                 class="mb-2 p-1 lg:p-1.5 border rounded-lg flex items-center justify-center hover:bg-slate-100 text-slate-500 dark:text-slate-200 dark:hover:text-slate-300 dark:hover:bg-slate-700 transition-colors">
                 <Icon name="mdi:arrow-left" class="w-6 h-6 lg:w-5 lg:h-5" />
-            </button>
+            </button> -->
 
             <div class="grid grid-cols-1 gap-4">
                 <div class="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
 
-                    <h2 class="text-xl font-bold text-slate-900 dark:text-slate-200" v-if="!user || user.uuid !== author.uuid">
+                    <!-- <h2 class="text-xl font-bold text-slate-900 dark:text-slate-200" v-if="!user || user.uuid !== author.uuid">
                         Les abonnés de {{ author.name }}
                     </h2>
 
                     <h2 class="text-xl font-bold text-slate-900 dark:text-slate-200" v-else>
                         Vos abonnés
-                    </h2>
+                    </h2> -->
 
-                    <div class="relative w-full lg:w-1/4">
+                    <div class="relative w-full">
                         <Icon name="solar:magnifer-linear"
                             class="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />
 
                         <input type="search" v-model="searchQuery" @input="executeSearch"
                             placeholder="Rechercher un abonné..."
-                            class="h-10 lg:h-8 pl-8 pr-3 w-full rounded-lg bg-slate-50 dark:bg-transparent border border-slate-200 text-sm lg:text-xs focus:outline-none focus:ring-1 focus:ring-slate-300 transition-colors" />
+                            class="h-9 lg:h-10 pl-8 pr-3 w-full rounded-lg bg-slate-50 dark:bg-transparent border border-slate-200 text-sm lg:text-xs focus:outline-none focus:ring-1 focus:ring-slate-300 transition-colors" />
                     </div>
 
                 </div>
