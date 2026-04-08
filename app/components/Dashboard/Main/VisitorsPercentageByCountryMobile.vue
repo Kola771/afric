@@ -1,6 +1,6 @@
 <template>
     <div class="md:hidden bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 rounded-xl border border-slate-200 shadow-sm p-6 flex flex-col">
-        <h3 class="text-base font-semibold text-slate-900 dark:text-slate-200 mb-4">Top Pays Lecteurs</h3>
+        <h3 class="text-base font-semibold text-slate-900 dark:text-slate-200 mb-4">Trafic</h3>
         <div class="flex-1 space-y-4 lg:max-h-56 lg:overflow-y-auto">
 
             <div v-for="(country, index) in displayedCountries" :key="country.origin" class="space-y-1">

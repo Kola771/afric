@@ -1,6 +1,6 @@
 <template>
   <div class="hidden md:h-72 lg:h-auto md:flex md:flex-col bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 rounded-xl border border-slate-200 shadow-sm p-6">
-    <h3 class="text-base font-semibold text-slate-900 dark:text-slate-200 mb-4">Top Pays Lecteurs</h3>
+    <h3 class="text-base font-semibold text-slate-900 dark:text-slate-200 mb-4">Trafic</h3>
 
     <div class="flex-1 lg:max-h-56">
       <BarChart
