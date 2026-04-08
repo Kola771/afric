@@ -20,10 +20,9 @@
                         </div>
                     </div>
                     <div class="flex items-center gap-2">
-                        <button @click="toggleTextSize"
+                        <button @click="openReaderSettings"
                             class="p-2 flex items-center justify-center text-slate-600 hover:text-slate-900 dark:hover:bg-slate-800 dark:text-slate-200 hover:bg-slate-50 rounded-lg transition-colors">
-                            <Icon name="solar:text-square-linear"
-                                :class="['w-5 h-5 transition-transform duration-200', textSizeLevel > 0 ? 'scale-110' : '']" />
+                            <Icon name="solar:text-square-linear" class="w-5 h-5" />
                         </button>
                         <ThemeToggle />
                     </div>
@@ -31,8 +30,11 @@
 
                 <!-- Content Body -->
                 <div class="px-6 sm:px-12 py-10 max-w-prose lg:max-w-4xl mx-auto">
-                    <div
-                        :class="['prose prose-slate font-serif text-slate-800 dark:text-slate-200 leading-loose transition-all duration-300', textSizeClass]">
+                    <div class="prose prose-slate text-slate-800 dark:text-slate-200 leading-loose transition-all duration-300"
+                        :style="{
+                            fontFamily: selectedFont,
+                            fontSize: textSize + 'px'
+                        }">
                         <p v-html="chapter.content"></p>
                     </div>
 
@@ -125,7 +127,8 @@
                                 <p>Rejoignez sa communauté et soyez parmi les premiers à découvrir ses prochaines
                                     histoires captivantes.</p>
                             </div>
-                            <div class="bg-slate-50 dark:bg-slate-800 p-2.5 rounded-lg flex justify-between items-center">
+                            <div
+                                class="bg-slate-50 dark:bg-slate-800 p-2.5 rounded-lg flex justify-between items-center">
                                 <!-- Author -->
                                 <nuxt-link :to="`/authors/${book.user.uuid}`" class="group flex items-center gap-1">
                                     <img v-if="book.user.photo"
@@ -139,11 +142,12 @@
                                             book.user?.name.split(" ")[1]?.charAt(0).toUpperCase()}` :
                                             book.user?.name.charAt(0).toUpperCase() }}
                                     </span>
-                                    <p class="text-slate-900 text-sm font-medium dark:text-white flex hover:underline truncate">
+                                    <p
+                                        class="text-slate-900 text-sm font-medium dark:text-white flex hover:underline truncate">
                                         {{ book.user.name }}
                                     </p>
                                 </nuxt-link>
-                                
+
                                 <nuxt-link :to="`/authors/${book.user.uuid}`"
                                     class="flex-shrink-0 text-sm lg:text-[13px] bg-orange-700 hover:bg-orange-800 text-white px-4 py-1.5 rounded lg:px-5">
                                     Voir le compte
@@ -453,18 +457,18 @@
             <div
                 class="fixed inset-0 z-10 w-screen overflow-y-auto flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
                 <div
-                    class="relative transform overflow-hidden rounded-xl bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-md ring-1 ring-black/5">
+                    class="relative transform overflow-hidden rounded-xl bg-white dark:border-slate-300 dark:border-[1px] text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-md ring-1 ring-black/5">
 
-                    <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                    <div class="bg-white dark:bg-dark px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                         <div class="sm:flex sm:items-start">
                             <div
                                 class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-amber-50 sm:mx-0 sm:h-10 sm:w-10 ring-1 ring-amber-100">
                                 <Icon name="mdi:account-alert-outline" class="text-amber-600" width="24"></Icon>
                             </div>
                             <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                                <h3 class="text-base font-semibold leading-6 text-slate-900">Connexion requise</h3>
+                                <h3 class="text-base font-semibold leading-6 text-slate-900 dark:text-slate-200">Connexion requise</h3>
                                 <div class="mt-2">
-                                    <p class="text-sm text-slate-500">
+                                    <p class="text-sm text-slate-500 dark:text-slate-300">
                                         Vous avez atteint la limite de chapitres accessibles sans compte. Connectez-vous
                                         pour continuer à lire ce livre et profiter de tous les chapitres.
                                     </p>
@@ -474,7 +478,7 @@
                     </div>
 
                     <div
-                        class="bg-slate-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 gap-2 border-t border-slate-100 text-sm lg:text-[13px]">
+                        class="bg-slate-50 dark:bg-dark px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 gap-2 border-t border-slate-100 text-sm lg:text-[13px]">
                         <button @click="router.push('/login')"
                             class="inline-flex w-full justify-center rounded-lg bg-slate-900 px-3 py-2 font-semibold text-white shadow-sm hover:bg-slate-800 sm:ml-3 lg:ml-1 sm:w-auto transition-colors">
                             Se connecter
@@ -487,6 +491,55 @@
                 </div>
             </div>
         </div>
+
+        <transition name="fade">
+            <div v-if="showReaderSettings" class="fixed inset-0 z-50 flex items-center justify-center">
+
+                <!-- overlay -->
+                <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" @click="closeReaderSettings"></div>
+
+                <!-- modal -->
+                <div class="relative bg-white dark:bg-dark dark:border-slate-300 dark:border-[1px] rounded-xl shadow-xl w-[95%] mx-auto md:max-w-md p-6 z-10">
+
+                    <h3 class="text-lg font-semibold mb-4 dark:text-white flex items-center gap-2"><Icon name="mdi:cog-outline" class="w-5 h-5" /> Paramètres de lecture</h3>
+
+                    <!-- Taille -->
+                    <div class="mb-6">
+                        <p class="text-sm font-medium mb-2 dark:text-slate-200 flex items-center gap-2"><Icon name="mdi:format-size" class="w-5 h-5" /> Taille du texte</p>
+                        <div class="flex flex-wrap gap-2">
+                            <button v-for="size in textSizes" :key="size.value" @click="textSize = size.value" :class="[
+                                'px-3 py-1 rounded border text-sm',
+                                textSize === size.value
+                                    ? 'bg-orange-600 text-white border-orange-600'
+                                    : 'border-slate-200 dark:border-slate-700 dark:text-slate-300'
+                            ]">
+                                {{ size.label }}
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Police -->
+                    <div class="mb-6">
+                        <p class="text-sm font-medium mb-2 dark:text-slate-200 flex items-center gap-2"><Icon name="mdi:format-font" class="w-5 h-5" /> Police</p>
+                        <div class="flex flex-wrap gap-2">
+                            <button v-for="font in fonts" :key="font.value" @click="selectedFont = font.value" :class="[
+                                'px-3 py-1 rounded border text-sm',
+                                selectedFont === font.value
+                                    ? 'bg-orange-600 text-white border-orange-600'
+                                    : 'border-slate-200 dark:border-slate-700 dark:text-slate-300'
+                            ]" :style="{ fontFamily: font.value }">
+                                Aa - <span class="font-medium">{{ font.label }}</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button @click="closeReaderSettings" class="w-full bg-red-600 hover:bg-red-700 hover:duration-300 hover:ease-linear text-white py-2 rounded-lg">
+                        Fermer
+                    </button>
+
+                </div>
+            </div>
+        </transition>
     </div>
 </template>
 
@@ -554,6 +607,54 @@ const reactionsState = reactive({
     total: 0,
     loading: false,
 });
+
+const showReaderSettings = ref(false)
+const selectedFont = ref("serif")
+const textSize = ref(16)
+
+const openReaderSettings = () => {
+    showReaderSettings.value = true
+}
+
+const closeReaderSettings = () => {
+    showReaderSettings.value = false
+}
+
+// tailles
+const textSizes = [
+    { label: "14px", value: 14 },
+    { label: "16px", value: 16 },
+    { label: "18px", value: 18 },
+    { label: "20px", value: 20 },
+    { label: "22px", value: 22 },
+    { label: "24px", value: 24 },
+    { label: "26px", value: 26 },
+]
+
+// polices
+const fonts = [
+  { label: "Times New Roman", value: "'Times New Roman', serif" },
+  { label: "Georgia", value: "Georgia, serif" },
+  { label: "Garamond", value: "Garamond, serif" },
+  { label: "Palatino", value: "'Palatino Linotype', serif" },
+
+  { label: "Arial", value: "Arial, sans-serif" },
+  { label: "Helvetica", value: "Helvetica, sans-serif" },
+  { label: "Calibri", value: "Calibri, sans-serif" },
+  { label: "Verdana", value: "Verdana, sans-serif" },
+
+  { label: "Roboto", value: "Roboto, sans-serif" },
+  { label: "Open Sans", value: "'Open Sans', sans-serif" },
+  { label: "Lato", value: "Lato, sans-serif" },
+  { label: "Montserrat", value: "Montserrat, sans-serif" },
+
+  // 🔥 NOUVELLES POLICES
+  { label: "Merriweather", value: "'Merriweather', serif" },
+  { label: "Playfair Display", value: "'Playfair Display', serif" },
+  { label: "Nunito", value: "Nunito, sans-serif" },
+  { label: "Source Sans Pro", value: "'Source Sans Pro', sans-serif" },
+  { label: "Poppins", value: "Poppins, sans-serif" },
+]
 
 const reactions: Reaction[] = [
     { id: 'like', label: 'J’aime', emoji: '👍', color: 'text-blue-600 bg-blue-50', animation: 'react-like' },
@@ -879,26 +980,6 @@ const closeStats = () => {
     showStatsModal.value = false
 }
 
-const textSizeLevel = ref(0)
-// 0 = normal
-// 1 = grand
-// 2 = très grand
-
-const toggleTextSize = () => {
-    textSizeLevel.value = (textSizeLevel.value + 1) % 3
-}
-
-const textSizeClass = computed(() => {
-    switch (textSizeLevel.value) {
-        case 1:
-            return "text-lg"
-        case 2:
-            return "text-xl"
-        default:
-            return "text-base"
-    }
-})
-
 // ---------- CHAPTERS ----------
 const sortedChapters = computed(() => {
     if (!book.value?.chapters) return [];
@@ -1040,6 +1121,13 @@ const handleScroll = () => {
 // INIT
 // =============================
 onMounted(async () => {
+    const saved = localStorage.getItem("reader-settings")
+    if (saved) {
+        const parsed = JSON.parse(saved)
+        textSize.value = parsed.size || 16
+        selectedFont.value = parsed.font || "serif"
+    }
+
     isMobile.value = window.innerWidth < 768
 
     window.scrollTo({ top: 0 })
@@ -1083,6 +1171,16 @@ onUnmounted(async () => {
 
     window.removeEventListener("beforeunload", handleBeforeUnload)
 
+})
+
+watch([textSize, selectedFont], () => {
+    localStorage.setItem(
+        "reader-settings",
+        JSON.stringify({
+            size: textSize.value,
+            font: selectedFont.value
+        })
+    )
 })
 
 watch(() => route.params.uuid_chapter, async () => {

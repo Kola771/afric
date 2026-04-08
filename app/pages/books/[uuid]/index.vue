@@ -256,18 +256,18 @@
             <div
                 class="fixed inset-0 z-10 w-screen overflow-y-auto flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
                 <div
-                    class="relative transform overflow-hidden rounded-xl bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-md ring-1 ring-black/5">
+                    class="relative transform overflow-hidden rounded-xl bg-white dark:border-slate-300 dark:border-[1px] text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-md ring-1 ring-black/5">
 
-                    <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                    <div class="bg-white dark:bg-dark px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                         <div class="sm:flex sm:items-start">
                             <div
                                 class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-amber-50 sm:mx-0 sm:h-10 sm:w-10 ring-1 ring-amber-100">
                                 <Icon name="mdi:account-alert-outline" class="text-amber-600" width="24"></Icon>
                             </div>
                             <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                                <h3 class="text-base font-semibold leading-6 text-slate-900">Connexion requise</h3>
+                                <h3 class="text-base font-semibold leading-6 text-slate-900 dark:text-slate-200">Connexion requise</h3>
                                 <div class="mt-2">
-                                    <p class="text-sm text-slate-500">
+                                    <p class="text-sm text-slate-500 dark:text-slate-300">
                                         Vous avez atteint la limite de chapitres accessibles sans compte. Connectez-vous
                                         pour continuer à lire ce livre et profiter de tous les chapitres.
                                     </p>
@@ -277,7 +277,7 @@
                     </div>
 
                     <div
-                        class="bg-slate-50 px-4 py-3 sm:flex sm:flex-row sm:justify-end sm:px-6 gap-2 border-t border-slate-100 text-sm lg:text-[13px]">
+                        class="bg-slate-50 dark:bg-dark px-4 py-3 sm:flex sm:flex-row sm:justify-end sm:px-6 gap-2 border-t border-slate-100 text-sm lg:text-[13px]">
                         <button @click="router.push('/login')"
                             class="inline-flex w-full justify-center rounded-lg bg-slate-900 px-3 py-2 font-semibold text-white shadow-sm hover:bg-slate-800 sm:w-auto transition-colors">
                             Se connecter

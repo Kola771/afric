@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
-  ssr:true,
+  ssr: true,
   vite: {
     server: {
       hmr: {
@@ -11,7 +11,7 @@ export default defineNuxtConfig({
   },
   css: ['~/assets/css/main.css'],
   devtools: { enabled: true },
-   modules: [
+  modules: [
     '@nuxtjs/tailwindcss',
     '@nuxtjs/color-mode',
     '@nuxt/icon'
@@ -29,11 +29,17 @@ export default defineNuxtConfig({
         { name: 'theme-color', content: '#fafafa' }
       ],
       link: [
-        { rel: 'icon', type: 'image/png', href: '/afric.png' }
+        { rel: 'icon', type: 'image/png', href: '/afric.png' },
+        { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+        { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
+        {
+          rel: 'stylesheet',
+          href: 'https://fonts.googleapis.com/css2?family=Merriweather&family=Playfair+Display&family=Nunito&family=Source+Sans+Pro&family=Poppins&display=swap'
+        }
       ]
     }
   },
-   runtimeConfig: {
+  runtimeConfig: {
     public: {
       frontUrl: process.env.APP_URL || "https://fast-resto.shop",
       apiBackendUrl: process.env.SERVER_URL || "https://api.fast-resto.shop",
