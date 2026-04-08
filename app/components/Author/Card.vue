@@ -6,11 +6,11 @@
         <div
           class="relative flex-shrink-0 overflow-hidden rounded-t-2xl shadow-subtle group-hover:shadow-xl transition-all duration-300 ring-1 ring-slate-900/5">
           <img v-if="props.author.photo" :src="`${config.public.apiBackendUrl}/uploads/users/${props.author.photo}`"
-            class="w-full h-24 md:h-36 lg:h-40 object-cover transition-transform duration-500 group-hover:scale-105"
+            class="w-full h-28 md:h-36 lg:h-40 object-cover transition-transform duration-500 group-hover:scale-105"
             :alt="props.author.name" />
 
           <span v-else
-            class="p-1 text-md lg:text-2xl font-bold flex items-center justify-center w-full h-24 md:h-36 lg:h-40"
+            class="p-1 text-md lg:text-2xl font-bold flex items-center justify-center w-full h-28 md:h-36 lg:h-40"
             :style="`background-color: ${props.author.code_color}`">
             {{
               props.author.name.split(" ").length > 1
@@ -32,10 +32,10 @@
           </div>
         </div>
 
-        <div class="flex flex-col gap-1.5 px-2">
+        <div class="flex flex-col gap-1 px-2">
           <div>
             <h3
-              class="font-display font-medium text-slate-900 dark:text-slate-200 text-base leading-snug group-hover:text-orange-600 transition-colors line-clamp-1">
+              class="font-display font-medium text-slate-900 dark:text-slate-200 text-sm leading-snug group-hover:text-orange-600 transition-colors line-clamp-1">
               {{ props.author.name }}
             </h3>
 
@@ -46,7 +46,7 @@
         </div>
       </div>
 
-      <div class="flex items-center justify-center md:justify-between gap-4 px-2 pb-2">
+      <div class="flex items-center justify-between gap-4 mt-1 px-2 pb-2">
         <span class="text-[10px] flex gap-1">
           <span class="font-semibold text-slate-900 dark:text-slate-200">
             {{ formatNumber(props.author.total_followers) }}
