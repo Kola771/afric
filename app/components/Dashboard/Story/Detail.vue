@@ -75,7 +75,7 @@
                     <h2 class="text-xl font-display font-bold text-slate-900 dark:text-white tracking-tight">{{
                         book.title
                         }}</h2>
-                    <p class="text-sm text-slate-500 dark:text-slate-200 mt-1" v-html="book.description"></p>
+                    <p class="text-sm text-slate-500 dark:text-slate-200 mt-1" v-html="DOMPurify.sanitize(book?.description || '')"></p>
                 </div>
                 <div class="flex flex-col lg:flex-row lg:gap-4 lg:justify-between w-full pt-4">
                     <select v-model="selectedChapterId"
@@ -100,7 +100,7 @@
                                 </div>
                                 <div class="flex justify-between items-center">
                                     <p :class="['text-xs line-clamp-1 font-serif', chap.id === selectedChapterId ? 'text-slate-500' : 'text-slate-400']"
-                                        v-html="chap.content"></p>
+                                        v-html="DOMPurify.sanitize(chap.content || '')"></p>
                                     <div class="flex items-center gap-1">
                                         <div class="text-xs">
                                             <span
@@ -178,7 +178,7 @@
                         <div class="flex gap-2">
                             <!-- Avatar -->
                             <img v-if="commentItem.user.photo"
-                                :src="`${config.public.apiBackendUrl}/uploads/users/${commentItem.user.photo}`"
+                                :src="commentItem.user.photo.includes('https') ? commentItem.user.photo : `${config.public.apiBackendUrl}/uploads/users/${commentItem.user.photo}`"
                                 class="w-6 h-6 rounded-full" />
                             <div v-else
                                 class="w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold"
@@ -203,7 +203,7 @@
                                         </span>
                                     </nuxt-link>
                                     <p class="text-slate-700 text-[11px] dark:text-slate-200"
-                                        v-html="commentItem.content"></p>
+                                        v-html="DOMPurify.sanitize(commentItem.content || '')"></p>
                                 </div>
                                 <div
                                     class="flex items-center gap-2 mt-1 text-[11px] text-slate-500 dark:text-slate-200">
@@ -247,7 +247,7 @@
                             <div v-for="reply in commentsState.replies[commentItem.id]" :key="reply.id"
                                 class="flex gap-2">
                                 <img v-if="reply.user.photo"
-                                    :src="`${config.public.apiBackendUrl}/uploads/users/${reply.user.photo}`"
+                                    :src="reply.user.photo.includes('https') ? reply.user.photo : `${config.public.apiBackendUrl}/uploads/users/${reply.user.photo}`"
                                     class="w-5 h-5 rounded-full" />
                                 <div v-else
                                     class="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold"
@@ -271,7 +271,7 @@
                                             </span>
                                         </nuxt-link>
                                         <p class="text-[11px] text-slate-700 dark:text-slate-200"
-                                            v-html="reply.content">
+                                            v-html="DOMPurify.sanitize(reply.content || '')">
                                         </p>
                                     </div>
                                     <div class="text-[10px] flex items-center gap-2 mt-1">
@@ -304,7 +304,7 @@
                 <!-- ADD COMMENT -->
                 <div v-if="step === 'comments'" class="border-t border-slate-200 p-4 text-xs">
                     <div v-if="user" class="flex items-end gap-2">
-                        <img v-if="user.photo" :src="`${config.public.apiBackendUrl}/uploads/users/${user.photo}`"
+                        <img v-if="user.photo" :src="user.photo.includes('https') ? user.photo : `${config.public.apiBackendUrl}/uploads/users/${user.photo}`"
                             class="w-8 h-8 rounded-full" />
                         <div v-else class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold"
                             :style="`background-color: ${user.code_color}`">
@@ -336,7 +336,7 @@
                         v-if="reactionsState.list.length > 0">
                         <div class="relative">
                             <img v-if="reaction.user.photo"
-                                :src="`${config.public.apiBackendUrl}/uploads/users/${reaction.user.photo}`"
+                                :src="reaction.user.photo.includes('https') ? reaction.user.photo : `${config.public.apiBackendUrl}/uploads/users/${reaction.user.photo}`"
                                 class="w-7 h-7 rounded-full" />
                             <div v-else class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold"
                                 :style="`background-color: ${reaction.user.code_color}`">
@@ -450,6 +450,7 @@
 </template>
 
 <script setup lang="ts">
+import DOMPurify from 'dompurify'
 const config = useRuntimeConfig();
 const { toConnectUser } = authenticate();
 const { getProfile } = usersData();

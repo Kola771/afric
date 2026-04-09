@@ -27,7 +27,7 @@
                                 </span>
                             </h3>
                             <p class="text-slate-300 text-sm max-w-xs mb-4 line-clamp-3"
-                                v-html="categories[0]?.description"></p>
+                                v-html="DOMPurify.sanitize(categories[0]?.description || '')"></p>
                             <span
                                 class="inline-flex items-center text-white text-sm font-medium gap-1 group-hover:gap-2 transition-all">Explorer
                                 <Icon name="mdi:arrow-right" class="w-5 h-5" />
@@ -79,7 +79,7 @@
                             <Icon name="mdi:trophy-outline" class="w-6 h-6 text-orange-400" />
                             <div>
                                 <h3 class="font-display font-medium text-lg mb-1">{{ categories[3]?.name }}</h3>
-                                <p class="text-slate-400 text-xs truncate" v-html="categories[0]?.description"></p>
+                                <p class="text-slate-400 text-xs truncate" v-html="DOMPurify.sanitize(categories[0]?.description || '')"></p>
                             </div>
                         </div>
                     </div>
@@ -113,6 +113,7 @@
 </template>
 
 <script lang="ts" setup>
+import DOMPurify from 'dompurify'
 const config = useRuntimeConfig();
 const { bestCategories } = categoriesData();
 const router = useRouter();

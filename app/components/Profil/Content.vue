@@ -101,7 +101,7 @@
                                     v-for="(author, index) in authors" :key="index">
                                     <div class="flex items-center gap-3 text-xs">
                                         <img v-if="author.photo"
-                                            :src="`${config.public.apiBackendUrl}/uploads/users/${author.photo}`"
+                                            :src="author.photo.includes('https') ? author.photo : `${config.public.apiBackendUrl}/uploads/users/${author.photo}`"
                                             class="w-12 h-12 rounded-lg object-cover" :alt="author.name" />
                                         <span v-else
                                             class="flex items-center justify-center w-12 h-12 rounded-lg font-semibold text-white text-sm"

@@ -9,7 +9,7 @@
                 class="flex lg:flex-col lg:justify-start justify-center items-center gap-2 lg:sticky lg:top-20 self-start">
                 <div class="group flex flex-col lg:justify-center items-center gap-2 w-full">
                     <div class="flex lg:flex-col lg:justify-center items-center gap-2 w-full">
-                        <img v-if="author.photo" :src="`${config.public.apiBackendUrl}/uploads/users/${author.photo}`"
+                        <img v-if="author.photo" :src="author.photo.includes('https') ? author.photo : `${config.public.apiBackendUrl}/uploads/users/${author.photo}`"
                             class="w-16 h-16 md:w-24 md:h-24 lg:group-hover:scale-95 hover:duration-300 transition-all lg:w-full lg:h-72 object-cover rounded-full lg:rounded-lg"
                             alt="Image de l'auteur">
                         <span v-if="!author.photo"
@@ -107,7 +107,7 @@
                         <Icon name="mdi:arrow-left" class="w-5 h-5" />
                     </button>
                     <h3 class="font-display text-xl font-bold text-slate-900 dark:text-white mb-1">Bibliographie</h3>
-                    <p v-if="author.bibliography" v-html="author.bibliography"></p>
+                    <p v-if="author.bibliography" v-html="DOMPurify.sanitize(author.bibliography || '')"></p>
                     <p v-else class="text-slate-500 dark:text-slate-400">Aucune bibliographie de cet auteur disponible !
                     </p>
                     <div class="mt-4 flex flex-col gap-2"
@@ -204,7 +204,7 @@
 </template>
 
 <script setup lang="ts">
-
+import DOMPurify from 'dompurify'
 const config = useRuntimeConfig();
 const route = useRoute();
 const router = useRouter();
@@ -238,7 +238,7 @@ const onLoad = async () => {
                     { name: 'description', content: `${author.value.bibliography?.replaceAll('<br>', '') || ''}` }
                 ],
                 link: [
-                    { rel: 'icon', type: 'image/png', href: `${config.public.apiBackendUrl}/uploads/users/${author.value.photo}` }
+                    { rel: 'icon', type: 'image/png', href: author.value.photo.includes('https') ? author.value.photo :  `${config.public.apiBackendUrl}/uploads/users/${author.value.photo}` }
                 ]
             });
             useSeoMeta({
@@ -247,14 +247,14 @@ const onLoad = async () => {
 
                 ogTitle: `${author.value.name}`,
                 ogDescription: `${author.value.bibliography?.replaceAll('<br>', '') || ''}`,
-                ogImage: `${config.public.apiBackendUrl}/uploads/users/${author.value.photo}`,
+                ogImage: author.value.photo.includes('https') ? author.value.photo : `${config.public.apiBackendUrl}/uploads/users/${author.value.photo}`,
                 ogUrl: `${config.public.frontUrl}/authors/${author.value.uuid}`,
                 ogType: 'website',
 
                 twitterCard: 'summary_large_image',
                 twitterTitle: `${author.value.name}`,
                 twitterDescription: `${author.value.bibliography?.replaceAll('<br>', '') || ''}`,
-                twitterImage: `${config.public.apiBackendUrl}/uploads/users/${author.value.photo}`
+                twitterImage: author.value.photo.includes('https') ? author.value.photo : `${config.public.apiBackendUrl}/uploads/users/${author.value.photo}`
             });
             if (author.value.status !== 'actif') {
                 router.back();

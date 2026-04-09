@@ -32,25 +32,6 @@
                     </div>
                     <!-- Form Section -->
                     <div class="mt-8">
-                        <!-- Social Login -->
-                        <!-- <div class="grid grid-cols-2 gap-3">
-                            <button class="flex w-full items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-200 transition-all">
-                                <img src="/assets/google.svg" alt="Google" class="w-6 h-6 lg:w-5 lg:h-5" />
-                                <span class="hidden sm:inline">Google</span>
-                            </button>
-                            <button class="flex w-full items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-200 transition-all">
-                                <Icon name="mdi:apple" class="w-6 h-6 lg:w-5 lg:h-5" />
-                                <span class="hidden sm:inline">Apple</span>
-                            </button>
-                        </div>
-                        <div class="relative mt-6">
-                            <div class="absolute inset-0 flex items-center" aria-hidden="true">
-                                <div class="w-full border-t border-slate-100"></div>
-                            </div>
-                            <div class="relative flex justify-center text-xs font-medium leading-6">
-                                <span class="bg-white dark:bg-dark px-4 text-slate-400">Ou continuer avec l'email</span>
-                            </div>
-                        </div> -->
                         <!-- Main Form -->
                         <form @submit.prevent="handleLogin" class="mt-6 space-y-5">
                             <!-- Pseudonyme Input -->
@@ -117,6 +98,22 @@
                                 </button>
                             </div>
                         </form>
+                        <div class="relative mt-6">
+                            <div class="absolute inset-0 flex items-center" aria-hidden="true">
+                                <div class="w-full border-t border-slate-100"></div>
+                            </div>
+                            <div class="relative flex justify-center text-xs font-medium leading-6">
+                                <span class="bg-white dark:bg-dark px-4 text-slate-400">Ou continuer avec l'email</span>
+                            </div>
+                        </div>
+                        <!-- Social Login -->
+                        <div class="grid grid-cols-1 gap-3 mt-3">
+                            <button @click="loginWithGoogle"
+                                class="flex w-full items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-200 transition-all">
+                                <img src="/assets/google.svg" alt="Google" class="w-6 h-6 lg:w-5 lg:h-5" />
+                                <span class="inline">Google</span>
+                            </button>
+                        </div>
                     </div>
                     <!-- Footer Links -->
                     <div class="mt-10 border-t border-slate-100 pt-6">
@@ -133,8 +130,7 @@
             <div class="relative hidden w-0 flex-1 lg:block bg-slate-900">
                 <!-- Background Image -->
                 <img class="absolute inset-0 h-full w-full object-cover opacity-60 mix-blend-overlay"
-                    src="/assets/tree.jpg"
-                    alt="African Pattern Background">
+                    src="/assets/tree.jpg" alt="African Pattern Background">
 
                 <!-- Gradient Overlay -->
                 <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-slate-900/10"></div>
@@ -197,6 +193,10 @@ const errorMsg = ref<string>(''); // Message d'erreur pour affichage
 const loading = ref(false);       // Indicateur de chargement
 const showPassword = ref(false);  // Indicateur pour afficher/masquer le mot de passe
 const loadingButton = ref<'start' | '' | 'end' | 'error'>('start');
+
+const loginWithGoogle = () => {
+    window.location.href = `${config.public.apiBackendUrl}/auth/google`;
+};
 
 const handleLogin = async () => {
     errorMsg.value = '';

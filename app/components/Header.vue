@@ -58,7 +58,7 @@
                   <!-- Avatar cliquable -->
                   <div
                     class="flex items-center gap-1 bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 transition-all duration-300 border-slate-200 border rounded-full py-1 pl-1 pr-1.5 cursor-pointer">
-                    <img v-if="user.photo" :src="`${config.public.apiBackendUrl}/uploads/users/${user.photo}`"
+                    <img v-if="user.photo" :src="user.photo.includes('https') ? user.photo : `${config.public.apiBackendUrl}/uploads/users/${user.photo}`"
                       alt="Profil" class="w-7 h-7 rounded-full flex-shrink-0" />
                     <span v-if="!user.photo"
                       class="p-1 text-xs flex items-center justify-center w-7 h-7 rounded-full flex-shrink-0"
@@ -200,9 +200,9 @@
           <Icon name="mdi:account" class="w-5 h-5" />
           <span class="text-[8px]">Login</span>
         </nuxt-link>
-        <div v-if="profil" class="rounded-full flex flex-col items-center justify-center" @click="onAvatarClick">
+        <div v-if="profil" class="rounded-full flex flex-col dark:text-slate-200 items-center justify-center" @click="onAvatarClick">
           <!-- Image ou Initiales -->
-          <img v-if="profil?.photo" :src="`${config.public.apiBackendUrl}/uploads/users/${profil.photo}`" alt="Profil"
+          <img v-if="profil?.photo" :src="profil.photo.includes('https') ? profil.photo : `${config.public.apiBackendUrl}/uploads/users/${profil.photo}`" alt="Profil"
             class="w-6 h-6 rounded-full flex-shrink-0" />
           <span v-else class="p-2.5 text-[8px] flex items-center justify-center w-6 h-6 rounded-full flex-shrink-0"
             :style="`background-color: ${profil?.code_color}`">

@@ -34,7 +34,7 @@
                         class="absolute inset-0 w-full h-full object-contain" />
 
                     <img v-if="item.type === 'author' && item.data.photo"
-                        :src="`${$config.public.apiBackendUrl}/uploads/users/${item.data.photo}`"
+                        :src="item.data.photo.includes('https') ? item.data.photo : `${$config.public.apiBackendUrl}/uploads/users/${item.data.photo}`"
                         class="absolute inset-0 w-full h-full object-contain" />
 
                     <div class="absolute inset-0 flex items-center justify-center"
@@ -160,7 +160,7 @@
                             </h3>
 
                             <p class="text-gray-400 text-sm line-clamp-6"
-                                v-html="item.data.bibliography || 'Auteur Afric Storyline'">
+                                v-html="DOMPurify.sanitize(item.data.bibliography || '') || 'Auteur Afric Storyline'">
                             </p>
 
                             <p class="text-gray-400 text-sm">
@@ -177,7 +177,7 @@
                             <div v-if="item.data.followers.length > 0" class="mt-1">
                                 <div class="flex items-center gap-1">
                                     <img v-if="item.data.followers[item.data.followers.length - 1]?.photo"
-                                        :src="`${$config.public.apiBackendUrl}/uploads/users/${item.data.followers[item.data.followers.length - 1].photo}`"
+                                        :src="item.data.followers[item.data.followers.length - 1].photo.includes('https') ? item.data.followers[item.data.followers.length - 1].photo : `${$config.public.apiBackendUrl}/uploads/users/${item.data.followers[item.data.followers.length - 1].photo}`"
                                         alt="Profil" class="w-5 h-5 rounded-full flex-shrink-0" />
                                     <span v-else
                                         class="p-2.5 text-[7px] flex items-center justify-center w-5 h-5 rounded-full flex-shrink-0"
@@ -291,7 +291,7 @@
 
                             <!-- Avatar -->
                             <img v-if="commentItem.user.photo"
-                                :src="`${$config.public.apiBackendUrl}/uploads/users/${commentItem.user.photo}`"
+                                :src="commentItem.user.photo.includes('https') ? commentItem.user.photo : `${$config.public.apiBackendUrl}/uploads/users/${commentItem.user.photo}`"
                                 class="w-6 h-6 rounded-full" />
                             <div v-else
                                 class="w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold"
@@ -319,7 +319,7 @@
                                         </span>
                                     </nuxt-link>
                                     <p class="text-slate-700 text-[11px] dark:text-slate-200"
-                                        v-html="commentItem.content"></p>
+                                        v-html="DOMPurify.sanitize(commentItem.content || '')"></p>
                                 </div>
 
                                 <div
@@ -359,7 +359,7 @@
                             <div v-for="reply in commentsState.replies[commentItem.id]" :key="reply.id"
                                 class="flex gap-2">
                                 <img v-if="reply.user.photo"
-                                    :src="`${$config.public.apiBackendUrl}/uploads/users/${reply.user.photo}`"
+                                    :src="reply.user.photo.includes('https') ? reply.user.photo : `${$config.public.apiBackendUrl}/uploads/users/${reply.user.photo}`"
                                     class="w-5 h-5 rounded-full" />
                                 <div v-else
                                     class="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold"
@@ -384,7 +384,7 @@
                                             </span>
                                         </nuxt-link>
                                         <p class="text-[11px] text-slate-700 dark:text-slate-200"
-                                            v-html="reply.content">
+                                            v-html="DOMPurify.sanitize(reply.content || '')">
                                         </p>
                                     </div>
 
@@ -422,7 +422,7 @@
                 <!-- ADD COMMENT -->
                 <div class="border-t border-slate-200 pt-4 text-xs">
                     <div v-if="user" class="flex items-end gap-2">
-                        <img v-if="user.photo" :src="`${$config.public.apiBackendUrl}/uploads/users/${user.photo}`"
+                        <img v-if="user.photo" :src="user.photo.includes('https') ? user.photo : `${$config.public.apiBackendUrl}/uploads/users/${user.photo}`"
                             class="w-8 h-8 rounded-full" />
                         <div v-else class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold"
                             :style="`background-color: ${user.code_color}`">
@@ -470,6 +470,7 @@
 </template>
 
 <script setup lang="ts">
+import DOMPurify from 'dompurify'
 const config = useRuntimeConfig();
 
 useSeoMeta({
@@ -823,7 +824,7 @@ const fetchFeed = async () => {
         }
 
         if (item.type === 'author' && item.data.photo) {
-            url = `${useRuntimeConfig().public.apiBackendUrl}/uploads/users/${item.data.photo}`;
+            url = item.data.photo.includes('https') ? item.data.photo : `${useRuntimeConfig().public.apiBackendUrl}/uploads/users/${item.data.photo}`;
         }
 
         if (item.type === 'category') {

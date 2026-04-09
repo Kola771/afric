@@ -35,7 +35,7 @@
                             fontFamily: selectedFont,
                             fontSize: textSize + 'px'
                         }">
-                        <p v-html="chapter.content"></p>
+                        <p v-html="DOMPurify.sanitize(chapter.content || '')"></p>
                     </div>
 
                     <!-- Interactions -->
@@ -132,7 +132,7 @@
                                 <!-- Author -->
                                 <nuxt-link :to="`/authors/${book.user.uuid}`" class="group flex items-center gap-1">
                                     <img v-if="book.user.photo"
-                                        :src="`${config.public.apiBackendUrl}/uploads/users/${book.user.photo}`"
+                                        :src="book.user.photo.includes('https') ? book.user.photo : `${config.public.apiBackendUrl}/uploads/users/${book.user.photo}`"
                                         alt="Profil" class="w-8 h-8 rounded" />
                                     <span v-else
                                         class="p-1 text-[8px] font-bold flex items-center justify-center text-slate-900 w-8 h-8 rounded"
@@ -227,7 +227,7 @@
 
                             <!-- Avatar -->
                             <img v-if="commentItem.user.photo"
-                                :src="`${config.public.apiBackendUrl}/uploads/users/${commentItem.user.photo}`"
+                                :src="commentItem.user.photo.includes('https') ? commentItem.user.photo : `${config.public.apiBackendUrl}/uploads/users/${commentItem.user.photo}`"
                                 class="w-6 h-6 rounded-full" />
                             <div v-else
                                 class="w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold"
@@ -255,7 +255,7 @@
                                         </span>
                                     </nuxt-link>
                                     <p class="text-slate-700 text-[11px] dark:text-slate-200"
-                                        v-html="commentItem.content"></p>
+                                        v-html="DOMPurify.sanitize(commentItem.content || '')"></p>
                                 </div>
 
                                 <div
@@ -307,7 +307,7 @@
                             <div v-for="reply in commentsState.replies[commentItem.id]" :key="reply.id"
                                 class="flex gap-2">
                                 <img v-if="reply.user.photo"
-                                    :src="`${config.public.apiBackendUrl}/uploads/users/${reply.user.photo}`"
+                                    :src="reply.user.photo.includes('https') ? reply.user.photo : `${config.public.apiBackendUrl}/uploads/users/${reply.user.photo}`"
                                     class="w-5 h-5 rounded-full" />
                                 <div v-else
                                     class="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold"
@@ -332,7 +332,7 @@
                                             </span>
                                         </nuxt-link>
                                         <p class="text-[11px] text-slate-700 dark:text-slate-200"
-                                            v-html="reply.content">
+                                            v-html="DOMPurify.sanitize(reply.content || '')">
                                         </p>
                                     </div>
 
@@ -370,7 +370,7 @@
                 <!-- ADD COMMENT -->
                 <div v-if="step === 'comments'" class="border-t border-slate-200 p-4 text-xs">
                     <div v-if="user" class="flex items-end gap-2">
-                        <img v-if="user.photo" :src="`${config.public.apiBackendUrl}/uploads/users/${user.photo}`"
+                        <img v-if="user.photo" :src="user.photo.includes('https') ? user.photo : `${config.public.apiBackendUrl}/uploads/users/${user.photo}`"
                             class="w-8 h-8 rounded-full" />
                         <div v-else class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold"
                             :style="`background-color: ${user.code_color}`">
@@ -407,7 +407,7 @@
                         v-if="reactionsState.list.length > 0">
                         <div class="relative">
                             <img v-if="reaction.user.photo"
-                                :src="`${config.public.apiBackendUrl}/uploads/users/${reaction.user.photo}`"
+                                :src="reaction.user.photo.includes('https') ? reaction.user.photo : `${config.public.apiBackendUrl}/uploads/users/${reaction.user.photo}`"
                                 class="w-7 h-7 rounded-full" />
                             <div v-else class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold"
                                 :style="`background-color: ${reaction.user.code_color}`">
@@ -544,6 +544,7 @@
 </template>
 
 <script lang="ts" setup>
+import DOMPurify from 'dompurify'
 definePageMeta({
     layout: "not-layout",
 });

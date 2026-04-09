@@ -118,7 +118,7 @@
 
                   <!-- Avatar -->
                   <span>
-                    <img v-if="author.photo" :src="`${config.public.apiBackendUrl}/uploads/users/${author.photo}`"
+                    <img v-if="author.photo" :src="author.photo.includes('https') ? author.photo : `${config.public.apiBackendUrl}/uploads/users/${author.photo}`"
                       class="w-12 h-12 md:w-14 md:h-14 rounded-lg object-cover" :alt="author.name" />
 
                     <span v-else
@@ -157,7 +157,7 @@
 
                     <!-- Bio -->
                     <p v-if="author?.bibliography" class="text-xs text-slate-500 line-clamp-2"
-                      v-html="author.bibliography"></p>
+                      v-html="DOMPurify.sanitize(author?.bibliography || '')"></p>
 
                     <p v-else class="text-xs text-slate-400">
                       Aucune biographie disponible
@@ -209,7 +209,7 @@
 
                     <!-- Bio -->
                     <p v-if="category?.description" class="text-xs text-slate-500 line-clamp-2"
-                      v-html="category.description"></p>
+                      v-html="DOMPurify.sanitize(category?.description || '')"></p>
 
                     <p v-else class="text-xs text-slate-400">
                       Aucune description disponible
@@ -302,6 +302,7 @@
 </template>
 
 <script setup lang="ts">
+import DOMPurify from 'dompurify'
 const config = useRuntimeConfig();
 const emit = defineEmits(['close-modal-result', 'previous-data', 'next-data']);
 const props = withDefaults(defineProps<{

@@ -16,11 +16,19 @@ export function authenticate() {
     async function authorizePage() {
         if (process.client) {
             if (localStorage.getItem('user')) {
-                if (["/register", "/forget-password", "/login"].includes(router.currentRoute?.value?.fullPath)) {
+                if (["/register", "/forget-password", "/login", "/account"].includes(router.currentRoute?.value?.fullPath)) {
                     router.back();
                 }
             }
         }
+    }
+
+    async function getTokenCookies() {
+        const { data } = await axios.get(`/auth/me`, {
+            withCredentials: true
+        });
+        localStorage.setItem("user", JSON.stringify(data));
+        window.location.href = "/"
     }
 
     async function authorizeRolePage() {
@@ -74,6 +82,7 @@ export function authenticate() {
     async function logout() {
         if (process.client) {
             if (localStorage.getItem('user')) {
+                await axios.get('/auth/logout', { withCredentials: true });
                 const token = JSON.parse(localStorage.getItem("user") || '{}').token;
                 localStorage.removeItem("user");
                 localStorage.removeItem("register_author");
@@ -92,6 +101,7 @@ export function authenticate() {
         connectUser,
         logout,
         authorizePage,
+        getTokenCookies,
         authorizeRolePage,
         toConnectUser,
         dataProfil,

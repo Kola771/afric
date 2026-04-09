@@ -170,7 +170,7 @@
                                 <div class="flex items-center gap-3">
                                     <div class="relative flex-shrink-0">
                                         <img v-if="u.photo"
-                                            :src="`${config.public.apiBackendUrl}/uploads/users/${u.photo}`"
+                                            :src="u.photo.includes('https') ? u.photo : `${config.public.apiBackendUrl}/uploads/users/${u.photo}`"
                                             class="w-9 h-9 rounded-lg object-cover" :alt="u.name" />
 
                                         <span v-else

@@ -108,7 +108,8 @@
                         <!-- Book info -->
                         <div>
                             <div class="flex flex-wrap items-center gap-3 text-xs font-medium text-orange-600 mb-4">
-                                <nuxt-link :to="`/categories/${category.uuid}`" v-for="(category, index) in book.book_categories" :key="index"
+                                <nuxt-link :to="`/categories/${category.uuid}`"
+                                    v-for="(category, index) in book.book_categories" :key="index"
                                     class="bg-orange-50 hover:underline uppercase border border-orange-100/50 text-orange-600 text-xs font-medium animate-fade-in-up px-2 py-1 rounded">
                                     {{ category.name }}
                                 </nuxt-link>
@@ -127,7 +128,7 @@
                                 <!-- Author -->
                                 <nuxt-link :to="`/authors/${book.user.uuid}`" class="group flex items-center gap-1">
                                     <img v-if="book.user.photo"
-                                        :src="`${config.public.apiBackendUrl}/uploads/users/${book.user.photo}`"
+                                        :src="book.user.photo.includes('https') ? book.user.photo : `${config.public.apiBackendUrl}/uploads/users/${book.user.photo}`"
                                         alt="Profil" class="w-6 h-6 rounded-full" />
                                     <span v-else
                                         class="p-1 text-[8px] font-bold flex items-center justify-center text-slate-900 w-6 h-6 rounded-full"
@@ -160,7 +161,7 @@
                         <!-- Description -->
                         <div
                             class="prose prose-slate prose-sm max-w-none text-slate-600 dark:text-slate-200 flex flex-col gap-4">
-                            <p v-html="book.description"></p>
+                            <p v-html="cleanDescription"></p>
                             <div class="flex lg:justify-start text-sm">
                                 <button @click="shareLink"
                                     class="w-full lg:w-auto lg:px-8 lg:py-2 bg-white border border-slate-200 text-slate-700 py-3 rounded-xl font-medium hover:bg-slate-50 dark:hover:bg-orange-50 dark:hover:border-orange-100/50 dark:hover:text-orange-800 transition-colors flex items-center justify-center gap-2">
@@ -218,7 +219,8 @@
                                             <Icon name="mdi:arrow-right" class="w-5 h-5" />
                                         </span>
 
-                                        <span class="absolute bottom-2 right-4 text-xs dark:text-orange-400 font-medium" v-if="handleViewChapter(chapter)">Lu</span>
+                                        <span class="absolute bottom-2 right-4 text-xs dark:text-orange-400 font-medium"
+                                            v-if="handleViewChapter(chapter)">Lu</span>
                                     </nuxt-link>
 
                                     <!-- Version grisée et bloquée si non connecté et index >= 5 -->
@@ -341,7 +343,7 @@
 
                             <!-- Avatar -->
                             <img v-if="commentItem.user.photo"
-                                :src="`${config.public.apiBackendUrl}/uploads/users/${commentItem.user.photo}`"
+                                :src="commentItem.user.photo.includes('https') ? commentItem.user.photo : `${config.public.apiBackendUrl}/uploads/users/${commentItem.user.photo}`"
                                 class="w-6 h-6 rounded-full" />
                             <div v-else
                                 class="w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold"
@@ -369,7 +371,7 @@
                                         </span>
                                     </nuxt-link>
                                     <p class="text-slate-700 text-[11px] dark:text-slate-200"
-                                        v-html="commentItem.content"></p>
+                                        v-html="DOMPurify.sanitize(commentItem.content || '')"></p>
                                 </div>
 
                                 <div
@@ -409,7 +411,7 @@
                             <div v-for="reply in commentsState.replies[commentItem.id]" :key="reply.id"
                                 class="flex gap-2">
                                 <img v-if="reply.user.photo"
-                                    :src="`${config.public.apiBackendUrl}/uploads/users/${reply.user.photo}`"
+                                    :src="reply.user.photo.includes('https') ? reply.user.photo : `${config.public.apiBackendUrl}/uploads/users/${reply.user.photo}`"
                                     class="w-5 h-5 rounded-full" />
                                 <div v-else
                                     class="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold"
@@ -434,7 +436,7 @@
                                             </span>
                                         </nuxt-link>
                                         <p class="text-[11px] text-slate-700 dark:text-slate-200"
-                                            v-html="reply.content">
+                                            v-html="DOMPurify.sanitize(reply.content || '')">
                                         </p>
                                     </div>
 
@@ -472,7 +474,7 @@
                 <!-- ADD COMMENT -->
                 <div v-if="step === 'comments'" class="border-t border-slate-200 pt-4 text-xs">
                     <div v-if="user" class="flex items-end gap-2">
-                        <img v-if="user.photo" :src="`${config.public.apiBackendUrl}/uploads/users/${user.photo}`"
+                        <img v-if="user.photo" :src="user.photo.includes('https') ? user.photo : `${config.public.apiBackendUrl}/uploads/users/${user.photo}`"
                             class="w-8 h-8 rounded-full" />
                         <div v-else class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold"
                             :style="`background-color: ${user.code_color}`">
@@ -520,7 +522,7 @@
                         v-if="reactionsState.list.length > 0">
                         <div class="relative">
                             <img v-if="reaction.user.photo"
-                                :src="`${config.public.apiBackendUrl}/uploads/users/${reaction.user.photo}`"
+                                :src="reaction.user.photo.includes('https') ? reaction.user.photo : `${config.public.apiBackendUrl}/uploads/users/${reaction.user.photo}`"
                                 class="w-7 h-7 rounded-full" />
                             <div v-else class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold"
                                 :style="`background-color: ${reaction.user.code_color}`">
@@ -820,6 +822,7 @@
 </style>
 
 <script setup lang="ts">
+import DOMPurify from 'dompurify'
 import { onClickOutside } from '@vueuse/core'
 import { ref, reactive, computed, onMounted, nextTick } from 'vue';
 interface Reaction {
@@ -875,6 +878,9 @@ const reactionsState = reactive({
     total: 0,
     loading: false,
 });
+const cleanDescription = computed(() => {
+    return DOMPurify.sanitize(book.value?.description || '')
+})
 
 const reactions: Reaction[] = [
     { id: 'like', label: 'J’aime', emoji: '👍', color: 'text-blue-600 bg-blue-50', animation: 'react-like' },

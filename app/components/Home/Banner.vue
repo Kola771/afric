@@ -112,7 +112,7 @@
                                             class="truncate">{{ book.title }}</span></h3>
                                     <div class="flex items-center gap-3 text-[13px] text-white/80">
                                         <img v-if="book.user?.photo"
-                                            :src="`${config.public.apiBackendUrl}/uploads/users/${book.user?.photo}`"
+                                            :src="book.user.photo.includes('https') ? book.user.photo : `${config.public.apiBackendUrl}/uploads/users/${book.user?.photo}`"
                                             alt="Profil"
                                             class="w-6 h-6 flex-shrink-0 border-orange-600 border-2 dark:border-orange-500 rounded-full" />
                                         <span v-if="!book.user?.photo"

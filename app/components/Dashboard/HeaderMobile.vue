@@ -89,7 +89,7 @@
                 <div class="p-4 flex flex-col gap-2 border-t border-slate-100" v-if="user">
                     <nuxt-link to="/dashboard/account"
                         class="flex items-center gap-3 w-full p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors text-left">
-                        <img v-if="user?.photo" :src="`${config.public.apiBackendUrl}/uploads/users/${user?.photo}`"
+                        <img v-if="user?.photo" :src="user.photo.includes('https') ? user.photo : `${config.public.apiBackendUrl}/uploads/users/${user?.photo}`"
                             alt="Profil"
                             class="w-8 h-8 rounded-full" />
                         <span v-if="!user?.photo"

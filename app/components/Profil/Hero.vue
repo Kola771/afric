@@ -15,7 +15,7 @@
                     <div class="relative group">
                         <div
                             class="w-24 h-24 sm:w-40 sm:h-40 rounded-full border-[4px] border-white shadow-lg overflow-hidden bg-slate-200">
-                            <img v-if="user?.photo" :src="`${config.public.apiBackendUrl}/uploads/users/${user.photo}`"
+                            <img v-if="user?.photo" :src="user.photo.includes('https') ? user.photo : `${config.public.apiBackendUrl}/uploads/users/${user.photo}`"
                                 class="w-full h-full object-cover" alt="Profile">
                             <span v-if="!user?.photo"
                                 class="p-1 text-xl lg:text-3xl font-medium text-slate-600 flex items-center justify-center w-full h-full rounded-full"
@@ -51,7 +51,7 @@
                             </span>
                         </p>
                         <p class="hidden md:block text-sm md:text-md text-slate-600 mt-2 dark:text-slate-200 line-clamp-3"
-                            v-if="user.bibliography && user.bibliography.trim() !== ''" v-html="user.bibliography">
+                            v-if="user.bibliography && user.bibliography.trim() !== ''" v-html="DOMPurify.sanitize(user.bibliography || '')">
                         </p>
                         <p class="hidden md:block text-sm lg:text-md text-slate-600 mt-2 dark:text-slate-200" v-else>
                             Aucune bibliographie disponible !
@@ -82,7 +82,7 @@
                 </div>
                 <div class="flex flex-col gap-2 md:hidden">
                     <p class="text-sm md:text-md text-slate-600 dark:text-slate-200"
-                        v-if="user.bibliography && user.bibliography.trim() !== ''" v-html="user.bibliography">
+                        v-if="user.bibliography && user.bibliography.trim() !== ''" v-html="DOMPurify.sanitize(user.bibliography || '')">
                     </p>
                     <div class="text-[11px] flex flex-wrap items-center gap-2" v-if="author">
                         <nuxt-link :to="`/authors/${author.uuid}/followers`" class="hover:underline">
@@ -235,6 +235,7 @@
 </style>
 
 <script setup lang="ts">
+import DOMPurify from 'dompurify'
 const config = useRuntimeConfig();
 const { toConnectUser } = authenticate();
 const { getProfile, findByUuid } = usersData();

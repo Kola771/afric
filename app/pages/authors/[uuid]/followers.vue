@@ -47,7 +47,7 @@
                         <!-- Avatar -->
                         <span>
                             <img v-if="follower.photo"
-                                :src="`${config.public.apiBackendUrl}/uploads/users/${follower.photo}`"
+                                :src="follower.photo.includes('https') ? follower.photo : `${config.public.apiBackendUrl}/uploads/users/${follower.photo}`"
                                 class="w-12 h-12 md:w-14 md:h-14 rounded-lg object-cover" :alt="follower.name" />
                             <span v-else
                                 class="flex items-center justify-center w-12 h-12 md:w-14 md:h-14 rounded-lg font-semibold text-white text-sm"

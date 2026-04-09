@@ -6,7 +6,7 @@
       <div class="flex flex-col items-center lg:flex-row lg:items-center lg:gap-4">
         <div
           class="w-24 h-24 sm:w-40 sm:h-40 rounded-full border-[4px] border-white shadow-lg overflow-hidden bg-slate-200">
-          <img v-if="profil?.photo" :src="`${config.public.apiBackendUrl}/uploads/users/${profil.photo}`"
+          <img v-if="profil?.photo" :src="profil.photo.includes('https') ? profil.photo : `${config.public.apiBackendUrl}/uploads/users/${profil.photo}`"
             class="w-full h-full object-cover" alt="Profile">
           <span v-if="!profil?.photo"
             class="p-1 text-xl lg:text-3xl font-medium text-slate-600 flex items-center justify-center w-full h-full rounded-full"

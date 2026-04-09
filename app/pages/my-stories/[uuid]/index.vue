@@ -231,7 +231,7 @@
             <h2
               class="text-3xl dark:text-white sm:text-4xl font-display font-bold text-slate-900 tracking-tight mb-8 text-center leading-tight">
               {{ chapterTitle || 'Sans titre' }}</h2>
-            <div class="dark:text-white" v-html="formattedContent"></div>
+            <div class="dark:text-white" v-html="DOMPurify.sanitize(formattedContent || '')"></div>
           </div>
 
           <div v-if="chapters.length === 0"
@@ -590,6 +590,7 @@
 </template>
 
 <script lang="ts" setup>
+import DOMPurify from 'dompurify'
 const uuid = useRoute().params.uuid;
 const router = useRouter();
 import Tesseract from 'tesseract.js'

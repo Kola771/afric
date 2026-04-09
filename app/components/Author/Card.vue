@@ -5,7 +5,7 @@
       <div class="flex flex-col gap-4 lg:gap-3 rounded-t-2xl">
         <div
           class="relative flex-shrink-0 overflow-hidden rounded-t-2xl shadow-subtle group-hover:shadow-xl transition-all duration-300 ring-1 ring-slate-900/5">
-          <img v-if="props.author.photo" :src="`${config.public.apiBackendUrl}/uploads/users/${props.author.photo}`"
+          <img v-if="props.author.photo" :src="props.author.photo.includes('https') ? props.author.photo : `${config.public.apiBackendUrl}/uploads/users/${props.author.photo}`"
             class="w-full h-28 md:h-36 lg:h-40 object-cover transition-transform duration-500 group-hover:scale-105"
             :alt="props.author.name" />
 

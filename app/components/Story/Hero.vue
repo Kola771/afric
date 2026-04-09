@@ -18,10 +18,10 @@
                         {{ book.title }}
                     </h2>
                     <p class="text-md text-gray-500 dark:text-slate-300 leading-relaxed max-w-md mb-4 line-clamp-4 lg:line-clamp-3 tracking-tight"
-                        v-html="book.description"></p>
+                        v-html="DOMPurify.sanitize(book.description || '')"></p>
                     <div class="flex items-center gap-2 text-sm mb-4">
                         <img v-if="book.user?.photo"
-                            :src="`${config.public.apiBackendUrl}/uploads/users/${book.user?.photo}`" alt="Profil"
+                            :src="book.user.photo.includes('https') ? book.user.photo : `${config.public.apiBackendUrl}/uploads/users/${book.user?.photo}`" alt="Profil"
                             class="w-6 h-6 rounded-full" />
                         <span v-if="!book.user?.photo"
                             class="p-1 text-[8px] flex items-center justify-center w-6 h-6 rounded-full font-medium"
@@ -116,6 +116,7 @@
 </template>
 
 <script setup lang="ts">
+import DOMPurify from 'dompurify'
 const config = useRuntimeConfig();
 const { findRandom } = booksData();
 const loading = ref<boolean>(true);
