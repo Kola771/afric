@@ -46,14 +46,28 @@
                     class="block w-full rounded-lg border-0 py-2.5 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all bg-white dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200 pl-3 resize-none"
                     placeholder="Ma bibliographie..."></textarea>
             </div>
+
             <div class="flex flex-col gap-1">
-                <label for="country" class="text-sm text-slate-900 font-medium dark:text-white">Pays d'origine :</label>
-                <select required id="country" name="country" v-model="country"
-                    class="mt-1 block w-full rounded-lg border-0 py-2.5 lg:p-3 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-400">
-                    <option value="" disabled selected>Pays d'origine</option>
-                    <option v-for="(country, index) in countries" :key="index" :value="country.id">{{ country.name }}
-                    </option>
-                </select>
+                <label for="pays"
+                    class="text-sm text-slate-900 font-medium dark:text-white flex items-center justify-between">
+                    Pays d'origine
+                </label>
+
+                <div class="relative">
+                    <!-- Input -->
+                    <input id="pays" type="text" v-model="countrySearch" @focus="showDropdown = true"
+                        @blur="hideDropdown" placeholder="Entrez votre pays"
+                        class="block w-full rounded-lg border-0 py-2.5 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200 pl-3" />
+                    <!-- Dropdown -->
+                    <ul v-if="showDropdown && filteredCountries.length"
+                        class="absolute z-50 w-full bg-white dark:bg-slate-800 border border-slate-200 rounded-lg mt-1 max-h-48 overflow-y-auto shadow-lg">
+                        <li v-for="(c, index) in filteredCountries" :key="index" @mousedown.prevent="selectCountry(c)"
+                            class="px-3 py-2 text-sm cursor-pointer hover:bg-orange-100 dark:hover:bg-slate-700 dark:text-slate-200"
+                            :class="index !== filteredCountries.length - 1 ? 'border-b-[1px] border-slate-300' : ''">
+                            {{ c.name }}
+                        </li>
+                    </ul>
+                </div>
             </div>
             <div>
                 <label class="block text-sm font-medium leading-6 text-slate-900 dark:text-white mb-1">
@@ -139,7 +153,29 @@ const code_color = ref<string>("");
 const country = ref<number>(0);
 const error = ref<string | null | undefined>(null);
 const message = ref<string | null | undefined>(null);
-const router = useRouter();
+
+const countrySearch = ref('');
+const showDropdown = ref(false);
+
+const filteredCountries = computed(() => {
+    if (!countrySearch.value) return countries.value;
+
+    return countries.value.filter((c: Country) =>
+        c.name?.toLowerCase().includes(countrySearch.value.toLowerCase())
+    );
+});
+
+const selectCountry = (c: Country) => {
+    country.value = c.id; // valeur envoyée au backend
+    countrySearch.value = c.name || ''; // affichage
+    showDropdown.value = false;
+};
+
+const hideDropdown = () => {
+    setTimeout(() => {
+        showDropdown.value = false;
+    }, 200); // permet de cliquer avant fermeture
+};
 
 const changeData = async () => {
     error.value = null;

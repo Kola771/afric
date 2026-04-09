@@ -8,15 +8,17 @@
                         class="py-2 rounded-lg flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors">
                         <Icon name="mdi:arrow-left" class="w-4 h-4" />
                     </button>
-                    <h2 class="text-lg font-display font-bold text-slate-900 dark:text-white tracking-tight">
+                    <h2 class="text-[17px] md:text-lg font-display font-bold text-slate-900 dark:text-white tracking-tight">
                         Paramètres</h2>
                 </div>
                 <div
                     class="flex flex-col gap-1 bg-white dark:bg-slate-800 p-4 rounded-lg border-slate-300 border-[1px]">
-                    <h2 class="text-[18px] flex items-center gap-2 font-display font-bold text-slate-900 dark:text-white tracking-tight">
-                        <Icon name="mdi:edit" class="w-4 h-4 text-orange-500" /> Modifier vos informations</h2>
+                    <h2
+                        class="text-[16px] flex items-center gap-2 font-display font-bold text-slate-900 dark:text-white tracking-tight">
+                        <Icon name="mdi:edit" class="w-4 h-4 text-orange-500" /> Modifier vos informations
+                    </h2>
                     <div>
-                        <h3 class="text-md font-display font-semibold text-slate-900 dark:text-white tracking-tight">
+                        <h3 class="text-[15px] font-display font-semibold text-slate-900 dark:text-white tracking-tight">
                             Bonjour, {{ user?.name || 'Utilisateur' }} 👋</h3>
                         <p class="text-sm text-slate-500 dark:text-slate-200 mt-1">Faîtes une mise à jour de vos
                             informations personnelles !</p>
@@ -61,14 +63,25 @@
                         placeholder="Ma bibliographie..."></textarea>
                 </div>
                 <div class="flex flex-col gap-1">
-                    <label for="country" class="text-sm text-slate-900 font-medium dark:text-white">Pays d'origine
-                        :</label>
-                    <select required id="country" name="country" v-model="country"
-                        class="mt-1 block w-full rounded-lg border-0 py-2.5 lg:p-3 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-400">
-                        <option value="" disabled selected>Pays d'origine</option>
-                        <option v-for="(country, index) in countries" :key="index" :value="country.id">{{ country.name
-                            }}</option>
-                    </select>
+                    <label for="pays" class="text-sm text-slate-900 font-medium dark:text-white flex items-center justify-between">
+                        Pays d'origine
+                    </label>
+
+                    <div class="relative">
+                        <!-- Input -->
+                        <input id="pays" type="text" v-model="countrySearch" @focus="showDropdown = true"
+                            @blur="hideDropdown" placeholder="Entrez votre pays"
+                            class="block w-full rounded-lg border-0 py-2.5 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200 pl-3" />
+                        <!-- Dropdown -->
+                        <ul v-if="showDropdown && filteredCountries.length"
+                            class="absolute z-50 w-full bg-white dark:bg-slate-800 border border-slate-200 rounded-lg mt-1 max-h-48 overflow-y-auto shadow-lg">
+                            <li v-for="(c, index) in filteredCountries" :key="index" @mousedown.prevent="selectCountry(c)"
+                                class="px-3 py-2 text-sm cursor-pointer hover:bg-orange-100 dark:hover:bg-slate-700 dark:text-slate-200"
+                                :class="index !== filteredCountries.length - 1 ? 'border-b-[1px] border-slate-300' : ''">
+                                {{ c.name }}
+                            </li>
+                        </ul>
+                    </div>
                 </div>
                 <div>
                     <label class="block text-sm font-medium leading-6 text-slate-900 dark:text-white mb-1">
@@ -130,14 +143,16 @@
                         les modifications</button>
                 </div>
             </form>
-            <div
-                class="flex flex-col gap-1 bg-white dark:bg-slate-800 p-4 rounded-lg border-slate-300 border-[1px]">
-                <h2 class="text-[18px] flex items-center gap-2 font-display font-bold text-slate-900 dark:text-white tracking-tight">
-                    <Icon name="mdi:logout" class="w-4 h-4 text-red-500" /> Se déconnecter</h2>
+            <div class="flex flex-col gap-1 bg-white dark:bg-slate-800 p-4 rounded-lg border-slate-300 border-[1px]">
+                <h2
+                    class="text-[17px] md:text-lg flex items-center gap-2 font-display font-bold text-slate-900 dark:text-white tracking-tight">
+                    <Icon name="mdi:logout" class="w-4 h-4 text-red-500" /> Se déconnecter
+                </h2>
 
                 <div class="tracking-tight text-slate-500 dark:text-slate-200 text-sm">
                     <p>Cliquez sur ce bouton pour vous déconnecter de cette session.</p>
-                    <button @click="logout" class="mt-2 bg-red-600 hover:bg-red-700 duration-300 ease-linear text-white px-4 py-2 rounded-md">Déconnexion</button>
+                    <button @click="logout"
+                        class="mt-2 bg-red-600 hover:bg-red-700 duration-300 ease-linear text-white px-4 py-2 rounded-md">Déconnexion</button>
                 </div>
             </div>
         </div>
@@ -183,6 +198,29 @@ const selectedCategories = ref<number[]>([]);
 const error = ref<string | null | undefined>(null);
 const message = ref<string | null | undefined>(null);
 const router = useRouter();
+
+const countrySearch = ref('');
+const showDropdown = ref(false);
+
+const filteredCountries = computed(() => {
+    if (!countrySearch.value) return countries.value;
+
+    return countries.value.filter((c: Country) =>
+        c.name?.toLowerCase().includes(countrySearch.value.toLowerCase())
+    );
+});
+
+const selectCountry = (c: Country) => {
+    country.value = c.id; // valeur envoyée au backend
+    countrySearch.value = c.name || ''; // affichage
+    showDropdown.value = false;
+};
+
+const hideDropdown = () => {
+    setTimeout(() => {
+        showDropdown.value = false;
+    }, 200); // permet de cliquer avant fermeture
+};
 
 const back = () => {
     router.back();
