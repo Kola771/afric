@@ -17,7 +17,7 @@
 
                     <!-- Header -->
                     <div>
-                        <h2 class="text-2xl font-display font-bold tracking-tight text-slate-900 dark:text-white">Créer un compte auteur</h2>
+                        <h2 class="text-2xl font-display font-bold tracking-tight text-slate-900 dark:text-white">Créer un compte {{author ? 'auteur' : 'lecteur'}}</h2>
                         <p class="mt-2 text-sm text-slate-500 dark:text-slate-200">
                             Déjà membre ? 
                             <nuxt-link to="/login" class="font-medium text-orange-600 dark:text-orange-500 hover:text-orange-500 transition-colors hover:underline">Se connecter</nuxt-link>
@@ -342,7 +342,7 @@ onMounted(async () => {
         author.value = localStorage.getItem('register_author') === 'true';
         role.value = author.value ? 4 : 5;
         email.value = localStorage.getItem('register_email') || '';
-        showEmailInput.value = localStorage.getItem('register_email') ? true : (role.value === 4 ? true : false);
+        showEmailInput.value = localStorage.getItem('register_email') ? true : (role.value === 4 ? true : true);
     }
 })
 </script>
