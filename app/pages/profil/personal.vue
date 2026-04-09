@@ -276,6 +276,7 @@ onMounted(async () => {
         email.value = user.value.email;
         code_color.value = user.value.code_color;
         country.value = user.value.id_country;
+        countrySearch.value = user.value.country;
         if (user.value?.preferences) {
             selectedCategories.value = user.value.preferences.map(c => c.id);
         }

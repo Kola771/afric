@@ -56,7 +56,7 @@
                 <div class="relative max-w-32" @mouseenter="showProfileMenu = true"
                   @mouseleave="showProfileMenu = false">
                   <!-- Avatar cliquable -->
-                  <div
+                  <div @click="() => $router.push('/profil')"
                     class="flex items-center gap-1 bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 transition-all duration-300 border-slate-200 border rounded-full py-1 pl-1 pr-1.5 cursor-pointer">
                     <img v-if="user.photo" :src="user.photo.includes('https') ? user.photo : `${config.public.apiBackendUrl}/uploads/users/${user.photo}`"
                       alt="Profil" class="w-7 h-7 rounded-full flex-shrink-0" />
@@ -190,7 +190,7 @@
           <Icon name="mdi:bell" class="w-5 h-5" />
           <span class="text-[8px]">Notifications</span>
           <span
-            class="absolute right-1 top-1 text-red-600 text-white text-xs rounded-full w-2 h-2 flex items-center justify-center"
+            class="absolute right-4 top-2 bg-red-600 text-white text-[8px] rounded-full animate-pulse w-2 h-2 flex items-center justify-center"
             v-if="notifications > 0"></span>
         </nuxt-link>
 
