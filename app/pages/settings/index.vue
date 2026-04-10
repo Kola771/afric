@@ -49,7 +49,8 @@
                         </div>
                     </div>
                     <div class="grid grod-cols-1 gap-4 lg:grid-cols-4">
-                        <div class="flex flex-col gap-1 lg:order-2" :class="profil && !profil.photo ? 'lg:col-span-3' : 'lg:col-span-4'">
+                        <div class="flex flex-col gap-1 lg:order-2"
+                            :class="profil && !profil.photo ? 'lg:col-span-3' : 'lg:col-span-4'">
                             <label for="email" class="text-sm text-slate-900 font-medium dark:text-white">Adresse
                                 électronique :</label>
                             <input type="email" id="email" v-model="email"
@@ -164,19 +165,20 @@
                         Changer de rôle
                     </h2>
                 </div>
-                <div class="grid grid-cols-2 gap-3">
-                    <!-- Lecteur -->
-                    <div @click="selectRole(5)"
-                        :class="`cursor-pointer border rounded-lg p-3 text-center text-sm transition-all dark:text-slate-200 
-            ${role === 5 ? 'border-orange-600 bg-orange-50 dark:bg-slate-700' : 'border-slate-300 bg-white dark:bg-slate-700'}`">
-                        📖 Lecteur
-                    </div>
-
+                <p class="text-[14px] text-slate-500 dark:text-slate-200">
+                    Vous avez la possibilité de devenir auteur à tout moment. Toutefois, ce choix est définitif et ne
+                    peut pas être annulé directement depuis votre compte.
+                    <br />
+                    Si vous souhaitez revenir sur votre décision, vous pouvez contacter notre équipe à l’adresse
+                    suivante :
+                    <strong><a href="mailto:africstoryline@gmail.com">africstoryline@gmail.com</a></strong>.
+                </p>
+                <div class="flex md:justify-end w-full">
                     <!-- Auteur -->
                     <div @click="selectRole(4)"
                         :class="`cursor-pointer border rounded-lg p-3 text-center text-sm transition-all dark:text-slate-200 
             ${role === 4 ? 'border-orange-600 bg-orange-50 dark:bg-slate-700' : 'border-slate-300 bg-white dark:bg-slate-700'}`">
-                        ✍️ Auteur
+                        ✍️ Devenir un auteur
                     </div>
                 </div>
 
@@ -184,20 +186,21 @@
                 <div v-if="messageRole" class="text-xs text-center font-medium text-green-500 mt-2">{{ messageRole }}
                 </div>
             </div>
-            <div
-                class="flex flex-col gap-4 bg-white dark:bg-slate-800 border-[1px] border-slate-300 px-3 py-4 lg:p-4 rounded-lg cursor-pointer" @click="$router.push('/settings/goals')" v-if="profil && profil.role !== 'lecteur'">
+            <div class="flex flex-col gap-4 bg-white dark:bg-slate-800 border-[1px] border-slate-300 px-3 py-4 lg:p-4 rounded-lg cursor-pointer"
+                @click="$router.push('/settings/goals')" v-if="profil && profil.role !== 'lecteur'">
                 <div class="flex items-center justify-between gap-1">
                     <h3 class="text-[16px] font-bold text-slate-900 dark:text-white flex flex-wrap items-center gap-2">
-                        <Icon name="mdi:target" class="w-4 h-4" /> Objectifs & Certifications <span v-if="profil && profil?.rank" :class="[
-                            'text-[11px] w-fit px-2 rounded-md flex items-center gap-1',
-                            profil?.rank === 'certifié'
-                                ? 'bg-orange-50 text-orange-700 border border-orange-100'
-                                : profil?.rank === 'best'
-                                    ? 'bg-purple-50 text-purple-700 border border-purple-100'
-                                    : profil?.rank === 'top'
-                                        ? 'bg-green-50 text-green-700 border border-green-100'
-                                        : 'bg-slate-100 text-slate-600 border border-slate-200'
-                        ]">
+                        <Icon name="mdi:target" class="w-4 h-4" /> Objectifs & Certifications <span
+                            v-if="profil && profil?.rank" :class="[
+                                'text-[11px] w-fit px-2 rounded-md flex items-center gap-1',
+                                profil?.rank === 'certifié'
+                                    ? 'bg-orange-50 text-orange-700 border border-orange-100'
+                                    : profil?.rank === 'best'
+                                        ? 'bg-purple-50 text-purple-700 border border-purple-100'
+                                        : profil?.rank === 'top'
+                                            ? 'bg-green-50 text-green-700 border border-green-100'
+                                            : 'bg-slate-100 text-slate-600 border border-slate-200'
+                            ]">
                             <Icon name="mdi:star-outline" size="14" />
                             {{ profil?.rank }}
                         </span>

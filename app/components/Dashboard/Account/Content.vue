@@ -26,14 +26,16 @@
                 </div>
             </div>
             <div class="grid grod-cols-1 gap-4 lg:grid-cols-4">
-                <div class="flex flex-col gap-1 lg:col-span-3 lg:order-2">
+                <div class="flex flex-col gap-1 lg:order-2"
+                    :class="profil && !profil.photo ? 'lg:col-span-3' : 'lg:col-span-4'">
                     <label for="email" class="text-sm text-slate-900 font-medium dark:text-white">Adresse
                         électronique :</label>
                     <input type="email" id="email" v-model="email"
                         class="block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200" />
                 </div>
-                <div class="flex flex-col gap-1">
-                    <label for="color" class="text-sm text-slate-900 font-medium dark:text-white">Couleur :</label>
+                <div class="flex flex-col gap-1" v-if="profil && !profil.photo">
+                    <label for="color" class="text-sm text-slate-900 font-medium dark:text-white">Couleur
+                        :</label>
                     <input type="color" id="color" v-model="code_color"
                         class="block w-full h-14 lg:h-10 rounded-lg border-0 p-2.5 lg:p-1.5 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200" />
                 </div>
@@ -180,13 +182,13 @@ const hideDropdown = () => {
 const changeData = async () => {
     error.value = null;
     message.value = null;
-    if (name.value.trim() !== "" && pseudonym.value.trim() !== "" && code_color.value.trim() !== "" && country.value > 0) {
+    if (name.value.trim() !== "" && pseudonym.value.trim() !== "" && country.value > 0) {
         const payload = {
             name: name.value,
             pseudonym: pseudonym.value,
             bibliography: bibliography.value.replaceAll('\n', '<br />'),
             email: email.value,
-            code_color: code_color.value,
+            code_color: code_color.value || "",
             country: country.value,
             categories: selectedCategories.value
         }
