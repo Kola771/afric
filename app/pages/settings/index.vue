@@ -185,7 +185,7 @@
                 </div>
             </div>
             <div
-                class="flex flex-col gap-4 bg-white dark:bg-slate-800 border-[1px] border-slate-300 px-3 py-4 lg:p-4 rounded-lg cursor-pointer" @click="$router.push('/profil/goals')" v-if="profil && profil.role !== 'lecteur'">
+                class="flex flex-col gap-4 bg-white dark:bg-slate-800 border-[1px] border-slate-300 px-3 py-4 lg:p-4 rounded-lg cursor-pointer" @click="$router.push('/settings/goals')" v-if="profil && profil.role !== 'lecteur'">
                 <div class="flex items-center justify-between gap-1">
                     <h3 class="text-[16px] font-bold text-slate-900 dark:text-white flex flex-wrap items-center gap-2">
                         <Icon name="mdi:target" class="w-4 h-4" /> Objectifs & Certifications <span v-if="profil && profil?.rank" :class="[

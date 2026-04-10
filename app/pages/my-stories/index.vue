@@ -25,7 +25,7 @@
                 </div>
 
                 <div
-                    class="flex flex-col gap-4 bg-slate-50 dark:bg-slate-800 border dark:border-slate-400 px-3 py-4 lg:p-4 rounded-lg cursor-pointer" @click="$router.push('/profil/goals')">
+                    class="flex flex-col gap-4 bg-slate-50 dark:bg-slate-800 border dark:border-slate-400 px-3 py-4 lg:p-4 rounded-lg cursor-pointer" @click="$router.push('/settings/goals')">
                     <div class="flex items-center justify-between gap-1">
                         <h3
                             class="text-[16px] font-semibold text-slate-900 dark:text-white flex flex-wrap items-center gap-2">
