@@ -27,8 +27,7 @@ export function authenticate() {
         const { data } = await axios.get(`/auth/me`, {
             withCredentials: true
         });
-        localStorage.setItem("user", JSON.stringify(data));
-        window.location.href = "/"
+        return data;
     }
 
     async function authorizeRolePage() {

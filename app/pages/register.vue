@@ -219,7 +219,7 @@
                         </form>
 
                         <!-- Divider -->
-                        <!-- <div class="relative mt-8">
+                        <div class="relative mt-6">
                             <div class="absolute inset-0 flex items-center" aria-hidden="true">
                                 <div class="w-full border-t border-slate-100"></div>
                             </div>
@@ -228,16 +228,13 @@
                             </div>
                         </div>
 
-                        <div class="mt-6 grid grid-cols-2 gap-3">
-                            <button class="flex w-full items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-200 transition-all">
+                        <div class="mt-3 grid grid-cols-1 gap-3">
+                            <button @click="loginWithGoogle"
+                                class="flex w-full items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-200 transition-all">
                                 <img src="/assets/google.svg" alt="Google" class="w-6 h-6 lg:w-5 lg:h-5" />
-                                <span class="hidden sm:inline">Google</span>
+                                <span class="inline">Google</span>
                             </button>
-                            <button class="flex w-full items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-200 transition-all">
-                                <Icon name="mdi:apple" class="w-6 h-6 lg:w-5 lg:h-5" />
-                                <span class="hidden sm:inline">Apple</span>
-                            </button>
-                        </div> -->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -308,6 +305,10 @@ const countries = ref<Country[]>([]);
 const error = ref<string>("");
 const showEmailInput = ref<boolean>(false);
 const loading = ref<'start' | '' | 'end' | 'error'>('start');
+
+const loginWithGoogle = () => {
+    window.location.href = `${config.public.apiBackendUrl}/auth/google`;
+};
 
 const countrySearch = ref('');
 const showDropdown = ref(false);
