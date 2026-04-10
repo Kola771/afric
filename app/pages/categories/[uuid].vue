@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-[#fffcfccc] dark:bg-dark dark:border-b dark:border-slate-300 pt-8">
+  <div class="bg-[#fffcfccc] dark:bg-transparent pt-8">
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12 flex flex-col gap-4">
       <div class="flex flex-col items-start" v-if="category">
         <button @click="back"

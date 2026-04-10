@@ -114,7 +114,7 @@
                                         <img v-if="book.user?.photo"
                                             :src="book.user.photo.includes('https') ? book.user.photo : `${config.public.apiBackendUrl}/uploads/users/${book.user?.photo}`"
                                             alt="Profil"
-                                            class="w-6 h-6 flex-shrink-0 border-orange-600 border-2 dark:border-orange-500 rounded-full" />
+                                            class="w-6 h-6 flex-shrink-0 border-orange-600 border-[1px] dark:border-orange-500 rounded-full" />
                                         <span v-if="!book.user?.photo"
                                             class="p-1 text-[8px] flex items-center justify-center w-6 h-6 text-slate-900 flex-shrink-0 rounded-full font-medium"
                                             :style="`background-color: ${book.user?.code_color}`">
@@ -129,9 +129,9 @@
                                             }}</span>
                                         </p>
                                         <span>•</span>
-                                        <span>{{ book.book_categories[0]?.name || '' }}</span>
+                                        <span class="truncate">{{ book.book_categories[0]?.name || '' }}</span>
                                         <span>•</span>
-                                        <span>{{ formatNumber(book.chapters.length) || 0 }} chapitre{{
+                                        <span class="truncate">{{ formatNumber(book.chapters.length) || 0 }} chapitre{{
                                             book.chapters.length > 0 ? 's' : ''}}</span>
                                     </div>
                                 </div>
@@ -200,9 +200,9 @@ const registerAuthor = async () => {
 };
 
 onMounted(async () => {
-    visitors.value = await findAll();
-    books.value = await countDistinctBooks();
-    chapters.value = await countDistinctChapters();
+    visitors.value = await findAll() || 0;
+    books.value = await countDistinctBooks() || 0;
+    chapters.value = await countDistinctChapters() || 0;
     book.value = await findTopBook();
     loading.value = false;
     user.value = await toConnectUser();

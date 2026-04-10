@@ -1,158 +1,225 @@
 <template>
-    <div class="bg-[#fffcfccc] dark:bg-dark dark:border-slate-200 dark:border-b-[1px]">
-        <div class="max-w-6xl mx-auto space-y-8 px-4 sm:px-6 lg:px-8 pt-20 md:pt-24 pb-12" v-if="user">
-            <div class="flex flex-col gap-4 lg:gap-6">
-                <div
-                    class="flex items-center gap-2 bg-white dark:bg-slate-800 p-2 rounded-lg border-slate-300 border-[1px]">
+    <div class="bg-[#fffcfccc] dark:bg-transparent">
+        <div class="flex flex-col gap-4 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 md:pt-24 pb-12" v-if="user">
+            <div class="flex flex-col gap-1">
+                <div class="flex items-center gap-2">
                     <button @click="back"
                         class="py-2 rounded-lg flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors">
                         <Icon name="mdi:arrow-left" class="w-4 h-4" />
                     </button>
-                    <h2 class="text-[17px] md:text-lg font-display font-bold text-slate-900 dark:text-white tracking-tight">
+                    <h2
+                        class="text-[17px] md:text-lg font-display font-bold text-slate-900 dark:text-white tracking-tight">
                         Paramètres</h2>
                 </div>
-                <div
-                    class="flex flex-col gap-1 bg-white dark:bg-slate-800 p-4 rounded-lg border-slate-300 border-[1px]">
-                    <h2
-                        class="text-[16px] flex items-center gap-2 font-display font-bold text-slate-900 dark:text-white tracking-tight">
-                        <Icon name="mdi:edit" class="w-4 h-4 text-orange-500" /> Modifier vos informations
-                    </h2>
-                    <div>
-                        <h3 class="text-[15px] font-display font-semibold text-slate-900 dark:text-white tracking-tight">
-                            Bonjour, {{ user?.name || 'Utilisateur' }} 👋</h3>
-                        <p class="text-sm text-slate-500 dark:text-slate-200 mt-1">Faîtes une mise à jour de vos
-                            informations personnelles !</p>
-                    </div>
+                <div>
+                    <h3 class="text-[15px] font-display font-semibold text-slate-900 dark:text-white tracking-tight">
+                        Bonjour, {{ user?.name || 'Utilisateur' }} 👋
+                    </h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-200 mt-1">
+                        Découvrez les fonctionnalités mises à votre disposition. Profitez-en pleinement !
+                    </p>
                 </div>
             </div>
-            <form class="flex flex-col gap-4" @submit.prevent="changeData">
-                <div class="grid grod-cols-1 gap-4 lg:grid-cols-2">
-                    <div class="flex flex-col gap-1">
-                        <label for="fullname" class="text-sm text-slate-900 font-medium dark:text-white">Nom complet
-                            :</label>
-                        <input type="text" id="fullname" v-model="name"
-                            class="block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200" />
-                    </div>
-                    <div class="flex flex-col gap-1">
-                        <label for="username" class="text-sm text-slate-900 font-medium dark:text-white">Pseudonyme
-                            :</label>
-                        <input type="text" id="username" v-model="pseudonym"
-                            class="block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200" />
-                    </div>
-                </div>
-                <div class="grid grod-cols-1 gap-4 lg:grid-cols-4">
-                    <div class="flex flex-col gap-1 lg:col-span-3 lg:order-2">
-                        <label for="email" class="text-sm text-slate-900 font-medium dark:text-white">Adresse
-                            électronique :</label>
-                        <input type="email" id="email" v-model="email"
-                            class="block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200" />
-                    </div>
-                    <div class="flex flex-col gap-1">
-                        <label for="color" class="text-sm text-slate-900 font-medium dark:text-white">Couleur :</label>
-                        <input type="color" id="color" v-model="code_color"
-                            class="block w-full h-14 lg:h-10 rounded-lg border-0 p-2.5 lg:p-1.5 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200" />
-                    </div>
-                </div>
+            <div class="flex flex-col gap-3 bg-white dark:bg-slate-800 p-4 rounded-lg border-slate-300 border-[1px]"
+                id="form">
                 <div class="flex flex-col gap-1">
-                    <label for="bio"
-                        class="text-sm text-slate-900 font-medium dark:text-white flex items-center justify-between">Bibliographie
-                        : <span
-                            class="font-normal text-slate-500 dark:text-slate-200 text-xs">(Optionnel)</span></label>
-                    <textarea id="bio" name="bio" rows="3" v-model="bibliography"
-                        class="block w-full rounded-lg border-0 py-2.5 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all bg-white dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200 pl-3 resize-none"
-                        placeholder="Ma bibliographie..."></textarea>
-                </div>
-                <div class="flex flex-col gap-1">
-                    <label for="pays" class="text-sm text-slate-900 font-medium dark:text-white flex items-center justify-between">
-                        Pays d'origine
-                    </label>
-
-                    <div class="relative">
-                        <!-- Input -->
-                        <input id="pays" type="text" v-model="countrySearch" @focus="showDropdown = true"
-                            @blur="hideDropdown" placeholder="Entrez votre pays"
-                            class="block w-full rounded-lg border-0 py-2.5 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200 pl-3" />
-                        <!-- Dropdown -->
-                        <ul v-if="showDropdown && filteredCountries.length"
-                            class="absolute z-50 w-full bg-white dark:bg-slate-800 border border-slate-200 rounded-lg mt-1 max-h-48 overflow-y-auto shadow-lg">
-                            <li v-for="(c, index) in filteredCountries" :key="index" @mousedown.prevent="selectCountry(c)"
-                                class="px-3 py-2 text-sm cursor-pointer hover:bg-orange-100 dark:hover:bg-slate-700 dark:text-slate-200"
-                                :class="index !== filteredCountries.length - 1 ? 'border-b-[1px] border-slate-300' : ''">
-                                {{ c.name }}
-                            </li>
-                        </ul>
+                    <div class="flex items-center justify-between">
+                        <h2
+                            class="text-[16px] flex items-center gap-2 font-display font-bold text-slate-900 dark:text-white tracking-tight">
+                            <Icon name="mdi:edit" class="w-4 h-4 text-orange-500" />
+                            Modifier vos informations
+                        </h2>
+                        <Icon :name="update ? 'mdi:arrow-up' : 'mdi:arrow-down'"
+                            class="w-4 h-4 dark:text-slate-200 cursor-pointer" @click="() => update = !update" />
                     </div>
                 </div>
-                <div>
-                    <label class="block text-sm font-medium leading-6 text-slate-900 dark:text-white mb-1">
-                        Vos préférences :
-                    </label>
+                <form class="flex flex-col gap-4" @submit.prevent="changeData" v-if="update">
+                    <div class="grid grod-cols-1 gap-4 lg:grid-cols-2">
+                        <div class="flex flex-col gap-1">
+                            <label for="fullname" class="text-sm text-slate-900 font-medium dark:text-white">Nom complet
+                                :</label>
+                            <input type="text" id="fullname" v-model="name"
+                                class="block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200" />
+                        </div>
+                        <div class="flex flex-col gap-1">
+                            <label for="username" class="text-sm text-slate-900 font-medium dark:text-white">Pseudonyme
+                                :</label>
+                            <input type="text" id="username" v-model="pseudonym"
+                                class="block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200" />
+                        </div>
+                    </div>
+                    <div class="grid grod-cols-1 gap-4 lg:grid-cols-4">
+                        <div class="flex flex-col gap-1 lg:col-span-3 lg:order-2">
+                            <label for="email" class="text-sm text-slate-900 font-medium dark:text-white">Adresse
+                                électronique :</label>
+                            <input type="email" id="email" v-model="email"
+                                class="block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200" />
+                        </div>
+                        <div class="flex flex-col gap-1">
+                            <label for="color" class="text-sm text-slate-900 font-medium dark:text-white">Couleur
+                                :</label>
+                            <input type="color" id="color" v-model="code_color"
+                                class="block w-full h-14 lg:h-10 rounded-lg border-0 p-2.5 lg:p-1.5 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200" />
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <label for="bio"
+                            class="text-sm text-slate-900 font-medium dark:text-white flex items-center justify-between">Bibliographie
+                            : <span
+                                class="font-normal text-slate-500 dark:text-slate-200 text-xs">(Optionnel)</span></label>
+                        <textarea id="bio" name="bio" rows="3" v-model="bibliography"
+                            class="block w-full rounded-lg border-0 py-2.5 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all bg-white dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200 pl-3 resize-none"
+                            placeholder="Ma bibliographie..."></textarea>
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <label for="pays"
+                            class="text-sm text-slate-900 font-medium dark:text-white flex items-center justify-between">
+                            Pays d'origine
+                        </label>
 
-                    <div class="flex flex-wrap gap-2">
-                        <label v-for="category in categories" :key="category.id" class="cursor-pointer group">
-                            <input type="checkbox" class="peer sr-only" :value="category.id"
-                                v-model="selectedCategories">
+                        <div class="relative">
+                            <!-- Input -->
+                            <input id="pays" type="text" v-model="countrySearch" @focus="showDropdown = true"
+                                @blur="hideDropdown" placeholder="Entrez votre pays"
+                                class="block w-full rounded-lg border-0 py-2.5 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200 pl-3" />
+                            <!-- Dropdown -->
+                            <ul v-if="showDropdown && filteredCountries.length"
+                                class="absolute z-50 w-full bg-white dark:bg-slate-800 border border-slate-200 rounded-lg mt-1 max-h-48 overflow-y-auto shadow-lg">
+                                <li v-for="(c, index) in filteredCountries" :key="index"
+                                    @mousedown.prevent="selectCountry(c)"
+                                    class="px-3 py-2 text-sm cursor-pointer hover:bg-orange-100 dark:hover:bg-slate-700 dark:text-slate-200"
+                                    :class="index !== filteredCountries.length - 1 ? 'border-b-[1px] border-slate-300' : ''">
+                                    {{ c.name }}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium leading-6 text-slate-900 dark:text-white mb-1">
+                            Vos préférences :
+                        </label>
 
-                            <div class="rounded-md px-3 py-2.5 lg:py-2 text-xs font-medium bg-white border border-slate-200 text-slate-600 shadow-sm transition-all 
+                        <div class="flex flex-wrap gap-2">
+                            <label v-for="category in categories" :key="category.id" class="cursor-pointer group">
+                                <input type="checkbox" class="peer sr-only" :value="category.id"
+                                    v-model="selectedCategories">
+
+                                <div class="rounded-md px-3 py-2.5 lg:py-2 text-xs font-medium bg-white border border-slate-200 text-slate-600 shadow-sm transition-all 
                             peer-checked:border-orange-500 
                             peer-checked:text-orange-600 
                             peer-checked:bg-orange-50 
                             hover:bg-slate-50 flex items-center gap-1.5 dark:bg-transparent dark:text-slate-200">
-                                <img :src="category.image?.includes('https') ? category.image : `${$config.public.apiBackendUrl}/uploads/categories/${category.image}`"
-                                    :alt="category.name" class="w-5 h-5 rounded">
-                                <span>{{ category.name }}</span>
+                                    <img :src="category.image?.includes('https') ? category.image : `${$config.public.apiBackendUrl}/uploads/categories/${category.image}`"
+                                        :alt="category.name" class="w-5 h-5 rounded">
+                                    <span>{{ category.name }}</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="bg-white dark:bg-slate-800 px-4 py-6 rounded-lg border-slate-300 border-[1px] flex flex-col gap-4"
+                        v-if="profil && profil.role.toLocaleLowerCase() !== 'lecteur'">
+                        <p class="text-sm font-medium text-slate-700 dark:text-slate-200">Publiez-vous également sur
+                            d’autres réseaux sociaux ?
+                            <br />
+                            Si oui, merci de renseigner les liens correspondants dans les champs ci-dessous.
+                        </p>
+                        <div class="grid grod-cols-1 gap-4 lg:grid-cols-3">
+                            <div class="flex flex-col gap-1">
+                                <label for="whatsapp" class="text-sm text-slate-900 font-medium dark:text-white">Lien
+                                    whatsapp :</label>
+                                <input type="text" id="whatsapp" v-model="whatsapp" placeholder="https://wa..."
+                                    class="block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200" />
                             </div>
-                        </label>
+                            <div class="flex flex-col gap-1">
+                                <label for="facebook" class="text-sm text-slate-900 font-medium dark:text-white">Lien
+                                    facebook :</label>
+                                <input type="text" id="facebook" v-model="facebook" placeholder="https://fa..."
+                                    class="block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200" />
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <label for="other" class="text-sm text-slate-900 font-medium dark:text-white">Autre lien
+                                    :</label>
+                                <input type="text" id="other" v-model="other" placeholder="https://..."
+                                    class="block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200" />
+                            </div>
+                        </div>
                     </div>
+
+                    <div v-if="error" class="text-xs text-center font-medium text-red-500 mt-2">{{ error }}</div>
+                    <div v-if="message" class="text-xs text-center font-medium text-green-500 mt-2">{{ message }}</div>
+
+                    <div class="mt-2 flex flex-col md:flex-row md:justify-end">
+                        <button
+                            class="px-4 py-2.5 bg-orange-600 dark:bg-orange-500 dark:hover:bg-orange-600 text-white text-sm rounded-md hover:bg-orange-700 transition-colors">Enregistrer
+                            les modifications</button>
+                    </div>
+                </form>
+            </div>
+            <div class="flex flex-col gap-3 bg-white dark:bg-slate-800 p-4 rounded-lg border-slate-300 border-[1px]"
+                id="change-role" v-if="profil && profil.role === 'lecteur'">
+                <div class="flex items-center justify-between">
+                    <h2
+                        class="text-[16px] flex items-center gap-2 font-display font-bold text-slate-900 dark:text-white tracking-tight">
+                        <Icon name="mdi:lock-plus" class="w-4 h-4 text-orange-500" />
+                        Changer de rôle
+                    </h2>
                 </div>
-                <div class="bg-white dark:bg-slate-800 px-4 py-6 rounded-lg border-slate-300 border-[1px] flex flex-col gap-4"
-                    v-if="profil && profil.role.toLocaleLowerCase() !== 'lecteur'">
-                    <p class="text-sm font-medium text-slate-700 dark:text-slate-200">Publiez-vous également sur
-                        d’autres réseaux sociaux ?
-                        <br />
-                        Si oui, merci de renseigner les liens correspondants dans les champs ci-dessous.
-                    </p>
-                    <div class="grid grod-cols-1 gap-4 lg:grid-cols-3">
-                        <div class="flex flex-col gap-1">
-                            <label for="whatsapp" class="text-sm text-slate-900 font-medium dark:text-white">Lien
-                                whatsapp :</label>
-                            <input type="text" id="whatsapp" v-model="whatsapp" placeholder="https://wa..."
-                                class="block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200" />
-                        </div>
-                        <div class="flex flex-col gap-1">
-                            <label for="facebook" class="text-sm text-slate-900 font-medium dark:text-white">Lien
-                                facebook :</label>
-                            <input type="text" id="facebook" v-model="facebook" placeholder="https://fa..."
-                                class="block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200" />
-                        </div>
-                        <div class="flex flex-col gap-1">
-                            <label for="other" class="text-sm text-slate-900 font-medium dark:text-white">Autre lien
-                                :</label>
-                            <input type="text" id="other" v-model="other" placeholder="https://..."
-                                class="block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200" />
-                        </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <!-- Lecteur -->
+                    <div @click="selectRole(5)"
+                        :class="`cursor-pointer border rounded-lg p-3 text-center text-sm transition-all dark:text-slate-200 
+            ${role === 5 ? 'border-orange-600 bg-orange-50 dark:bg-slate-700' : 'border-slate-300 bg-white dark:bg-slate-700'}`">
+                        📖 Lecteur
+                    </div>
+
+                    <!-- Auteur -->
+                    <div @click="selectRole(4)"
+                        :class="`cursor-pointer border rounded-lg p-3 text-center text-sm transition-all dark:text-slate-200 
+            ${role === 4 ? 'border-orange-600 bg-orange-50 dark:bg-slate-700' : 'border-slate-300 bg-white dark:bg-slate-700'}`">
+                        ✍️ Auteur
                     </div>
                 </div>
 
-                <div v-if="error" class="text-xs text-center font-medium text-red-500 mt-2">{{ error }}</div>
-                <div v-if="message" class="text-xs text-center font-medium text-green-500 mt-2">{{ message }}</div>
-
-                <div class="mt-2 flex flex-col md:flex-row md:justify-end">
-                    <button
-                        class="px-4 py-2.5 bg-orange-600 dark:bg-orange-500 dark:hover:bg-orange-600 text-white text-sm rounded-md hover:bg-orange-700 transition-colors">Enregistrer
-                        les modifications</button>
+                <div v-if="errorRole" class="text-xs text-center font-medium text-red-500 mt-2">{{ errorRole }}</div>
+                <div v-if="messageRole" class="text-xs text-center font-medium text-green-500 mt-2">{{ messageRole }}
                 </div>
-            </form>
-            <div class="flex flex-col gap-1 bg-white dark:bg-slate-800 p-4 rounded-lg border-slate-300 border-[1px]">
+            </div>
+            <div
+                class="flex flex-col gap-4 bg-white dark:bg-slate-800 border-[1px] border-slate-300 px-3 py-4 lg:p-4 rounded-lg cursor-pointer" @click="$router.push('/profil/goals')">
+                <div class="flex items-center justify-between gap-1">
+                    <h3 class="text-[16px] font-bold text-slate-900 dark:text-white flex flex-wrap items-center gap-2">
+                        <Icon name="mdi:target" class="w-4 h-4" /> Objectifs & Certifications <span v-if="profil && profil?.rank" :class="[
+                            'text-[11px] w-fit px-2 rounded-md flex items-center gap-1',
+                            profil?.rank === 'certifié'
+                                ? 'bg-orange-50 text-orange-700 border border-orange-100'
+                                : profil?.rank === 'best'
+                                    ? 'bg-purple-50 text-purple-700 border border-purple-100'
+                                    : profil?.rank === 'top'
+                                        ? 'bg-green-50 text-green-700 border border-green-100'
+                                        : 'bg-slate-100 text-slate-600 border border-slate-200'
+                        ]">
+                            <Icon name="mdi:star-outline" size="14" />
+                            {{ profil?.rank }}
+                        </span>
+                    </h3>
+                    <span class="flex items-center gap-2 dark:text-slate-200">
+                        <span class="hidden md:block font-medium text-[13px]">Accéder</span>
+                        <Icon name="mdi:arrow-right" size="20" />
+                    </span>
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-1 bg-white dark:bg-slate-800 p-4 rounded-lg border-slate-300 border-[1px]"
+                id="disconnect">
                 <h2
-                    class="text-[17px] md:text-lg flex items-center gap-2 font-display font-bold text-slate-900 dark:text-white tracking-tight">
+                    class="text-[16px] flex items-center gap-2 font-display font-bold text-slate-900 dark:text-white tracking-tight">
                     <Icon name="mdi:logout" class="w-4 h-4 text-red-500" /> Se déconnecter
                 </h2>
 
                 <div class="tracking-tight text-slate-500 dark:text-slate-200 text-sm">
                     <p>Cliquez sur ce bouton pour vous déconnecter de cette session.</p>
                     <button @click="logout"
-                        class="mt-2 bg-red-600 hover:bg-red-700 duration-300 ease-linear text-white px-4 py-2 rounded-md">Déconnexion</button>
+                        class="md:text-[13px] mt-2 bg-red-600 hover:bg-red-700 duration-300 ease-linear text-white px-4 py-2 rounded-md">Déconnexion</button>
                 </div>
             </div>
         </div>
@@ -178,7 +245,7 @@
 <script lang="ts" setup>
 const { allCountrieActifs } = countriesData();
 const { allCategorieActifs } = categoriesData();
-const { changePersonalData } = authForm();
+const { changePersonalData, finishRegister } = authForm();
 const { toConnectUser, logout } = authenticate();
 const { getProfile, } = usersData();
 const user = ref<User | null>(null);
@@ -191,13 +258,31 @@ const whatsapp = ref<string>("");
 const facebook = ref<string>("");
 const other = ref<string>("");
 const code_color = ref<string>("");
+const role = ref<number>(0);
 const country = ref<number>(0);
 const countries = ref<Country[]>([]);
 const categories = ref<Category[]>([]);
 const selectedCategories = ref<number[]>([]);
 const error = ref<string | null | undefined>(null);
+const errorRole = ref<string | null | undefined>(null);
 const message = ref<string | null | undefined>(null);
+const messageRole = ref<string | null | undefined>(null);
+const update = ref<boolean>(false);
 const router = useRouter();
+
+const selectRole = async (value: number) => {
+    role.value = value;
+    if (!profil.value) return;
+    const res = await finishRegister(profil.value?.uuid, { pseudonym: pseudonym.value, country: country.value, role: role.value, bibliography: role.value === 4 ? bibliography.value : null });
+    if (res.success) {
+        messageRole.value = res.msg;
+        setTimeout(() => {
+            router.push("/profil")
+        }, 1500);
+    } else {
+        errorRole.value = res.error;
+    }
+};
 
 const countrySearch = ref('');
 const showDropdown = ref(false);
@@ -242,7 +327,7 @@ const changeData = async () => {
             other_link: other.value,
             categories: selectedCategories.value
         }
-        const res = await changePersonalData(`${user.value?.uuid}`, payload);
+        const res = await changePersonalData(`${profil.value?.uuid}`, payload);
         if (res.success) {
             message.value = res.msg;
             setTimeout(() => {

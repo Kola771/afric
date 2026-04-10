@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-[#fffcfccc] dark:bg-dark dark:border-b dark:border-slate-300 pt-24 md:pt-20 pb-12 lg:py-24"
+    <div class="bg-[#fffcfccc] dark:bg-transparent pt-24 md:pt-20 pb-12 lg:py-24"
         v-if="age">
         <div :class="`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-start gap-4`">
             <button @click="back"

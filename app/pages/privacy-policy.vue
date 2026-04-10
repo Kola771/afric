@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-[#fffcfccc] dark:bg-dark dark:border-b dark:border-slate-300 pt-8">
+    <div class="bg-[#fffcfccc] dark:bg-transparent pt-8">
         <main class="flex-1 w-full max-w-7xl mx-auto px-6 pt-16 pb-12">
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">

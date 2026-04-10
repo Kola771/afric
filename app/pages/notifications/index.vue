@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-[#fffcfccc] dark:bg-dark dark:border-b dark:border-slate-300 pt-24 pb-12 lg:pb-16">
+  <div class="bg-[#fffcfccc] dark:bg-transparent pt-24 pb-12 lg:pb-16">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
 
       <h1 class="text-2xl font-semibold mb-6 dark:text-slate-200">Mes notifications</h1>

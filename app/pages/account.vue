@@ -44,13 +44,13 @@
                     <div class="grid grid-cols-2 gap-3">
                         <!-- Lecteur -->
                         <div @click="selectRole(5)" :class="`cursor-pointer border rounded-lg p-3 text-center text-sm transition-all dark:text-slate-200 
-            ${role === 5 ? 'border-orange-600 bg-orange-50 dark:bg-slate-700' : 'border-slate-300 bg-white'}`">
+            ${role === 5 ? 'border-orange-600 bg-orange-50 dark:bg-slate-700' : 'border-slate-300 bg-white dark:bg-slate-700'}`">
                             📖 Lecteur
                         </div>
 
                         <!-- Auteur -->
                         <div @click="selectRole(4)" :class="`cursor-pointer border rounded-lg p-3 text-center text-sm transition-all dark:text-slate-200 
-            ${role === 4 ? 'border-orange-600 bg-orange-50 dark:bg-slate-700' : 'border-slate-300 bg-white'}`">
+            ${role === 4 ? 'border-orange-600 bg-orange-50 dark:bg-slate-700' : 'border-slate-300 bg-white dark:bg-slate-700'}`">
                             ✍️ Auteur
                         </div>
                     </div>

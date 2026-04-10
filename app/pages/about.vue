@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-[#fffcfccc] dark:bg-dark dark:border-b dark:border-slate-300 pt-8">
+    <div class="bg-[#fffcfccc] dark:bg-transparent pt-8">
 
         <!-- HERO SECTION -->
         <section

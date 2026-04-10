@@ -6,7 +6,7 @@ const isOpen = ref(false)
 
 <template>
    <!-- FOOTER -->
-    <footer class="bg-[#fafafa] dark:bg-dark pt-16 lg:py-12 pb-20">
+    <footer class="bg-[#fafafa] dark:bg-dark dark:border-slate-200 dark:border-t-[1px] pt-16 lg:py-12 pb-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 mb-12">
                 <div class="col-span-2 lg:col-span-2">
@@ -14,7 +14,7 @@ const isOpen = ref(false)
                         <div class="w-6 h-6 bg-slate-900 rounded-md flex items-center justify-center text-white dark:border-gray-600 dark:border tracking-tighter p-1">
                           <Icon name="solar:book-2-bold" class="w-5 h-5" />
                         </div>
-                        <span class="font-display font-bold text-slate-900 tracking-tight dark:text-white">Afric Storyline</span>
+                        <span class="font-display font-bold text-slate-900 tracking-tight dark:text-white">Afric <span class="text-orange-600 dark:text-orange-500">Storyline</span></span>
                     </div>
                     <p class="text-sm text-slate-500 max-w-xs mb-6 dark:text-slate-200">
                         La première plateforme digitale dédiée à la narration africaine contemporaine. Nous connectons les cultures par les mots.

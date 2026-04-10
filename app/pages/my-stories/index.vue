@@ -25,11 +25,11 @@
                 </div>
 
                 <div
-                    class="flex flex-col gap-4 bg-slate-50 dark:bg-slate-800 border dark:border-slate-400 px-3 py-4 lg:p-4 rounded-lg">
-                    <div class="flex flex-col gap-1">
+                    class="flex flex-col gap-4 bg-slate-50 dark:bg-slate-800 border dark:border-slate-400 px-3 py-4 lg:p-4 rounded-lg cursor-pointer" @click="$router.push('/profil/goals')">
+                    <div class="flex items-center justify-between gap-1">
                         <h3
-                            class="text-lg font-semibold text-slate-900 dark:text-white flex flex-wrap items-center gap-2">
-                            Objectifs & Certifications <span v-if="profil && profil?.rank" :class="[
+                            class="text-[16px] font-semibold text-slate-900 dark:text-white flex flex-wrap items-center gap-2">
+                            <Icon name="mdi:target" class="w-4 h-4" /> Objectifs & Certifications <span v-if="profil && profil?.rank" :class="[
                                 'text-[11px] w-fit px-2 rounded-md flex items-center gap-1',
                                 profil?.rank === 'certifié'
                                     ? 'bg-orange-50 text-orange-700 border border-orange-100'
@@ -43,96 +43,11 @@
                                 {{ profil?.rank }}
                             </span>
                         </h3>
-                        <p class="text-[14px] text-slate-500 dark:text-slate-300">
-                            Débloquez des fonctionnalités et gagnez en visibilité en atteignant certains paliers. <br />
-                            Vos
-                            statistiques sont basées uniquement sur les histoires dont le statut est soit en cours, en
-                            pause ou terminé.
-                        </p>
+                        <span class="flex items-center gap-2 dark:text-slate-200">
+                            <span class="hidden md:block font-medium text-[13px]">Accéder</span>
+                            <Icon name="mdi:arrow-right" size="20" />
+                        </span>
                     </div>
-                    <!-- TOGGLE ITEM -->
-                    <details class="group border rounded-lg p-3 cursor-pointer bg-white dark:bg-transparent">
-                        <summary class="flex justify-between items-center font-medium text-slate-800 dark:text-white">
-                            🎬 Mini-vidéos par chapitre
-                            <span class="group-open:rotate-180 transition">
-                                <Icon name="mdi:arrow-bottom" class="w-4 h-4 text-slate-700 dark:text-slate-200" />
-                            </span>
-                        </summary>
-                        <div class="mt-3 text-[14px] text-slate-600 dark:text-slate-300 space-y-2">
-                            <p>
-                                Dès qu’un chapitre atteint <span class="font-semibold text-orange-600">1 000
-                                    vues</span>,
-                                vous pouvez ajouter une mini-vidéo immersive (30 à 40 secondes).
-                            </p>
-                            <p>
-                                Cela permet d’augmenter l’engagement et de donner vie à vos histoires.
-                            </p>
-                        </div>
-                    </details>
-                    <!-- CERTIFICATIONS -->
-                    <details class="group border rounded-lg p-3 cursor-pointer bg-white dark:bg-transparent">
-                        <summary class="flex justify-between items-center font-medium text-slate-800 dark:text-white">
-                            🏅 Système de certification
-                            <span class="group-open:rotate-180 transition">
-                                <Icon name="mdi:arrow-bottom" class="w-4 h-4 text-slate-700 dark:text-slate-200" />
-                            </span>
-                        </summary>
-                        <div
-                            class="mt-3 space-y-4 md:space-y-0 text-[14px] md:grid md:grid-cols-2 md:gap-4 text-slate-600 dark:text-slate-300">
-                            <div>
-                                <p class="font-semibold text-slate-900 dark:text-white">🔰 Standard</p>
-                                <ul class="list-disc ml-5">
-                                    <li>Statut par défaut</li>
-                                    <li>Accès aux fonctionnalités de base</li>
-                                </ul>
-                            </div>
-                            <div>
-                                <p class="font-semibold text-green-600">🔥 Top</p>
-                                <ul class="list-disc ml-5">
-                                    <li>50 000 vues cumulées sur une ou plusieurs histoires</li>
-                                    <li>+200 réactions (likes)</li>
-                                    <li>+50 commentaires</li>
-                                </ul>
-                            </div>
-                            <div>
-                                <p class="font-semibold text-purple-600">💎 Best</p>
-                                <ul class="list-disc ml-5">
-                                    <li>350 000 vues cumulées</li>
-                                    <li>+800 réactions</li>
-                                    <li>+200 commentaires</li>
-                                </ul>
-                            </div>
-                            <div>
-                                <p class="font-semibold text-orange-600">👑 Certifié</p>
-                                <ul class="list-disc ml-5">
-                                    <li>1 000 000 vues cumulées</li>
-                                    <li>+2500 réactions</li>
-                                    <li>+800 commentaires</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </details>
-                    <!-- AVANTAGES -->
-                    <details class="group border rounded-lg p-3 cursor-pointer bg-white dark:bg-transparent">
-                        <summary class="flex justify-between items-center font-medium text-slate-800 dark:text-white">
-                            🚀 Avantages des paliers
-                            <span class="group-open:rotate-180 transition">
-                                <Icon name="mdi:arrow-bottom" class="w-4 h-4 text-slate-700 dark:text-slate-200" />
-                            </span>
-                        </summary>
-                        <div class="mt-3 text-[14px] text-slate-600 dark:text-slate-300 space-y-2">
-                            <ul class="list-disc ml-5">
-                                <li>Plus de visibilité sur la plateforme</li>
-                                <li>Mise en avant dans les recommandations</li>
-                                <li>Accès anticipé à certaines fonctionnalités</li>
-                                <li>Badge de reconnaissance auprès des lecteurs</li>
-                            </ul>
-                        </div>
-                    </details>
-                    <p class="text-xs text-slate-400">
-                        D'autres fonctionnalités exclusives seront débloquées avec les prochaines évolutions de la
-                        plateforme.
-                    </p>
                 </div>
 
                 <div class="bg-slate-50 dark:bg-slate-800 border dark:border-slate-600 rounded-xl p-4 flex flex-col gap-4"
@@ -141,7 +56,7 @@
                     <div class="flex justify-between items-center">
                         <div>
                             <p class="text-sm text-slate-500 dark:text-slate-300">Votre progression</p>
-                            <h3 class="text-lg font-semibold capitalize text-slate-900 dark:text-white">
+                            <h3 class="text-[16px] font-semibold capitalize text-slate-900 dark:text-white">
                                 🔥 Niveau {{ progressData.progression.currentRank }}
                             </h3>
                         </div>

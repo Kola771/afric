@@ -34,7 +34,7 @@ export function authForm() {
                             Authorization: `Bearer ${token}`,
                         },
                     });
-                    if(response.data.success) {
+                    if (response.data.success) {
                         localStorage.setItem("user", JSON.stringify(response.data.user));
                     }
                     return response?.data;
@@ -49,16 +49,22 @@ export function authForm() {
     }
 
     // fonction pour ses données personnelles
-    async function finishRegister(uuid: string, data: any, token: string): Promise<{ success: boolean, msg?: string, error?: string | null, status?: number }> {
+    async function finishRegister(uuid: string, data: any, t: string | null = null): Promise<{ success: boolean, msg?: string, error?: string | null, status?: number }> {
         if (process.client) {
             try {
+                let token;
+                if (!t) {
+                    token = JSON.parse(localStorage.getItem("user") || '{}').token;
+                } else {
+                    token = t;
+                }
                 try {
                     const response = await axios.put(`/users/finish-register/${uuid}`, data, {
                         headers: {
                             Authorization: `Bearer ${token}`,
                         },
                     });
-                    if(response.data.success) {
+                    if (response.data.success) {
                         localStorage.setItem("user", JSON.stringify(response.data.user));
                     }
                     return response?.data;

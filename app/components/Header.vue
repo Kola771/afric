@@ -92,6 +92,18 @@
                       <Icon name="mdi:users" class="w-4 h-4" />
                       Followers
                     </nuxt-link>
+                    <nuxt-link @click="showProfileMenu = false" v-if="profil && authorizeRoleUser(`${profil?.role}`)"
+                      to="/profil/goals"
+                      class="block px-4 py-2 flex items-center gap-2 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+                      <Icon name="mdi:target" class="w-4 h-4" />
+                      Objectifs
+                    </nuxt-link>
+                    <nuxt-link @click="showProfileMenu = false" v-if="profil && authorizeRoleUser(`${profil?.role}`)"
+                      to="/profil/personal"
+                      class="block px-4 py-2 flex items-center gap-2 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+                      <Icon name="mdi:settings" class="w-4 h-4" />
+                      Paramètres
+                    </nuxt-link>
                     <nuxt-link v-if="profil && authorizeRoleDash(`${profil.role}`)" @click="showProfileMenu = false"
                       to="/dashboard"
                       class="block px-4 py-2 flex items-center gap-2 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
