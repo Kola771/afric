@@ -173,7 +173,7 @@
                     suivante :
                     <strong><a href="mailto:africstoryline@gmail.com">africstoryline@gmail.com</a></strong>.
                 </p>
-                <div class="flex md:justify-end w-full">
+                <div class="flex justify-end w-full">
                     <!-- Auteur -->
                     <div @click="selectRole(4)"
                         :class="`cursor-pointer border rounded-lg p-3 text-center text-sm transition-all dark:text-slate-200 
@@ -219,7 +219,7 @@
                     <Icon name="mdi:logout" class="w-4 h-4 text-red-500" /> Se déconnecter
                 </h2>
 
-                <div class="tracking-tight text-slate-500 dark:text-slate-200 text-sm">
+                <div class="tracking-tight text-slate-500 dark:text-slate-200 text-[14px]">
                     <p>Cliquez sur ce bouton pour vous déconnecter de cette session.</p>
                     <button @click="logout"
                         class="md:text-[13px] mt-2 bg-red-600 hover:bg-red-700 duration-300 ease-linear text-white px-4 py-2 rounded-md">Déconnexion</button>
