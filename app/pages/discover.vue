@@ -84,8 +84,8 @@
                             </h2>
 
                             <p class="text-gray-300 text-sm" v-html="item.data.content.length > 1000
-                                ? item.data.content.slice(0, 1000) + '...'
-                                : item.data.content">
+                                ? DOMPurify.sanitize(item.data.content.slice(0, 1000) + '...' || '')
+                                : DOMPurify.sanitize(item.data.content || '')">
                             </p>
                             <div class="flex items-center gap-2 mt-2">
                                 <p class="text-amber-500 text-xs font-medium"
@@ -123,8 +123,8 @@
                                 {{ item.data.title }}
                             </h2>
                             <p class="text-gray-300 text-sm line-clamp-6" v-html="item.data.description.length > 1000
-                                ? item.data.description.slice(0, 600) + '...'
-                                : item.data.description">
+                                ? DOMPurify.sanitize(item.data.description.slice(0, 600) + '...' || '')
+                                : DOMPurify.sanitize(item.data.description || '')">
                             </p>
                             <div class="flex items-center gap-2 mt-2">
                                 <p class="text-amber-500 text-xs font-medium"

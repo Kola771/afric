@@ -49,13 +49,13 @@
                         </div>
                     </div>
                     <div class="grid grod-cols-1 gap-4 lg:grid-cols-4">
-                        <div class="flex flex-col gap-1 lg:col-span-3 lg:order-2">
+                        <div class="flex flex-col gap-1 lg:order-2" :class="profil && !profil.photo ? 'lg:col-span-3' : 'lg:col-span-4'">
                             <label for="email" class="text-sm text-slate-900 font-medium dark:text-white">Adresse
                                 électronique :</label>
                             <input type="email" id="email" v-model="email"
                                 class="block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200" />
                         </div>
-                        <div class="flex flex-col gap-1">
+                        <div class="flex flex-col gap-1" v-if="profil && !profil.photo">
                             <label for="color" class="text-sm text-slate-900 font-medium dark:text-white">Couleur
                                 :</label>
                             <input type="color" id="color" v-model="code_color"
@@ -185,7 +185,7 @@
                 </div>
             </div>
             <div
-                class="flex flex-col gap-4 bg-white dark:bg-slate-800 border-[1px] border-slate-300 px-3 py-4 lg:p-4 rounded-lg cursor-pointer" @click="$router.push('/profil/goals')">
+                class="flex flex-col gap-4 bg-white dark:bg-slate-800 border-[1px] border-slate-300 px-3 py-4 lg:p-4 rounded-lg cursor-pointer" @click="$router.push('/profil/goals')" v-if="profil && profil.role !== 'lecteur'">
                 <div class="flex items-center justify-between gap-1">
                     <h3 class="text-[16px] font-bold text-slate-900 dark:text-white flex flex-wrap items-center gap-2">
                         <Icon name="mdi:target" class="w-4 h-4" /> Objectifs & Certifications <span v-if="profil && profil?.rank" :class="[
@@ -314,13 +314,13 @@ const back = () => {
 const changeData = async () => {
     error.value = null;
     message.value = null;
-    if (name.value.trim() !== "" && pseudonym.value.trim() !== "" && code_color.value.trim() !== "" && country.value > 0) {
+    if (name.value.trim() !== "" && pseudonym.value.trim() !== "" && country.value > 0) {
         const payload = {
             name: name.value,
             pseudonym: pseudonym.value,
             bibliography: bibliography.value.trim().replaceAll('\n', '<br />'),
             email: email.value,
-            code_color: code_color.value,
+            code_color: code_color.value || "",
             country: country.value,
             whatsapp_link: whatsapp.value,
             facebook_link: facebook.value,

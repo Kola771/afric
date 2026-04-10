@@ -67,7 +67,7 @@
                         ? `${user.name.charAt(0).toUpperCase() + user.name.split(" ")[1]?.charAt(0).toUpperCase()}`
                         : user.name.charAt(0).toUpperCase() }}
                     </span>
-                    <span class="text-xs flex truncate"><span>{{ user.name }}</span></span>
+                    <span class="text-xs flex truncate pr-2"><span>{{ user.name.slice(0, 10) + '...' }}</span></span>
                   </div>
 
                   <!-- Menu flottant (en dehors du nuxt-link) -->
