@@ -4,7 +4,7 @@
             <div class="bg-red-50 text-red-500 flex flex-col items-start gap-2 text-xs p-2 rounded-lg font-medium border-red-100 border"
                 v-if="user?.preferences && user.preferences.length === 0">
                 Choisissez vos préférences afin de {{user.role === 'lecteur' ? "personnaliser votre expérience de lecture" : "mettre en avant votre profil auprès des lecteurs qui vous correspondent"}}.
-                <nuxt-link to="/settings"
+                <nuxt-link to="/settings#form"
                     class="bg-red-600 hover:bg-red-700 transition-all duration-300 hover:ease-linear text-white px-5 py-2 rounded-lg">
                     Choisir mes préférences</nuxt-link>
             </div>

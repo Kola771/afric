@@ -271,6 +271,7 @@ const errorRole = ref<string | null | undefined>(null);
 const message = ref<string | null | undefined>(null);
 const messageRole = ref<string | null | undefined>(null);
 const update = ref<boolean>(false);
+const route = useRoute();
 const router = useRouter();
 
 const selectRole = async (value: number) => {
@@ -345,6 +346,9 @@ const changeData = async () => {
 }
 
 onMounted(async () => {
+    if(route.fullPath.includes('form')) {
+        update.value = true;
+    }
     countries.value = await allCountrieActifs();
     categories.value = await allCategorieActifs();
     user.value = await toConnectUser();
