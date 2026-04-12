@@ -24,10 +24,10 @@ export default defineNuxtPlugin(async (nuxtApp) => {
             if (error.response) {
                 // Vérifiez le statut de la réponse
                 if ([401, 419].includes(error.response.status)) {
-                    // localStorage.removeItem("user");
-                    // localStorage.removeItem("register_author");
-                    // localStorage.removeItem("register_email");
-                    // window.location.href = "/login";
+                    localStorage.removeItem("user");
+                    localStorage.removeItem("register_author");
+                    localStorage.removeItem("register_email");
+                    window.location.href = "/login";
                 }
             } else if (error.code === 'ECONNABORTED') {
                 // Gérer les erreurs de timeout
