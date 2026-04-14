@@ -20,76 +20,97 @@
 
         <!-- Stats Grid -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-            <div class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-4 rounded-xl border border-slate-200 shadow-sm">
+            <div
+                class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-4 rounded-xl border border-slate-200 shadow-sm">
                 <p class="text-xs font-medium text-slate-500 dark:text-slate-300 mb-1">Total Utilisateurs</p>
                 <div class="flex items-end justify-between">
-                    <p class="text-2xl font-display font-bold text-slate-900 dark:text-slate-200">{{ formatNumber(countAllUsers) }}</p>
+                    <p class="text-2xl font-display font-bold text-slate-900 dark:text-slate-200">{{
+                        formatNumber(countAllUsers) }}</p>
                     <Icon name="solar:users-group-two-rounded-linear" class="text-slate-300" width="24" />
                 </div>
             </div>
-            <div class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-4 rounded-xl border border-slate-200 shadow-sm">
-                <p class="text-xs font-medium text-slate-500 dark:text-slate-300 mb-1">Total Utilisateurs super-admins</p>
+            <div
+                class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-4 rounded-xl border border-slate-200 shadow-sm">
+                <p class="text-xs font-medium text-slate-500 dark:text-slate-300 mb-1">Total Utilisateurs super-admins
+                </p>
                 <div class="flex items-end justify-between">
-                    <p class="text-2xl font-display font-bold text-slate-900 dark:text-slate-200">{{ formatNumber(countAllSuperAdmins) }}
+                    <p class="text-2xl font-display font-bold text-slate-900 dark:text-slate-200">{{
+                        formatNumber(countAllSuperAdmins) }}
                     </p>
                     <Icon name="solar:crown-bold" class="text-slate-300" width="24" />
                 </div>
             </div>
-            <div class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-4 rounded-xl border border-slate-200 shadow-sm">
+            <div
+                class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-4 rounded-xl border border-slate-200 shadow-sm">
                 <p class="text-xs font-medium text-slate-500 dark:text-slate-300 mb-1">Total Utilisateurs admins</p>
                 <div class="flex items-end justify-between">
-                    <p class="text-2xl font-display font-bold text-slate-900 dark:text-slate-200">{{ formatNumber(countAllAdmins) }}</p>
+                    <p class="text-2xl font-display font-bold text-slate-900 dark:text-slate-200">{{
+                        formatNumber(countAllAdmins) }}</p>
                     <Icon name="mdi:account-key" class="text-slate-300" width="24" />
                 </div>
             </div>
-            <div class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-4 rounded-xl border border-slate-200 shadow-sm">
+            <div
+                class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-4 rounded-xl border border-slate-200 shadow-sm">
                 <p class="text-xs font-medium text-slate-500 dark:text-slate-300 mb-1">Total Utilisateurs support</p>
                 <div class="flex items-end justify-between">
-                    <p class="text-2xl font-display font-bold text-slate-900 dark:text-slate-200">{{ formatNumber(countAllSupports) }}</p>
+                    <p class="text-2xl font-display font-bold text-slate-900 dark:text-slate-200">{{
+                        formatNumber(countAllSupports) }}</p>
                     <span class="w-2 h-2 rounded-full bg-orange-600 animate-pulse"></span>
                 </div>
             </div>
-            <div class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-4 rounded-xl border border-slate-200 shadow-sm">
+            <div
+                class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-4 rounded-xl border border-slate-200 shadow-sm">
                 <p class="text-xs font-medium text-slate-500 dark:text-slate-300 mb-1">Total Utilisateurs auteurs</p>
                 <div class="flex items-end justify-between">
-                    <p class="text-2xl font-display font-bold text-slate-900 dark:text-slate-200">{{ formatNumber(countAllAuthors) }}</p>
+                    <p class="text-2xl font-display font-bold text-slate-900 dark:text-slate-200">{{
+                        formatNumber(countAllAuthors) }}</p>
                     <span class="w-2 h-2 rounded-full bg-green-600 animate-pulse"></span>
                 </div>
             </div>
-            <div class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-4 rounded-xl border border-slate-200 shadow-sm">
+            <div
+                class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-4 rounded-xl border border-slate-200 shadow-sm">
                 <p class="text-xs font-medium text-slate-500 dark:text-slate-300 mb-1">Total Utilisateurs lecteurs</p>
                 <div class="flex items-end justify-between">
-                    <p class="text-2xl font-display font-bold text-slate-900 dark:text-slate-200">{{ formatNumber(countAllReaders) }}</p>
+                    <p class="text-2xl font-display font-bold text-slate-900 dark:text-slate-200">{{
+                        formatNumber(countAllReaders) }}</p>
                     <span class="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
                 </div>
             </div>
-            <div class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-4 rounded-xl border border-slate-200 shadow-sm">
+            <div
+                class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-4 rounded-xl border border-slate-200 shadow-sm">
                 <p class="text-xs font-medium text-slate-500 dark:text-slate-300 mb-1">Total Utilisateurs actifs</p>
                 <div class="flex items-end justify-between">
-                    <p class="text-2xl font-display font-bold text-slate-900 dark:text-slate-200">{{ formatNumber(countAllUsersActifs) }}
+                    <p class="text-2xl font-display font-bold text-slate-900 dark:text-slate-200">{{
+                        formatNumber(countAllUsersActifs) }}
                     </p>
                     <span class="w-2 h-2 rounded-full bg-purple-600 animate-pulse"></span>
                 </div>
             </div>
-            <div class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-4 rounded-xl border border-slate-200 shadow-sm">
+            <div
+                class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-4 rounded-xl border border-slate-200 shadow-sm">
                 <p class="text-xs font-medium text-slate-500 dark:text-slate-300 mb-1">Total Utilisateurs inactifs</p>
                 <div class="flex items-end justify-between">
-                    <p class="text-2xl font-display font-bold text-slate-900 dark:text-slate-200">{{ formatNumber(countAllUsersInactifs) }}
+                    <p class="text-2xl font-display font-bold text-slate-900 dark:text-slate-200">{{
+                        formatNumber(countAllUsersInactifs) }}
                     </p>
                     <span class="w-2 h-2 rounded-full bg-pink-600 animate-pulse"></span>
                 </div>
             </div>
-            <div class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-4 rounded-xl border border-slate-200 shadow-sm">
+            <div
+                class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-4 rounded-xl border border-slate-200 shadow-sm">
                 <p class="text-xs font-medium text-slate-500 dark:text-slate-300 mb-1">Total Utilisateurs suspendus</p>
                 <div class="flex items-end justify-between">
-                    <p class="text-2xl font-display font-bold text-slate-900 dark:text-slate-200">{{ formatNumber(countAllSuspended) }}</p>
+                    <p class="text-2xl font-display font-bold text-slate-900 dark:text-slate-200">{{
+                        formatNumber(countAllSuspended) }}</p>
                     <span class="w-2 h-2 rounded-full bg-amber-600 animate-pulse"></span>
                 </div>
             </div>
-            <div class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-4 rounded-xl border border-slate-200 shadow-sm">
+            <div
+                class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 p-4 rounded-xl border border-slate-200 shadow-sm">
                 <p class="text-xs font-medium text-slate-500 dark:text-slate-300 mb-1">Total Utilisateurs bannis</p>
                 <div class="flex items-end justify-between">
-                    <p class="text-2xl font-display font-bold text-slate-900 dark:text-slate-200">{{ formatNumber(countAllUsersBanned) }}
+                    <p class="text-2xl font-display font-bold text-slate-900 dark:text-slate-200">{{
+                        formatNumber(countAllUsersBanned) }}
                     </p>
                     <span class="w-2 h-2 rounded-full bg-slate-600 animate-pulse"></span>
                 </div>
@@ -130,11 +151,13 @@
         </div>
 
         <!-- Authors Table -->
-        <div class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+        <div
+            class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 rounded-xl border border-slate-200 shadow-sm overflow-hidden">
             <div class="overflow-x-auto custom">
                 <table class="w-full text-left border-collapse">
                     <thead>
-                        <tr class="text-xs text-slate-500 dark:text-slate-300 border-b border-slate-100 bg-slate-50/50 dark:bg-slate-800">
+                        <tr
+                            class="text-xs text-slate-500 dark:text-slate-300 border-b border-slate-100 bg-slate-50/50 dark:bg-slate-800">
                             <th class="font-medium py-3 px-6 whitespace-nowrap">Utilisateurs</th>
                             <th class="font-medium py-3 px-6 whitespace-nowrap">Adresse électronique</th>
                             <th class="font-medium py-3 px-6 whitespace-nowrap">Origine</th>
@@ -164,8 +187,8 @@
 
                     <tbody v-if="!loading && filteredUsers.length !== 0" class="text-xs">
                         <tr class="group hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
-                            :class="u.role === 'super-admin' ? 'bg-slate-100 dark:bg-slate-800' : ''" v-for="(u, index) in filteredUsers"
-                            :key="index">
+                            :class="u.role === 'super-admin' ? 'bg-slate-100 dark:bg-slate-800' : ''"
+                            v-for="(u, index) in filteredUsers" :key="index">
                             <td class="py-3 px-6 whitespace-nowrap">
                                 <div class="flex items-center gap-3">
                                     <div class="relative flex-shrink-0">
@@ -192,13 +215,16 @@
                                 </div>
                             </td>
                             <td class="py-3 px-6 whitespace-nowrap">
-                                <span class="text-xs font-medium text-slate-600 dark:text-slate-200">{{ u.email?.trim() ?? "---"
-                                }}</span>
+                                <span class="text-xs font-medium text-slate-600 dark:text-slate-200">{{ u.email?.trim()
+                                    ?? "---"
+                                    }}</span>
                             </td>
                             <td class="py-3 px-6 whitespace-nowrap">
-                                <span class="text-xs font-medium text-slate-600 dark:text-slate-200">{{ u.country }}</span>
+                                <span class="text-xs font-medium text-slate-600 dark:text-slate-200">{{ u.country
+                                    }}</span>
                             </td>
-                            <td class="py-3 px-6 whitespace-nowrap capitalize" :class="u.status !== 'actif' ? 'text-red-600 font-medium' : ''">
+                            <td class="py-3 px-6 whitespace-nowrap capitalize"
+                                :class="u.status !== 'actif' ? 'text-red-600 font-medium' : ''">
                                 {{ u.status }}
                             </td>
                             <td class="py-3 px-6 whitespace-nowrap capitalize">
@@ -211,20 +237,27 @@
                                     {{ formatLocalDate(u?.sanction_date || '') }}
                                 </span>
                             </td>
+                            <td class="py-3 px-6 text-center whitespace-nowrap">
+                                {{ formatLocalDate(u?.created_at || '') }}
+                            </td>
                             <td class="py-3 px-6 text-right whitespace-nowrap">
-                                <select :value="u.role" @change="(e) => changeValRole(e, u)" v-if="!['super-admin'].includes(u.role)"
+                                <select :value="u.role" @change="(e) => changeValRole(e, u)"
+                                    v-if="!['super-admin'].includes(u.role)"
                                     class="mr-2 text-[10px] bg-slate-50 border border-slate-200 rounded-md px-2 py-1 text-slate-600 outline-none">
                                     <option value="" disabled selected>Changez le rôle</option>
                                     <option :value="role.name" v-for="(role, y) in filteredRoles" :key="y">
                                         {{ role.name }}</option>
                                 </select>
-                                <select :value="u.status" @change="(e) => changeValStatus(e, u)" v-if="!['super-admin'].includes(u.role)"
+                                <select :value="u.status" @change="(e) => changeValStatus(e, u)"
+                                    v-if="!['super-admin'].includes(u.role)"
                                     class="mr-2 text-[10px] bg-slate-50 border border-slate-200 rounded-md px-2 py-1 text-slate-600 outline-none">
                                     <option value="" disabled selected>Changez le statut</option>
                                     <option value="actif">Actif</option>
                                     <option value="banni">Banni</option>
                                     <option value="suspendu">Suspendu</option>
-                                    <option value="inactif" v-if="profil && !['support', 'auteur', 'lecteur'].includes(profil.role)">Inactif</option>
+                                    <option value="inactif"
+                                        v-if="profil && !['support', 'auteur', 'lecteur'].includes(profil.role)">Inactif
+                                    </option>
                                 </select>
                                 <nuxt-link :to="`/dashboard/authors/${u.uuid}`" v-if="!u.role.includes('lecteur')"
                                     class="p-1 rounded-md hover:bg-slate-100 text-slate-400 hover:text-slate-900 transition-colors">
@@ -243,7 +276,8 @@
 
             <!-- Pagination -->
             <div class="flex items-center justify-between p-4 border-t border-slate-100">
-                <span class="text-xs text-slate-500 dark:text-slate-300">Page <span class="font-medium text-slate-900 dark:text-slate-200">{{ page }} / {{ total
+                <span class="text-xs text-slate-500 dark:text-slate-300">Page <span
+                        class="font-medium text-slate-900 dark:text-slate-200">{{ page }} / {{ total
                         }}</span> - {{ filteredUsers.length }} données</span>
                 <div class="flex gap-2">
                     <button @click="prevPage" :disabled="page === 1"
@@ -257,9 +291,14 @@
                 </div>
             </div>
         </div>
-        <DashboardUserDelete @close-delete-modal="toggleDeleteModal" @on-load="onLoad" :showDeleteModal="showDeleteModal" :user="userSelected" v-if="showDeleteModal && userSelected" />
-        <DashboardUserChangeStatus @close-change-modal="toggleChangeModal" @on-load="onLoad" :showChangeStatusModal="showChangeStatusModal" :user="userSelected" :statut="statut" v-if="showChangeStatusModal && userSelected" />
-        <DashboardUserChangeRole @close-change-role-modal="toggleChangeRoleModal" @on-load="onLoad" :showChangeRoleModal="showChangeRoleModal" :user="userSelected" :role="role" v-if="showChangeRoleModal && userSelected" />
+        <DashboardUserDelete @close-delete-modal="toggleDeleteModal" @on-load="onLoad"
+            :showDeleteModal="showDeleteModal" :user="userSelected" v-if="showDeleteModal && userSelected" />
+        <DashboardUserChangeStatus @close-change-modal="toggleChangeModal" @on-load="onLoad"
+            :showChangeStatusModal="showChangeStatusModal" :user="userSelected" :statut="statut"
+            v-if="showChangeStatusModal && userSelected" />
+        <DashboardUserChangeRole @close-change-role-modal="toggleChangeRoleModal" @on-load="onLoad"
+            :showChangeRoleModal="showChangeRoleModal" :user="userSelected" :role="role"
+            v-if="showChangeRoleModal && userSelected" />
     </div>
 </template>
 

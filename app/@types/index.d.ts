@@ -19,6 +19,7 @@ interface User {
   facebook_link?: string
   other_link?: string
   following?: any
+  created_at?: Date
   books?: any
   preferences?: Category[]
 }
