@@ -164,6 +164,7 @@
                             <th class="font-medium py-3 px-6 whitespace-nowrap">Statut</th>
                             <th class="font-medium py-3 px-6 whitespace-nowrap">Rôle</th>
                             <th class="font-medium py-3 px-6 whitespace-nowrap">Deadline</th>
+                            <th class="font-medium py-3 px-6 whitespace-nowrap">Date d'arrivée</th>
                             <th class="font-medium py-3 px-6 text-right whitespace-nowrap">Actions</th>
                         </tr>
                     </thead>
