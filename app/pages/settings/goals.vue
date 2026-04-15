@@ -111,6 +111,90 @@
                         </ul>
                     </div>
                 </details>
+
+                <!-- MONETISATION -->
+                <details class="group border rounded-lg p-3 cursor-pointer bg-white dark:bg-slate-800">
+                    <summary class="flex justify-between items-center font-medium text-slate-800 dark:text-white">
+                        💰 Monétisation & Abonnements
+                        <span class="group-open:rotate-180 transition">
+                            <Icon name="mdi:arrow-bottom" class="w-4 h-4 text-slate-700 dark:text-slate-200" />
+                        </span>
+                    </summary>
+
+                    <div class="mt-3 text-[14px] text-slate-600 dark:text-slate-300 space-y-4">
+
+                        <!-- PDF -->
+                        <div class="border rounded-lg p-3">
+                            <p class="font-semibold text-slate-900 dark:text-white">📕 Vente du livre (PDF complet)</p>
+                            <ul class="list-disc ml-5 mt-1">
+                                <li>Accessible à partir de <span class="font-semibold text-orange-600">3 000 vues
+                                        cumulées</span></li>
+                                <li>Minimum <span class="font-semibold">10 chapitres</span></li>
+                                <li>Le livre doit être <span class="font-semibold">terminé</span></li>
+                                <li>Le lecteur télécharge le livre complet (format PDF) en l'achetant</li>
+                            </ul>
+
+                            <p class="mt-2 text-xs text-slate-500">
+                                💸 <span class="font-semibold">Répartition :</span> Vous gagnez <span
+                                    class="text-green-600 font-semibold">80%</span>
+                                sur chaque vente, la plateforme prend <span
+                                    class="text-orange-600 font-semibold">20%</span>.
+                            </p>
+                        </div>
+
+                        <!-- ABONNEMENT LIVRE -->
+                        <div class="border rounded-lg p-3">
+                            <p class="font-semibold text-slate-900 dark:text-white">📖 Abonnement à un livre</p>
+                            <ul class="list-disc ml-5 mt-1">
+                                <li>Accessible à partir de <span class="font-semibold text-orange-600">2 000 vues</span>
+                                </li>
+                                <li>Minimum <span class="font-semibold">5 chapitres</span></li>
+                                <li>Pas besoin que le livre soit terminé</li>
+                                <li>Le lecteur paie un abonnement mensuel pour suivre votre histoire</li>
+                            </ul>
+
+                            <p class="mt-2 text-xs text-slate-500">
+                                💸 <span class="font-semibold">Répartition :</span> Vous gagnez <span
+                                    class="text-green-600 font-semibold">75%</span>
+                                des revenus, la plateforme prend <span class="text-orange-600 font-semibold">25%</span>.
+                            </p>
+                        </div>
+
+                        <!-- ABONNEMENT GLOBAL -->
+                        <div class="border rounded-lg p-3">
+                            <p class="font-semibold text-slate-900 dark:text-white">🌍 Abonnement global</p>
+                            <ul class="list-disc ml-5 mt-1">
+                                <li>Les lecteurs accèdent à plusieurs livres avec un seul abonnement</li>
+                                <li>Toutes les histoires éligibles peuvent générer des revenus automatiquement</li>
+                            </ul>
+
+                            <p class="mt-2 text-xs text-slate-500">
+                                💸 <span class="font-semibold">Répartition :</span> La plateforme prend
+                                <span class="text-orange-600 font-semibold">30%</span>.
+                                Les <span class="text-green-600 font-semibold">70%</span> restants sont redistribués
+                                entre les auteurs
+                                en fonction de leurs performances (vues, engagement, popularité).
+                            </p>
+                        </div>
+                        <p class="text-xs text-slate-500">
+                            💡 <span class="font-semibold">Fixation des prix :</span>
+                            Le prix du livre (PDF) et des abonnements par livre est défini librement par l’auteur.
+                            L’abonnement global est défini par la plateforme.
+                        </p>
+
+                        <p class="text-xs text-slate-500">
+                            💳 <span class="font-semibold">Retrait des gains :</span>
+                            Vos revenus sont disponibles sur votre compte et peuvent être retirés directement depuis la
+                            plateforme.
+                        </p>
+
+                        <!-- INFO -->
+                        <p class="text-xs text-slate-400">
+                            ⚠️ Ces conditions sont proposées dans le cadre de la phase bêta et peuvent évoluer afin d’améliorer l’expérience et la rémunération des auteurs.
+                        </p>
+
+                    </div>
+                </details>
                 <p class="text-xs text-slate-400">
                     D'autres fonctionnalités exclusives seront débloquées avec les prochaines évolutions de la
                     plateforme.
