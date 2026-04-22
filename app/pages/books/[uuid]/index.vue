@@ -185,7 +185,8 @@
                                 </button>
                             </div>
 
-                            <div v-if="sortedChapters.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+                            <div v-if="sortedChapters.length > 0"
+                                class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
                                 <div v-for="(chapter, index) in sortedChapters" :key="chapter.id">
                                     <nuxt-link v-if="index < 2 || user"
                                         :to="`/books/${book.uuid}/chapter/${chapter.uuid}`"
@@ -196,16 +197,19 @@
                                         }" @click.prevent="handleChapterClick(index, chapter.uuid)">
                                         <span class="flex items-center gap-4">
                                             <span
-                                                class="text-slate-500 dark:text-slate-200 font-display font-bold text-xl w-8">{{
+                                                class="text-slate-500 dark:text-slate-200 font-display font-bold text-xl">{{
                                                     index + 1 }}</span>
                                             <span>
                                                 <p
-                                                    class="font-medium text-slate-900 dark:text-white group-hover:text-orange-600 dark:group-hover:text-orange-500 transition-colors">
+                                                    class="font-medium text-slate-900 dark:text-white group-hover:text-orange-600 dark:group-hover:text-orange-500 transition-colors truncate max-w-[220px]">
                                                     {{ chapter.title }}
                                                 </p>
                                                 <p class="text-xs text-slate-400 dark:text-slate-200">
-                                                    <Icon name="mdi:eye" class="w-3 h-3" /> {{ formatNumber(chapter.chapter_reads.length) }}, <Icon name="mdi:heart" class="w-3 h-3" /> {{
-                                                        formatNumber(chapter.chapter_reactions.length) }}, <Icon name="mdi:comment" class="w-3 h-3" /> {{
+                                                    <Icon name="mdi:eye" class="w-3 h-3" /> {{
+                                                    formatNumber(chapter.chapter_reads.length) }},
+                                                    <Icon name="mdi:heart" class="w-3 h-3" /> {{
+                                                        formatNumber(chapter.chapter_reactions.length) }},
+                                                    <Icon name="mdi:comment" class="w-3 h-3" /> {{
                                                         formatNumber(chapter.chapter_comments.length) }}
                                                 </p>
                                             </span>
@@ -223,7 +227,8 @@
                                             <span
                                                 class="text-slate-400 dark:text-slate-300 font-display font-bold text-xl">{{
                                                     index + 1 }}</span>
-                                            <span class="font-medium text-slate-500 dark:text-slate-300">{{ chapter.title }}</span>
+                                            <span class="font-medium text-slate-500 dark:text-slate-300">{{
+                                                chapter.title }}</span>
                                         </span>
                                         <span class="text-slate-400 dark:text-slate-300 mt-1">
                                             <Icon name="mdi:lock" class="w-5 h-5" />
@@ -461,7 +466,8 @@
                 <!-- ADD COMMENT -->
                 <div v-if="step === 'comments'" class="border-t border-slate-200 pt-4 text-xs">
                     <div v-if="user" class="flex items-end gap-2">
-                        <img v-if="user.photo" :src="user.photo.includes('https') ? user.photo : `${config.public.apiBackendUrl}/uploads/users/${user.photo}`"
+                        <img v-if="user.photo"
+                            :src="user.photo.includes('https') ? user.photo : `${config.public.apiBackendUrl}/uploads/users/${user.photo}`"
                             class="w-8 h-8 rounded-full" />
                         <div v-else class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold"
                             :style="`background-color: ${user.code_color}`">
@@ -530,7 +536,7 @@
                             </div>
                             <p class="text-[12px] lg:text-xs text-slate-600 dark:text-slate-200">{{
                                 reaction.user.pseudonym
-                            }} a réagi : <span class="font-medium">{{ reaction.label }} {{ reaction.emoji }}</span>
+                                }} a réagi : <span class="font-medium">{{ reaction.label }} {{ reaction.emoji }}</span>
                             </p>
                         </div>
                     </div>

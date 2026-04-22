@@ -58,7 +58,8 @@
                   <!-- Avatar cliquable -->
                   <div @click="() => $router.push('/profil')"
                     class="flex items-center gap-1 bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 transition-all duration-300 border-slate-200 border rounded-full py-1 pl-1 pr-1.5 cursor-pointer">
-                    <img v-if="user.photo" :src="user.photo.includes('https') ? user.photo : `${config.public.apiBackendUrl}/uploads/users/${user.photo}`"
+                    <img v-if="user.photo"
+                      :src="user.photo.includes('https') ? user.photo : `${config.public.apiBackendUrl}/uploads/users/${user.photo}`"
                       alt="Profil" class="w-7 h-7 rounded-full flex-shrink-0" />
                     <span v-if="!user.photo"
                       class="p-1 text-xs flex items-center justify-center w-7 h-7 rounded-full flex-shrink-0"
@@ -142,6 +143,22 @@
       :results="result" :data="datas" :totalDatas="totalDatas" :currentPage="page" :total="total" :loading="loading"
       v-if="showResultSearch" />
 
+    <!-- 💬 popup dynamique -->
+    <div v-if="showMobileGuide" class="fixed lg:hidden inset-0 bg-black/70 z-[90]"></div>
+    <div v-if="showMobileGuide"
+      class="fixed bottom-20 left-1/2 -translate-x-1/2 lg:hidden w-48 min-h-[70px] flex items-center justify-center text-center z-[100] bg-white text-black text-xs px-3 py-2 rounded-lg shadow-lg transition-all duration-300"
+      :style="{
+        top: tooltipPosition.top + 'px',
+        left: tooltipPosition.left + 'px',
+        transform: 'translateX(-50%)'
+      }">
+
+      {{ steps[mobileGuideStep]!.text }}
+
+      <!-- petite flèche -->
+      <div class="absolute left-1/2 -bottom-1 w-2 h-2 bg-white rotate-45 transform -translate-x-1/2"></div>
+    </div>
+
     <div class="fixed lg:hidden bottom-0 z-40 left-0 right-0 flex justify-center py-2 bg-white/90 dark:bg-dark/90 
                border border-white/50 dark:border-white/20 dark:border-none
                ring-1 ring-black/5 dark:ring-white/5
@@ -149,14 +166,14 @@
       <div class="w-[95%] flex items-center justify-between">
 
         <nuxt-link to="/" class="p-2 rounded-full flex flex-col items-center justify-center" :class="route.path === '/'
-                ? 'text-orange-600 dark:text-orange-500 scale-105'
-                : 'text-slate-700 dark:text-slate-200'">
+          ? 'text-orange-600 dark:text-orange-500 scale-105'
+          : 'text-slate-700 dark:text-slate-200'">
           <Icon name="mdi:home" class="w-5 h-5" />
           <span class="text-[8px]">Accueil</span>
         </nuxt-link>
 
 
-        <nuxt-link to="/discover" class="p-2 rounded-full flex flex-col items-center justify-center 
+        <nuxt-link ref="discoverRef" to="/discover" class="p-2 rounded-full flex flex-col items-center justify-center 
                transition-all duration-200" :class="route.path === '/discover'
                 ? 'text-orange-600 dark:text-orange-500 scale-105'
                 : 'text-slate-700 dark:text-slate-200'">
@@ -164,7 +181,7 @@
           <span class="text-[8px]">Découverte</span>
         </nuxt-link>
 
-        <nuxt-link to="/categories" class="p-2 rounded-full flex flex-col items-center justify-center 
+        <nuxt-link ref="categoriesRef" to="/categories" class="p-2 rounded-full flex flex-col items-center justify-center 
                transition-all duration-200" :class="route.path === '/categories'
                 ? 'text-orange-600 dark:text-orange-500 scale-105'
                 : 'text-slate-700 dark:text-slate-200'">
@@ -172,7 +189,7 @@
           <span class="text-[8px]">Catégories</span>
         </nuxt-link>
 
-        <nuxt-link to="/stories" class="p-2 rounded-full flex flex-col items-center justify-center 
+        <nuxt-link ref="storiesRef" to="/stories" class="p-2 rounded-full flex flex-col items-center justify-center 
                transition-all duration-200" :class="route.path === '/stories'
                 ? 'text-orange-600 dark:text-orange-500 scale-105'
                 : 'text-slate-700 dark:text-slate-200'">
@@ -180,7 +197,7 @@
           <span class="text-[8px]">Livres</span>
         </nuxt-link>
 
-        <nuxt-link to="/authors" class="p-2 rounded-full flex flex-col items-center justify-center 
+        <nuxt-link ref="authorsRef" to="/authors" class="p-2 rounded-full flex flex-col items-center justify-center 
                transition-all duration-200" :class="route.path === '/authors'
                 ? 'text-orange-600 dark:text-orange-500 scale-105'
                 : 'text-slate-700 dark:text-slate-200'">
@@ -206,16 +223,19 @@
             v-if="notifications > 0"></span>
         </nuxt-link>
 
-        <nuxt-link v-if="!profil" to="/login" class="p-2.5 rounded-full flex flex-col items-center justify-center" :class="route.path === '/login'
-                ? 'text-orange-600 dark:text-orange-500 scale-105'
-                : 'text-slate-700 dark:text-slate-200'">
+        <nuxt-link v-if="!profil" to="/login" class="p-2.5 rounded-full flex flex-col items-center justify-center"
+          :class="route.path === '/login'
+            ? 'text-orange-600 dark:text-orange-500 scale-105'
+            : 'text-slate-700 dark:text-slate-200'">
           <Icon name="mdi:account" class="w-5 h-5" />
           <span class="text-[8px]">Login</span>
         </nuxt-link>
-        <div v-if="profil" class="rounded-full flex flex-col dark:text-slate-200 items-center justify-center" @click="onAvatarClick">
+        <div v-if="profil" class="rounded-full flex flex-col dark:text-slate-200 items-center justify-center"
+          @click="onAvatarClick">
           <!-- Image ou Initiales -->
-          <img v-if="profil?.photo" :src="profil.photo.includes('https') ? profil.photo : `${config.public.apiBackendUrl}/uploads/users/${profil.photo}`" alt="Profil"
-            class="w-6 h-6 rounded-full flex-shrink-0" />
+          <img v-if="profil?.photo"
+            :src="profil.photo.includes('https') ? profil.photo : `${config.public.apiBackendUrl}/uploads/users/${profil.photo}`"
+            alt="Profil" class="w-6 h-6 rounded-full flex-shrink-0" />
           <span v-else class="p-2.5 text-[8px] flex items-center justify-center w-6 h-6 rounded-full flex-shrink-0"
             :style="`background-color: ${profil?.code_color}`">
             {{ getInitials(profil?.name) }}
@@ -223,6 +243,22 @@
           <span class="text-[8px]">Profil</span>
         </div>
 
+      </div>
+    </div>
+
+    <!-- 🌑 Intro Modal -->
+    <div v-if="isFirstVisit" class="fixed lg:hidden inset-0 bg-black/70 z-[100] flex items-center justify-center">
+      <div class="bg-white dark:bg-slate-800 flex flex-col gap-2 p-6 rounded-xl max-w-sm text-center shadow-xl">
+        <h2 class="text-lg font-bold mb-2">Soyez le bienvenue 👋</h2>
+        <p class="text-md text-slate-700 mb-4">
+          Plongez dans un univers d’histoires africaines captivantes.
+          Chaque récit est une voix, une culture, une émotion à découvrir.
+        </p>
+        <button @click="isFirstVisit = false"
+          class="bg-primary flex justify-center items-center gap-2 text-white px-4 py-3 rounded-lg">
+          Commencer l'aventure
+          <Icon name="mdi:arrow-right" class="w-5 h-5" />
+        </button>
       </div>
     </div>
   </div>
@@ -276,7 +312,58 @@ const profil = ref<User | null>(null);
 const toggleSearch = () => {
   showSearch.value = !showSearch.value
 }
+const discoverRef = ref<HTMLElement | null>(null);
+const categoriesRef = ref<HTMLElement | null>(null);
+const storiesRef = ref<HTMLElement | null>(null);
+const authorsRef = ref<HTMLElement | null>(null);
+const tooltipPosition = ref({ top: 0, left: 0 });
 
+const getTargetElement = (target: string) => {
+  switch (target) {
+    case "discover": return discoverRef.value;
+    case "categories": return categoriesRef.value;
+    case "stories": return storiesRef.value;
+    case "authors": return authorsRef.value;
+    default: return null;
+  }
+};
+
+const getDomElement = (el: any) => {
+  if (!el) return null;
+
+  // si composant Vue → prendre $el
+  if (el.$el) return el.$el;
+
+  // sinon déjà DOM
+  return el;
+};
+
+const updateTooltipPosition = () => {
+  const step = steps[mobileGuideStep.value];
+  const el = getTargetElement(step!.target);
+
+  const element = getDomElement(el);
+  if (!element) return;
+
+  const rect = element.getBoundingClientRect();
+
+  tooltipPosition.value = {
+    top: rect.top - 60,
+    left: rect.left + rect.width / 2,
+  };
+};
+
+// 🆕 onboarding
+const isFirstVisit = ref<boolean>(false);
+const showMobileGuide = ref<boolean>(false);
+const mobileGuideStep = ref<number>(0);
+
+const steps = [
+  { text: "📰 Découvrez des histoires africaines captivantes dès les premières lignes.", target: "discover" },
+  { text: "🏷️ Explorez différentes catégories et trouvez ce qui vous correspond.", target: "categories" },
+  { text: "📚 Plongez dans des récits uniques portés par des auteurs passionnés.", target: "stories" },
+  { text: "✍🏾 Découvrez des auteurs inspirants et suivez leurs univers.", target: "authors" },
+];
 // compteur de clics
 let clickCount = 0;
 let clickTimer: number | null = null;
@@ -387,7 +474,42 @@ const onLoad = async () => {
   loading.value = false;
 }
 
+watch(isFirstVisit, (val) => {
+  if (!val) {
+    startGuide();
+  }
+});
+
+const startGuide = async () => {
+  showMobileGuide.value = true;
+  mobileGuideStep.value = 0;
+
+  await nextTick(); // 🔥 IMPORTANT
+  updateTooltipPosition();
+
+  const interval = setInterval(async () => {
+    mobileGuideStep.value++;
+
+    if (mobileGuideStep.value >= steps.length) {
+      clearInterval(interval);
+      showMobileGuide.value = false;
+      return;
+    }
+
+    await nextTick(); // 🔥 IMPORTANT
+    updateTooltipPosition();
+
+  }, 3000);
+};
+
 onMounted(async () => {
+  const visited = localStorage.getItem("has_visited");
+
+  if (!visited) {
+    isFirstVisit.value = true;
+    localStorage.setItem("has_visited", "true");
+  }
+
   user.value = await toConnectUser();
   profil.value = await getProfile();
   if (profil.value) {
@@ -420,4 +542,12 @@ onMounted(async () => {
     });
   }
 })
+
+onMounted(() => {
+  window.addEventListener("resize", updateTooltipPosition);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("resize", updateTooltipPosition);
+});
 </script>
