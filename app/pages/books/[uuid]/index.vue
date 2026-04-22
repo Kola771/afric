@@ -185,11 +185,11 @@
                                 </button>
                             </div>
 
-                            <div v-if="sortedChapters.length > 0" class="space-y-2 lg:space-y-3">
+                            <div v-if="sortedChapters.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
                                 <div v-for="(chapter, index) in sortedChapters" :key="chapter.id">
                                     <nuxt-link v-if="index < 2 || user"
                                         :to="`/books/${book.uuid}/chapter/${chapter.uuid}`"
-                                        class="group flex items-center justify-between p-4 rounded-xl border border-slate-100 hover:border-slate-300 transition-all hover:shadow-sm relative"
+                                        class="group flex items-center justify-between p-4 rounded-xl border border-slate-200 hover:border-slate-300 transition-all hover:shadow-sm relative"
                                         :class="{
                                             'cursor-not-allowed opacity-50': !user && index >= 5,
                                             'bg-orange-50 dark:bg-slate-700': handleViewChapter(chapter)
@@ -204,19 +204,11 @@
                                                     {{ chapter.title }}
                                                 </p>
                                                 <p class="text-xs text-slate-400 dark:text-slate-200">
-                                                    il y a {{ formatRelativeDate(chapter.updated_at) }}, Lu par {{
-                                                        formatNumber(chapter.chapter_reads.length) }} personne{{
-                                                        chapter.chapter_reads.length > 1 ? 's' : '' }}, {{
-                                                        formatNumber(chapter.chapter_reactions.length) }} réaction{{
-                                                        chapter.chapter_reactions.length > 1 ? 's' : '' }}, {{
-                                                        formatNumber(chapter.chapter_comments.length) }} commentaire{{
-                                                        chapter.chapter_comments.length > 1 ? 's' : '' }}
+                                                    <Icon name="mdi:eye" class="w-3 h-3" /> {{ formatNumber(chapter.chapter_reads.length) }}, <Icon name="mdi:heart" class="w-3 h-3" /> {{
+                                                        formatNumber(chapter.chapter_reactions.length) }}, <Icon name="mdi:comment" class="w-3 h-3" /> {{
+                                                        formatNumber(chapter.chapter_comments.length) }}
                                                 </p>
                                             </span>
-                                        </span>
-                                        <span
-                                            class="text-slate-500 dark:text-slate-200 group-hover:translate-x-1 transition-transform">
-                                            <Icon name="mdi:arrow-right" class="w-5 h-5" />
                                         </span>
 
                                         <span class="absolute bottom-2 right-4 text-xs dark:text-orange-400 font-medium"
@@ -227,18 +219,13 @@
                                     <div v-else
                                         class="group flex items-center justify-between p-4 rounded-xl bg-slate-200 dark:bg-slate-700 border border-slate-100 cursor-not-allowed opacity-50"
                                         @click="connectedModal = true">
-                                        <span class="flex items-center gap-4">
+                                        <span class="flex items-center gap-2">
                                             <span
-                                                class="text-slate-400 dark:text-slate-300 font-display font-bold text-xl w-8">{{
+                                                class="text-slate-400 dark:text-slate-300 font-display font-bold text-xl">{{
                                                     index + 1 }}</span>
-                                            <span>
-                                                <p class="font-medium text-slate-500 dark:text-slate-300">{{
-                                                    chapter.title }}</p>
-                                                <p class="text-xs text-slate-400 dark:text-slate-300">Connectez-vous
-                                                    pour lire ce chapitre</p>
-                                            </span>
+                                            <span class="font-medium text-slate-500 dark:text-slate-300">{{ chapter.title }}</span>
                                         </span>
-                                        <span class="text-slate-400 dark:text-slate-300">
+                                        <span class="text-slate-400 dark:text-slate-300 mt-1">
                                             <Icon name="mdi:lock" class="w-5 h-5" />
                                         </span>
                                     </div>
