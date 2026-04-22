@@ -248,14 +248,14 @@
 
     <!-- 🌑 Intro Modal -->
     <div v-if="isFirstVisit" class="fixed lg:hidden inset-0 bg-black/70 z-[100] flex items-center justify-center">
-      <div class="bg-white dark:bg-slate-800 flex flex-col gap-2 p-6 rounded-xl max-w-sm text-center shadow-xl">
-        <h2 class="text-lg font-bold mb-2">Soyez le bienvenue 👋</h2>
-        <p class="text-md text-slate-700 mb-4">
+      <div class="bg-white dark:bg-dark dark:border-slate-300 dark:border-[1px] flex flex-col gap-2 p-6 rounded-xl max-w-sm text-center shadow-xl">
+        <h2 class="text-lg font-bold dark:text-slate-200 mb-2">Soyez le bienvenue 👋</h2>
+        <p class="text-md text-slate-700 dark:text-slate-300 mb-4">
           Plongez dans un univers d’histoires africaines captivantes.
           Chaque récit est une voix, une culture, une émotion à découvrir.
         </p>
         <button @click="isFirstVisit = false"
-          class="bg-primary flex justify-center items-center gap-2 text-white px-4 py-3 rounded-lg">
+          class="bg-primary dark:bg-orange-700 flex justify-center items-center gap-2 text-white px-4 py-3 rounded-lg">
           Commencer l'aventure
           <Icon name="mdi:arrow-right" class="w-5 h-5" />
         </button>
