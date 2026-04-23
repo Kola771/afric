@@ -48,7 +48,7 @@
                 <div class="bg-white dark:bg-transparent border border-slate-200 p-4 rounded-xl shadow-sm">
                     <p class="text-xs text-slate-500 dark:text-slate-300">Revenus PDF</p>
                     <p class="text-xl font-semibold text-green-600">
-                        {{ formatNumber(wallet.balance_total_pdf ?? 0) }} <span class="text-stone-800">{{
+                        {{ formatNumber(wallet.balance_total_pdf ?? 0) }} <span class="text-stone-800 dark:text-slate-200">{{
                             wallet.currency }}</span>
                     </p>
                 </div>
@@ -57,7 +57,7 @@
                 <div class="bg-white dark:bg-transparent border border-slate-200 p-4 rounded-xl shadow-sm">
                     <p class="text-xs text-slate-500 dark:text-slate-300">Abonnement livre</p>
                     <p class="text-xl font-semibold text-green-600">
-                        {{ formatNumber(wallet.balance_total_book_subscription ?? 0) }} <span class="text-stone-800">{{
+                        {{ formatNumber(wallet.balance_total_book_subscription ?? 0) }} <span class="text-stone-800 dark:text-slate-200">{{
                             wallet.currency }}</span>
                     </p>
                 </div>
@@ -67,7 +67,7 @@
                     <p class="text-xs text-slate-500 dark:text-slate-300">Abonnement global</p>
                     <p class="text-xl font-semibold text-green-600">
                         {{ formatNumber(wallet.balance_total_subscription_global ?? 0) }} <span
-                            class="text-stone-800">{{ wallet.currency }}</span>
+                            class="text-stone-800 dark:text-slate-200">{{ wallet.currency }}</span>
                     </p>
                 </div>
 
@@ -75,7 +75,7 @@
                 <div class="bg-white dark:bg-transparent border border-slate-200 p-4 rounded-xl shadow-sm">
                     <p class="text-xs text-slate-500 dark:text-slate-300">Retraits</p>
                     <p class="text-xl font-semibold text-red-500">
-                        {{ formatNumber(wallet.withdrawal_amount ?? 0) }} <span class="text-stone-800">{{
+                        {{ formatNumber(wallet.withdrawal_amount ?? 0) }} <span class="text-stone-800 dark:text-slate-200">{{
                             wallet.currency }}</span>
                     </p>
                 </div>
