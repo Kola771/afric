@@ -139,6 +139,8 @@ interface BookData {
   book_pdf?: string | null
   image: string
   book_categories?: any
+  book_pdf?: any
+  pdf_validated?: any
   book_comments?: any
   book_reactions?: any
   total_views?: string

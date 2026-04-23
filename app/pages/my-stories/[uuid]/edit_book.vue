@@ -11,7 +11,7 @@
                         </button>
                         <h2 class="text-2xl font-display font-bold text-slate-900 dark:text-white tracking-tight">
                             Modification du livre : "<strong class="text-orange-600 dark:text-orange-500">{{ book.title
-                                }}</strong>"</h2>
+                            }}</strong>"</h2>
                     </div>
                     <p class="text-sm text-slate-500 dark:text-slate-200 mt-1">
                         Vous pouvez modifier les informations de votre livre à tout moment.
@@ -37,12 +37,19 @@
                     <label for="image" class="text-sm text-slate-900 font-medium dark:text-white">Image de couverture
                         :</label>
                     <input type="file" accept="image/jpeg, image/jpg, image/png, image/jfif" name="image" id="image"
-                        ref="file"
+                        ref="imageRef"
                         class="w-full text-sm outline-none border border-slate-300 dark:border-slate-200 bg-slate-50 rounded-md p-2 bg-white dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200"
                         @change="onFileChange">
                 </div>
                 <div class="flex flex-col gap-1" v-if="preview">
-                    <p class="text-sm text-slate-900 font-medium dark:text-white">Aperçu de l'image :</p>
+                    <div class="flex items-center justify-between">
+                        <p class="text-sm text-slate-900 font-medium dark:text-white">Aperçu de l'image :</p>
+                        <span @click="removeImage"
+                            class="text-red-600 dark:text-red-700 flex items-center justify-center gap-1 font-bold text-xs cursor-pointer">
+                            <Icon name="mdi:close" class="w-4 h-4" />
+                            Annuler
+                        </span>
+                    </div>
                     <div class="bg-slate-100 dark:bg-slate-800 flex flex-col rounded-lg"><img :src="preview"
                             alt="Preview"
                             class="max-h-[200px] dark:border object-cover lg:object-contain lg:max-h-[220px] rounded-lg" />
@@ -133,8 +140,96 @@
                     Passé ce délai, l'histoire pourra être supprimée de la plateforme.
                 </p>
 
+                <div class="flex flex-col gap-4"
+                    :class="!book?.pdf_validated ? 'opacity-60 pointer-events-none cursor-not-allowed' : ''">
+                    <div
+                        class="bg-orange-50 dark:bg-slate-800 border border-orange-200 dark:border-slate-700 rounded-lg p-3">
+                        <p
+                            class="text-sm font-semibold text-orange-700 dark:text-orange-400 mb-2 flex items-center gap-2">
+                            📕 Vente du livre (PDF complet)
+                        </p>
+
+                        <ul class="text-xs text-slate-700 dark:text-slate-200 space-y-1">
+                            <li class="flex items-start gap-2">
+                                <span>•</span>
+                                <span>Accessible à partir de <strong>3 000 vues cumulées</strong></span>
+                            </li>
+
+                            <li class="flex items-start gap-2">
+                                <span>•</span>
+                                <span>Minimum <strong>10 chapitres</strong></span>
+                            </li>
+
+                            <li class="flex items-start gap-2">
+                                <span>•</span>
+                                <span>Le livre doit être <strong>terminé</strong></span>
+                            </li>
+
+                            <li class="flex items-start gap-2">
+                                <span>•</span>
+                                <span>Les lecteurs pourront télécharger le <strong>PDF complet après
+                                        achat</strong></span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <label for="pdf" class="text-sm text-slate-900 font-medium dark:text-white">Version du livre
+                            :</label>
+
+                        <input type="file" accept="application/pdf" name="pdf" id="pdf" ref="pdfRef"
+                            :disabled="!book?.pdf_validated"
+                            class="w-full text-sm outline-none border border-slate-300 dark:border-slate-200 bg-slate-50 rounded-md p-2 bg-white dark:bg-transparent dark:text-slate-200"
+                            @change="onFileChangePdf" />
+                    </div>
+                    <div v-if="bookPdf" class="bg-slate-100 dark:bg-slate-800 flex flex-col rounded-lg p-3">
+                        <div class="flex items-center justify-between">
+                            <p class="text-sm text-slate-900 dark:text-white">
+                                Aperçu du PDF
+                            </p>
+
+                            <div class="flex items-center gap-2">
+                                <span @click="showPdfModal = true"
+                                    class="bg-orange-600 text-white dark:bg-orange-700 p-2 rounded-lg text-sm cursor-pointer">
+                                    📄 Agrandir
+                                </span>
+
+                                <span @click="removePdf"
+                                    class="bg-red-600 dark:bg-red-700 flex items-center justify-center gap-1 text-white p-2 rounded-lg text-sm cursor-pointer">
+                                    <Icon name="mdi:close" class="w-4 h-4" />
+                                    Annuler
+                                </span>
+                            </div>
+                        </div>
+
+                        <iframe :src="bookPdf"
+                            class="w-full h-[250px] rounded-md border mt-2 pointer-events-none"></iframe>
+                    </div>
+                    <p class="text-xs text-red-500 dark:text-red-400" v-if="!book.pdf_validated">
+                        🔒 Vous ne pouvez pas uploader ce PDF pour le moment.
+                        Vous devez atteindre <strong>3 000 vues</strong> pour débloquer cette fonctionnalité.
+                        Vous en avez actuellement <strong>{{ book.total_views ?? 0 }}</strong>.
+                    </p>
+                </div>
+
                 <div v-if="error" class="text-xs text-center font-medium text-red-500 mt-2">{{ error }}</div>
                 <div v-if="message" class="text-xs text-center font-medium text-green-500 mt-2">{{ message }}</div>
+
+                <div v-if="book?.book_pdf" class="flex flex-col gap-2">
+                    <p class="text-sm text-slate-900 dark:text-white font-medium">
+                        PDF actuel :
+                    </p>
+
+                    <div class="flex items-center gap-3">
+                        <span @click="downloadPdf"
+                            class="bg-orange-600 hover:bg-orange-700 text-white text-xs px-3 py-2 rounded-md cursor-pointer">
+                            📥 Télécharger
+                        </span>
+
+                        <span class="text-xs text-slate-500 dark:text-slate-300">
+                            Fichier disponible pour lecture et téléchargement
+                        </span>
+                    </div>
+                </div>
 
                 <div class="mt-2 flex flex-col md:flex-row md:justify-end" v-if="book.status !== 'completed'">
                     <button :disabled="loading || !isDescriptionValid"
@@ -161,12 +256,26 @@
             </div>
 
         </div>
+
+        <div v-if="showPdfModal" class="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4"
+            @click.self="showPdfModal = false">
+            <div class="w-full max-w-5xl h-[90vh] bg-white dark:bg-slate-900 rounded-lg overflow-hidden relative">
+
+                <!-- Close button -->
+                <button @click="showPdfModal = false"
+                    class="absolute top-4 right-3 flex items-center justify-center text-white bg-red-500 hover:bg-red-600 w-6 h-6 rounded-full">
+                    <Icon name="mdi:close" class="w-4 h-4" />
+                </button>
+
+                <iframe :src="bookPdf" class="w-full h-full"></iframe>
+            </div>
+        </div>
     </div>
 </template>
 <script lang="ts" setup>
 const config = useRuntimeConfig();
 const { allCategorieActifs } = categoriesData();
-const { getActiveBookByUuid, updateData, updateImg } = booksData();
+const { getActiveBookByUuid, updateData, updateImg, updatePdf } = booksData();
 const { toConnectUser } = authenticate();
 const { getProfile } = usersData();
 const user = ref<User | null>(null);
@@ -181,10 +290,15 @@ const selectedCategories = ref<number[]>([]);
 const error = ref<string | null | undefined>(null);
 const message = ref<string | null | undefined>(null);
 const image = ref<any>(null)
+const pdf = ref<any>(null)
+const bookPdf = ref<any>(null)
 const loading = ref(false);
 const router = useRouter();
 const uuid = useRoute().params.uuid;
 const preview = ref<any>(null)
+const showPdfModal = ref<boolean>(false)
+const pdfRef = ref<HTMLInputElement | null>(null)
+const imageRef = ref<HTMLInputElement | null>(null)
 
 const minDescriptionLength = 150
 
@@ -196,12 +310,68 @@ const isDescriptionValid = computed(() => {
     return descriptionLength.value >= minDescriptionLength
 })
 
+const removeImage = () => {
+    image.value = null
+    preview.value = null
+
+    if (imageRef.value) {
+        imageRef.value.value = ""
+    }
+}
+
+const removePdf = () => {
+    pdf.value = null
+    bookPdf.value = null
+
+    if (pdfRef.value) {
+        pdfRef.value.value = ""
+    }
+}
+
+const downloadPdf = async () => {
+    if (!book.value) return
+    const url = `${config.public.apiBackendUrl}/uploads/books/pdf/${book.value.book_pdf}`
+
+    const response = await fetch(url)
+    const blob = await response.blob()
+
+    const link = document.createElement("a")
+    link.href = URL.createObjectURL(blob)
+    link.download = book.value.book_pdf || "book.pdf"
+    link.click()
+}
+
 const onFileChange = (event: any) => {
     const target = event.target as HTMLInputElement
     if (!target.files?.length) return
     image.value = target.files[0]
     const file = target.files[0]
-    preview.value = URL.createObjectURL(file)
+    preview.value = URL.createObjectURL(file!)
+}
+
+const onFileChangePdf = (event: any) => {
+    const file = event.target.files[0]
+    if (!file) return
+
+    const maxSize = 15 * 1024 * 1024 // 15MB
+
+    if (file.size > maxSize) {
+        error.value = "Le PDF ne doit pas dépasser 15 Mo"
+        return
+    }
+
+    if (
+        !book.value ||
+        Number(book.value.total_views ?? 0) < 3000 ||
+        !book.value.pdf_validated ||
+        book.value.status !== "completed"
+    ) {
+        error.value = "🔒 Vous devez avoir au minimum 3 000 vues et un livre terminé pour uploader le PDF."
+        return
+    }
+
+    pdf.value = file
+    bookPdf.value = URL.createObjectURL(file)
 }
 
 const back = () => {
@@ -230,6 +400,11 @@ const updateBook = async () => {
             const formData = new FormData();
             formData.append("image", image.value);
             res = await updateImg(`${uuid}`, formData)
+        }
+        if (pdf.value && book.value?.pdf_validated && Number(book.value.total_views) >= 3000 && book.value.status === "completed") {
+            const formData = new FormData();
+            formData.append("pdf", pdf.value);
+            res = await updatePdf(`${uuid}`, formData);
         }
         if (res.success) {
             message.value = res.msg;

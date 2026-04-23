@@ -300,6 +300,28 @@ export function booksData() {
         return { success: false, status: 400, error: "Client-side error" };
     }
 
+    // Modifie le pdf d'un livre
+    async function updatePdf(uuid: string, data: any): Promise<{ success: boolean, msg?: string, error?: string | null, status?: number }> {
+        if (process.client) {
+            if (localStorage.getItem('user')) {
+                const token = JSON.parse(localStorage.getItem("user") || '{}').token;
+                try {
+                    const response = await axios.put(`/books/upload-book-pdf/${uuid}`, data,
+                        {
+                            headers: {
+                                Authorization: `Bearer ${token}`,
+                                "Content-Type": "multipart/form-data"
+                            },
+                        });
+                    return response?.data;
+                } catch (error: any) {
+                    return { success: false, status: error.response?.status || 500, error: error.message };
+                }
+            }
+        }
+        return { success: false, status: 400, error: "Client-side error" };
+    }
+
     // Rend inactif un livre
     async function inactiveFunction(uuid: string): Promise<{ success: boolean, msg?: string, error?: string | null, status?: number }> {
         if (process.client) {
@@ -365,6 +387,7 @@ export function booksData() {
         createData,
         updateData,
         updateImg,
+        updatePdf,
         inactiveFunction,
         updateStatus,
         deleteData,
