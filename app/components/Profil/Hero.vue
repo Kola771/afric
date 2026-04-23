@@ -105,11 +105,16 @@
                 </div>
 
                 <!-- Action Buttons -->
-                <div class="flex flex-shrink-0 justify-between gap-3 mb-2 w-full md:w-auto text-xs lg:text-sm">
+                <div class="flex flex-wrap flex-shrink-0 justify-between gap-3 mb-2 w-full md:w-auto text-xs lg:text-sm">
                     <nuxt-link to="/my-stories" v-if="authorizeRoleUser(`${profil.role.toLocaleLowerCase()}`)"
                         class="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-primary border border-slate-200 rounded-lg font-medium text-white hover:bg-slate-900 hover:border-slate-300 dark:bg-dark dark:hover:bg-primary transition-all shadow-sm">
                         <Icon name="solar:book-2-bold" class="w-5 h-5" />
                         Mes histoires
+                    </nuxt-link>
+                    <nuxt-link to="/profil/wallet" v-if="authorizeRoleUser(`${profil.role.toLocaleLowerCase()}`)"
+                        class="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-orange-600 border border-slate-200 rounded-lg font-medium text-white hover:bg-orange-700 hover:border-slate-300 dark:bg-orange-700 dark:hover:bg-orange-800 transition-all shadow-sm">
+                        <Icon name="mdi:cash" class="w-5 h-5" />
+                        Mon portefeuille
                     </nuxt-link>
                     <nuxt-link to="/settings"
                         class="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-lg font-medium text-slate-700 hover:bg-slate-50 hover:border-slate-300 dark:bg-slate-300 transition-all shadow-sm">
@@ -252,7 +257,7 @@ const onFileChange = (event: any) => {
     if (!target.files?.length) return
     image.value = target.files[0]
     const file = target.files[0]
-    preview.value = URL.createObjectURL(file);
+    preview.value = URL.createObjectURL(file!);
     showChangeModal.value = true;
 }
 

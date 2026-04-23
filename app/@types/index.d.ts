@@ -1,3 +1,16 @@
+interface Wallet {
+  id: number;
+  id_user: number;
+  currency: string;
+  balance_total: number;
+  balance_total_pdf: number;
+  balance_total_book_subscription: number;
+  balance_total_subscription_global: number;
+  withdrawal_amount: number;
+  balance_available: number;
+  balance_locked: number;
+}
+
 interface User {
   id: number;
   uuid: string;
