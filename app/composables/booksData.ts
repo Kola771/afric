@@ -67,6 +67,22 @@ export function booksData() {
         return response?.data;
     }
 
+    //
+    async function findAllBooksAuthors(): Promise<BookData[] | []> {
+        if (process.client) {
+            if (localStorage.getItem('user')) {
+                const token = JSON.parse(localStorage.getItem("user") || '{}').token;
+                const response = await axios.get(`/books/return-all-books-not-inactive-for-author`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                return response?.data;
+            }
+        }
+        return [];
+    }
+
     // proposition de livres à l'utilisateur connecté sur son profil
     async function propositionsBooks(): Promise<BookData[] | []> {
         if (process.client) {
@@ -373,6 +389,7 @@ export function booksData() {
         findAllBooksPaginated,
         getBooksReactionsByIdUser,
         existingData,
+        findAllBooksAuthors,
         getFiveTopBooks,
         findRandom,
         findTopBook,

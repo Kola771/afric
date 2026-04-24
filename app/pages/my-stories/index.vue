@@ -17,30 +17,45 @@
                     </p>
                 </div>
 
-                <div class="flex flex-col gap-4 bg-slate-50 dark:bg-slate-800 border dark:border-slate-400 px-3 py-4 lg:p-4 rounded-lg cursor-pointer"
-                    @click="$router.push('/settings/goals')">
-                    <div class="flex items-center justify-between gap-1">
-                        <h3
-                            class="text-[16px] font-semibold text-slate-900 dark:text-white flex flex-wrap items-center gap-2">
-                            <Icon name="mdi:target" class="w-4 h-4" /> Objectifs & Certifications <span
-                                v-if="profil && profil?.rank" :class="[
-                                    'text-[11px] w-fit px-2 rounded-md flex items-center gap-1',
-                                    profil?.rank === 'certifié'
-                                        ? 'bg-orange-50 text-orange-700 border border-orange-100'
-                                        : profil?.rank === 'best'
-                                            ? 'bg-purple-50 text-purple-700 border border-purple-100'
-                                            : profil?.rank === 'top'
-                                                ? 'bg-green-50 text-green-700 border border-green-100'
-                                                : 'bg-slate-100 text-slate-600 border border-slate-200'
-                                ]">
-                                <Icon name="mdi:star-outline" size="14" />
-                                {{ profil?.rank }}
+                <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                    <div class="flex flex-col gap-4 bg-slate-50 dark:bg-slate-800 border dark:border-slate-400 px-3 py-4 lg:p-4 rounded-lg cursor-pointer"
+                        @click="$router.push('/settings/goals')">
+                        <div class="flex items-center justify-between gap-1">
+                            <h3
+                                class="text-[16px] font-semibold text-slate-900 dark:text-white flex flex-wrap items-center gap-2">
+                                <Icon name="mdi:target" class="w-4 h-4" /> Objectifs & Certifications <span
+                                    v-if="profil && profil?.rank" :class="[
+                                        'text-[11px] w-fit px-2 rounded-md flex items-center gap-1',
+                                        profil?.rank === 'certifié'
+                                            ? 'bg-orange-50 text-orange-700 border border-orange-100'
+                                            : profil?.rank === 'best'
+                                                ? 'bg-purple-50 text-purple-700 border border-purple-100'
+                                                : profil?.rank === 'top'
+                                                    ? 'bg-green-50 text-green-700 border border-green-100'
+                                                    : 'bg-slate-100 text-slate-600 border border-slate-200'
+                                    ]">
+                                    <Icon name="mdi:star-outline" size="14" />
+                                    {{ profil?.rank }}
+                                </span>
+                            </h3>
+                            <span class="flex items-center gap-2 dark:text-slate-200">
+                                <span class="hidden md:block font-medium text-[13px]">Accéder</span>
+                                <Icon name="mdi:arrow-right" size="20" />
                             </span>
-                        </h3>
-                        <span class="flex items-center gap-2 dark:text-slate-200">
-                            <span class="hidden md:block font-medium text-[13px]">Accéder</span>
-                            <Icon name="mdi:arrow-right" size="20" />
-                        </span>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-4 bg-slate-50 dark:bg-slate-800 border dark:border-slate-400 px-3 py-4 lg:p-4 rounded-lg cursor-pointer"
+                        @click="$router.push('/my-stories/books-pricing')">
+                        <div class="flex items-center justify-between gap-1">
+                            <h3
+                                class="text-[16px] font-semibold text-slate-900 dark:text-white flex flex-wrap items-center gap-2">
+                                <Icon name="mdi:money" class="w-4 h-4 text-yellow-600 dark:text-yellow-400" /> Abonnements et prix des livres
+                            </h3>
+                            <span class="flex items-center gap-2 dark:text-slate-200">
+                                <span class="hidden md:block font-medium text-[13px]">Accéder</span>
+                                <Icon name="mdi:arrow-right" size="20" />
+                            </span>
+                        </div>
                     </div>
                 </div>
 

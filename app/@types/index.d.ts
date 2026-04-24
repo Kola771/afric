@@ -1,3 +1,17 @@
+interface BookPricing {
+  id: number;
+  uuid: string;
+  id_book: number;
+  id_user: number;
+  pdf_price: number;
+  subscription_price_monthly: number;
+  currency: string;
+  is_pdf_enabled: boolean;
+  is_subscription_enabled: boolean;
+  book: BookData
+  user: User
+}
+
 interface Wallet {
   id: number;
   id_user: number;
