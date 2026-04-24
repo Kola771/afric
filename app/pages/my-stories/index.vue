@@ -221,7 +221,7 @@
                 </div>
 
                 <div
-                    class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                    class="hidden lg:block bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 rounded-xl border border-slate-200 shadow-sm overflow-hidden">
                     <div class="overflow-y-auto overflow-x-auto custom max-h-[500px]">
                         <table class="w-full text-left border-collapse">
                             <thead class="sticky top-0 z-10 bg-slate-50">
