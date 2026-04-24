@@ -236,7 +236,7 @@
                                     <th class="font-semibold py-3 px-6 whitespace-nowrap text-right">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody v-if="filteredBooksArray.length === 0 && !loading" class="text-xs">
+                            <tbody v-if="sortedBookArrays.length === 0 && !loading" class="text-xs">
                                 <tr class="border-b border-slate-50 whitespace-nowrap">
 
                                     <!-- Book -->
@@ -301,9 +301,9 @@
                                 </tr>
                             </tbody>
 
-                            <tbody v-if="!loading && filteredBooksArray.length !== 0" class="text-sm">
+                            <tbody v-if="!loading && sortedBookArrays.length !== 0" class="text-sm">
                                 <tr class="group hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors border-b border-slate-50 text-xs"
-                                    v-for="(book, index) in filteredBooksArray" :key="index">
+                                    v-for="(book, index) in sortedBookArrays" :key="index">
                                     <td class="py-3 px-6">
                                         <div class="flex items-center gap-3">
                                             <div
@@ -400,7 +400,7 @@
                     </div>
 
                     <div class="flex items-center justify-between p-4 border-t border-slate-100">
-                        <span class="text-xs text-slate-500 dark:text-slate-300">{{ filteredBooks.length }}
+                        <span class="text-xs text-slate-500 dark:text-slate-300">{{ sortedBookArrays.length }}
                             données</span>
                         <div class="flex gap-2">
                             <button @click="prevPage" :disabled="page === 1"
@@ -1065,6 +1065,39 @@ const sortedBooks = computed(() => {
     }
 
     return [...filteredBooks.value].sort((a, b) => {
+        const valA = a[sortKey.value!];
+        const valB = b[sortKey.value!];
+
+        if (valA == null) return 1;
+        if (valB == null) return -1;
+
+        // 🔥 Gestion des dates
+        if (valA instanceof Date && valB instanceof Date) {
+            return sortDirection.value === 'asc'
+                ? valA.getTime() - valB.getTime()
+                : valB.getTime() - valA.getTime();
+        }
+
+        // 🔢 Numbers
+        if (typeof valA === 'number' && typeof valB === 'number') {
+            return sortDirection.value === 'asc'
+                ? valA - valB
+                : valB - valA;
+        }
+
+        // 🔤 Strings
+        return sortDirection.value === 'asc'
+            ? String(valA).localeCompare(String(valB))
+            : String(valB).localeCompare(String(valA));
+    });
+});
+
+const sortedBookArrays = computed(() => {
+    if (!sortKey.value || !sortDirection.value) {
+        return filteredBooksArray.value;
+    }
+
+    return [...filteredBooksArray.value].sort((a, b) => {
         const valA = a[sortKey.value!];
         const valB = b[sortKey.value!];
 
