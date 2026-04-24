@@ -145,10 +145,16 @@ const isDescriptionValid = computed(() => {
 })
 
 const onFileChange = (event: any) => {
-    const target = event.target as HTMLInputElement
-    if (!target.files?.length) return
-    image.value = target.files[0]
-    const file = target.files[0]
+    const file = event.target.files[0]
+    if (!file) return
+
+    const maxSize = 5 * 1024 * 1024 // 5MB
+
+    if (file.size > maxSize) {
+        error.value = "La taille de l'image ne doit pas dépasser 5 Mo"
+        return
+    }
+    image.value = file;
     preview.value = URL.createObjectURL(file)
 }
 

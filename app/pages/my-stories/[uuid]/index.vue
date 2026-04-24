@@ -520,7 +520,7 @@
             <div class="flex items-center justify-between mb-3 dark:text-slate-200">
               <button @click="prevPdfChapter" :disabled="currentPdfIndex === 0"
                 class="p-2 flex items-center justify-center rounded-lg border border-slate-200 hover:bg-slate-100 disabled:opacity-30">
-                <Icon name="mdi:chevron-left" class="w-5 h-5" />
+                <Icon name="mdi:arrow-left" class="w-5 h-5" />
               </button>
               <span class="text-xs text-slate-500 dark:text-slate-200">
                 {{ currentPdfIndex + 1 }} / {{ pdfChapters.length }}

@@ -279,7 +279,7 @@
                   <!-- Bouton précédent -->
                   <button v-if="currentPage > 1" @click="previousData"
                     class="flex items-center gap-1 text-slate-600 hover:text-slate-800 dark:text-slate-200 dark:group-hover:text-slate-700 font-medium">
-                    <Icon name="mdi:chevron-left" />
+                    <Icon name="mdi:arrow-left" />
                     Précédent
                   </button>
 

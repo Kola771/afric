@@ -21,7 +21,7 @@
 
                 <!-- ACTIONS -->
                 <div class="flex flex-wrap gap-2">
-                    <nuxt-link to="#" class="bg-slate-900 hover:bg-slate-800 text-white px-4 py-2 rounded-lg text-xs">
+                    <nuxt-link to="#" class="bg-slate-900 hover:bg-slate-800 dark:border-slate-200 dark:border text-white px-4 py-2 rounded-lg text-xs">
                         💸 Retrait
                     </nuxt-link>
 

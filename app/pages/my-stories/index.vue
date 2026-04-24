@@ -1,44 +1,38 @@
 <template>
     <div class="bg-[#fffcfccc] dark:bg-dark dark:border-slate-200 dark:border-b pt-12 pb-12" v-if="profil && user">
-        <section class="max-w-7xl mx-auto px-6 pt-12 border-t border-slate-100 lg:gap-10">
+        <section class="max-w-7xl mx-auto px-6 pt-10 md:pt-12 border-t border-slate-100 lg:gap-10">
             <div class="flex flex-col gap-4">
+                <div class="">
+                    <button @click="back"
+                        class="p-1 lg:p-2 border rounded-lg flex items-center justify-center gap-1 text-xs hover:bg-slate-100 text-slate-500 dark:text-slate-200 dark:hover:text-slate-300 dark:hover:bg-slate-700 transition-colors">
+                        <Icon name="mdi:arrow-left" class="w-5 h-5 lg:w-4 lg:h-4" /> Retour
+                    </button>
+                </div>
                 <div
-                    class="flex flex-col gap-4 lg:gap-1 md:items-center md:justify-between bg-slate-50 dark:bg-slate-800 border dark:border-slate-400 px-3 py-4 lg:p-3 rounded-lg">
-                    <div class="flex flex-col gap-1 items-start md:w-full">
-                        <button @click="back"
-                            class="p-1 border rounded-lg flex items-center justify-center hover:bg-slate-100 text-slate-500 dark:text-slate-200 dark:hover:text-slate-300 dark:hover:bg-slate-700 transition-colors">
-                            <Icon name="mdi:arrow-left" class="w-5 h-5" />
-                        </button>
-                        <p class="text-[14px] text-slate-500 dark:text-slate-200">
-                            Par défaut, toute histoire créée a pour statut
-                            <span class="font-medium text-orange-600 dark:text-orange-500">Brouillon</span>
-                            et n'est pas accessible aux lecteurs en ligne.
-                        </p>
-                    </div>
-                    <div class="w-full lg:flex lg:justify-end">
-                        <nuxt-link to="/my-stories/create_book"
-                            class="flex items-center gap-2 bg-primary text-white dark:border hover:bg-slate-700 hover:ease-in-out hover:duration-300 rounded-lg py-3 text-[13px] justify-center border-slate-200 border md:px-6 md:py-2.5">
-                            <Icon name="mdi:plus" class="w-5 h-5" />
-                            Ajouter une histoire
-                        </nuxt-link>
-                    </div>
+                    class="flex flex-col gap-4 lg:gap-1 bg-slate-50 dark:bg-slate-800 border dark:border-slate-400 px-3 py-4 lg:p-3 rounded-lg">
+                    <p class="text-[14px] text-slate-500 dark:text-slate-200">
+                        Par défaut, toute histoire créée a pour statut
+                        <span class="font-medium text-orange-600 dark:text-orange-500">Brouillon</span>
+                        et n'est pas accessible aux lecteurs en ligne.
+                    </p>
                 </div>
 
-                <div
-                    class="flex flex-col gap-4 bg-slate-50 dark:bg-slate-800 border dark:border-slate-400 px-3 py-4 lg:p-4 rounded-lg cursor-pointer" @click="$router.push('/settings/goals')">
+                <div class="flex flex-col gap-4 bg-slate-50 dark:bg-slate-800 border dark:border-slate-400 px-3 py-4 lg:p-4 rounded-lg cursor-pointer"
+                    @click="$router.push('/settings/goals')">
                     <div class="flex items-center justify-between gap-1">
                         <h3
                             class="text-[16px] font-semibold text-slate-900 dark:text-white flex flex-wrap items-center gap-2">
-                            <Icon name="mdi:target" class="w-4 h-4" /> Objectifs & Certifications <span v-if="profil && profil?.rank" :class="[
-                                'text-[11px] w-fit px-2 rounded-md flex items-center gap-1',
-                                profil?.rank === 'certifié'
-                                    ? 'bg-orange-50 text-orange-700 border border-orange-100'
-                                    : profil?.rank === 'best'
-                                        ? 'bg-purple-50 text-purple-700 border border-purple-100'
-                                        : profil?.rank === 'top'
-                                            ? 'bg-green-50 text-green-700 border border-green-100'
-                                            : 'bg-slate-100 text-slate-600 border border-slate-200'
-                            ]">
+                            <Icon name="mdi:target" class="w-4 h-4" /> Objectifs & Certifications <span
+                                v-if="profil && profil?.rank" :class="[
+                                    'text-[11px] w-fit px-2 rounded-md flex items-center gap-1',
+                                    profil?.rank === 'certifié'
+                                        ? 'bg-orange-50 text-orange-700 border border-orange-100'
+                                        : profil?.rank === 'best'
+                                            ? 'bg-purple-50 text-purple-700 border border-purple-100'
+                                            : profil?.rank === 'top'
+                                                ? 'bg-green-50 text-green-700 border border-green-100'
+                                                : 'bg-slate-100 text-slate-600 border border-slate-200'
+                                ]">
                                 <Icon name="mdi:star-outline" size="14" />
                                 {{ profil?.rank }}
                             </span>
@@ -50,19 +44,19 @@
                     </div>
                 </div>
 
-                <div class="bg-slate-50 dark:bg-slate-800 border dark:border-slate-600 rounded-xl p-4 flex flex-col gap-4"
+                <div class="bg-slate-50 dark:bg-slate-800 border dark:border-slate-600 rounded-xl p-4 flex flex-col gap-3"
                     v-if="progressData">
                     <!-- HEADER -->
                     <div class="flex justify-between items-center">
                         <div>
-                            <p class="text-sm text-slate-500 dark:text-slate-300">Votre progression</p>
                             <h3 class="text-[16px] font-semibold capitalize text-slate-900 dark:text-white">
-                                🔥 Niveau {{ progressData.progression.currentRank }}
+                                🔥 Niveau {{ progressData.progression.currentRank }} <span
+                                    class="text-orange-600 dark:text-orange-700">{{ progressData.progression.progress
+                                    }}%</span>
                             </h3>
                         </div>
 
                         <div class="text-right">
-                            <p class="text-xs text-slate-400">Prochain objectif</p>
                             <p class="text-sm font-medium capitalize" :class="{
                                 'text-green-500': progressData.progression.nextRank === 'top',
                                 'text-purple-500': progressData.progression.nextRank == 'best',
@@ -74,7 +68,7 @@
                     </div>
 
                     <!-- BAR -->
-                    <div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2 overflow-hidden">
+                    <div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-1 overflow-hidden">
                         <div class="h-full transition-all duration-500" :class="{
                             'bg-green-500': progressData.progression.nextRank === 'top',
                             'bg-purple-500': progressData.progression.nextRank == 'best',
@@ -84,25 +78,25 @@
                     </div>
 
                     <!-- DETAILS -->
-                    <div class="grid grid-cols-3 gap-2 text-center text-xs">
+                    <div class="flex items-center gap-2 text-center text-xs">
 
-                        <div>
-                            <p class="text-slate-400">Vues</p>
+                        <div class="flex items-center gap-1">
+                            <Icon name="mdi:eye" class="w-4 h-4 dark:text-white" />
                             <p class="font-semibold text-slate-900 dark:text-white">
                                 {{ progressData.stats.totalViews }} / {{ progressData.progression.target.views }}
                             </p>
                         </div>
 
-                        <div>
-                            <p class="text-slate-400">Réactions</p>
+                        <div class="flex items-center gap-1">
+                            <Icon name="mdi:heart" class="w-4 h-4 dark:text-white" />
                             <p class="font-semibold text-slate-900 dark:text-white">
                                 {{ progressData.stats.totalReactions }} / {{ progressData.progression.target.reactions
                                 }}
                             </p>
                         </div>
 
-                        <div>
-                            <p class="text-slate-400">Commentaires</p>
+                        <div class="flex items-center gap-1">
+                            <Icon name="mdi:comment" class="w-4 h-4 dark:text-white" />
                             <p class="font-semibold text-slate-900 dark:text-white">
                                 {{ progressData.stats.totalComments }} / {{ progressData.progression.target.comments }}
                             </p>
@@ -110,20 +104,20 @@
 
                     </div>
 
-                    <!-- MESSAGE -->
-                    <p class="text-xs text-slate-500 dark:text-slate-400 text-center">
-                        🔥 Tu es à {{ progressData.progression.progress }}% du niveau {{
-                            progressData.progression.nextRank }}
-                    </p>
-
                 </div>
             </div>
 
             <div class="border-t border-slate-200 mt-8 lg:mt-7 pt-6 lg:pt-5">
-                <h3
-                    class="font-display text-xl font-medium text-slate-900 dark:text-white flex items-center gap-1 mb-4">
-                    <Icon name="mdi:book-multiple-outline" class="w-5 h-5" /> Mes histoires
-                </h3>
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="font-display text-xl font-medium text-slate-900 dark:text-white flex items-center gap-1">
+                        <Icon name="mdi:book-multiple-outline" class="w-5 h-5" /> Mes histoires
+                    </h3>
+                    <nuxt-link to="/my-stories/create_book"
+                        class="flex items-center gap-2 bg-primary text-white dark:border hover:bg-slate-700 hover:ease-in-out hover:duration-300 rounded-lg py-2 text-[13px] justify-center border-slate-200 border px-4 md:px-6 md:py-2.5">
+                        <Icon name="mdi:plus" class="w-5 h-5" />
+                        <span class="hidden md:block">Ajouter une histoire</span>
+                    </nuxt-link>
+                </div>
                 <div
                     class="flex flex-col md:flex-row gap-4 justify-between items-start md:items-center bg-slate-50 dark:bg-slate-800 p-3 rounded-xl border border-slate-200 dark:border-slate-400 shadow-sm mb-4">
                     <!-- Tabs -->
@@ -161,7 +155,7 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-10">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-10 lg:hidden">
                     <!-- Skeleton -->
                     <template v-if="loadingSkeleton">
                         <MyStoryCardSkeleton v-for="i in 4" :key="i" />
@@ -193,7 +187,10 @@
                                                 status(book.status)
                                             }}</span>
                                     </p>
-                                    <p v-if="book.status === 'inactive'" class="text-xs text-center text-red-600 font-medium bg-red-50 p-1 rounded">Ce livre sera supprimé dans quelques jours...(<strong>{{ getDaysFromToday(`${book.deadline}`)?.days }}</strong>jrs).</p>
+                                    <p v-if="book.status === 'inactive'"
+                                        class="text-xs text-center text-red-600 font-medium bg-red-50 p-1 rounded">Ce
+                                        livre sera supprimé dans quelques jours...(<strong>{{
+                                            getDaysFromToday(`${book.deadline}`)?.days }}</strong>jrs).</p>
                                 </div>
                             </nuxt-link>
                             <div
@@ -221,6 +218,201 @@
                             </div>
                         </div>
                     </template>
+                </div>
+
+                <div
+                    class="bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                    <div class="overflow-y-auto overflow-x-auto custom max-h-[500px]">
+                        <table class="w-full text-left border-collapse">
+                            <thead class="sticky top-0 z-10 bg-slate-50">
+                                <tr
+                                    class="text-xs text-slate-400 dark:text-slate-300 border-b border-slate-100 bg-slate-50/50 dark:bg-slate-800">
+                                    <th class="font-semibold py-3 px-6 whitespace-nowrap">Titre de l'histoire</th>
+                                    <th class="font-semibold py-3 px-6 whitespace-nowrap">Catégorie</th>
+                                    <th class="font-semibold py-3 px-6 whitespace-nowrap">Performance</th>
+                                    <th class="font-semibold py-3 px-6 whitespace-nowrap">Statut</th>
+                                    <th class="font-semibold py-3 px-6 whitespace-nowrap">Deadline</th>
+                                    <th class="font-semibold py-3 px-6 whitespace-nowrap">Âge autorisé</th>
+                                    <th class="font-semibold py-3 px-6 whitespace-nowrap text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody v-if="filteredBooksArray.length === 0 && !loading" class="text-xs">
+                                <tr class="border-b border-slate-50 whitespace-nowrap">
+
+                                    <!-- Book -->
+                                    <td class="py-3 px-6" v-for="i in 7" :key="i">
+                                        Pas de données
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tbody v-if="loading" class="text-sm">
+                                <tr v-for="i in 5" :key="i" class="border-b border-slate-50">
+
+                                    <!-- Book -->
+                                    <td class="py-3 px-6">
+                                        <div class="flex items-center gap-3 animate-pulse">
+                                            <div class="w-8 h-10 bg-slate-200 dark:bg-slate-300 rounded"></div>
+                                            <div class="h-3 w-32 bg-slate-200 dark:bg-slate-300 rounded"></div>
+                                        </div>
+                                    </td>
+
+                                    <!-- Author -->
+                                    <td class="py-3 px-6">
+                                        <div class="h-3 w-24 bg-slate-200 dark:bg-slate-300 rounded animate-pulse">
+                                        </div>
+                                    </td>
+
+                                    <!-- Categories -->
+                                    <td class="py-3 px-6 space-x-2">
+                                        <div class="flex gap-2 animate-pulse">
+                                            <div class="h-4 w-16 bg-slate-200 dark:bg-slate-300 rounded"></div>
+                                            <div class="h-4 w-12 bg-slate-200 dark:bg-slate-300 rounded"></div>
+                                        </div>
+                                    </td>
+
+                                    <!-- Stats -->
+                                    <td class="py-3 px-6">
+                                        <div class="flex items-center gap-4 animate-pulse">
+                                            <div class="h-3 w-10 bg-slate-200 dark:bg-slate-300 rounded"></div>
+                                            <div class="w-px h-3 bg-slate-200 dark:bg-slate-300"></div>
+                                            <div class="h-3 w-10 bg-slate-200 dark:bg-slate-300 rounded"></div>
+                                            <div class="w-px h-3 bg-slate-200 dark:bg-slate-300"></div>
+                                            <div class="h-3 w-10 bg-slate-200 dark:bg-slate-300 rounded"></div>
+                                        </div>
+                                    </td>
+
+                                    <!-- Status -->
+                                    <td class="py-3 px-6">
+                                        <div class="h-5 w-16 bg-slate-200 dark:bg-slate-300 rounded-full animate-pulse">
+                                        </div>
+                                    </td>
+
+                                    <td class="py-3 px-6">
+                                        <div class="h-5 w-16 bg-slate-200 dark:bg-slate-300 rounded-full animate-pulse">
+                                        </div>
+                                    </td>
+
+                                    <!-- Status -->
+                                    <td class="py-3 px-6">
+                                        <div class="h-5 w-16 bg-slate-200 dark:bg-slate-300 rounded-full animate-pulse">
+                                        </div>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+
+                            <tbody v-if="!loading && filteredBooksArray.length !== 0" class="text-sm">
+                                <tr class="group hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors border-b border-slate-50 text-xs"
+                                    v-for="(book, index) in filteredBooksArray" :key="index">
+                                    <td class="py-3 px-6">
+                                        <div class="flex items-center gap-3">
+                                            <div
+                                                class="w-8 h-10 lg:h-8 flex-shrink-0 bg-slate-200 rounded object-cover overflow-hidden">
+                                                <img :src="`${config.public.apiBackendUrl}/uploads/books/${book?.image}`"
+                                                    class="w-full h-full object-cover opacity-80" :alt="book.title">
+                                            </div>
+                                            <nuxt-link
+                                                :to="!['inactive', 'draft'].includes(book.status) ? `/books/${book.uuid}` : ''"
+                                                :target="!['inactive', 'draft'].includes(book.status) ? `_blank` : ''"
+                                                class="font-medium text-slate-900 dark:text-slate-200 group-hover:text-orange-600 transition-colors underline whitespace-nowrap">{{
+                                                    book.title }}</nuxt-link>
+                                        </div>
+                                    </td>
+                                    <td class="py-3 px-6 space-x-1 whitespace-nowrap dark:text-slate-300">
+                                        <span
+                                            class="inline-flex items-center px-2 py-1 rounded text-[10px] font-medium bg-slate-100 text-slate-600 border border-slate-200"
+                                            v-for="(category, i) in book.book_categories">
+                                            {{ category?.name }}
+                                        </span>
+                                    </td>
+                                    <td class="py-3 px-6 whitespace-nowrap">
+                                        <div class="flex items-center gap-4">
+                                            <div class="text-xs">
+                                                <span class="font-semibold text-slate-900 dark:text-slate-200">{{
+                                                    formatNumber(book?.book_reactions)
+                                                    }}</span> <span class="text-slate-400 text-[10px]">réactions
+                                                </span>
+                                            </div>
+                                            <div class="text-xs">
+                                                <span class="font-semibold text-slate-900 dark:text-slate-200">{{
+                                                    formatNumber(Number(book?.total_views))
+                                                    }}</span> <span class="text-slate-400 text-[10px]">vues
+                                                </span>
+                                            </div>
+                                            <div class="w-px h-3 bg-slate-200"></div>
+                                            <div class="text-xs">
+                                                <span class="font-semibold text-slate-900 dark:text-slate-200">{{
+                                                    formatNumber(book?.book_comments)
+                                                    }}</span> <span class="text-slate-400 text-[10px]">commentaires
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="py-3 px-6 whitespace-nowrap">
+                                        <span
+                                            :class="`${book.status === 'inactive' ? 'text-red-600 bg-red-50 dark:text-red-600' : (book.status === 'completed' ? 'text-green-600 dark:text-green-500 bg-green-50' : (book.status === 'ongoing' ? 'text-blue-600 dark:text-blue-500 bg-blue-50' : 'bg-slate-100 text-slate-500'))} inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-[10px] font-medium`">
+                                            <span class="w-1 h-1 rounded-full bg-slate-600"></span>
+                                            {{ status(book.status) }}
+                                        </span>
+                                    </td>
+                                    <td class="py-3 px-6 text-center whitespace-nowrap">
+                                        <span
+                                            :class="`inline-flex items-center gap-1.5 text-[10px] font-medium text-red-700 dark:text-red-500`"
+                                            v-if="book.status === 'inactive'">
+                                            <span :class="`w-1 h-1 rounded-full bg-red-600`"></span>
+                                            {{ formatLocalDate(book.deadline || '') }}
+                                        </span>
+                                    </td>
+                                    <td class="py-3 px-6 text-center whitespace-nowrap dark:text-slate-300">
+                                        {{ book.rating_age }}
+                                    </td>
+                                    <td
+                                        class="py-3 px-6 text-right whitespace-nowrap flex items-center justify-end gap-2">
+                                        <nuxt-link :to="`/my-stories/${book.uuid}/edit_book`"
+                                            v-if="!['draft', 'inactive'].includes(book.status)"
+                                            class="text-blue-600 dark:text-blue-500 hover:text-blue-700 flex items-center gap-1 justify-center transition-colors text-xs underline">
+                                            <Icon name="mdi:edit" class="w-3 h-3" />
+                                            Modifier</nuxt-link>
+                                        <nuxt-link :to="`/my-stories/${book.uuid}`"
+                                            class="flex items-center gap-1 justify-center transition-transform">
+                                            <Icon name="mdi:book-open-variant-outline" class="w-3 h-3" />
+                                            Chapitres
+                                        </nuxt-link>
+                                        <button @click="openStats(book, 'comments')"
+                                            class="flex items-center gap-1 justify-center transition-transform">
+                                            <Icon name="mdi:graph" class="w-3 h-3" />
+                                            Stats
+                                        </button>
+                                        <nuxt-link :to="`/books/${book.uuid}`" target="_blank"
+                                            v-if="!['draft', 'inactive'].includes(book.status)"
+                                            class="text-amber-600 dark:text-amber-500 hover:text-amber-700 flex items-center gap-1 justify-center transition-colors text-xs underline">
+                                            <Icon name="mdi:eye" class="w-3 h-3" />
+                                            Rendu
+                                            en ligne</nuxt-link>
+                                        <button @click="toggleDeleteModal(book)" v-if="book.status !== 'inactive'"
+                                            class="p-1 rounded-md hover:bg-slate-100 text-red-600 hover:text-red-700 transition-colors">
+                                            <Icon name="mdi:trash" width="16" />
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="flex items-center justify-between p-4 border-t border-slate-100">
+                        <span class="text-xs text-slate-500 dark:text-slate-300">{{ filteredBooks.length }}
+                            données</span>
+                        <div class="flex gap-2">
+                            <button @click="prevPage" :disabled="page === 1"
+                                class="px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-medium text-slate-500 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50">
+                                Précédent
+                            </button>
+                            <button @click="nextPage" :disabled="page === totalPages"
+                                class="px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-medium text-slate-900 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50">
+                                Suivant
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 <!-- Message vide -->
                 <div v-if="!loading && !loadingSkeleton && sortedBooks.length === 0"
@@ -414,7 +606,8 @@
                 <!-- ADD COMMENT -->
                 <div v-if="step === 'comments'" class="border-t border-slate-200 pt-4 text-xs">
                     <div v-if="user" class="flex items-end gap-2">
-                        <img v-if="user.photo" :src="user.photo.includes('https') ? user.photo : `${config.public.apiBackendUrl}/uploads/users/${user.photo}`"
+                        <img v-if="user.photo"
+                            :src="user.photo.includes('https') ? user.photo : `${config.public.apiBackendUrl}/uploads/users/${user.photo}`"
                             class="w-8 h-8 rounded-full" />
                         <div v-else class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold"
                             :style="`background-color: ${user.code_color}`">
@@ -483,7 +676,7 @@
                             </div>
                             <p class="text-[12px] lg:text-xs text-slate-600 dark:text-slate-200">{{
                                 reaction.user.pseudonym
-                            }} a réagi : <span class="font-medium">{{ reaction.label }} {{ reaction.emoji }}</span>
+                                }} a réagi : <span class="font-medium">{{ reaction.label }} {{ reaction.emoji }}</span>
                             </p>
                         </div>
                     </div>
@@ -502,7 +695,8 @@
             </div>
         </StatsModal>
     </div>
-    <div v-else class="bg-[#fffcfccc] dark:bg-dark dark:border-slate-200 dark:border-b h-96 flex items-center justify-center">
+    <div v-else
+        class="bg-[#fffcfccc] dark:bg-dark dark:border-slate-200 dark:border-b h-96 flex items-center justify-center">
 
         <div role="status">
             <svg aria-hidden="true" class="w-12 h-12 animate-spin fill-orange-600" viewBox="0 0 100 101" fill="none"
@@ -554,6 +748,7 @@ const { getCommentsByBook, getReplies, createComment, updateComment, deleteComme
 const { getReactionsByBook } = useBookReactions();
 const user = ref<User | null>(null);
 const profil = ref<User | null>(null);
+const booksArray = ref<BookData[]>([]);
 const books = ref<BookData[]>([]);
 const book = ref<BookData | null>(null);
 const progressData = ref<Progression | null>(null);
@@ -920,6 +1115,21 @@ const filteredBooks = computed(() => {
     });
 });
 
+// Filtrage combiné avec statut + recherche
+const filteredBooksArray = computed(() => {
+    return booksArray.value.filter((book) => {
+        const matchesStatus =
+            selectedStatus.value === 'all' ||
+            book.status.toLowerCase() === selectedStatus.value.toLowerCase();
+
+        const matchesSearch =
+            !searchTerm.value ||
+            book.title.toLowerCase().includes(searchTerm.value.toLowerCase());
+
+        return matchesStatus && matchesSearch;
+    });
+});
+
 // Fonction pour changer le filtre de statut
 const setStatusFilter = (status: string) => {
     selectedStatus.value = status;
@@ -971,7 +1181,8 @@ const onLoad = async () => {
         }
         if (authorizeRoleUser(`${profil.value.role.toLocaleLowerCase()}`)) {
             const { data, totalPages: tp } = await findAllPaginatedAuthor(page.value, limit.value, user.value?.id);
-            books.value = data;
+            booksArray.value = data;
+            books.value.push(...data);
             totalPages.value = tp;
             loadingSkeleton.value = false;
         } else {
@@ -980,6 +1191,18 @@ const onLoad = async () => {
     } else {
         router.push("/login");
     }
+}
+
+const nextPage = async () => {
+    if (page.value >= totalPages.value) return
+    page.value++
+    await onLoad()
+}
+
+const prevPage = async () => {
+    if (page.value <= 1) return
+    page.value--
+    await onLoad()
 }
 
 const loadNextPage = async () => {
