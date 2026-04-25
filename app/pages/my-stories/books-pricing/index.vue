@@ -28,17 +28,58 @@
                         <Icon name="mdi:database" class="w-5 h-5" />
                         Données
                     </h3>
-
-                    <nuxt-link to="/my-stories/books-pricing/create"
-                        class="flex items-center gap-2 bg-primary text-white dark:border hover:bg-slate-700 hover:ease-in-out hover:duration-300 rounded-lg py-2 text-[13px] justify-center border-slate-200 border px-4 md:px-6 md:py-2.5">
-                        <Icon name="mdi:plus" class="w-5 h-5" />
-                        <span class="hidden md:block">Créer une nouvelle configuration</span>
-                    </nuxt-link>
+                    <div class="flex justify-end items-center gap-4">
+                        <div class="hidden items-center gap-3 md:flex md:w-auto">
+                            <div class="relative flex-1 md:flex-none">
+                                <Icon name="solar:magnifer-linear"
+                                    class="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />
+                                <input type="search" v-model="searchQuery" @keydown.enter="onSearchEnter"
+                                    placeholder="Rechercher une configuration à partir du nom d'un livre..."
+                                    class="h-8 pl-8 pr-3 dark:bg-transparent w-full md:w-72 rounded-lg bg-slate-50 border border-slate-200 text-xs focus:outline-none focus:ring-1 focus:ring-slate-300 transition-colors">
+                            </div>
+                            <button @click="toggleSort('id_book')"
+                                class="h-8 px-3 rounded-lg border border-slate-200 text-slate-600 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 flex items-center gap-2 transition-colors">
+                                <Icon :name="sortKey === 'id_book'
+                                    ? sortDirection === 'asc'
+                                        ? 'solar:arrow-up-linear'
+                                        : 'solar:arrow-down-linear'
+                                    : 'solar:sort-vertical-linear'
+                                    " class="w-5 h-5 dark:text-slate-200" />
+                                <span class="text-xs font-medium hidden sm:inline">Trier</span>
+                            </button>
+                        </div>
+                        <nuxt-link to="/my-stories/books-pricing/create"
+                            class="flex items-center gap-2 bg-primary text-white dark:border hover:bg-slate-700 hover:ease-in-out hover:duration-300 rounded-lg py-2 text-[13px] justify-center border-slate-200 border px-4 md:px-6">
+                            <Icon name="mdi:plus" class="w-5 h-5" />
+                            <span class="hidden md:block">Créer une nouvelle configuration</span>
+                        </nuxt-link>
+                    </div>
                 </div>
+            </div>
+            <!-- Actions -->
+            <div class="flex items-center gap-3 w-full md:hidden mb-4">
+                <div class="relative flex-1 md:flex-none">
+                    <Icon name="solar:magnifer-linear"
+                        class="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />
+                    <input type="search" v-model="searchQuery" @keydown.enter="onSearchEnter"
+                        placeholder="Rechercher une configuration à partir du nom d'un livre..."
+                        class="h-8 pl-8 pr-3 dark:bg-transparent w-full md:w-48 rounded-lg bg-slate-50 border border-slate-200 text-xs focus:outline-none focus:ring-1 focus:ring-slate-300 transition-colors">
+                </div>
+                <button @click="toggleSort('id_book')"
+                    class="h-8 px-3 rounded-lg border border-slate-200 text-slate-600 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 flex items-center gap-2 transition-colors">
+                    <Icon :name="sortKey === 'id_book'
+                        ? sortDirection === 'asc'
+                            ? 'solar:arrow-up-linear'
+                            : 'solar:arrow-down-linear'
+                        : 'solar:sort-vertical-linear'
+                        " class="w-5 h-5 dark:text-slate-200" />
+                    <span class="text-xs font-medium hidden sm:inline">Trier</span>
+                </button>
             </div>
 
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-10 lg:hidden">
+            <div class="flex flex-col gap-4 lg:hidden">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-10">
                     <!-- Skeleton -->
                     <template v-if="loading">
                         <MyStoryCardSkeleton v-for="i in 4" :key="i" />
@@ -61,13 +102,16 @@
                                     </p>
                                     <p class="text-sm">
                                         <span class="font-medium">Montant abonnement mensuel : </span>
-                                        <span>{{ bookPricing.subscription_price_monthly }} {{ bookPricing.currency }}</span>
+                                        <span>{{ bookPricing.subscription_price_monthly }} {{ bookPricing.currency
+                                            }}</span>
                                     </p>
-                                    <p class="text-sm":class="bookPricing?.is_pdf_enabled ? 'text-green-600 dark:text-green-500' : 'text-red-600 dark:text-red-500'">
+                                    <p class="text-sm"
+                                        :class="bookPricing?.is_pdf_enabled ? 'text-green-600 dark:text-green-500' : 'text-red-600 dark:text-red-500'">
                                         <span class="font-medium">PDF : </span>
                                         {{ bookPricing?.is_pdf_enabled ? 'Actif' : 'Inactif' }}
                                     </p>
-                                    <p class="text-sm":class="bookPricing?.is_subscription_enabled ? 'text-green-600 dark:text-green-500' : 'text-red-600 dark:text-red-500'">
+                                    <p class="text-sm"
+                                        :class="bookPricing?.is_subscription_enabled ? 'text-green-600 dark:text-green-500' : 'text-red-600 dark:text-red-500'">
                                         <span class="font-medium">Abonnement : </span>
                                         {{ bookPricing?.is_subscription_enabled ? 'Actif' : 'Inactif' }}
                                     </p>
@@ -89,7 +133,7 @@
                                     <Icon name="mdi:eye" class="w-3 h-3" />
                                     Historique
                                 </nuxt-link>
-                                <button
+                                <button @click="toggleDeleteModal(bookPricing)"
                                     class="flex items-center gap-1 justify-center text-red-500 gap-1 group-hover:translate-x-1 transition-transform">
                                     <Icon name="mdi:delete" class="w-3 h-3" />
                                     Supprimer
@@ -98,6 +142,24 @@
                         </div>
                     </template>
                 </div>
+
+                <div class="flex items-center justify-between p-4 border-t border-slate-100"
+                    v-if="sortedBooksPricingArrays.length !== 0">
+                    <span class="text-xs text-slate-500 dark:text-slate-300">Page <span
+                            class="font-medium text-slate-900 dark:text-slate-200">{{ currentPage }} / {{ totalPages
+                            }}</span> - {{ sortedBooksPricingArrays.length }} données</span>
+                    <div class="flex gap-2">
+                        <button @click="prevPage" :disabled="page === 1"
+                            class="px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-medium text-slate-500 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50">
+                            Précédent
+                        </button>
+                        <button @click="nextPage" :disabled="page === totalPages"
+                            class="px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-medium text-slate-900 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50">
+                            Suivant
+                        </button>
+                    </div>
+                </div>
+            </div>
 
             <div
                 class="hidden lg:block bg-white dark:bg-transparent dark:border dark:border-slate-200 dark:text-slate-200 rounded-xl border border-slate-200 shadow-sm overflow-hidden">
@@ -194,13 +256,13 @@
                                         </div>
                                         <span
                                             class="font-medium text-slate-900 dark:text-slate-200 group-hover:text-orange-600 transition-colors underline whitespace-nowrap">{{
-                                            bookPricing?.book.title }}</span>
+                                                bookPricing?.book.title }}</span>
                                     </div>
                                 </td>
-                                <td class="py-3 px-6 text-center whitespace-nowrap dark:text-slate-300">
+                                <td class="py-3 px-6 text-left whitespace-nowrap dark:text-slate-300">
                                     {{ bookPricing?.pdf_price }} {{ bookPricing.currency }}
                                 </td>
-                                <td class="py-3 px-6 text-center whitespace-nowrap dark:text-slate-300">
+                                <td class="py-3 px-6 text-left whitespace-nowrap dark:text-slate-300">
                                     {{ bookPricing?.subscription_price_monthly }} {{ bookPricing.currency }}
                                 </td>
                                 <td class="py-3 px-6 whitespace-nowrap">
@@ -210,7 +272,7 @@
                                         {{ status(bookPricing?.book.status) }}
                                     </span>
                                 </td>
-                                <td class="py-3 px-6 text-center whitespace-nowrap">
+                                <td class="py-3 px-6 text-left whitespace-nowrap">
                                     <span
                                         :class="`inline-flex items-center gap-1.5 text-[10px] font-medium text-red-700 dark:text-red-500`"
                                         v-if="bookPricing?.book.status === 'inactive'">
@@ -218,29 +280,29 @@
                                         {{ formatLocalDate(bookPricing?.book.deadline || '') }}
                                     </span>
                                 </td>
-                                <td class="py-3 px-6 text-center whitespace-nowrap"
+                                <td class="py-3 px-6 text-left whitespace-nowrap"
                                     :class="bookPricing?.is_pdf_enabled ? 'text-green-600 dark:text-green-500' : 'text-red-600 dark:text-red-500'">
                                     {{ bookPricing?.is_pdf_enabled ? 'Actif' : 'Inactif' }}
                                 </td>
-                                <td class="py-3 px-6 text-center whitespace-nowrap"
+                                <td class="py-3 px-6 text-left whitespace-nowrap"
                                     :class="bookPricing?.is_subscription_enabled ? 'text-green-600 dark:text-green-500' : 'text-red-600 dark:text-red-500'">
                                     {{ bookPricing?.is_subscription_enabled ? 'Actif' : 'Inactif' }}
                                 </td>
-                                <td class="py-3 px-6 text-right whitespace-nowrap flex items-center justify-end gap-2">
-                                    <nuxt-link :to="`/my-stories/books-pricing/${bookPricing.uuid}/edit`"
-                                        class="text-blue-600 dark:text-blue-500 hover:text-blue-700 flex items-center gap-1 justify-center transition-colors text-xs underline">
-                                        <Icon name="mdi:edit" class="w-3 h-3" />
-                                        Modifier
-                                    </nuxt-link>
-                                    <nuxt-link :to="'#'"
-                                        class="text-amber-600 dark:text-amber-500 hover:text-amber-700 flex items-center gap-1 justify-center transition-colors text-xs underline">
-                                        <Icon name="mdi:eye" class="w-3 h-3" />
-                                        Historiques
-                                    </nuxt-link>
-                                    <button
-                                        class="p-1 rounded-md hover:bg-slate-100 text-red-600 hover:text-red-700 transition-colors">
-                                        <Icon name="mdi:trash" width="16" />
-                                    </button>
+                                <td class="py-3 px-6 text-right whitespace-nowrap">
+                                    <div class=" flex justify-center items-center gap-2">
+                                        <nuxt-link :to="`/my-stories/books-pricing/${bookPricing.uuid}/edit`"
+                                            class="text-blue-600 dark:text-blue-500 hover:text-blue-700 flex items-center gap-1 justify-center transition-colors text-xs underline">
+                                            <Icon name="mdi:edit" class="w-3 h-3" />
+                                        </nuxt-link>
+                                        <nuxt-link :to="'#'"
+                                            class="text-amber-600 dark:text-amber-500 hover:text-amber-700 flex items-center gap-1 justify-center transition-colors text-xs underline">
+                                            <Icon name="mdi:eye" class="w-3 h-3" />
+                                        </nuxt-link>
+                                        <button @click="toggleDeleteModal(bookPricing)"
+                                            class="rounded-md text-red-600 hover:text-red-700 transition-colors">
+                                            <Icon name="mdi:trash" width="16" />
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                         </tbody>
@@ -248,8 +310,9 @@
                 </div>
 
                 <div class="flex items-center justify-between p-4 border-t border-slate-100">
-                <span class="text-xs text-slate-500 dark:text-slate-300">Page <span class="font-medium text-slate-900 dark:text-slate-200">{{ currentPage }} / {{ totalPages
-                        }}</span> - {{ sortedBooksPricingArrays.length }} données</span>
+                    <span class="text-xs text-slate-500 dark:text-slate-300">Page <span
+                            class="font-medium text-slate-900 dark:text-slate-200">{{ currentPage }} / {{ totalPages
+                            }}</span> - {{ sortedBooksPricingArrays.length }} données</span>
                     <div class="flex gap-2">
                         <button @click="prevPage" :disabled="page === 1"
                             class="px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-medium text-slate-500 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50">
@@ -262,7 +325,24 @@
                     </div>
                 </div>
             </div>
+
+            <div v-if="!loading && sortedBooksPricingArrays.length === 0"
+                class="lg:hidden flex flex-col items-center justify-center py-16 text-center">
+                <Icon name="mdi:database" class="w-12 h-12 text-slate-300 mb-3" />
+
+                <p class="text-slate-500 text-sm font-medium">
+                    Aucune donnée trouvée
+                </p>
+
+                <p class="text-xs text-slate-400 mt-1">
+                    Essayez de modifier votre recherche ou vos filtres.
+                </p>
+            </div>
         </div>
+
+        <MyStoryBooksPricingDeleteBookPricing @close-delete-modal="showDeleteModal = false"
+            @close-and-load="closeDeleteModal" :bookPricing="bookPricing" :showDeleteModal="showDeleteModal"
+            v-if="showDeleteModal && bookPricing" />
 
     </div>
 </template>
@@ -274,9 +354,11 @@ const page = ref<number>(1);
 const totalPages = ref<number>(1);
 const currentPage = ref<any>("");
 const booksPricing = ref<BookPricing[]>([]);
+const bookPricing = ref<BookPricing | null>(null);
 const searchQuery = ref(''); // ce que l'utilisateur tape
 const searchTerm = ref('');  // utilisé pour filtrer
 const loading = ref<boolean>(false);
+const showDeleteModal = ref(false);
 const router = useRouter();
 type SortDirection = 'asc' | 'desc' | null;
 const sortKey = ref<keyof BookPricing | null>(null);
@@ -285,6 +367,23 @@ const sortDirection = ref<SortDirection>(null);
 const back = () => {
     router.back();
 }
+
+const toggleDeleteModal = (b: BookPricing) => {
+    bookPricing.value = b;
+    showDeleteModal.value = !showDeleteModal.value
+}
+
+const closeDeleteModal = async () => {
+    await onLoad();
+    showDeleteModal.value = !showDeleteModal.value
+}
+
+// Détecter Enter
+const onSearchEnter = (event: KeyboardEvent) => {
+    if (event.key === 'Enter') {
+        searchTerm.value = searchQuery.value;
+    }
+};
 
 const status = (status: string) => {
     switch (status.toLocaleLowerCase()) {

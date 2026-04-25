@@ -21,24 +21,20 @@
                       class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:size-10">
                       <ExclamationTriangleIcon class="size-6 text-red-600" aria-hidden="true" />
                     </div>
-                    <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left" v-if="props.book.status !== 'inactive'">
-                      <DialogTitle as="h3" class="text-base font-semibold text-gray-900 dark:text-white">Supprimer du livre 
-                        "<strong class="text-orange-600 dark:text-orange-500">{{ props.book.title }}</strong>"
+                    <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left" v-if="props.bookPricing.book.status !== 'inactive'">
+                      <DialogTitle as="h3" class="text-base font-semibold text-gray-900 dark:text-white">Supprimer la configuration du livre 
+                        "<strong class="text-orange-600 dark:text-orange-500">{{ props.bookPricing.book.title }}</strong>"
                       </DialogTitle>
                       <div class="mt-2">
                         <p class="text-sm text-gray-500 dark:text-slate-200">Êtes-vous sûr de vouloir supprimer cette
-                          histoire ? Toutes les chapitres liés à cette dernière seront supprimées définitivement 10
-                          jours après avoir effectué cette action.</p>
+                          configuration ?</p>
                       </div>
                     </div>
                     <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left" v-else>
-                      <DialogTitle as="h3" class="text-base font-semibold text-red-600 dark:text-red-400">"<strong>{{ props.book.title }}</strong>" est déjà inactif !
+                      <DialogTitle as="h3" class="text-base font-semibold text-red-600 dark:text-red-400">"<strong>{{ props.bookPricing.book.title }}</strong>" est déjà inactif !
                       </DialogTitle>
                       <div class="mt-2">
-                        <p class="text-sm text-gray-500 dark:text-slate-200">Ce livre sera supprimé dans quelques jours...(<strong>{{ days }}</strong>jrs).
-                        
-                        Ce délai vous permet de revenir sur votre décision en nous contactant à l’adresse suivante :
-                          <strong><a href="mailto:africstoryline@gmail.com">africstoryline@gmail.com</a></strong>.</p>
+                        <p class="text-sm text-gray-500 dark:text-slate-200">Ce livre sera supprimé dans quelques jours...(<strong>{{ days }}</strong>jrs). Cela entrainera aussi la suppression de cette configuration.</p>
                       </div>
                     </div>
                   </div>
@@ -48,12 +44,12 @@
                 <p v-if="message" class="text-xs text-center font-medium text-green-600 dark:text-green-500 mb-2">{{
                   message }}</p>
                 <div class="dark:bg-slate-800 bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                  <button type="button" v-if="props.book.status !== 'inactive'"
+                  <button type="button" v-if="props.bookPricing.book.status !== 'inactive'"
                     class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 lg:px-6 py-2 text-sm font-semibold text-white shadow-xs hover:bg-red-500 sm:ml-3 sm:w-auto"
                     @click="deleteBook">Supprimer</button>
                   <button type="button"
                     class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 lg:px-6 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
-                    @click="closeModal" ref="cancelButtonRef">{{props.book.status !== 'inactive' ? "Annuler" : "Fermer"}}</button>
+                    @click="closeModal" ref="cancelButtonRef">{{props.bookPricing.book.status !== 'inactive' ? "Annuler" : "Fermer"}}</button>
                 </div>
               </DialogPanel>
             </TransitionChild>
@@ -68,20 +64,20 @@
 import { ref } from 'vue'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { ExclamationTriangleIcon } from '@heroicons/vue/24/outline'
-const { inactiveFunction } = booksData()
+const { deleteBooksPricing } = booksPricingData()
 const props = defineProps<{
-  book: BookData
+  bookPricing: BookPricing
 }>();
 
 const error = ref<string | null | undefined>(null);
 const message = ref<string | null | undefined>(null);
-const {days} = getDaysFromToday(`${props.book.deadline}`)
+const {days} = getDaysFromToday(`${props.bookPricing.book.deadline}`)
 const open = ref(true)
 const emit = defineEmits(['close-delete-modal', 'close-and-load']);
 const deleteBook = async () => {
   error.value = null;
   message.value = null;
-  const res = await inactiveFunction(props.book.uuid);
+  const res = await deleteBooksPricing(props.bookPricing.uuid);
   if (res.success) {
     message.value = res.msg;
     setTimeout(() => {
