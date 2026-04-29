@@ -120,8 +120,13 @@
                             </div>
 
                             <h2
-                                class="text-3xl md:text-5xl font-display font-semibold text-slate-900 dark:text-white tracking-tight mb-4">
+                                class="text-3xl md:text-5xl font-display relative font-semibold text-slate-900 dark:text-white tracking-tight mb-4">
                                 {{ book.title }}
+
+                                <button @click="shareLink"
+                                    class="hidden md:flex md:absolute top-1.5 right-0 text-slate-700 dark:text-slate-200 font-medium transition-colors items-center justify-center">
+                                    <Icon name="mdi:share-variant" class="w-8 " />
+                                </button>
                             </h2>
 
                             <div class="flex items-center gap-6 text-sm text-slate-500 dark:text-slate-200">
@@ -162,7 +167,7 @@
                         <div
                             class="prose prose-slate prose-sm max-w-none text-slate-600 dark:text-slate-200 flex flex-col gap-4">
                             <p v-html="cleanDescription"></p>
-                            <div class="flex lg:justify-start text-sm">
+                            <div class="flex md:hidden lg:justify-start text-sm">
                                 <button @click="shareLink"
                                     class="w-full lg:w-auto lg:px-8 lg:py-2 bg-white border border-slate-200 text-slate-700 py-3 rounded-xl font-medium hover:bg-slate-50 dark:hover:bg-orange-50 dark:hover:border-orange-100/50 dark:hover:text-orange-800 transition-colors flex items-center justify-center gap-2">
                                     <Icon name="mdi:share-variant" class="w-5 h-5 lg:w-4 lg:h-4" />
@@ -206,7 +211,7 @@
                                                 </p>
                                                 <p class="text-xs text-slate-400 dark:text-slate-200">
                                                     <Icon name="mdi:eye" class="w-3 h-3" /> {{
-                                                    formatNumber(chapter.chapter_reads.length) }},
+                                                        formatNumber(chapter.chapter_reads.length) }},
                                                     <Icon name="mdi:heart" class="w-3 h-3" /> {{
                                                         formatNumber(chapter.chapter_reactions.length) }},
                                                     <Icon name="mdi:comment" class="w-3 h-3" /> {{
@@ -536,7 +541,7 @@
                             </div>
                             <p class="text-[12px] lg:text-xs text-slate-600 dark:text-slate-200">{{
                                 reaction.user.pseudonym
-                                }} a réagi : <span class="font-medium">{{ reaction.label }} {{ reaction.emoji }}</span>
+                            }} a réagi : <span class="font-medium">{{ reaction.label }} {{ reaction.emoji }}</span>
                             </p>
                         </div>
                     </div>

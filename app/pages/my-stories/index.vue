@@ -384,7 +384,6 @@
                                     <td
                                         class="py-3 px-6 text-right whitespace-nowrap flex items-center justify-end gap-2">
                                         <nuxt-link :to="`/my-stories/${book.uuid}/edit_book`"
-                                            v-if="!['draft', 'inactive'].includes(book.status)"
                                             class="text-blue-600 dark:text-blue-500 hover:text-blue-700 flex items-center gap-1 justify-center transition-colors text-xs underline">
                                             <Icon name="mdi:edit" class="w-3 h-3" />
                                             Modifier</nuxt-link>

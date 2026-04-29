@@ -3,13 +3,14 @@
         <section class="max-w-7xl mx-auto px-6 pt-12 border-t border-slate-100 lg:gap-10 lg:grid lg:grid-cols-4">
             <button @click="back"
                 class="lg:hidden mb-2 p-1 border rounded-lg flex items-center justify-center hover:bg-slate-100 text-slate-500 dark:text-slate-200 dark:hover:text-slate-300 dark:hover:bg-slate-700 transition-colors">
-                <Icon name="mdi:arrow-left" class="w-6 h-6" />
+                <Icon name="mdi:arrow-left" class="w-5 h-5" />
             </button>
             <div
                 class="flex lg:flex-col lg:justify-start justify-center items-center gap-2 lg:sticky lg:top-20 self-start">
                 <div class="group flex flex-col lg:justify-center items-center gap-2 w-full">
                     <div class="flex lg:flex-col lg:justify-center items-center gap-2 w-full">
-                        <img v-if="author.photo" :src="author.photo.includes('https') ? author.photo : `${config.public.apiBackendUrl}/uploads/users/${author.photo}`"
+                        <img v-if="author.photo"
+                            :src="author.photo.includes('https') ? author.photo : `${config.public.apiBackendUrl}/uploads/users/${author.photo}`"
                             class="w-16 h-16 md:w-24 md:h-24 lg:group-hover:scale-95 hover:duration-300 transition-all lg:w-full lg:h-72 object-cover rounded-full lg:rounded-lg"
                             alt="Image de l'auteur">
                         <span v-if="!author.photo"
@@ -81,15 +82,21 @@
                             </span>
                         </div>
                     </div>
-                    <div class="w-full" v-if="user && (Number(user.id) !== Number(author.id))">
+                    <div class="w-full flex items-center justify-between gap-2"
+                        v-if="user && (Number(user.id) !== Number(author.id))">
                         <button v-if="!follow" :disabled="loading" @click.stop="followAuthor(author.id)"
-                            class="bg-orange-700 hover:bg-orange-800 transition-all duration-300 ease-linear dark:border dark:border-slate-300 dark:bg-slate-800 dark:hover:bg-slate-900 hover:bg-primary text-white text-xs w-full p-2.5 rounded-lg">
+                            class="bg-orange-700 hover:bg-orange-800 transition-all duration-300 ease-linear dark:border dark:border-slate-300 dark:bg-slate-800 dark:hover:bg-slate-900 hover:bg-primary text-white text-xs w-5/6 p-2.5 rounded-lg">
                             Suivre
                         </button>
 
                         <button v-else :disabled="loading" @click.stop="unFollowAuthor(author.id)"
                             class="bg-orange-800 hover:bg-orange-900 transition-all duration-300 ease-linear dark:border dark:border-slate-300 dark:bg-slate-800 dark:hover:bg-slate-900 hover:bg-primary text-white text-xs w-full p-2.5 rounded-lg">
                             Se désabonner
+                        </button>
+
+                        <button @click="shareLink"
+                            class="bg-white border border-slate-200 text-slate-700 transition-all duration-300 ease-linear dark:border dark:border-slate-300 dark:bg-slate-800 dark:hover:bg-slate-900 text-xs w-1/6 p-2.5 rounded-lg">
+                            <Icon name="mdi:share-variant" class="w-4 h-4" />
                         </button>
                     </div>
                     <div class="w-full" v-if="!user">
@@ -103,8 +110,8 @@
             <div class="border-t border-slate-200 lg:border-none lg:pt-0 pt-6 mt-6 lg:mt-0 lg:col-span-3 2xl:pr-0">
                 <div class="lg:mt-0 text-sm max-w-none text-slate-600 dark:text-slate-200">
                     <button @click="back"
-                        class="hidden lg:flex p-1 border rounded-lg items-center justify-center hover:bg-slate-100 text-slate-500 dark:text-slate-200 dark:hover:text-slate-300 dark:hover:bg-slate-700 transition-colors">
-                        <Icon name="mdi:arrow-left" class="w-5 h-5" />
+                        class="hidden mb-2 lg:flex p-2 border rounded-lg items-center justify-center gap-1 text-xs hover:bg-slate-100 text-slate-500 dark:text-slate-200 dark:hover:text-slate-300 dark:hover:bg-slate-700 transition-colors">
+                        <Icon name="mdi:arrow-left" class="w-5 h-5 lg:w-4 lg:h-4" /> Retour
                     </button>
                     <h3 class="font-display text-xl font-bold text-slate-900 dark:text-white mb-1">Bibliographie</h3>
                     <p v-if="author.bibliography" v-html="DOMPurify.sanitize(author.bibliography || '')"></p>
@@ -132,16 +139,9 @@
                                     }}</a></li>
                         </ul>
                     </div>
-                    <div class="flex lg:justify-start text-sm mt-4">
-                        <button @click="shareLink"
-                            class="w-full lg:w-auto lg:px-8 lg:py-2 bg-white border border-slate-200 text-slate-700 py-3 rounded-xl font-medium hover:bg-slate-50 dark:hover:bg-orange-50 dark:hover:border-orange-100/50 dark:hover:text-orange-800 transition-colors flex items-center justify-center gap-2">
-                            <Icon name="mdi:share-variant" class="w-5 h-5 lg:w-4 lg:h-4" />
-                            Partager le compte
-                        </button>
-                    </div>
                 </div>
                 <!-- stories List -->
-                <div class="border-t border-slate-200 mt-6 pt-6">
+                <div class="border-t border-slate-200 mt-6 lg:mt-4 pt-6">
                     <div class="flex items-center md:items-end justify-between mb-4">
                         <h3 class="font-display text-xl font-medium text-slate-900 dark:text-white">Livres</h3>
 
@@ -238,7 +238,7 @@ const onLoad = async () => {
                     { name: 'description', content: `${author.value.bibliography?.replaceAll('<br>', '') || ''}` }
                 ],
                 link: [
-                    { rel: 'icon', type: 'image/png', href: author.value.photo.includes('https') ? author.value.photo :  `${config.public.apiBackendUrl}/uploads/users/${author.value.photo}` }
+                    { rel: 'icon', type: 'image/png', href: author.value.photo ? author.value.photo.includes('https') ? author.value.photo : `${config.public.apiBackendUrl}/uploads/users/${author.value.photo}` : '/afric.png' }
                 ]
             });
             useSeoMeta({
@@ -247,14 +247,14 @@ const onLoad = async () => {
 
                 ogTitle: `${author.value.name}`,
                 ogDescription: `${author.value.bibliography?.replaceAll('<br>', '') || ''}`,
-                ogImage: author.value.photo.includes('https') ? author.value.photo : `${config.public.apiBackendUrl}/uploads/users/${author.value.photo}`,
+                ogImage: author.value.photo ? (author.value.photo.includes('https') ? author.value.photo : `${config.public.apiBackendUrl}/uploads/users/${author.value.photo}`) : '/afric.png',
                 ogUrl: `${config.public.frontUrl}/authors/${author.value.uuid}`,
                 ogType: 'website',
 
                 twitterCard: 'summary_large_image',
                 twitterTitle: `${author.value.name}`,
                 twitterDescription: `${author.value.bibliography?.replaceAll('<br>', '') || ''}`,
-                twitterImage: author.value.photo.includes('https') ? author.value.photo : `${config.public.apiBackendUrl}/uploads/users/${author.value.photo}`
+                twitterImage: author.value.photo ? author.value.photo.includes('https') ? author.value.photo : `${config.public.apiBackendUrl}/uploads/users/${author.value.photo}` : '/afric.png'
             });
             if (author.value.status !== 'actif') {
                 router.back();

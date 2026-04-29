@@ -76,8 +76,8 @@
                         </span>
                     </div>
                 </div>
-                <div>
-                    <label class="block text-sm font-medium leading-6 text-slate-900 dark:text-white mb-1">
+                <div class="flex flex-col gap-1">
+                    <label class="block text-sm font-medium leading-6 text-slate-900 dark:text-white">
                         À quelle(s) catégorie(s) appartient ce livre ?
                     </label>
 
@@ -98,7 +98,7 @@
                         </label>
                     </div>
                 </div>
-                <div>
+                <div class="flex flex-col gap-1">
                     <label for="step" class="text-sm text-slate-900 font-medium dark:text-white">Âge autorisé
                         :</label>
                     <select required id="step"

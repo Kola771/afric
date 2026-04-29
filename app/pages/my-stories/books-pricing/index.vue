@@ -96,11 +96,11 @@
                                         class="font-medium text-slate-900 dark:text-white group-hover:text-orange-600 flex transition-colors">
                                         <span class="truncate">{{ bookPricing?.book.title }}</span>
                                     </p>
-                                    <p class="text-sm">
+                                    <p class="text-sm text-slate-900 dark:text-white">
                                         <span class="font-medium">Prix du livre : </span>
                                         <span>{{ bookPricing.pdf_price }} {{ bookPricing.currency }}</span>
                                     </p>
-                                    <p class="text-sm">
+                                    <p class="text-sm text-slate-900 dark:text-white">
                                         <span class="font-medium">Montant abonnement mensuel : </span>
                                         <span>{{ bookPricing.subscription_price_monthly }} {{ bookPricing.currency
                                             }}</span>

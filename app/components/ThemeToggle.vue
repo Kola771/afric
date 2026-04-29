@@ -11,24 +11,20 @@ const toggleTheme = () => {
   <ClientOnly>
     <button
       @click="toggleTheme"
-      class="p-1 w-12 h-6 md:h-8 md:w-auto flex items-center md:gap-2 rounded-full bg-gray-200 dark:bg-primary dark:border-gray-600 dark:border"
+      class="md:w-auto flex items-center md:gap-2 rounded-full bg-gray-200 dark:bg-primary"
     >
-      <span
-        class="p-1 rounded-full flex items-center justify-center text-primary"
-        :class="colorMode.value === 'light'
-          ? 'bg-white'
-          : 'bg-transparent dark:text-white'"
+      <span v-if="colorMode.value === 'dark'"
+        class="p-1 rounded-full flex items-center justify-center"
+        :class="'bg-transparent dark:text-white'"
       >
-        <Icon name="mdi:weather-sunny" class="w-3 h-3" />
+        <Icon name="mdi:weather-sunny" class="w-4 h-4" />
       </span>
 
-      <span
+      <span v-else
         class="p-1 rounded-full flex items-center justify-center text-primary"
-        :class="colorMode.value === 'dark'
-          ? 'bg-white'
-          : 'bg-transparent dark:text-white'"
+        :class="'bg-transparent dark:text-white'"
       >
-        <Icon name="mdi:weather-night" class="w-3 h-3" />
+        <Icon name="mdi:weather-night" class="w-4 h-4" />
       </span>
     </button>
   </ClientOnly>
