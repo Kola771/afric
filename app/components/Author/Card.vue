@@ -1,16 +1,16 @@
 <template>
   <article
-    class="group border border-slate-200 rounded-xl flex flex-col h-full bg-slate-50 dark:bg-slate-800 w-full h-48 lg:h-56 mx-auto cursor-pointer relative" @click="openTheAuthorDetail(props.author.uuid)">
+    class="group border border-slate-200 rounded-xl flex flex-col h-full bg-slate-50 dark:bg-slate-800 w-full h-60 mx-auto cursor-pointer relative" @click="openTheAuthorDetail(props.author.uuid)">
     <div class="flex flex-col flex-1">
       <div class="flex flex-col gap-4 lg:gap-3 rounded-xl">
         <div
           class="relative flex-shrink-0 overflow-hidden rounded-xl shadow-subtle group-hover:shadow-xl transition-all duration-300 ring-1 ring-slate-900/5">
           <img v-if="props.author.photo"
             :src="props.author.photo.includes('https') ? props.author.photo : `${config.public.apiBackendUrl}/uploads/users/${props.author.photo}`"
-            class="w-full h-48 lg:h-56 object-cover transition-transform duration-500 group-hover:scale-105"
+            class="w-full h-60 object-cover transition-transform duration-500 group-hover:scale-105"
             :alt="props.author.name" />
 
-          <span v-else class="p-1 text-md lg:text-2xl font-bold flex items-center justify-center w-full h-48 lg:h-56"
+          <span v-else class="p-1 text-md lg:text-2xl font-bold flex items-center justify-center w-full h-60"
             :style="`background-color: ${props.author.code_color}`">
             {{
               props.author.name.split(" ").length > 1
@@ -30,7 +30,7 @@
       </div>
     </div>
 
-    <div class="absolute inset-0 h-48 lg:h-56 flex flex-col justify-end gap-1 p-2">
+    <div class="absolute inset-0 h-60 flex flex-col justify-end gap-1 p-2">
       <div>
         <h3
           class="font-display font-medium text-white text-sm leading-snug transition-colors line-clamp-1">
