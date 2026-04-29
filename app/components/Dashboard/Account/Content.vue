@@ -76,19 +76,20 @@
                     Vos préférences :
                 </label>
 
-                <div class="flex flex-wrap gap-2">
-                    <label v-for="category in categories" :key="category.id" class="cursor-pointer group">
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-2">
+                    <label v-for="category in categories" :key="category.id" class="cursor-pointer group relative h-24">
                         <input type="checkbox" class="peer sr-only" :value="category.id" v-model="selectedCategories">
-
-                        <div class="rounded-md px-3 py-2.5 lg:py-2 text-xs font-medium bg-white border border-slate-200 text-slate-600 shadow-sm transition-all 
-                            peer-checked:border-orange-500 
-                            peer-checked:text-orange-600 
-                            peer-checked:bg-orange-50 
-                            hover:bg-slate-50 flex items-center gap-1.5 dark:bg-transparent dark:text-slate-200">
+                        <div class="rounded-md h-24 text-xs font-medium border border-slate-200 text-slate-600 shadow-sm transition-all 
+                                peer-checked:border-orange-500 
+                                peer-checked:text-orange-600 
+                                peer-checked:bg-orange-50 
+                                bg-slate-50 dark:bg-transparent dark:text-slate-200">
                             <img :src="category.image?.includes('https') ? category.image : `${$config.public.apiBackendUrl}/uploads/categories/${category.image}`"
-                                :alt="category.name" class="w-5 h-5 rounded">
-                            <span>{{ category.name }}</span>
+                                :alt="category.name" class="w-full h-full rounded">
                         </div>
+                        <div
+                            class="absolute inset-0 h-24 font-bold flex items-center justify-center text-xs text-white px-4">
+                            {{ category.name }}</div>
                     </label>
                 </div>
             </div>
