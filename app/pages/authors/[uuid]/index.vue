@@ -95,8 +95,8 @@
                         </button>
 
                         <button @click="shareLink"
-                            class="bg-white border border-slate-200 text-slate-700 transition-all duration-300 ease-linear dark:border dark:border-slate-300 dark:bg-slate-800 dark:hover:bg-slate-900 text-xs w-1/6 p-2.5 rounded-lg">
-                            <Icon name="mdi:share-variant" class="w-4 h-4" />
+                            class="bg-white border border-slate-200 text-slate-700 dark:text-slate-200 transition-all duration-300 ease-linear dark:border dark:border-slate-300 dark:bg-slate-800 dark:hover:bg-slate-900 text-xs w-1/6 p-2.5 rounded-lg">
+                            <Icon name="mdi:share-variant" class="w-3 h-3" />
                         </button>
                     </div>
                     <div class="w-full" v-if="!user">

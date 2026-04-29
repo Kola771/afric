@@ -30,7 +30,7 @@
           </div>
         </div>
       </div>
-      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6" v-if="authors.length > 0">
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4" v-if="authors.length > 0">
         <template v-if="loadingAuthor">
           <AuthorCardSkeleton v-for="i in 6" :key="i" />
         </template>

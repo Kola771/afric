@@ -1,10 +1,10 @@
 <template>
     <article
-        class="relative group cursor-pointer bg-white dark:bg-transparent dark:border dark:border-slate-200 rounded-xl shadow-md gap-2 h-24 lg:h-28"
+        class="relative group cursor-pointer bg-white dark:bg-transparent dark:border dark:border-slate-200 rounded-xl shadow-md gap-2 h-28 lg:h-32"
         @click="openTheBooksOfTheCategory(props.category.uuid)">
 
         <div
-            class="relative h-24 lg:h-28 w-full flex-shrink-0 overflow-hidden rounded-lg bg-slate-100 shadow-subtle group-hover:shadow-xl transition-all duration-300 ring-1 ring-slate-900/5">
+            class="relative h-28 lg:h-32 w-full flex-shrink-0 overflow-hidden rounded-lg bg-slate-100 shadow-subtle group-hover:shadow-xl transition-all duration-300 ring-1 ring-slate-900/5">
             <img :src="props.category.image?.includes('https') ? props.category.image : `${config.public.apiBackendUrl}/uploads/categories/${props.category.image}`"
                 class="w-full h-full text-xs object-cover transition-transform duration-500 group-hover:scale-105"
                 :alt="props.category.name">
