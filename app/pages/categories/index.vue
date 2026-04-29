@@ -7,7 +7,7 @@
                     <p class="text-slate-500 text-sm mt-1 dark:text-slate-200">Faites votre choix.</p>
                 </div>
             </div>
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
                 <!-- Skeleton -->
                 <template v-if="loading">
                     <CategoryCardSkeleton v-for="i in 8" :key="i" />
