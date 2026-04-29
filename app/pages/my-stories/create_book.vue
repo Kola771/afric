@@ -35,18 +35,25 @@
                     <label for="title" class="text-sm text-slate-900 font-medium dark:text-white">Titre du livre
                         :</label>
                     <input type="text" id="title" v-model="title" required
-                        class="block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all bg-white dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200" />
+                        class="block rounded-lg w-full border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all bg-white dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200" />
                 </div>
                 <div class="flex flex-col gap-1">
                     <label for="image" class="text-sm text-slate-900 font-medium dark:text-white">Image de couverture
                         :</label>
                     <input type="file" accept="image/jpeg, image/jpg, image/png, image/jfif" name="image" id="image"
-                        ref="file" required
+                        ref="imageRef" required
                         class="w-full text-sm outline-none border border-slate-300 dark:border-slate-200 bg-slate-50 rounded-md p-2 bg-white dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200"
                         @change="onFileChange">
                 </div>
                 <div class="flex flex-col gap-1" v-if="preview">
-                    <p class="text-sm text-slate-900 font-medium dark:text-white">Aperçu de l'image :</p>
+                    <div class="flex items-center justify-between">
+                        <p class="text-sm text-slate-900 font-medium dark:text-white">Aperçu de l'image :</p>
+                        <span @click="removeImage"
+                            class="text-red-600 dark:text-red-700 flex items-center justify-center gap-1 font-bold text-xs cursor-pointer">
+                            <Icon name="mdi:close" class="w-4 h-4" />
+                            Annuler
+                        </span>
+                    </div>
                     <div class="bg-slate-100 dark:bg-slate-800 flex flex-col rounded-lg"><img :src="preview"
                             alt="Preview"
                             class="max-h-[200px] dark:border object-cover lg:object-contain lg:max-h-[220px] rounded-lg" />
@@ -74,19 +81,20 @@
                         À quelle(s) catégorie(s) appartient ce livre ?
                     </label>
 
-                    <div class="flex flex-wrap gap-2">
-                        <label v-for="category in categories" :key="category.id" class="cursor-pointer group">
+                    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-2">
+                        <label v-for="category in categories" :key="category.id"
+                            class="cursor-pointer group relative h-24">
                             <input type="checkbox" class="peer sr-only" :value="category.id"
                                 v-model="selectedCategories">
-                            <div class="rounded-md px-3 py-2.5 lg:py-2 text-xs font-medium bg-white border border-slate-200 text-slate-600 shadow-sm transition-all 
+                            <div class="rounded-md h-24 text-xs font-medium border border-slate-200 text-slate-600 shadow-sm transition-all 
                                 peer-checked:border-orange-500 
                                 peer-checked:text-orange-600 
                                 peer-checked:bg-orange-50 
-                                hover:bg-slate-50 flex items-center gap-1.5 dark:bg-transparent dark:text-slate-200">
+                                bg-slate-50 dark:bg-transparent dark:text-slate-200">
                                 <img :src="category.image?.includes('https') ? category.image : `${$config.public.apiBackendUrl}/uploads/categories/${category.image}`"
-                                    :alt="category.name" class="w-5 h-5 rounded">
-                                <span>{{ category.name }}</span>
+                                    :alt="category.name" class="w-full h-full rounded">
                             </div>
+                            <div class="absolute inset-0 h-24 font-bold flex items-center justify-center text-xs text-white px-4">{{ category.name }}</div>
                         </label>
                     </div>
                 </div>
@@ -102,13 +110,85 @@
                         <option value="18+">18ans+</option>
                     </select>
                 </div>
+                <div>
+                    <label for="step" class="text-sm text-slate-900 font-medium dark:text-white">Voulez-vous créer les
+                        chapitres en même temps ? (Facultatif)</label>
+                    <div class="flex items-center gap-2 mt-2">
+                        <input type="checkbox" id="withChapters" v-model="withChapters"
+                            class="w-4 h-4 cursor-pointer" />
+                        <label for="withChapters" class="text-sm text-slate-600 dark:text-slate-200 cursor-pointer">
+                            Oui, importer les chapitres via un PDF
+                        </label>
+                    </div>
+                </div>
+
+                <div v-if="withChapters" class="mt-2 border-t pt-4">
+                    <h2 class="text-sm font-semibold mb-2 dark:text-slate-200">
+                        Importer un PDF
+                    </h2>
+
+                    <div class="overflow-y-auto">
+                        <input type="file" accept="application/pdf" @change="handlePdfUpload" :disabled="pdfLoading"
+                            class="block w-full rounded-lg border-0 p-2.5 lg:p-2 text-slate-900 shadow-sm border-slate-300 border-[1px] placeholder:text-slate-400 focus:ring-2 outline-none dark:focus:ring-slate-500 focus:ring-orange-600 text-sm sm:leading-6 transition-all bg-white dark:bg-transparent dark:placeholder:text-slate-200 dark:text-slate-200" />
+
+                        <p class="text-[13px] text-slate-600 mt-2 dark:text-slate-200">
+                            Nous détectons automatiquement les sections dont les titres sont clairement indiqués,
+                            tels que <strong>Préface</strong>, <strong>Résumé</strong>, <strong>Introduction</strong>
+                            ou encore <strong>Chapitre 1, Chapitre 2, etc.</strong>
+                            Veillez à structurer correctement votre PDF.
+                        </p>
+
+                        <div v-if="pdfLoading" class="mt-4 text-xs text-orange-600">
+                            Extraction des chapitres en cours...
+                        </div>
+
+                        <div v-if="pdfError" class="mt-4 text-xs text-red-500">
+                            {{ pdfError }}
+                        </div>
+
+                        <div v-if="pdfChapters.length" class="mt-6">
+                            <div class="border rounded-xl p-4 bg-slate-50 relative">
+                                <div class="flex justify-between items-center mb-2">
+                                    <h3 class="text-sm font-semibold">
+                                        {{ currentPdfChapter?.title || 'Titre non détecté' }}
+                                    </h3>
+                                    <span @click="deletePdfChapter(currentPdfIndex)"
+                                        class="cursor-pointer text-red-500 text-xs">
+                                        Supprimer
+                                    </span>
+                                </div>
+
+                                <div class="text-xs text-slate-600 whitespace-pre-line max-h-[500px] overflow-y-auto">
+                                    {{ currentPdfChapter?.content }}
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between mt-3 dark:text-slate-200">
+                                <span @click="prevPdfChapter" :disabled="currentPdfIndex === 0"
+                                    class="cursor-pointer p-2 flex items-center justify-center rounded-lg border hover:bg-slate-100 disabled:opacity-30">
+                                    <Icon name="mdi:chevron-left" class="w-5 h-5" />
+                                </span>
+
+                                <span class="text-xs">
+                                    {{ currentPdfIndex + 1 }} / {{ pdfChapters.length }}
+                                </span>
+
+                                <span @click="nextPdfChapter" :disabled="currentPdfIndex === pdfChapters.length - 1"
+                                    class="cursor-pointer p-2 flex items-center justify-center rounded-lg border hover:bg-slate-100 disabled:opacity-30">
+                                    <Icon name="mdi:chevron-right" class="w-5 h-5" />
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <div v-if="error" class="text-xs text-center font-medium text-red-500 mt-2">{{ error }}</div>
+                <div v-if="waiting" class="text-xs text-center font-medium text-amber-500 mt-2">Opération en cours...
+                </div>
                 <div v-if="message" class="text-xs text-center font-medium text-green-500 mt-2">{{ message }}</div>
 
                 <div class="mt-2 flex flex-col md:flex-row md:justify-end">
-                    <button :disabled="loading || !isDescriptionValid"
-                        :class="loading || !isDescriptionValid ? 'cursor-not-allowed' : 'cursor-pointer'"
+                    <button :disabled="loading || !isDescriptionValid || pdfLoading"
+                        :class="loading || !isDescriptionValid || pdfLoading ? 'cursor-not-allowed' : 'cursor-pointer'"
                         class="px-4 lg:px-8 py-2.5 bg-orange-600 dark:bg-orange-500 dark:hover:bg-orange-600 text-white text-sm rounded-md hover:bg-orange-700 transition-colors">Valider</button>
                 </div>
             </form>
@@ -116,7 +196,12 @@
     </div>
 </template>
 <script lang="ts" setup>
+interface ImportedChapter {
+    title: string
+    content: string
+}
 const { allCategorieActifs } = categoriesData();
+const { createManyData } = chaptersData();
 const { existingData, createData } = booksData();
 const { getProfile } = usersData();
 const { toConnectUser } = authenticate();
@@ -130,11 +215,160 @@ const selectedCategories = ref<number[]>([]);
 const error = ref<string | null | undefined>(null);
 const message = ref<string | null | undefined>(null);
 const image = ref<any>(null)
-const loading = ref(false);
+const loading = ref<boolean>(false);
+const waiting = ref<boolean>(false);
 const router = useRouter();
 const preview = ref<any>(null)
-
 const minDescriptionLength = 150
+const withChapters = ref(false)
+const imageRef = ref<HTMLInputElement | null>(null)
+
+const chapters = ref<ChapterData[]>([]);
+const pdfFile = ref<File | null>(null)
+const pdfLoading = ref(false)
+const pdfError = ref<string | null>(null)
+const pdfChapters = ref<any[]>([])
+const currentPdfIndex = ref(0)
+const STATUS = ref({
+    DRAFT: "draft",
+    COMPLETED: "completed"
+});
+
+const currentPdfChapter = computed(() => {
+    return pdfChapters.value[currentPdfIndex.value] || null
+})
+
+const removeImage = () => {
+    image.value = null
+    preview.value = null
+
+    if (imageRef.value) {
+        imageRef.value.value = ""
+    }
+}
+
+// function pour extraire le contenu d'un pdf
+async function handlePdfUpload(event: Event): Promise<void> {
+    if (process.server) return
+
+    const input = event.target as HTMLInputElement
+    const file = input.files?.[0]
+    if (!file) return
+
+    const maxSize = 5 * 1024 * 1024 // 5MB
+    if (file.size > maxSize) {
+        error.value = "La taille du fichier ne doit pas dépasser 5 Mo"
+        return
+    }
+
+    pdfFile.value = file
+    pdfLoading.value = true
+    pdfError.value = null
+    pdfChapters.value = []
+
+    try {
+        // 🔥 Import dynamique côté client
+        const pdfjsLib = await import('pdfjs-dist/build/pdf')
+        const pdfWorker = await import('pdfjs-dist/build/pdf.worker?url')
+
+        pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker.default
+
+        const arrayBuffer = await file.arrayBuffer()
+        const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise
+
+        let fullText = ''
+
+        for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+            const page = await pdf.getPage(pageNum)
+            const content = await page.getTextContent()
+
+            const pageText = content.items
+                .map((item: any) => item.str)
+                .join(' ')
+
+            fullText += pageText + '\n\n'
+        }
+
+        pdfChapters.value = splitChapters(fullText)
+        currentPdfIndex.value = 0
+
+        if (!pdfChapters.value.length) {
+            pdfError.value = "Aucun chapitre détecté. Vérifiez le format (Chapitre 1, Chapitre 2...)."
+        }
+
+    } catch (error) {
+        console.error(error)
+        pdfError.value = "Erreur lors de l'extraction du PDF."
+    } finally {
+        pdfLoading.value = false
+        input.value = ''
+    }
+}
+
+// Fonction de base pour l'extraction
+function splitChapters(text: string): ImportedChapter[] {
+    // Regex qui gère :
+    // - préface / preface (avec ou sans accents)
+    // - résumé / resume
+    // - introduction
+    // - chapitre X ou chapitre_X
+    const regex = /\b(pr[eé]face|resume|r[eé]sum[eé]|introduction|chapitre[_ ]?(\d+|[IVXLCDM]+))\b/gi;
+
+    const matches = [...text.matchAll(regex)];
+    if (!matches.length) return [];
+
+    const extracted: any[] = [];
+    let chapterCounter = chapters.value.length + 1; // Compteur pour les chapitres numériques
+
+    for (let i = 0; i < matches.length; i++) {
+        const start = matches[i].index!;
+        const end = matches[i + 1]?.index ?? text.length;
+
+        // le titre exact tel qu'il apparaît
+        let title = matches[i][0].trim();
+        let rawContent = text.slice(start, end).trim();
+        let content = rawContent.replace(new RegExp(`^${matches[i][0]}`, 'i'), '').trim();
+
+        // normaliser certains titres
+        if (/pr[eé]face/i.test(title)) {
+            title = "Préface";
+        } else if (/resume/i.test(title) || /r[eé]sum[eé]/i.test(title)) {
+            title = "Résumé";
+        } else if (/introduction/i.test(title)) {
+            title = "Introduction";
+        } else if (/chapitre[_ ]?\d+/i.test(title)) {
+            // renumérotation propre pour les chapitres
+            title = `Chapitre ${chapterCounter}`;
+            chapterCounter++;
+        }
+        extracted.push({
+            title,
+            content,
+            status: STATUS.value.DRAFT
+        });
+    }
+
+    return extracted;
+}
+
+const nextPdfChapter = () => {
+    if (currentPdfIndex.value < pdfChapters.value.length - 1) {
+        currentPdfIndex.value++
+    }
+}
+
+const prevPdfChapter = () => {
+    if (currentPdfIndex.value > 0) {
+        currentPdfIndex.value--
+    }
+}
+
+const deletePdfChapter = (index: number) => {
+    pdfChapters.value.splice(index, 1)
+    if (currentPdfIndex.value >= pdfChapters.value.length) {
+        currentPdfIndex.value = pdfChapters.value.length - 1
+    }
+}
 
 const descriptionLength = computed(() => {
     return description.value.trim().length
@@ -165,8 +399,13 @@ const back = () => {
 const createBook = async () => {
     error.value = null;
     message.value = null;
+    waiting.value = true;
     loading.value = true; // ✅ désactivation début
     try {
+        if (withChapters.value && !pdfChapters.value.length) {
+            error.value = "Veuillez importer un fichier PDF valide contenant votre récit, en respectant les instructions fournies.";
+            return;
+        }
         if (title.value.trim() !== "" && image.value && description.value.trim() !== "" && rating_age.value.trim() !== "" && selectedCategories.value.length > 0) {
             if (!isDescriptionValid.value) {
                 error.value = "La description doit contenir au moins 150 caractères"
@@ -188,10 +427,22 @@ const createBook = async () => {
                 });
                 const res = await createData(formData)
                 if (res.success) {
-                    message.value = res.msg;
-                    setTimeout(() => {
-                        router.push("/my-stories")
-                    }, 1500);
+                    let returnPage = false;
+                    if (withChapters.value && pdfChapters.value.length > 0) {
+                        pdfChapters.value = pdfChapters.value.map((c: any) => ({ ...c, id_book: res.book.id }));
+                        await createManyData(pdfChapters.value);
+                        returnPage = true;
+                        message.value = `Livre créé avec ${pdfChapters.value.length} chapitre(s) !`;
+                    } else {
+                        returnPage = true;
+                        message.value = res.msg;
+                    }
+
+                    if (returnPage) {
+                        setTimeout(() => {
+                            router.push("/my-stories")
+                        }, 1500);
+                    }
                 } else {
                     error.value = res.error;
                 }
@@ -202,6 +453,7 @@ const createBook = async () => {
     } catch (err) {
         error.value = "Une erreur est survenue";
     } finally {
+        waiting.value = false;
         loading.value = false; // ✅ réactivation
     }
 }

@@ -235,7 +235,7 @@ export function booksData() {
     }
 
     // Créé un livre
-    async function createData(data: any): Promise<{ success: boolean, msg?: string, error?: string | null, status?: number }> {
+    async function createData(data: any): Promise<{ success: boolean, book: any, msg?: string, error?: string | null, status?: number }> {
         if (process.client) {
             if (localStorage.getItem('user')) {
                 const token = JSON.parse(localStorage.getItem("user") || '{}').token;
@@ -247,11 +247,11 @@ export function booksData() {
                         });
                     return response?.data;
                 } catch (error: any) {
-                    return { success: false, status: error.response?.status || 500, error: error.message };
+                    return { success: false, book: null, status: error.response?.status || 500, error: error.message };
                 }
             }
         }
-        return { success: false, status: 400, error: "Client-side error" };
+        return { success: false, book: null, status: 400, error: "Client-side error" };
     }
 
     // Modifie le statut d'un livre

@@ -17,7 +17,7 @@
             <div ref="slider" class="flex items-center gap-2 overflow-x-auto no-scrollbar scroll-smooth px-2">
               <div v-if="!loadingCategory && categories.length > 0" class="flex items-center gap-2">
                 <nuxt-link v-for="(category, index) in categories" :key="index" :to="`/categories/${category.uuid}`"
-                  class="flex-shrink-0 px-4 py-1.5 rounded bg-white dark:bg-transparent dark:text-slate-200 border border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-xs font-medium whitespace-nowrap flex items-center gap-2">
+                  class="flex-shrink-0 px-2 py-1.5 rounded bg-white dark:bg-transparent dark:text-slate-200 border border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-xs font-medium whitespace-nowrap flex items-center gap-2">
                   <img :src="category.image?.includes('https')
                     ? category.image
                     : `${$config.public.apiBackendUrl}/uploads/categories/${category.image}`"
