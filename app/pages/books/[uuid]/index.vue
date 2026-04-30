@@ -5,10 +5,56 @@
         <section class="max-w-7xl mx-auto pt-16 lg:pt-12 border-t border-slate-100">
             <div class="p-4 md:p-10 lg:p-12">
                 <div class="grid md:grid-cols-12 gap-6 md:gap-10">
-
+                    <div class="md:hidden">
+                        <div class="flex items-end gap-2 w-full">
+                            <img v-if="book.image"
+                                :src="book.image.includes('https') ? book.image : `${config.public.apiBackendUrl}/uploads/books/${book.image}`"
+                                class="w-16 h-16 md:w-24 md:h-24 lg:group-hover:scale-95 hover:duration-300 transition-all lg:w-full lg:h-72 object-cover rounded-full lg:rounded-lg"
+                                :alt="book.title">
+                            <div class="flex flex-col gap-0.5">
+                                <div class="flex flex-col">
+                                    <h2 class="lg:text-center text-lg font-bold text-slate-900 dark:text-white">{{
+                                        book.title }}</h2>
+                                    <div class="flex flex-wrap gap-2 text-xs">
+                                        <nuxt-link :to="`/categories/${category.uuid}`"
+                                            v-for="(category, index) in book.book_categories" :key="index"
+                                            class="bg-orange-50 hover:underline uppercase border border-orange-100/50 text-orange-600 font-medium animate-fade-in-up px-2 py-1 rounded">
+                                            {{ category.name }}
+                                        </nuxt-link>
+                                        <span
+                                            :class="`${book.status === 'inactive' ? 'text-red-600 bg-red-50 dark:text-red-600' : (book.status === 'completed' ? 'text-green-600 dark:text-green-500 bg-green-50' : (book.status === 'ongoing' ? 'text-blue-600 dark:text-blue-500 bg-blue-50' : 'bg-slate-100 text-slate-500'))} px-2 py-1 rounded uppercase`">
+                                            {{ status(book.status) }}
+                                        </span>
+                                    </div>
+                                </div>
+                                <!-- <div class="text-[11px] flex flex-wrap items-center gap-2 lg:hidden">
+                                <nuxt-link :to="`/authors/${author.uuid}/followers`">
+                                    <span class="font-semibold text-slate-900 dark:text-slate-200">{{
+                                        formatNumber(author.total_followers) }}</span>
+                                    <span class="text-slate-400"> abonné(s)</span>
+                                </nuxt-link>
+                                <div>
+                                    <span class="font-semibold text-slate-900 dark:text-slate-200">{{
+                                        formatNumber(author.books.length) }}</span>
+                                    <span class="text-slate-400"> livre(s)</span>
+                                </div>
+                                <div>
+                                    <span class="font-semibold text-slate-900 dark:text-slate-200">{{
+                                        formatNumber(countChapters(author.books)) }}</span>
+                                    <span class="text-slate-400"> chapitre(s)</span>
+                                </div>
+                                <div>
+                                    <span class="font-semibold text-slate-900 dark:text-slate-200">{{
+                                        formatNumber(countViews(author.books)) }}</span>
+                                    <span class="text-slate-400"> vue(s)</span>
+                                </div>
+                            </div> -->
+                            </div>
+                        </div>
+                    </div>
                     <!-- LEFT: Cover & Actions -->
                     <div
-                        class="md:col-span-4 flex flex-col gap-4 items-start lg:col-span-3 md:sticky md:top-24 self-start">
+                        class="hidden md:col-span-4 md:flex flex-col gap-4 items-start lg:col-span-3 md:sticky md:top-24 self-start">
                         <div
                             class="rounded-xl overflow-hidden shadow-2xl border border-slate-200 rotate-1 hover:rotate-0 transition-transform duration-500 w-full">
                             <img v-if="book" :src="`${config.public.apiBackendUrl}/uploads/books/${book.image}`"
@@ -104,9 +150,59 @@
 
                     <!-- RIGHT: Info & Chapters -->
                     <div class="md:col-span-8 lg:col-span-9 space-y-8">
+                        <div
+                            class="md:hidden prose prose-slate prose-sm max-w-none text-slate-600 dark:text-slate-200 flex flex-col gap-4">
+                            <p v-html="cleanDescription"></p>
+                            <div class="grid grid-cols-3 gap-3 text-sm md:text-xs">
+                                <div class="relative" ref="reactionWrapper" @mouseenter="handleMouseEnter"
+                                    @mouseleave="handleMouseLeave">
+                                    <!-- Bouton principal -->
+                                    <button @click="toggleLike" @touchstart="startPress" @touchend="cancelPress"
+                                        @touchmove="cancelPress"
+                                        :class="`w-full border border-slate-200 ${(reactionUser && !selectedReaction)
+                                            ? reactionUser.color
+                                            : (selectedReaction ? selectedReaction.color : 'bg-white text-gray-700')
+                                            } py-3 md:py-3.5 lg:py-3 rounded-xl font-medium hover:bg-slate-50 transition-colors flex items-center justify-center gap-2`">
+                                        <span v-if="reactionUser && !selectedReaction && reactionUser?.emoji"
+                                            class="animate-pulse">
+                                            {{ reactionUser?.emoji }}
+                                        </span>
+                                        <span v-else-if="selectedReaction?.emoji" :class="selectedReaction.animation">
+                                            {{ selectedReaction?.emoji }}
+                                        </span>
+                                        <Icon v-else name="mdi:heart-outline" class="w-5 h-5 lg:w-4 lg:h-4" />
+                                        {{ formatNumber(counterReaction) }}
+                                    </button>
+                                    <!-- Popover -->
+                                    <transition name="fade">
+                                        <div v-if="showReactions"
+                                            class="absolute bottom-full mb-3 left-1/2 -translate-x-1/2 bg-white dark:bg-slate-900 dark:border-slate-300 shadow-xl border border-slate-200 rounded-xl px-3 py-2 flex flex-wrap w-[200px] gap-3 items-center justify-center z-50">
+                                            <!-- Triangle -->
+                                            <div
+                                                class="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-[8px] border-l-transparent border-r-[8px] border-r-transparent border-t-[8px] border-t-white">
+                                            </div>
+                                            <button v-for="reaction in reactions" :key="reaction.id"
+                                                @click="selectReaction(reaction)"
+                                                :class="`${reaction.animation} hover:scale-125 flex-shrink-0 w-8 h-8 hover:-translate-y-1 transition-all duration-200 ${(reactionUser && reactionUser.emoji === reaction.emoji) ? 'border-orange-600 p-1.5 bg-slate-50 dark:bg-slate-300 border-[1px] rounded-full text-sm flex items-center justify-center' : 'text-xl'}`">
+                                                {{ reaction.emoji }}
+                                            </button>
+                                        </div>
+                                    </transition>
+                                </div>
+                                <button @click="openStatsBook('comments')"
+                                    class="w-full bg-white border border-slate-200 text-slate-700 py-3 rounded-xl font-medium hover:bg-slate-50 dark:hover:bg-orange-50 dark:hover:border-orange-100/50 dark:hover:text-orange-800 transition-colors flex items-center justify-center gap-2">
+                                    <Icon name="mdi:comment" class="w-5 h-5 lg:w-4 lg:h-4" />
+                                    {{ formatNumber(book.book_comments) }}
+                                </button>
+                                <button @click="shareLink"
+                                    class="w-full lg:w-auto lg:px-8 lg:py-2 bg-white border border-slate-200 text-slate-700 py-3 rounded-xl font-medium hover:bg-slate-50 dark:hover:bg-orange-50 dark:hover:border-orange-100/50 dark:hover:text-orange-800 transition-colors flex items-center justify-center gap-2">
+                                    <Icon name="mdi:share-variant" class="w-5 h-5 lg:w-4 lg:h-4" />
+                                </button>
+                            </div>
+                        </div>
 
                         <!-- Book info -->
-                        <div>
+                        <div class="hidden md:block">
                             <div class="flex flex-wrap items-center gap-3 text-xs font-medium text-orange-600 mb-4">
                                 <nuxt-link :to="`/categories/${category.uuid}`"
                                     v-for="(category, index) in book.book_categories" :key="index"
@@ -165,7 +261,7 @@
 
                         <!-- Description -->
                         <div
-                            class="prose prose-slate prose-sm max-w-none text-slate-600 dark:text-slate-200 flex flex-col gap-4">
+                            class="hidden prose prose-slate prose-sm max-w-none text-slate-600 dark:text-slate-200 md:flex md:flex-col gap-4">
                             <p v-html="cleanDescription"></p>
                             <div class="flex md:hidden lg:justify-start text-sm">
                                 <button @click="shareLink"
@@ -541,7 +637,7 @@
                             </div>
                             <p class="text-[12px] lg:text-xs text-slate-600 dark:text-slate-200">{{
                                 reaction.user.pseudonym
-                            }} a réagi : <span class="font-medium">{{ reaction.label }} {{ reaction.emoji }}</span>
+                                }} a réagi : <span class="font-medium">{{ reaction.label }} {{ reaction.emoji }}</span>
                             </p>
                         </div>
                     </div>
