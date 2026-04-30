@@ -153,6 +153,39 @@
                         <div
                             class="md:hidden prose prose-slate prose-sm max-w-none text-slate-600 dark:text-slate-200 flex flex-col gap-4">
                             <p v-html="cleanDescription"></p>
+                            <!-- Author -->
+                            <nuxt-link :to="`/authors/${book.user.uuid}`" class="group flex items-center gap-1 text-xs p-2 rounded-lg" :style="`background-color: ${book.user.code_color}`">
+                                <img v-if="book.user.photo"
+                                    :src="book.user.photo.includes('https') ? book.user.photo : `${config.public.apiBackendUrl}/uploads/users/${book.user.photo}`"
+                                    alt="Profil" class="w-6 h-6 rounded-full" />
+                                <span v-else
+                                    class="p-1 text-[8px] font-bold flex items-center justify-center text-slate-900 w-6 h-6 rounded-full"
+                                    :style="`background-color: ${book.user.code_color}`">
+                                    {{ book.user?.name.split(" ").length > 1 ?
+                                        `${book.user?.name.charAt(0).toUpperCase() +
+                                        book.user?.name.split(" ")[1]?.charAt(0).toUpperCase()}` :
+                                        book.user?.name.charAt(0).toUpperCase() }}
+                                </span>
+                                <p class="text-slate-900 font-medium dark:text-white flex hover:underline truncate">
+                                    {{ book.user.name }}
+                                </p>
+                            </nuxt-link>
+
+                            <!-- Read buttons -->
+                            <div :class="`grid ${sortedChapters.length > 1 ? 'grid-cols-2' : 'grid-cols-1'} gap-1.5`">
+                                <nuxt-link v-if="sortedChapters.length > 0"
+                                    :to="`/books/${book.uuid}/chapter/${sortedChapters[0].uuid}`"
+                                    class="w-full bg-slate-900 text-white py-3 rounded-xl text-sm font-medium hover:bg-slate-800 dark:shadow-slate-800 dark:border-[1px] dark:border-gray-600 transition-colors flex items-center justify-center gap-2">
+                                    <Icon name="mdi:book-open-page-variant" class="w-5 h-5" />
+                                    Chapitre 1
+                                </nuxt-link>
+                                <nuxt-link v-if="sortedChapters.length > 2"
+                                    :to="`/books/${book.uuid}/chapter/${sortedChapters[sortedChapters.length - 1].uuid}`"
+                                    class="w-full bg-slate-900 text-white py-3 rounded-xl text-sm font-medium hover:bg-slate-800 dark:shadow-slate-800 dark:border-[1px] dark:border-gray-600 transition-colors flex items-center justify-center gap-2">
+                                    <Icon name="mdi:book-open-page-variant" class="w-5 h-5" />
+                                    Dernier chapitre
+                                </nuxt-link>
+                            </div>
                             <div class="grid grid-cols-3 gap-3 text-sm md:text-xs">
                                 <div class="relative" ref="reactionWrapper" @mouseenter="handleMouseEnter"
                                     @mouseleave="handleMouseLeave">
@@ -637,7 +670,7 @@
                             </div>
                             <p class="text-[12px] lg:text-xs text-slate-600 dark:text-slate-200">{{
                                 reaction.user.pseudonym
-                                }} a réagi : <span class="font-medium">{{ reaction.label }} {{ reaction.emoji }}</span>
+                            }} a réagi : <span class="font-medium">{{ reaction.label }} {{ reaction.emoji }}</span>
                             </p>
                         </div>
                     </div>
