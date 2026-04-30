@@ -6,10 +6,10 @@
             <div class="p-4 md:p-10 lg:p-12">
                 <div class="grid md:grid-cols-12 gap-6 md:gap-10">
                     <div class="md:hidden">
-                        <div class="flex items-end gap-2 w-full">
+                        <div class="flex items-center gap-2 w-full">
                             <img v-if="book.image"
                                 :src="book.image.includes('https') ? book.image : `${config.public.apiBackendUrl}/uploads/books/${book.image}`"
-                                class="w-16 h-16 md:w-24 md:h-24 lg:group-hover:scale-95 hover:duration-300 transition-all lg:w-full lg:h-72 object-cover rounded-full lg:rounded-lg"
+                                class="w-16 h-16 md:w-24 md:h-24 lg:group-hover:scale-95 hover:duration-300 dark:border-slate-300 dark:border-[1px] transition-all lg:w-full lg:h-72 object-cover rounded-full lg:rounded-lg"
                                 :alt="book.title">
                             <div class="flex flex-col gap-0.5">
                                 <div class="flex flex-col">
@@ -17,7 +17,7 @@
                                         book.title }}</h2>
                                     <div class="flex flex-wrap gap-2 text-xs">
                                         <nuxt-link :to="`/categories/${category.uuid}`"
-                                            v-for="(category, index) in book.book_categories" :key="index"
+                                            v-for="(category, index) in book.book_categories.slice(0, 2)" :key="index"
                                             class="bg-orange-50 hover:underline uppercase border border-orange-100/50 text-orange-600 font-medium animate-fade-in-up px-2 py-1 rounded">
                                             {{ category.name }}
                                         </nuxt-link>
@@ -27,28 +27,21 @@
                                         </span>
                                     </div>
                                 </div>
-                                <!-- <div class="text-[11px] flex flex-wrap items-center gap-2 lg:hidden">
-                                <nuxt-link :to="`/authors/${author.uuid}/followers`">
-                                    <span class="font-semibold text-slate-900 dark:text-slate-200">{{
-                                        formatNumber(author.total_followers) }}</span>
-                                    <span class="text-slate-400"> abonné(s)</span>
-                                </nuxt-link>
-                                <div>
-                                    <span class="font-semibold text-slate-900 dark:text-slate-200">{{
-                                        formatNumber(author.books.length) }}</span>
-                                    <span class="text-slate-400"> livre(s)</span>
+                                <div class="flex items-center gap-2 mt-0.5 dark:text-white">
+                                    <div class="flex items-center gap-1 text-xs truncate">
+                                        <Icon name="mdi:book-multiple" class="w-4 h-4" />
+                                        <span>{{ formatNumber(book.chapters.length) }} Chapitre{{ book.chapters.length >
+                                            1 ?
+                                            's' : '' }}</span>
+                                    </div>
+                                    <div class="flex items-center gap-1 text-xs truncate">
+                                        <Icon name="mdi:eye" class="w-4 h-4" />
+                                        <span>{{ formatNumber(Number(book.total_views)) }} Vue{{
+                                            Number(book.total_views) >
+                                                1
+                                            ? 's' : '' }}</span>
+                                    </div>
                                 </div>
-                                <div>
-                                    <span class="font-semibold text-slate-900 dark:text-slate-200">{{
-                                        formatNumber(countChapters(author.books)) }}</span>
-                                    <span class="text-slate-400"> chapitre(s)</span>
-                                </div>
-                                <div>
-                                    <span class="font-semibold text-slate-900 dark:text-slate-200">{{
-                                        formatNumber(countViews(author.books)) }}</span>
-                                    <span class="text-slate-400"> vue(s)</span>
-                                </div>
-                            </div> -->
                             </div>
                         </div>
                     </div>
@@ -154,7 +147,9 @@
                             class="md:hidden prose prose-slate prose-sm max-w-none text-slate-600 dark:text-slate-200 flex flex-col gap-4">
                             <p v-html="cleanDescription"></p>
                             <!-- Author -->
-                            <nuxt-link :to="`/authors/${book.user.uuid}`" class="group flex items-center gap-1 text-xs p-2 rounded-lg" :style="`background-color: ${book.user.code_color}`">
+                            <nuxt-link :to="`/authors/${book.user.uuid}`"
+                                class="group flex items-center gap-1 text-xs px-2 py-3 rounded-lg"
+                                :style="`background-color: ${book.user.code_color}`">
                                 <img v-if="book.user.photo"
                                     :src="book.user.photo.includes('https') ? book.user.photo : `${config.public.apiBackendUrl}/uploads/users/${book.user.photo}`"
                                     alt="Profil" class="w-6 h-6 rounded-full" />
@@ -166,7 +161,7 @@
                                         book.user?.name.split(" ")[1]?.charAt(0).toUpperCase()}` :
                                         book.user?.name.charAt(0).toUpperCase() }}
                                 </span>
-                                <p class="text-slate-900 font-medium dark:text-white flex hover:underline truncate">
+                                <p class="font-medium text-slate-900 flex hover:underline truncate">
                                     {{ book.user.name }}
                                 </p>
                             </nuxt-link>
@@ -670,7 +665,7 @@
                             </div>
                             <p class="text-[12px] lg:text-xs text-slate-600 dark:text-slate-200">{{
                                 reaction.user.pseudonym
-                            }} a réagi : <span class="font-medium">{{ reaction.label }} {{ reaction.emoji }}</span>
+                                }} a réagi : <span class="font-medium">{{ reaction.label }} {{ reaction.emoji }}</span>
                             </p>
                         </div>
                     </div>
