@@ -60,11 +60,11 @@
         </span>
       </div>
       <div
-        class="w-full grid grid-cols-1 gap-2 text-[10px] font-semibold">
+        class="w-full mt-1 grid grid-cols-1 gap-2 z-10 text-[10px] font-semibold">
         <template v-if="user && Number(user.id) !== Number(author.id)">
-          <button v-if="!follow || user && Number(user.id) !== Number(author.id)" :disabled="loading"
+          <button v-if="!follow" :disabled="loading"
             @click.stop="followAuthor(props.author.id)"
-            class="bg-orange-600 hover:bg-orange-700 text-white p-2 rounded">
+            class="bg-slate-100 hover:bg-slate-200 text-slate-900 p-2 rounded">
             Suivre
           </button>
 
