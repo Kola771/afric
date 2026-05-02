@@ -38,6 +38,13 @@
 
             <!-- Right Actions -->
             <div class="flex items-center gap-1 md:gap-3">
+              <button v-if="!user || (profil && authorizeRoleUser(`${profil?.role}`))" @click="registerAuthor"
+                class="relative rounded-full flex flex-col items-center justify-center lg:hidden transition-all duration-200"
+                :class="route.path === '/my-stories/create_book'
+                  ? 'text-orange-600 dark:text-orange-500 scale-105'
+                  : 'text-slate-700 dark:text-slate-200'">
+                <Icon name="mdi:plus" class="w-5 h-5" />
+              </button>
               <!-- Desktop actions -->
               <button @click="toggleSearch"
                 class="lg:hidden flex p-2 text-slate-400 hover:text-slate-900 dark:text-white dark:hover:text-gray-400 transition-colors"
@@ -330,8 +337,12 @@ const authorsRef = ref<HTMLElement | null>(null);
 const tooltipPosition = ref({ top: 0, left: 0 });
 
 const registerAuthor = async () => {
-  localStorage.setItem("register_author", "true");
-  router.push("/register")
+  if(user.value && authorizeRoleUser(user.value.role)) {
+    router.push("/my-stories/create_book");
+  } else {
+    localStorage.setItem("register_author", "true");
+    router.push("/register")
+  }
 };
 
 const getTargetElement = (target: string) => {
