@@ -45,6 +45,16 @@
                 <Icon name="solar:magnifer-linear" class="w-5 md:h-5" />
               </button>
               <ThemeToggle class="lg:hidden" />
+              <nuxt-link v-if="profil && authorizeRoleUser(`${profil?.role}`)" to="/notifications"
+                class="relative p-2 rounded-full flex flex-col items-center justify-center lg:hidden transition-all duration-200"
+                :class="route.path === '/notifications'
+                  ? 'text-orange-600 dark:text-orange-500 scale-105'
+                  : 'text-slate-700 dark:text-slate-200'">
+                <Icon name="mdi:bell" class="w-5 h-5" />
+                <span
+                  class="absolute right-2 top-2 bg-red-600 text-white text-[8px] rounded-full animate-pulse w-2 h-2 flex items-center justify-center"
+                  v-if="notifications > 0"></span>
+              </nuxt-link>
               <!-- Desktop actions -->
               <button @click="toggleSearch"
                 class="hidden lg:flex p-2 text-slate-400 hover:text-slate-900 dark:text-white dark:hover:text-gray-400 transition-colors">
@@ -212,7 +222,7 @@
           <Icon name="solar:magnifer-linear" class="w-5 h-5" />
           <span class="text-[8px]">Recherche</span>
         </button>
-        <nuxt-link v-if="profil && authorizeRoleUser(`${profil?.role}`)" to="/notifications" class="relative p-2 rounded-full flex flex-col items-center justify-center 
+        <!-- <nuxt-link v-if="profil && authorizeRoleUser(`${profil?.role}`)" to="/notifications" class="relative p-2 rounded-full flex flex-col items-center justify-center 
                transition-all duration-200" :class="route.path === '/notifications'
                 ? 'text-orange-600 dark:text-orange-500 scale-105'
                 : 'text-slate-700 dark:text-slate-200'">
@@ -221,7 +231,7 @@
           <span
             class="absolute right-4 top-2 bg-red-600 text-white text-[8px] rounded-full animate-pulse w-2 h-2 flex items-center justify-center"
             v-if="notifications > 0"></span>
-        </nuxt-link>
+        </nuxt-link> -->
 
         <nuxt-link v-if="!profil" to="/login" class="p-2.5 rounded-full flex flex-col items-center justify-center"
           :class="route.path === '/login'
@@ -248,7 +258,8 @@
 
     <!-- 🌑 Intro Modal -->
     <div v-if="isFirstVisit" class="fixed lg:hidden inset-0 bg-black/70 z-[100] flex items-center justify-center">
-      <div class="bg-white dark:bg-dark dark:border-slate-300 dark:border-[1px] flex flex-col gap-2 p-6 rounded-xl max-w-sm text-center shadow-xl">
+      <div
+        class="bg-white dark:bg-dark dark:border-slate-300 dark:border-[1px] flex flex-col gap-2 p-6 rounded-xl max-w-sm text-center shadow-xl">
         <h2 class="text-lg font-bold dark:text-slate-200 mb-2">Soyez le bienvenue 👋</h2>
         <p class="text-md text-slate-700 dark:text-slate-300 mb-4">
           Plongez dans un univers d’histoires africaines captivantes.
@@ -317,6 +328,11 @@ const categoriesRef = ref<HTMLElement | null>(null);
 const storiesRef = ref<HTMLElement | null>(null);
 const authorsRef = ref<HTMLElement | null>(null);
 const tooltipPosition = ref({ top: 0, left: 0 });
+
+const registerAuthor = async () => {
+  localStorage.setItem("register_author", "true");
+  router.push("/register")
+};
 
 const getTargetElement = (target: string) => {
   switch (target) {

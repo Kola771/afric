@@ -82,27 +82,25 @@
                             </span>
                         </div>
                     </div>
-                    <div class="w-full flex items-center justify-between gap-2"
-                        v-if="user && (Number(user.id) !== Number(author.id))">
-                        <button v-if="!follow" :disabled="loading" @click.stop="followAuthor(author.id)"
+                    <div class="flex items-center justify-between gap-2 w-full">
+                        <div class="flex items-center justify-between gap-2 w-5/6"
+                            v-if="user && (Number(user.id) !== Number(author.id))">
+                            <button v-if="!follow" :disabled="loading" @click.stop="followAuthor(author.id)"
+                                class="bg-orange-700 hover:bg-orange-800 transition-all duration-300 ease-linear dark:border dark:border-slate-300 dark:bg-slate-800 dark:hover:bg-slate-900 hover:bg-primary text-white text-xs w-full p-2.5 rounded-lg">
+                                Suivre
+                            </button>
+                            <button v-else :disabled="loading" @click.stop="unFollowAuthor(author.id)"
+                                class="bg-orange-800 hover:bg-orange-900 transition-all duration-300 ease-linear dark:border dark:border-slate-300 dark:bg-slate-800 dark:hover:bg-slate-900 hover:bg-primary text-white text-xs w-full p-2.5 rounded-lg">
+                                Se désabonner
+                            </button>
+                        </div>
+                        <button @click.stop="followAuthor(author.id)" v-if="!user"
                             class="bg-orange-700 hover:bg-orange-800 transition-all duration-300 ease-linear dark:border dark:border-slate-300 dark:bg-slate-800 dark:hover:bg-slate-900 hover:bg-primary text-white text-xs w-5/6 p-2.5 rounded-lg">
                             Suivre
                         </button>
-
-                        <button v-else :disabled="loading" @click.stop="unFollowAuthor(author.id)"
-                            class="bg-orange-800 hover:bg-orange-900 transition-all duration-300 ease-linear dark:border dark:border-slate-300 dark:bg-slate-800 dark:hover:bg-slate-900 hover:bg-primary text-white text-xs w-full p-2.5 rounded-lg">
-                            Se désabonner
-                        </button>
-
                         <button @click="shareLink"
-                            class="bg-white border border-slate-200 text-slate-700 dark:text-slate-200 transition-all duration-300 ease-linear dark:border dark:border-slate-300 dark:bg-slate-800 dark:hover:bg-slate-900 text-xs w-1/6 p-2.5 rounded-lg">
-                            <Icon name="mdi:share-variant" class="w-3 h-3" />
-                        </button>
-                    </div>
-                    <div class="w-full" v-if="!user">
-                        <button @click.stop="followAuthor(author.id)"
-                            class="bg-orange-700 hover:bg-orange-800 transition-all duration-300 ease-linear dark:border dark:border-slate-300 dark:bg-slate-800 dark:hover:bg-slate-900 hover:bg-primary text-white text-xs w-full p-2.5 rounded-lg">
-                            Suivre
+                            class="bg-white border border-slate-200 text-slate-700 dark:text-slate-200 transition-all duration-300 ease-linear dark:border dark:border-slate-300 flex items-center justify-center dark:bg-slate-800 dark:hover:bg-slate-900 text-xs w-1/6 p-2 rounded-lg">
+                            <Icon name="mdi:share-variant" class="w-5 h-5" />
                         </button>
                     </div>
                 </div>

@@ -1,6 +1,6 @@
 <template>
     <article
-        class="relative group cursor-pointer bg-white dark:bg-transparent dark:border dark:border-slate-200 rounded-xl shadow-md gap-2 h-28 lg:h-32"
+        class="relative group cursor-pointer bg-white dark:bg-transparent dark:border dark:border-slate-200 rounded-lg shadow-md gap-2 h-28 lg:h-32"
         @click="openTheBooksOfTheCategory(props.category.uuid)">
 
         <div
@@ -14,7 +14,7 @@
             </div>
         </div>
 
-        <div class="absolute inset-0 flex items-center justify-center">
+        <div class="absolute inset-0 bg-black/60 rounded-lg flex items-center justify-center">
             <h3
                 class="font-display font-bold text-white text-sm px-4 flex leading-snug group-hover:text-orange-600 transition-colors">
                 {{ props.category.name }}

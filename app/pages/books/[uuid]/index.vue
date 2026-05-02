@@ -9,7 +9,7 @@
                         <div class="flex items-center gap-2 w-full">
                             <img v-if="book.image"
                                 :src="book.image.includes('https') ? book.image : `${config.public.apiBackendUrl}/uploads/books/${book.image}`"
-                                class="w-16 h-16 md:w-24 md:h-24 lg:group-hover:scale-95 hover:duration-300 dark:border-slate-300 dark:border-[1px] transition-all lg:w-full lg:h-72 object-cover rounded-full lg:rounded-lg"
+                                class="w-16 h-16 md:w-24 md:h-24 lg:group-hover:scale-95 hover:duration-300 dark:border-slate-300 dark:border-[1px] transition-all bg-black/60 lg:w-full lg:h-72 object-cover rounded-full lg:rounded-lg"
                                 :alt="book.title">
                             <div class="flex flex-col gap-0.5">
                                 <div class="flex flex-col">
@@ -145,11 +145,11 @@
                     <div class="md:col-span-8 lg:col-span-9 space-y-8">
                         <div
                             class="md:hidden prose prose-slate prose-sm max-w-none text-slate-600 dark:text-slate-200 flex flex-col gap-4">
-                            <p v-html="cleanDescription"></p>
+                            <p class="break-all" v-html="cleanDescription"></p>
                             <!-- Author -->
                             <nuxt-link :to="`/authors/${book.user.uuid}`"
-                                class="group flex items-center gap-1 text-xs px-2 py-3 rounded-lg"
-                                :style="`background-color: ${book.user.code_color}`">
+                                :class="`group flex items-center gap-1 text-xs ${book.user.photo ? 'px-2 py-3' : ''} rounded-lg`"
+                                :style="`${book.user.photo ? `background-color: ${book.user.code_color}` : ''}`">
                                 <img v-if="book.user.photo"
                                     :src="book.user.photo.includes('https') ? book.user.photo : `${config.public.apiBackendUrl}/uploads/users/${book.user.photo}`"
                                     alt="Profil" class="w-6 h-6 rounded-full" />
@@ -204,11 +204,7 @@
                                     <!-- Popover -->
                                     <transition name="fade">
                                         <div v-if="showReactions"
-                                            class="absolute bottom-full mb-3 left-1/2 -translate-x-1/2 bg-white dark:bg-slate-900 dark:border-slate-300 shadow-xl border border-slate-200 rounded-xl px-3 py-2 flex flex-wrap w-[200px] gap-3 items-center justify-center z-50">
-                                            <!-- Triangle -->
-                                            <div
-                                                class="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-[8px] border-l-transparent border-r-[8px] border-r-transparent border-t-[8px] border-t-white">
-                                            </div>
+                                            class="absolute bottom-full mb-3 left-0 bg-white dark:bg-slate-900 dark:border-slate-300 shadow-xl border border-slate-200 rounded-xl px-3 py-2 flex max-w-[300px] gap-3 items-center justify-center z-50 overflow-x-auto custom">
                                             <button v-for="reaction in reactions" :key="reaction.id"
                                                 @click="selectReaction(reaction)"
                                                 :class="`${reaction.animation} hover:scale-125 flex-shrink-0 w-8 h-8 hover:-translate-y-1 transition-all duration-200 ${(reactionUser && reactionUser.emoji === reaction.emoji) ? 'border-orange-600 p-1.5 bg-slate-50 dark:bg-slate-300 border-[1px] rounded-full text-sm flex items-center justify-center' : 'text-xl'}`">
@@ -439,14 +435,14 @@
                             :class="step === 'comments' ? 'border-orange-600' : 'border-transparent'"
                             class="border-b-2 pb-1 flex items-center gap-2">
                             <Icon name="mdi:comment-multiple" class="w-4 h-4" />
-                            {{ formatNumber(book.book_comments) }}
+                            {{ formatNumber(book.book_comments) }} Commentaire(s)
                         </button>
 
                         <button @click="showLikes"
                             :class="step === 'likes' ? 'border-orange-600' : 'border-transparent'"
                             class="border-b-2 pb-1 flex items-center gap-2">
                             <Icon name="mdi:heart" class="w-4 h-4" />
-                            {{ formatNumber(counterReaction) }}
+                            {{ formatNumber(counterReaction) }} Réaction(s)
                         </button>
                     </div>
                 </div>
@@ -692,7 +688,27 @@
     </div>
 </template>
 
-<style scoped>
+
+<style>
+.custom::-webkit-scrollbar {
+    height: 6px;
+}
+
+.custom::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.custom::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 20px;
+}
+
+/* Firefox */
+.custom {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
+}
+
 /* 👍 Petit rebond positif */
 @keyframes bounce-like {
 

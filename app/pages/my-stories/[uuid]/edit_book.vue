@@ -90,7 +90,7 @@
                                 <img :src="category.image?.includes('https') ? category.image : `${$config.public.apiBackendUrl}/uploads/categories/${category.image}`"
                                     :alt="category.name" class="w-full h-full rounded">
                             </div>
-                            <div class="absolute inset-0 h-24 font-bold flex items-center justify-center text-xs text-white px-4">{{ category.name }}</div>
+                            <div class="absolute inset-0 h-24 bg-black/60 rounded-md font-bold flex items-center justify-center text-xs text-white px-4">{{ category.name }}</div>
                         </label>
                     </div>
                 </div>

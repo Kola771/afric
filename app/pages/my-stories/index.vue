@@ -464,14 +464,14 @@
                             :class="step === 'comments' ? 'border-orange-600' : 'border-transparent'"
                             class="border-b-2 pb-1 flex items-center gap-2">
                             <Icon name="mdi:comment-multiple" class="w-4 h-4" />
-                            {{ book.book_comments }}
+                            {{ book.book_comments }} Commentaire(s)
                         </button>
 
                         <button @click="openStats(book, 'likes')"
                             :class="step === 'likes' ? 'border-orange-600' : 'border-transparent'"
                             class="border-b-2 pb-1 flex items-center gap-2">
                             <Icon name="mdi:heart" class="w-4 h-4" />
-                            {{ counterReaction }}
+                            {{ counterReaction }} Réaction(s)
                         </button>
                     </div>
                 </div>

@@ -202,14 +202,14 @@
                             :class="step === 'comments' ? 'border-orange-600' : 'border-transparent'"
                             class="border-b-2 pb-1 flex items-center gap-2">
                             <Icon name="mdi:comment-multiple" class="w-4 h-4" />
-                            {{ formatNumber(chapter.chapter_comments) }}
+                            {{ formatNumber(chapter.chapter_comments) }} Commentaire(s)
                         </button>
 
                         <button @click="showLikes"
                             :class="step === 'likes' ? 'border-orange-600' : 'border-transparent'"
                             class="border-b-2 pb-1 flex items-center gap-2">
                             <Icon name="mdi:heart" class="w-4 h-4" />
-                            {{ formatNumber(counterReaction) }}
+                            {{ formatNumber(counterReaction) }} Réaction(s)
                         </button>
                     </div>
                 </div>
