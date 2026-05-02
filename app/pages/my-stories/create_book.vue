@@ -94,7 +94,15 @@
                                 <img :src="category.image?.includes('https') ? category.image : `${$config.public.apiBackendUrl}/uploads/categories/${category.image}`"
                                     :alt="category.name" class="w-full h-full rounded">
                             </div>
-                            <div class="absolute inset-0 h-24 bg-black/60 rounded-md font-bold flex items-center justify-center text-xs text-white px-4">{{ category.name }}</div>
+                            <div
+                                class="absolute inset-0 h-24 bg-black/60 rounded-md font-bold flex items-center justify-center text-xs text-white px-4">
+                                {{ category.name }}</div>
+
+                            <div
+                                class="absolute bottom-2 z-10 right-2 bg-orange-500/90 dark:bg-orange-700/90 text-white px-1.5 py-0.5 rounded text-[10px] flex items-center gap-2 font-bold">
+                                <Icon name="mdi:book-open-variant" class="w-4 h-4" />
+                                {{ formatNumber(category.booksCount || 0) }}
+                            </div>
                         </label>
                     </div>
                 </div>

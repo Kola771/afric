@@ -9,8 +9,15 @@
                 class="w-full h-full text-xs object-cover transition-transform duration-500 group-hover:scale-105"
                 :alt="props.category.name">
 
-            <div class="absolute top-2 left-2 bg-slate-900/90 text-white px-1.5 py-0.5 rounded text-[10px] font-bold">
+            <div
+                class="absolute top-2 z-10 left-2 bg-slate-900/90 text-white px-1.5 py-0.5 rounded text-[10px] font-bold">
                 {{ props.category.id }}
+            </div>
+
+            <div
+                class="absolute bottom-2 z-10 right-2 bg-orange-500/90 dark:bg-orange-700/90 text-white px-1.5 py-0.5 rounded text-[10px] flex items-center gap-2 font-bold">
+                <Icon name="mdi:book-open-variant" class="w-5 h-5" />
+                {{ formatNumber(props.category.booksCount || 0) }}
             </div>
         </div>
 

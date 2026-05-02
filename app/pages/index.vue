@@ -25,7 +25,23 @@ const config = useRuntimeConfig();
   });
 
   onMounted(() => {
-    localStorage.removeItem("register_author");
-    localStorage.removeItem("register_email");
-  });
+  const LAST_PLAY_KEY = "last_audio_play";
+  const ONE_WEEK = 7 * 24 * 60 * 60 * 1000;
+
+  const now = Date.now();
+  const lastPlay = localStorage.getItem(LAST_PLAY_KEY);
+
+  if (!lastPlay || now - parseInt(lastPlay) > ONE_WEEK) {
+    const audio = new Audio("/assets/audios/faaaa.mp3"); // ton fichier ici
+
+    audio.play().then(() => {
+      localStorage.setItem(LAST_PLAY_KEY, now.toString());
+    }).catch(() => {
+      console.log("Lecture bloquée par le navigateur");
+    });
+  }
+
+  localStorage.removeItem("register_author");
+  localStorage.removeItem("register_email");
+});
 </script>

@@ -161,7 +161,7 @@
                                         book.user?.name.split(" ")[1]?.charAt(0).toUpperCase()}` :
                                         book.user?.name.charAt(0).toUpperCase() }}
                                 </span>
-                                <p class="font-medium text-slate-900 flex hover:underline truncate">
+                                <p class="font-medium text-slate-900 dark:text-white flex hover:underline truncate">
                                     {{ book.user.name }}
                                 </p>
                             </nuxt-link>
