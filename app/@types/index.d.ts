@@ -125,7 +125,7 @@ interface Country {
 interface Category {
   id: number
   uuid: string
-  name?: string
+  name: string
   image?: string
   description?: string
   status?: string
