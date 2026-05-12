@@ -4,6 +4,7 @@
     <HomeCatalog />
     <HomeBentoGrid />
     <HomeCta />
+    <HomeHommageAuthors />
   </div>
 </template>
 <script lang="ts" setup>

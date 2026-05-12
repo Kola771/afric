@@ -33,7 +33,7 @@
                 </div>
                 <p class="text-xs text-slate-400 dark:text-slate-200 mt-4">14 jours pour te faire chavirer.</p>
             </section>
-        </div><div class="wave-divider bg-lightOrange dark:bg-slate-800"><svg class="fill-[#fafafa] dark:fill-dark" viewBox="0 0 1440 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,120 L0,120 Z"></path></svg></div>
+        </div><div class="wave-divider bg-lightOrange dark:bg-slate-800"><svg class="fill-white dark:fill-dark" viewBox="0 0 1440 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,120 L0,120 Z"></path></svg></div>
     </div>
 </template>
 <script lang="ts" setup>
